@@ -14,7 +14,7 @@ client.
 '''
 
 
-class CLientHandler(SocketServer.BaseRequestHandler):
+class ClientHandler(SocketServer.BaseRequestHandler):
     def handle(self):
         # Get a reference to the socket object
         self.connection = self.request
