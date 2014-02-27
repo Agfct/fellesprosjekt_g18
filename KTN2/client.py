@@ -32,6 +32,3 @@ class Client(object):
 if __name__ == "__main__":
     client = Client()
     client.start('localhost', 9999)
-
-
-# Adding a comment here to test commiting
