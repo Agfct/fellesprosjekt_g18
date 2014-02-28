@@ -19,7 +19,12 @@ from threading import Thread
 class ReceiveMessageWorker(Thread):
 
     def __init__(self, listener, connection):
+        super(ReceiveMessageWorker, self).__init__()
         self.daemeon = True
+        self.connection = connection
+        self.listener = listener
 
     def run(self):
-        pass
+        while True:
+            received_data = self.connection.recv(1024).strip()
+            print 'Received from server: ' + received_data

@@ -34,6 +34,7 @@ class ClientHandler(SocketServer.BaseRequestHandler):
                 self.connection.sendall(data.upper())
             else:
                 print 'Client disconnected!'
+                break
 
 '''
 This will make all Request handlers being called in its own thread.

@@ -2,6 +2,7 @@
 KTN-project 2013 / 2014
 '''
 import socket
+from MessageWorker import ReceiveMessageWorker
 
 
 class Client(object):
@@ -11,11 +12,11 @@ class Client(object):
 
     def start(self, host, port):
         self.connection.connect((host, port))
+        messageWorker = ReceiveMessageWorker(self, self.connection)
+        messageWorker.start()
         while True:
             message = raw_input()
             self.send(message)
-            received_data = self.connection.recv(1024).strip()
-            print 'Received from server: ' + received_data
         self.connection.close()
 
     def message_received(self, message, connection):
