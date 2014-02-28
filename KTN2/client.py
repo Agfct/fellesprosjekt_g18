@@ -11,9 +11,11 @@ class Client(object):
 
     def start(self, host, port):
         self.connection.connect((host, port))
-        self.send('Hello')
-        received_data = self.connection.recv(1024).strip()
-        print 'Received from server: ' + received_data
+        while True:
+            message = raw_input()
+            self.send(message)
+            received_data = self.connection.recv(1024).strip()
+            print 'Received from server: ' + received_data
         self.connection.close()
 
     def message_received(self, message, connection):
