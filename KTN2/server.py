@@ -14,11 +14,12 @@ override the handle() method to implement communication to the
 client.
 '''
 
-
+clients = []
 class ClientHandler(SocketServer.BaseRequestHandler):
     def handle(self):
         # Get a reference to the socket object
         self.connection = self.request
+        clients.append(self.connection)
         # Get the remote ip adress of the socket
         self.ip = self.client_address[0]
         # Get the remote port number of the socket
@@ -39,7 +40,8 @@ class ClientHandler(SocketServer.BaseRequestHandler):
                             'message': message
                             }
                 json_response = json.dumps(response)
-                self.connection.sendall(json_response)
+                for client in clients:
+                    client.sendall(json_response)
             else:
                 print 'Client disconnected!'
                 break
