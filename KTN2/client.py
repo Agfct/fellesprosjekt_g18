@@ -13,6 +13,31 @@ class Client(object):
 
     def start(self, host, port):
         self.connection.connect((host, port))
+        username = raw_input('Choose username: ')
+        request = {
+                    'request':'login',
+                    'username': username
+                    }
+        json_request = json.dumps(request)
+        self.send(json_request)
+        json_response = self.connection.recv(1024).strip()
+        response = json.loads(json_response)
+        while('error' in response.keys()):
+            print response['error']
+            username = raw_input('Choose username: ')
+            request = {
+                        'request':'login',
+                        'username':username
+                        }
+            json_request = json.dumps(request)
+            self.send(json_request)
+            json_response = self.connection.recv(1024).strip()
+            response = json.loads(json_response)
+
+        print 'Backlog:\n'
+        for backlog in response['messages']:
+            print backlog
+
         messageWorker = ReceiveMessageWorker(self, self.connection)
         messageWorker.start()
         while True:
@@ -25,8 +50,11 @@ class Client(object):
             self.send(json_request)
         self.connection.close()
 
-    def message_received(self, message, connection):
-        pass
+    def message_received(self, json_response, connection):
+        response = json.loads(json_response)
+        if (response['response'] == 'message'):
+            message = response['message']
+            print message
 
     def connection_closed(self, connection):
         pass

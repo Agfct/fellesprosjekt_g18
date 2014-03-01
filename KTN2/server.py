@@ -5,6 +5,7 @@ for implementing the chat server
 '''
 import SocketServer
 import json
+import re
 
 '''
 The RequestHandler class for our server.
@@ -15,11 +16,12 @@ client.
 '''
 
 clients = []
+usernames = []
+backlog = []
 class ClientHandler(SocketServer.BaseRequestHandler):
     def handle(self):
         # Get a reference to the socket object
         self.connection = self.request
-        clients.append(self.connection)
         # Get the remote ip adress of the socket
         self.ip = self.client_address[0]
         # Get the remote port number of the socket
@@ -32,16 +34,46 @@ class ClientHandler(SocketServer.BaseRequestHandler):
             # (recv could have returned due to a disconnect)
             if json_request:
                 request = json.loads(json_request)
+
+                # logging in
+                if (request['request'] == 'login'):
+                    username = request['username']
+                    if (username in usernames):
+                        response = {
+                                    'response':'login',
+                                    'error': 'Name already taken!',
+                                    'username':username
+                                    }
+                    elif (re.match('\W+', username)):
+                        response = {
+                                    'response':'login',
+                                    'error':'Invalid username!',
+                                    'username':username
+                                    }
+                    else:
+                        response = {
+                                    'response':'login',
+                                    'username':'username',
+                                    'messages':backlog
+                                    }
+                        clients.append(self.connection)
+                        usernames.append(username)
+                    json_response = json.dumps(response)
+                    self.connection.sendall(json_response)
+
+
+                # sending messages
                 if (request['request'] == 'message'):
                     message = request['message']
-                print message
-                response = {
-                            'response':'message',
-                            'message': message
-                            }
-                json_response = json.dumps(response)
-                for client in clients:
-                    client.sendall(json_response)
+                    print message
+                    backlog.append(message)
+                    response = {
+                                'response':'message',
+                                'message': message
+                                }
+                    json_response = json.dumps(response)
+                    for client in clients:
+                        client.sendall(json_response)
             else:
                 print 'Client disconnected!'
                 break

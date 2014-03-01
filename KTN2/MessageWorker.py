@@ -28,7 +28,4 @@ class ReceiveMessageWorker(Thread):
     def run(self):
         while True:
             json_response = self.connection.recv(1024).strip()
-            response = json.loads(json_response)
-            if (response['response'] == 'message'):
-                message = response['message']
-                print message
+            self.listener.message_received(json_response, self.connection)
