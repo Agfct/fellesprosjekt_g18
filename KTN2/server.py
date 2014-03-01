@@ -4,6 +4,7 @@ Very simple server implementation that should serve as a basis
 for implementing the chat server
 '''
 import SocketServer
+import json
 
 '''
 The RequestHandler class for our server.
@@ -25,13 +26,20 @@ class ClientHandler(SocketServer.BaseRequestHandler):
         print 'Client connected @' + self.ip + ':' + str(self.port)
         # Wait for data from the client
         while True:
-            data = self.connection.recv(1024).strip()
+            json_request = self.connection.recv(1024).strip()
             # Check if the data exists
             # (recv could have returned due to a disconnect)
-            if data:
-                print data
-                # Return the string in uppercase
-                self.connection.sendall(data.upper())
+            if json_request:
+                request = json.loads(json_request)
+                if (request['request'] == 'message'):
+                    message = request['message']
+                print message
+                response = {
+                            'response':'message',
+                            'message': message
+                            }
+                json_response = json.dumps(response)
+                self.connection.sendall(json_response)
             else:
                 print 'Client disconnected!'
                 break

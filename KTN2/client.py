@@ -3,6 +3,7 @@ KTN-project 2013 / 2014
 '''
 import socket
 from MessageWorker import ReceiveMessageWorker
+import json
 
 
 class Client(object):
@@ -16,7 +17,12 @@ class Client(object):
         messageWorker.start()
         while True:
             message = raw_input()
-            self.send(message)
+            request = {
+                    'request': 'message',
+                    'message': message
+                    }
+            json_request = json.dumps(request)
+            self.send(json_request)
         self.connection.close()
 
     def message_received(self, message, connection):

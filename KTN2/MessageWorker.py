@@ -14,6 +14,7 @@ it is the start() method that is responsible for actually
 executing the run() method in a new thread.
 '''
 from threading import Thread
+import json
 
 
 class ReceiveMessageWorker(Thread):
@@ -26,5 +27,8 @@ class ReceiveMessageWorker(Thread):
 
     def run(self):
         while True:
-            received_data = self.connection.recv(1024).strip()
-            print 'Received from server: ' + received_data
+            json_response = self.connection.recv(1024).strip()
+            response = json.loads(json_response)
+            if (response['response'] == 'message'):
+                message = response['message']
+                print message
