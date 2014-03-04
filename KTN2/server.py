@@ -53,7 +53,7 @@ class ClientHandler(SocketServer.BaseRequestHandler):
                     else:
                         response = {
                                     'response':'login',
-                                    'username':'username',
+                                    'username':username,
                                     'messages':backlog
                                     }
                         clients.append(self.connection)
@@ -67,13 +67,33 @@ class ClientHandler(SocketServer.BaseRequestHandler):
                     message = request['message']
                     print message
                     backlog.append(message)
+                    username = usernames[clients.index(self.connection)]
                     response = {
                                 'response':'message',
-                                'message': message
+                                'message': username + ': ' + message
                                 }
                     json_response = json.dumps(response)
                     for client in clients:
                         client.sendall(json_response)
+
+                # logout
+                if (request['request'] == 'logout'):
+                    if (self.connection in clients):
+                        username = usernames[clients.index(self.connection)]
+                        response = {
+                                    'response':'logout',
+                                    'username':username
+                                    }
+                    else:
+                        response = {
+                                    'response':'logout',
+                                    'error':'Not logged in!'
+                                    }
+                    json_response = json.dumps(response)
+                    self.connection.sendall(json_response)
+                    usernames.remove(username)
+                    clients.remove(self.connection)
+                
             else:
                 print 'Client disconnected!'
                 break

@@ -21,7 +21,7 @@ class ReceiveMessageWorker(Thread):
 
     def __init__(self, listener, connection):
         super(ReceiveMessageWorker, self).__init__()
-        self.daemeon = True
+        self.setDaemon(True)
         self.connection = connection
         self.listener = listener
 
