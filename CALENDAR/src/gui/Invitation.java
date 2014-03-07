@@ -39,6 +39,7 @@ public class Invitation {
 	public void setAlarm(Alarm alarm) {
 		this.alarm = alarm;
 	}
+	//-------
 	
 	//Getters
 	public boolean isEdited() 			{return isEdited;}
@@ -46,4 +47,5 @@ public class Invitation {
 	public Person getPerson() 			{return person;}
 	public Alarm getAlarm() 			{return alarm;}
 	public InvitationStatus getStatus() {return status;}
+	//-------
 }

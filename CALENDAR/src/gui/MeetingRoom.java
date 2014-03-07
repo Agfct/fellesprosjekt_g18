@@ -13,6 +13,7 @@ public class MeetingRoom {
 		this.schedule = schedule;
 	}
 	
+	//TimeSlots
 	public boolean isAvailable(TimeSlot timeSlot){
 		//Gir true om timeSlotet ikke vil overlappe
 		return !schedule.contains(timeSlot);
@@ -25,7 +26,8 @@ public class MeetingRoom {
 	public void removeTimeSlot(TimeSlot timeSlot){
 		schedule.remove(timeSlot);
 	}
-
+	//---------
+	
 	//Setters
 	public void setName(String name) {
 		this.name = name;
@@ -41,7 +43,7 @@ public class MeetingRoom {
 	
 	
 	//Getters
-	public String getName() {return name;}
-	public short getCapacity() {return capacity;}
-	public ArrayList<TimeSlot> getSchedule() {return schedule;}
+	public String getName() 					{return name;}
+	public short getCapacity() 					{return capacity;}
+	public ArrayList<TimeSlot> getSchedule() 	{return schedule;}
 }

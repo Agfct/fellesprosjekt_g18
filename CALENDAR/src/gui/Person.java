@@ -32,6 +32,10 @@ public class Person {
 		notifications.remove(notification);
 		notifications.add(notification);
 	}
+	
+	public void removeNotification(Notification notification){
+		notifications.remove(notification);
+	}
 	//-------------
 	
 	//Getters/setters

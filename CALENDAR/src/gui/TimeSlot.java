@@ -12,6 +12,7 @@ public class TimeSlot {
 	@Override
 	public boolean equals(Object timeSlot){
 		TimeSlot other = (TimeSlot) timeSlot;
+		//Returnerer true hvis timeSlot overlapper this
 		return (this.start > other.start && this.start < other.end) || 
 				(this.end > other.start && this.end < other.end); 
 	}
