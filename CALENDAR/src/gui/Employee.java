@@ -1,10 +1,10 @@
 package gui;
 
-public class Person {
+public class Employee {
 // ONLY A PLACEHOLDER FOR LISTS !!
 	public String name;
 	
-	public Person(String name){
+	public Employee(String name){
 		this.name = name;
 	}
 	@Override

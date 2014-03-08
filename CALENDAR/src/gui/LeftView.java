@@ -2,11 +2,16 @@ package gui;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.geom.Ellipse2D;
 import java.util.ArrayList;
 
 import javax.swing.Action;
@@ -27,7 +32,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 
-public class LeftView extends JPanel implements ListSelectionListener, ActionListener{
+public class LeftView extends JPanel implements ListSelectionListener, ActionListener, KeyListener{
 	private JLabel weekLabel;
 	private JLabel addExAppointmentsLabel;
 	private JLabel searchLabel;
@@ -37,8 +42,8 @@ public class LeftView extends JPanel implements ListSelectionListener, ActionLis
 	private JButton editAppointmentBtn;
 	private JButton appointmentsBtn;
 	private JTextField searchField;
-	private JList <Person> internPersonList;
-	private DefaultListModel<Person> listModel = new DefaultListModel<Person>();
+	private JList <Employee> internPersonList;
+	private DefaultListModel<Employee> listModel = new DefaultListModel<Employee>();
 	private JScrollPane internPersonlistScrollPane;
 	private JLabel showHiddenLabel;
 	private JCheckBox showHiddenBox;
@@ -86,8 +91,9 @@ public class LeftView extends JPanel implements ListSelectionListener, ActionLis
 		weekBox.setName("weekBox");
 		weekBox.addActionListener(this);
 		//DESIGN for the Label text
-		weekBox.setForeground(Color.RED);
-		weekBox.setFont(new Font(MainWindow.getMFont(),Font.BOLD,18));
+		weekBox.setBackground(MainWindow.getBckColor());
+		weekBox.setForeground(MainWindow.getTxtColor());
+		weekBox.setFont(new Font(MainWindow.getMFont(),Font.BOLD,14));
 //		loginBtn.setPreferredSize(new Dimension(200, 400));
 		add(weekBox,cLabel1);
 
@@ -193,6 +199,7 @@ public class LeftView extends JPanel implements ListSelectionListener, ActionLis
 		cLabel9.fill = GridBagConstraints.HORIZONTAL;
 		searchField = new JTextField(20);
 		searchField.setName("searchField");
+		searchField.addKeyListener(this);
 //		//DESIGN for the Label text
 //		searchField.setForeground(Color.BLACK);
 //		searchField.setFont(new Font(MainWindow.getMFont(),Font.BOLD,12));
@@ -200,15 +207,15 @@ public class LeftView extends JPanel implements ListSelectionListener, ActionLis
 		add(searchField,cLabel9);
 		
 		
-		//List<Person> DETAILS MISSING, TEST ONLY
+		//List<Employee> DETAILS MISSING, TEST ONLY
 		
 		//TEST
-		Person anders = new Person("Anders");
-		Person silje = new Person("Silje");
-		Person katrine = new Person("Katrine");
-		Person are = new Person("Are");
-		Person birger = new Person("Birger");
-		Person stian = new Person("Stian");
+		Employee anders = new Employee("Anders");
+		Employee silje = new Employee("Silje");
+		Employee katrine = new Employee("Katrine");
+		Employee are = new Employee("Are");
+		Employee birger = new Employee("Birger");
+		Employee stian = new Employee("Stian");
 		listModel.addElement(anders);
 		listModel.addElement(silje);
 		listModel.addElement(katrine);
@@ -216,7 +223,7 @@ public class LeftView extends JPanel implements ListSelectionListener, ActionLis
 		listModel.addElement(birger);
 		listModel.addElement(stian);
 		//TEST
-		internPersonList = new JList<Person>(listModel);
+		internPersonList = new JList<Employee>(listModel);
 		internPersonList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		internPersonList.setVisibleRowCount(5);
 		internPersonList.setName("internPersonList");
@@ -241,7 +248,6 @@ public class LeftView extends JPanel implements ListSelectionListener, ActionLis
 	
 //		this.add(listScrollPane, BorderLayout.CENTER);
 		add(internPersonlistScrollPane, cLabel10);
-		
 		
 	
 		//showHiddenLabel
@@ -334,10 +340,38 @@ public class LeftView extends JPanel implements ListSelectionListener, ActionLis
 
 		
 	}
-
+	// Painting the numbers
+	   @Override
+	    protected void paintComponent(Graphics g) {
+	        super.paintComponent(g);
+	        Graphics2D g2d = (Graphics2D) g;
+	        
+			//Drawing the red circle
+			g2d.setColor(Color.RED);
+			int radius = 20;
+			Ellipse2D.Float circle = new Ellipse2D.Float(175,315,radius,radius);
+			g2d.fill(circle);
+			
+			//Drawing the number of new notifications
+			//setting Font and color
+			Font font = new Font("Tahoma", Font.BOLD, 18);
+			g2d.setFont(font);
+			g2d.setColor(Color.WHITE);
+			
+			// if(nrOfNewAppointmentNotification > 0){
+	        Integer nrOfNewAppointmentNotification = 3; //TEST
+	        g2d.drawString(nrOfNewAppointmentNotification.toString(), 180, 332);
+	        
+	    }
 	@Override
-	public void actionPerformed(ActionEvent arg0) {
-		// TODO Auto-generated method stub
+	public void actionPerformed(ActionEvent e) {
+		System.out.println("("+this.getClass()+"):"+ "Pressing a button");
+		
+		// If New Appointment is pressed
+		if (e.getSource() == newAppointmentBtn){
+			System.out.println("Opening new Appointment Window");
+			MainWindow.newAppointmentView(); 	
+		}
 		
 	}
 	
@@ -345,6 +379,25 @@ public class LeftView extends JPanel implements ListSelectionListener, ActionLis
 	@Override
 	public void valueChanged(ListSelectionEvent arg0) {
 		// TODO Auto-generated method stub
+		
+	}
+	
+	// Key listener for textField Search
+	@Override
+	public void keyPressed(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		System.out.println("("+this.getClass()+"):"+ "Pressing a button: KeyTyped");
 		
 	}
 }
