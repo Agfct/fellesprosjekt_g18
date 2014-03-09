@@ -2,7 +2,7 @@ package gui;
 
 public enum InvitationStatus {
 	UNANSWERED(0),
-	REJECTED(-1),
+	DECLINED(-1),
 	ACCEPTED(1);
 	
 	private final int status;

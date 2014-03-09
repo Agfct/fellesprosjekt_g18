@@ -18,6 +18,7 @@ public class TimeSlot {
 	}
 	
 	//Getters
-	public long getStart()	{return start;}
-	public long getEnd() 	{return end;}
+	public long getEnd() 		{return end;}
+	public long getStart()		{return start;}
+	public long getDuration() 	{return end - start;}
 }

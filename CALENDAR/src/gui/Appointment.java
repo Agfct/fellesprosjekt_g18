@@ -52,6 +52,36 @@ public class Appointment {
 	}
 	//-----------
 
+	//Replies
+	public ArrayList<Invitation> getUnanswered(){
+		ArrayList<Invitation> unanswered = new ArrayList<Invitation>();
+		for (int i = 0; i < invitations.size(); i++) {
+			if (invitations.get(i).getStatus() == InvitationStatus.UNANSWERED){
+				unanswered.add(invitations.get(i));
+			}
+		}
+		return unanswered;
+	}
+	public ArrayList<Invitation> getDeclined(){
+		ArrayList<Invitation> declined = new ArrayList<Invitation>();
+		for (int i = 0; i < invitations.size(); i++) {
+			if (invitations.get(i).getStatus() == InvitationStatus.DECLINED){
+				declined.add(invitations.get(i));
+			}
+		}
+		return declined;
+	}
+	public ArrayList<Invitation> getAccepted(){
+		ArrayList<Invitation> accepted = new ArrayList<Invitation>();
+		for (int i = 0; i < invitations.size(); i++) {
+			if (invitations.get(i).getStatus() == InvitationStatus.ACCEPTED){
+				accepted.add(invitations.get(i));
+			}
+		}
+		return accepted;
+	}
+	//-------
+	
 	//Setters
 	public void setTitle(String title) 				{this.title = title;}
 	public void setRoom(MeetingRoom room) 			{this.room = room;}

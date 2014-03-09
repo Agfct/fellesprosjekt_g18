@@ -3,15 +3,15 @@ package gui;
 public class Invitation {
 	private Person person;
 	private InvitationStatus status;
-	private boolean isEdited;
-	private boolean isHidden;
+	private boolean edited;
+	private boolean hidden;
 	private Alarm alarm;
 	
 	public Invitation(Person person) {
 		this.person = person;
 		status = InvitationStatus.UNANSWERED;
-		isEdited = false;
-		isHidden = false;
+		edited = false;
+		hidden = false;
 	}
 	
 	private void sendNotification(){
@@ -19,7 +19,7 @@ public class Invitation {
 	}
 	
 	public void reject(){
-		status = InvitationStatus.REJECTED;
+		status = InvitationStatus.DECLINED;
 		sendNotification();
 	}
 	public void accept(){
@@ -29,11 +29,11 @@ public class Invitation {
 	
 	//Setters
 	public void setEdited(boolean isEdited) {
-		this.isEdited = isEdited;
+		this.edited = isEdited;
 	}
 
 	public void setHidden(boolean isHidden) {
-		this.isHidden = isHidden;
+		this.hidden = isHidden;
 	}
 
 	public void setAlarm(Alarm alarm) {
@@ -42,8 +42,8 @@ public class Invitation {
 	//-------
 	
 	//Getters
-	public boolean isEdited() 			{return isEdited;}
-	public boolean isHidden() 			{return isHidden;}
+	public boolean isEdited() 			{return edited;}
+	public boolean isHidden() 			{return hidden;}
 	public Person getPerson() 			{return person;}
 	public Alarm getAlarm() 			{return alarm;}
 	public InvitationStatus getStatus() {return status;}
