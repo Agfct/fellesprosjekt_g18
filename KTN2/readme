@@ -1,0 +1,5 @@
+After starting the server, no more action is needed for the server to do what it is supposed to do.
+
+After starting the server, choose a username containing nothing else than alpanumeric characters and underscores.
+Type a message followed by pressing enter to send the message to the other clients.
+To log out from the server, typ /logout follow by pressing enter. 

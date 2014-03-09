@@ -82,4 +82,4 @@ if __name__ == "__main__":
     host = raw_input('Enter ip of server: ')
     port = raw_input('Enter port number: ')
     client = Client()
-    client.start('localhost', 9999)
+    client.start(host, int(port))
