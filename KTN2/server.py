@@ -44,7 +44,7 @@ class ClientHandler(SocketServer.BaseRequestHandler):
                                     'error': 'Name already taken!',
                                     'username':username
                                     }
-                    elif (re.match('\W+', username)):
+                    elif (re.match('^.*\W+.*$', username)):
                         response = {
                                     'response':'login',
                                     'error':'Invalid username!',

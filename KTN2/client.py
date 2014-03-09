@@ -26,13 +26,6 @@ class Client(object):
                 request = {
                             'request':'logout'
                             }
-            elif (message == '/exit'):
-                print 'eeeeeeeexit'
-                messageWorker.join()
-                print 'joooooooined'
-                self.connection.disconnect()
-                print 'disconneeeeeeeected'
-                break
             else:
                 request = {
                             'request':'message',
@@ -49,7 +42,7 @@ class Client(object):
 
         elif (response['response'] == 'login'):
             if ('error' in response.keys()):
-                print response['error']
+                print response['error'] + " Press enter to try again."
                 self.login()
             else:
                 print 'Logged in!'
@@ -86,5 +79,7 @@ class Client(object):
 
 
 if __name__ == "__main__":
+    host = raw_input('Enter ip of server: ')
+    port = raw_input('Enter port number: ')
     client = Client()
     client.start('localhost', 9999)
