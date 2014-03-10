@@ -23,6 +23,7 @@ import javax.swing.plaf.basic.BasicArrowButton;
 public class TopView extends JPanel implements ActionListener{
 	private JButton previousWeekBtn;
 	private JButton nextWeekBtn;
+	private JButton todayBtn;
 	private JButton logOutBtn;
 	private JLabel userNameLabel;
 	private JLabel weekLabel;
@@ -36,7 +37,7 @@ public class TopView extends JPanel implements ActionListener{
 		
 		//Username Label
 		GridBagConstraints cLabel0 = new GridBagConstraints();
-//		cLabel0.insets = new Insets(0,50,0,0);
+		cLabel0.insets = new Insets(0,50,0,0);
 		cLabel0.gridx = 0;
 		cLabel0.gridy = 0;
 		cLabel0.anchor = GridBagConstraints.LINE_START;
@@ -52,7 +53,7 @@ public class TopView extends JPanel implements ActionListener{
 		//previousWeekBtn
 		GridBagConstraints cLabel1 = new GridBagConstraints();
 //		cLabel1.insets = new Insets(20,50,0,0);
-		cLabel1.gridx = 3;
+		cLabel1.gridx = 4;
 		cLabel1.gridy = 0;
 		previousWeekBtn = new JButton("<--");
 		previousWeekBtn.setName("previousWeekBtn");
@@ -68,7 +69,7 @@ public class TopView extends JPanel implements ActionListener{
 		//nextWeekBtn
 		GridBagConstraints cLabel2 = new GridBagConstraints();
 //		cLabel2.insets = new Insets(20,50,0,0);
-		cLabel2.gridx = 4;
+		cLabel2.gridx = 5;
 		cLabel2.gridy = 0;
 		nextWeekBtn = new JButton("-->");
 		nextWeekBtn.setName("nextWeekBtn");
@@ -84,7 +85,7 @@ public class TopView extends JPanel implements ActionListener{
 		//Username Label
 		GridBagConstraints cLabel3 = new GridBagConstraints();
 //		cLabel0.insets = new Insets(0,50,0,0);
-		cLabel3.gridx = 6;
+		cLabel3.gridx = 7;
 		cLabel3.gridy = 0;
 //		cLabel0.gridwidth = 2;
 		weekLabel = new JLabel("Feb 23 - Mar 1, 2014 "); //replace with actual name
@@ -98,7 +99,7 @@ public class TopView extends JPanel implements ActionListener{
 		//logOutBtn
 		GridBagConstraints cLabel4 = new GridBagConstraints();
 //		cLabel1.insets = new Insets(20,50,0,0);
-		cLabel4.gridx = 9;
+		cLabel4.gridx = 10;
 		cLabel4.gridy = 0;
 		logOutBtn = new JButton("Log Out");
 		logOutBtn.setName("logOutBtn");
@@ -111,52 +112,81 @@ public class TopView extends JPanel implements ActionListener{
 //		loginBtn.setPreferredSize(new Dimension(200, 400));
 		add(logOutBtn,cLabel4);
 		
+		//todayBtn
+		GridBagConstraints cLabel5 = new GridBagConstraints();
+//		cLabel1.insets = new Insets(20,50,0,0);
+		cLabel5.gridx = 2;
+		cLabel5.gridy = 0;
+		todayBtn = new JButton("Today");
+		todayBtn.setName("todayBtn");
+		todayBtn.addActionListener(this);
+		// DESIGN FOR BUTTON:
+		todayBtn.setBackground(MainWindow.getBckColor());
+		todayBtn.setForeground(MainWindow.getTxtColor());
+		todayBtn.setFocusPainted(false);
+		todayBtn.setFont(new Font(MainWindow.getMFont(),Font.BOLD, 12));
+//		loginBtn.setPreferredSize(new Dimension(200, 400));
+		add(todayBtn,cLabel5);
+		
 		
 		//Filling boxes (for empty spaces)
-		// Between Username and arrows
-		GridBagConstraints cLabel5 = new GridBagConstraints();
-		cLabel5.gridx = 1;
-		cLabel5.gridy = 0;
-		add(new JLabel("                         " +
-				"                                   " +
-				"                                "),cLabel5);
+		// Between Username and todayBtn
+		GridBagConstraints cLabel6 = new GridBagConstraints();
+		cLabel6.gridx = 1;
+		cLabel6.gridy = 0;
+		add(new JLabel("                     " +
+				"                            " +
+				"                            "),cLabel6);
+		
+		//between todayBtn and prevWeekBtn
+		GridBagConstraints cLabel7 = new GridBagConstraints();
+		cLabel7.gridx = 3;
+		cLabel7.gridy = 0;
+		add(new JLabel("                      "),cLabel7);
 		
 		// Between arrows and week display
-		GridBagConstraints cLabel6 = new GridBagConstraints();
-		cLabel6.gridx = 5;
-		cLabel6.gridy = 0;
-		add(new JLabel("                 "),cLabel6);
+		GridBagConstraints cLabel8 = new GridBagConstraints();
+		cLabel8.gridx = 6;
+		cLabel8.gridy = 0;
+		add(new JLabel("                 "),cLabel8);
 		
 		//between week display and Log out btn
-		GridBagConstraints cLabel7 = new GridBagConstraints();
-		cLabel7.gridx = 8;
-		cLabel7.gridy = 0;
+		GridBagConstraints cLabel9 = new GridBagConstraints();
+		cLabel9.gridx = 9;
+		cLabel9.gridy = 0;
 		add(new JLabel("                                  " +
-				"                                         "),cLabel7);
+				"                                         "),cLabel9);
 
 	}
-
+	/** WHEN BUTTONS ARE PRESSED, ADD ACTION HERE **/
+	//What happens when the different buttons are pressed.
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		System.out.println("("+this.getClass()+"):"+ "Pressing a button");
-		if(((JButton) e.getSource()).getName().equals("logOutBtn")){
+		
+		// If Logout Button is pressed
+		if(e.getSource() == logOutBtn){
 			System.out.println("Logging Out");
 			/** FIX HERE OR IN MAIN WINDOW **/
 			// Saving data?
 			// Get prev login info?
 			// Everything is going down, is everything taken care of ?
-			MainWindow.setLoginMode(); 
-			
+			MainWindow.setLoginMode(); 	
 		}
-		else if(((JButton) e.getSource()).getName().equals("previousWeekBtn")){
+		// If the "Today button is pressed
+		else if(e.getSource() == todayBtn){
+			System.out.println("Going to Todays week");
+		}
+		// If the "<--" Previous week button is pressed
+		else if(e.getSource() == previousWeekBtn){
 			System.out.println("Going to the Previous Week");
 			// 
 		}
-		else if(((JButton) e.getSource()).getName().equals("nextWeekBtn")){
+		// If the "-->" Next week button is pressed
+		else if(e.getSource() == nextWeekBtn){
 			System.out.println("Going to the Next Week");
 			// 
 		}
-		
 	}
 	
 	// Overriding the paintComponent to get GraidientPaint

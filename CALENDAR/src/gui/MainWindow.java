@@ -1,9 +1,11 @@
 package gui;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -11,6 +13,7 @@ import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
+
 
 /** The Main (and Only) JFrame for the application.
  *  It contains the program main method and it starts the application.
@@ -27,6 +30,7 @@ public class MainWindow extends JFrame{
 	private static TopView topView;
 	private static LeftView leftView;
 	private static CalendarView calendarView;
+	private static NewAppointmentView newAppointmentView;
 	private static JPanel backgroundPanel; //TEST 
 	private static Image backgroundImg; //TEST
 	private static String font;
@@ -85,8 +89,8 @@ public class MainWindow extends JFrame{
 		layoutView.setPreferredSize(new Dimension(1181, 754)); //Size so that Scroll Bars reacts
 		layoutView.add(backgroundPanel,JLayeredPane.DEFAULT_LAYER,0); //Background TEST	
 		layoutView.add(topView,JLayeredPane.PALETTE_LAYER,1); //adding the topView to the DEFAULT (bottom) layer of the layoutPane
-		layoutView.add(leftView,JLayeredPane.PALETTE_LAYER,1); //adding the topView to the DEFAULT (bottom) layer of the layoutPane
-		layoutView.add(calendarViewScrollPane,JLayeredPane.PALETTE_LAYER,1); //adding the calendarView ScrollPane 
+		layoutView.add(leftView,JLayeredPane.PALETTE_LAYER,2); //adding the topView to the DEFAULT (bottom) layer of the layoutPane
+		layoutView.add(calendarViewScrollPane,JLayeredPane.PALETTE_LAYER,3); //adding the calendarView ScrollPane 
 		calendarViewScrollPane.getViewport().add(calendarView); // adding the calendarView to the ScrollPane
 			
 		
@@ -115,11 +119,30 @@ public class MainWindow extends JFrame{
 	protected static void setLoginMode(){
 		// Putting everything back to loginWindow mode
 		mainScrollPane.getViewport().remove(layoutView);
-		
 		mainWindow.setSize(400, 200);
 		mainWindow.setLocationRelativeTo(null); // Putting the rezised window back into the middle
 		mainScrollPane.getViewport().add(loginWindow);
 	}
+	
+	//adding an appointment view
+	protected static void newAppointmentView(){
+		//adding an newAppointmentView to the layerPane
+		newAppointmentView = new NewAppointmentView();
+		newAppointmentView.setBounds(0, 0, 1200, 800);
+		layoutView.add(newAppointmentView,JLayeredPane.POPUP_LAYER,4);
+//		layoutView.remove(newAppointmentView);
+		
+		//ONE WAY (nearly)
+//		newAppointmentView = new NewAppointmentView();
+//		newAppointmentView.setPreferredSize(new Dimension(1181, 754));
+//		mainScrollPane.getViewport().add(newAppointmentView);
+//		mainScrollPane.getViewport().remove(newAppointmentView);
+	}
+	protected static void removeNewAppointmentView(){
+		layoutView.remove(newAppointmentView);
+		layoutView.repaint();
+	}
+	
 	// Type of Font used in program
 	public static String getMFont(){
 		return font;
@@ -131,6 +154,34 @@ public class MainWindow extends JFrame{
 	// Color used on the Background (Button Color and so on)
 	public static Color getBckColor(){
 		return btnBackgroundColor;
+	}
+	// TEST FOR TIME ALTERNATIVES
+	public static ArrayList<String> getTimeArray(){
+		ArrayList<String> timeArray = new ArrayList<String>();
+		for (int i = 0; i < 25; i++) {
+			int k = 0;
+			if( i == 24){ //special case when 24:00
+				timeArray.add(i+":00");
+			}
+			else{
+				for (int j = 0; j < 2; j++) {
+					if( i == 24){
+						timeArray.add(i+":00");
+					}
+					else{
+						if (k==0){
+							timeArray.add(i+":00");
+							k = 30;
+						}
+						else{
+							timeArray.add(i+":30");
+							k = 0;
+						}
+					}
+				}
+			}
+		}
+		return timeArray;
 	}
 
 }

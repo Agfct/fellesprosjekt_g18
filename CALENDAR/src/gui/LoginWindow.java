@@ -166,12 +166,12 @@ public class LoginWindow extends JPanel implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		System.out.println("("+this.getClass()+"):"+ "Pressing a button");
-		if(((JButton) e.getSource()).getName().equals("loginBtn")){
+		if(e.getSource() == loginBtn){
 			System.out.println("Logging inn");
 			MainWindow.setCalendarMode();
 			
 		}
-		else if(((JButton) e.getSource()).getName().equals("cancelBtn")){
+		else if(e.getSource() == cancelBtn){
 			System.out.println("EXITING APPLICATION");
 			System.exit(0);
 		}
