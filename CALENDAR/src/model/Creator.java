@@ -1,4 +1,4 @@
-package gui;
+package model;
 
 public class Creator {
 	private final Employee person;

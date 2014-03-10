@@ -1,4 +1,4 @@
-package gui;
+package model;
 
 public class TimeSlot {
 	private long start;

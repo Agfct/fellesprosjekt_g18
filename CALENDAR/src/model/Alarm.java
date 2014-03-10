@@ -1,4 +1,4 @@
-package gui;
+package model;
 
 public class Alarm {
 	private String description;
