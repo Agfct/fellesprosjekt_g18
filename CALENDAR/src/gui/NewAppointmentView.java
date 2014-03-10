@@ -10,12 +10,15 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
 import javax.swing.ButtonGroup;
@@ -53,7 +56,7 @@ import model.Employee;
 import model.MeetingRoom;
 import model.TimeSlot;
 
-public class NewAppointmentView extends JPanel implements TableModelListener, KeyListener, ListSelectionListener, ActionListener , ItemListener{
+public class NewAppointmentView extends JPanel implements MouseListener, KeyListener, ListSelectionListener, ActionListener , ItemListener{
 	private JLabel titleLabel;
 	private JLabel startLabel;
 	private JLabel endLabel;
@@ -88,12 +91,14 @@ public class NewAppointmentView extends JPanel implements TableModelListener, Ke
 	private JScrollPane descriptionScrollPane;
 	private JScrollPane participantsScrollPane;
 	
+	// The Lists
 	private JList<Employee> employeeList;
 	private JList<MeetingRoom> roomList;
 	private JList<Employee> participantsList;
 	private DefaultListModel<Employee> employeeListModel = new DefaultListModel<Employee>(); // USE THESE ??
 	private DefaultListModel<MeetingRoom> roomListModel = new DefaultListModel<MeetingRoom>(); // USE THESE ??
 	private DefaultListModel<Employee> participantsListModel = new DefaultListModel<Employee>(); // USE THESE ??
+	private EmployeeCellRenderer employeeRenderer;
 	
 	private JButton addExParticipantsBtn;
 	private JButton bookBtn;
@@ -107,10 +112,10 @@ public class NewAppointmentView extends JPanel implements TableModelListener, Ke
 	
 	private Image backgroundImg;
 	
-	private JTable employeeListTable;
-	private JTable participantsListTable;
-	private TableColumn acceptedCol;
-	private EmployeeTable employeeTable;
+//	private JTable employeeListTable;
+//	private JTable participantsListTable;
+//	private TableColumn acceptedCol;
+//	private EmployeeTable employeeTable;
 	
 	
 	public NewAppointmentView(){
@@ -310,33 +315,36 @@ public class NewAppointmentView extends JPanel implements TableModelListener, Ke
 		
 		
 		//List<Employee> DETAILS MISSING, TEST ONLY
-		employeeTable = new EmployeeTable();
-		employeeTable.addTableModelListener(this);
-		employeeListTable = new JTable(employeeTable);
-		employeeListTable.setShowVerticalLines(false);
+//		employeeTable = new EmployeeTable();
+//		employeeTable.addTableModelListener(this);
+//		employeeListTable = new JTable(employeeTable);
+//		employeeListTable.setShowVerticalLines(false);
 		
 		//TEST
-//		Employee anders = new Employee("Anders");
-//		Employee silje = new Employee("Silje");
-//		Employee katrine = new Employee("Katrine");
-//		Employee are = new Employee("Are");
-//		Employee birger = new Employee("Birger");
-//		Employee stian = new Employee("Stian");
-//		employeeListModel.addElement(anders);
-//		employeeListModel.addElement(silje);
-//		employeeListModel.addElement(katrine);
-//		employeeListModel.addElement(are);
-//		employeeListModel.addElement(birger);
-//		employeeListModel.addElement(stian);
-		//TEST
-//		employeeList = new JList<Employee>(employeeListModel);
-//		employeeList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-//		employeeList.setVisibleRowCount(10);
-//		employeeList.setName("employeeList");
+		Employee anders = new Employee("Anders");
+		Employee silje = new Employee("Silje");
+		Employee katrine = new Employee("Katrine");
+		Employee are = new Employee("Are");
+		Employee birger = new Employee("Birger");
+		Employee stian = new Employee("Stian");
+		employeeListModel.addElement(anders);
+		employeeListModel.addElement(silje);
+		employeeListModel.addElement(katrine);
+		employeeListModel.addElement(are);
+		employeeListModel.addElement(birger);
+		employeeListModel.addElement(stian);
+//		TEST
+		employeeList = new JList<Employee>(employeeListModel);
+		employeeList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		employeeList.setVisibleRowCount(10);
+		employeeList.setName("employeeList");
 //		employeeList.addListSelectionListener(this);
+		employeeList.addMouseListener(this);
+		employeeRenderer = new EmployeeCellRenderer();
+		employeeList.setCellRenderer(employeeRenderer);
 //		internPersonList.setCellRenderer(renderer);
 		
-		employeeListScrollPane = new JScrollPane(employeeListTable);
+		employeeListScrollPane = new JScrollPane(employeeList);
 		employeeListScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		employeeListScrollPane.setPreferredSize(new Dimension(40,183));
 		
@@ -458,18 +466,18 @@ public class NewAppointmentView extends JPanel implements TableModelListener, Ke
 		
 		//List<Employee> DETAILS MISSING, TEST ONLY
 		/** START HERE, FIX THE TABLE **/
-		participantsListTable = new JTable(new ParticipantsTable());
-		participantsListTable.setShowVerticalLines(false);
-		ParticipantsTable model = (ParticipantsTable) participantsListTable.getModel();
-		model.addRow(new Object[]{"Anders","Lunde","",""});
+//		participantsListTable = new JTable(new ParticipantsTable());
+//		participantsListTable.setShowVerticalLines(false);
+//		ParticipantsTable model = (ParticipantsTable) participantsListTable.getModel();
+//		model.addRow(new Object[]{"Anders","Lunde","",""});
 		
 		//adding dropdown boxes
-		acceptedCol = participantsListTable.getColumnModel().getColumn(2);
-		acceptedBox = new JComboBox<String>();
-		acceptedBox.addItem("pending");
-		acceptedBox.addItem("Accepted");
-		acceptedBox.addItem("Declined");
-		acceptedCol.setCellEditor(new DefaultCellEditor(acceptedBox));
+//		acceptedCol = participantsListTable.getColumnModel().getColumn(2);
+//		acceptedBox = new JComboBox<String>();
+//		acceptedBox.addItem("pending");
+//		acceptedBox.addItem("Accepted");
+//		acceptedBox.addItem("Declined");
+//		acceptedCol.setCellEditor(new DefaultCellEditor(acceptedBox));
 		
 		//TEST
 //		Employee roal = new Employee("Roal");
@@ -795,13 +803,6 @@ public class NewAppointmentView extends JPanel implements TableModelListener, Ke
 		System.out.println("("+this.getClass()+"):"+ "Pressing a button: KeyTyped");
 	}
 	
-	// LisListSelectionListener for the JLists: employeeList, roomList and participantsList
-	@Override
-	public void valueChanged(ListSelectionEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-	
 	// ActionListener for Buttons: Add, Book, Save and Cancel
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -856,19 +857,70 @@ public class NewAppointmentView extends JPanel implements TableModelListener, Ke
 			locationField.setEnabled(false);
 		}
 	}
+	
+	// LisListSelectionListener for the JLists: employeeList, roomList and participantsList
+	@Override
+	public void valueChanged(ListSelectionEvent e) {
+
+	}
+	
+	//Mouse Listner TEST for Lists
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		System.out.println("("+this.getClass()+"):"+ "Clicking a List Model");
+		if( employeeList.isEnabled()){
+			int index = employeeList.locationToIndex(e.getPoint());  
+			Employee selectedPerson = (Employee)employeeList.getModel().getElementAt(index);  
+			selectedPerson.setSelected(! selectedPerson.isSelected());  
+			Rectangle rect = employeeList.getCellBounds(index, index);  
+			employeeList.repaint(rect);  
+			if (selectedPerson.isSelected()){  
+				//ADDING PERSON TO THE PARTICIPANTS LIST
+//				emailList.addElement(selectedPerson.toString());  
+			}  
+			if (!selectedPerson.isSelected()){  
+				// REMOVING PERSON FROM THE PARTICIPANTS LIST
+//				emailList.removeElement(selectedPerson.toString());  
+			}  
+		}
+	}
+	
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
 
 	//TableModelListener
-	@Override
-	public void tableChanged(TableModelEvent e) {
-		int row = e.getFirstRow();
-		int col = e.getColumn();
-		TableModel model = (TableModel)e.getSource();
-		String columnName = model.getColumnName(col);
-		Object data = model.getValueAt(row, col);
-		System.out.println("data: "+data);
-		System.out.println("colname: "+columnName);
-		System.out.println("personName: "+model.getValueAt(row, 0));
-	}
+//	@Override
+//	public void tableChanged(TableModelEvent e) {
+//		int row = e.getFirstRow();
+//		int col = e.getColumn();
+//		TableModel model = (TableModel)e.getSource();
+//		String columnName = model.getColumnName(col);
+//		Object data = model.getValueAt(row, col);
+//		System.out.println("data: "+data);
+//		System.out.println("colname: "+columnName);
+//		System.out.println("personName: "+model.getValueAt(row, 0));
+//	}
 
 
 
