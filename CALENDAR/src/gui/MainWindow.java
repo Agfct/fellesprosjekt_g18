@@ -26,7 +26,7 @@ public class MainWindow extends JFrame{
 	private static JLayeredPane layoutView;
 	private static JScrollPane mainScrollPane;
 	private static JScrollPane calendarViewScrollPane;
-	private static LoginWindow loginWindow;
+	private static LoginView loginWindow;
 	private static TopView topView;
 	private static LeftView leftView;
 	private static CalendarView calendarView;
@@ -70,7 +70,7 @@ public class MainWindow extends JFrame{
 		backgroundPanel.setBounds(0,0,2000,2000);
 		
 		// JPanels
-		loginWindow = new LoginWindow();
+		loginWindow = new LoginView();
 		topView = new TopView();
 		topView.setBounds(0, 0, 1200, 100); // setting the area for the TopView (x,y,width,height)
 		leftView = new LeftView();
@@ -106,7 +106,7 @@ public class MainWindow extends JFrame{
 	public static JScrollPane getMainScrollPane(){
 		return mainScrollPane;
 	}
-	// This changes from the LoginWindow to the 3 main views (Top,Left and Calendar)
+	// This changes from the LoginView to the 3 main views (Top,Left and Calendar)
 	protected static void setCalendarMode(){
 		mainScrollPane.getViewport().remove(loginWindow);
 		mainWindow.setSize(1216, 838); // Resize the window
@@ -115,7 +115,7 @@ public class MainWindow extends JFrame{
 		
 	}
 
-	//This changes from Calendar (3 view) mode to the LoginWindow
+	//This changes from Calendar (3 view) mode to the LoginView
 	protected static void setLoginMode(){
 		// Putting everything back to loginWindow mode
 		mainScrollPane.getViewport().remove(layoutView);

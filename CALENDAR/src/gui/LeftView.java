@@ -31,6 +31,8 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import model.Employee;
+
 
 public class LeftView extends JPanel implements ListSelectionListener, ActionListener, KeyListener{
 	private JLabel weekLabel;

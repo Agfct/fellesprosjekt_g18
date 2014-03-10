@@ -16,6 +16,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
 
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultCellEditor;
@@ -47,6 +48,10 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
+
+import model.Employee;
+import model.MeetingRoom;
+import model.TimeSlot;
 
 public class NewAppointmentView extends JPanel implements TableModelListener, KeyListener, ListSelectionListener, ActionListener , ItemListener{
 	private JLabel titleLabel;
@@ -84,10 +89,10 @@ public class NewAppointmentView extends JPanel implements TableModelListener, Ke
 	private JScrollPane participantsScrollPane;
 	
 	private JList<Employee> employeeList;
-	private JList<Room> roomList;
+	private JList<MeetingRoom> roomList;
 	private JList<Employee> participantsList;
 	private DefaultListModel<Employee> employeeListModel = new DefaultListModel<Employee>(); // USE THESE ??
-	private DefaultListModel<Room> roomListModel = new DefaultListModel<Room>(); // USE THESE ??
+	private DefaultListModel<MeetingRoom> roomListModel = new DefaultListModel<MeetingRoom>(); // USE THESE ??
 	private DefaultListModel<Employee> participantsListModel = new DefaultListModel<Employee>(); // USE THESE ??
 	
 	private JButton addExParticipantsBtn;
@@ -682,15 +687,15 @@ public class NewAppointmentView extends JPanel implements TableModelListener, Ke
 		roomLabel.setFont(new Font(MainWindow.getMFont(),Font.BOLD,18));
 		add(roomLabel,cLabel31);
 		
-		//List<Room> DETAILS MISSING, TEST ONLY
+		//List<MeetingRoom> DETAILS MISSING, TEST ONLY
 		
 		//TEST
-		Room H3 = new Room("H3");
-		Room R7 = new Room("R7");
-		Room H1 = new Room("H1");
-		Room K2 = new Room("K2");
-		Room R77 = new Room("R77");
-		Room S2 = new Room("S2");
+		MeetingRoom H3 = new MeetingRoom("H3",(short)5,new ArrayList<TimeSlot>());
+		MeetingRoom R7 = new MeetingRoom("R7",(short)5,new ArrayList<TimeSlot>());
+		MeetingRoom H1 = new MeetingRoom("H1",(short)5,new ArrayList<TimeSlot>());
+		MeetingRoom K2 = new MeetingRoom("K2",(short)5,new ArrayList<TimeSlot>());
+		MeetingRoom R77 = new MeetingRoom("R77",(short)5,new ArrayList<TimeSlot>());
+		MeetingRoom S2 = new MeetingRoom("S2",(short)5,new ArrayList<TimeSlot>());
 		roomListModel.addElement(H3);
 		roomListModel.addElement(R7);
 		roomListModel.addElement(H1);
@@ -698,7 +703,7 @@ public class NewAppointmentView extends JPanel implements TableModelListener, Ke
 		roomListModel.addElement(R77);
 		roomListModel.addElement(S2);
 		//TEST
-		roomList = new JList<Room>(roomListModel);
+		roomList = new JList<MeetingRoom>(roomListModel);
 		roomList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		roomList.setVisibleRowCount(11);
 		roomList.setName("roomList");
