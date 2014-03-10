@@ -6,10 +6,10 @@ import java.util.Date;
 
 public class CalendarModel {
 	private ArrayList<Appointment> appointments;
-	private ArrayList<Person> persons;
+	private ArrayList<Employee> persons;
 	private Date date;
 	
-	public CalendarModel(ArrayList<Appointment> appointments, ArrayList<Person> persons) {
+	public CalendarModel(ArrayList<Appointment> appointments, ArrayList<Employee> persons) {
 		this.appointments = appointments;
 		this.persons = persons;
 		//Velger dagens dato når programmet starter.
@@ -41,6 +41,6 @@ public class CalendarModel {
 	
 	//Getters
 	public Date getDate() 							{return date;}
-	public ArrayList<Person> getPersons() 			{return persons;}
+	public ArrayList<Employee> getPersons() 			{return persons;}
 	public ArrayList<Appointment> getAppointments() {return appointments;}
 }

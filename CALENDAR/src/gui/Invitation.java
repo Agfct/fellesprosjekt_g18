@@ -1,13 +1,13 @@
 package gui;
 
 public class Invitation {
-	private Person person;
+	private Employee person;
 	private InvitationStatus status;
 	private boolean edited;
 	private boolean hidden;
 	private Alarm alarm;
 	
-	public Invitation(Person person) {
+	public Invitation(Employee person) {
 		this.person = person;
 		status = InvitationStatus.UNANSWERED;
 		edited = false;
@@ -44,7 +44,7 @@ public class Invitation {
 	//Getters
 	public boolean isEdited() 			{return edited;}
 	public boolean isHidden() 			{return hidden;}
-	public Person getPerson() 			{return person;}
+	public Employee getPerson() 			{return person;}
 	public Alarm getAlarm() 			{return alarm;}
 	public InvitationStatus getStatus() {return status;}
 	//-------

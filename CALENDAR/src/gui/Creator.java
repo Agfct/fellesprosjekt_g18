@@ -1,11 +1,11 @@
 package gui;
 
 public class Creator {
-	private final Person person;
+	private final Employee person;
 	private boolean statusChanged;
 	
 
-	public Creator(Person person) {
+	public Creator(Employee person) {
 		this.person = person;
 		statusChanged = false;
 	}
@@ -17,7 +17,7 @@ public class Creator {
 		this.statusChanged = statusChanged;
 	}
 	
-	public Person getPerson(){
+	public Employee getPerson(){
 		return person;
 	}
 	

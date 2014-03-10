@@ -42,12 +42,12 @@ public class NewAppointmentView extends JPanel {
 	private JScrollPane descriptionScrollPane;
 	private JScrollPane participantsScrollPane;
 	
-	private JList<Person> personList;
+	private JList<Employee> personList;
 //	private JList<Room> roomList;
-	private JList<Person> participantsList;
-	private DefaultListModel<Person> personListModel = new DefaultListModel<Person>(); // USE THESE ??
+	private JList<Employee> participantsList;
+	private DefaultListModel<Employee> personListModel = new DefaultListModel<Employee>(); // USE THESE ??
 //	private DefaultListModel<Room> roomListModel = new DefaultListModel<Person>(); // USE THESE ??
-	private DefaultListModel<Person> participantsListModel = new DefaultListModel<Person>(); // USE THESE ??
+	private DefaultListModel<Employee> participantsListModel = new DefaultListModel<Employee>(); // USE THESE ??
 	
 	private JButton addExParticipantsBtn;
 	private JButton bookBtn;

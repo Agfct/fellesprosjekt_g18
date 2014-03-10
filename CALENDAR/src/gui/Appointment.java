@@ -13,7 +13,7 @@ public class Appointment {
 	private ArrayList<Invitation> invitations;
 	
 	//Lager en tom avtale
-	public Appointment(Person person){
+	public Appointment(Employee person){
 		this(new Creator(person), "", null, "", null, false, "", new ArrayList<Invitation>());
 	}
 	

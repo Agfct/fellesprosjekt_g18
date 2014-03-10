@@ -2,18 +2,18 @@ package gui;
 
 import java.util.ArrayList;
 
-public class Person {
+public class Employee {
 	private String name;
 	private String email;
 	private ArrayList<Notification> notifications;
 	
 	//Constructor for a viewable person
-	public Person(String name){
+	public Employee(String name){
 		this.name = name;
 	}
 	
 	//Constructor for a user
-	public Person(String name, String email){
+	public Employee(String name, String email){
 		this.name = name;
 		this.email = email;
 		notifications = new ArrayList<Notification>();

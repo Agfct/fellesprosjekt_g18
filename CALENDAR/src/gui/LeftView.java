@@ -37,8 +37,8 @@ public class LeftView extends JPanel implements ListSelectionListener, ActionLis
 	private JButton editAppointmentBtn;
 	private JButton appointmentsBtn;
 	private JTextField searchField;
-	private JList <Person> internPersonList;
-	private DefaultListModel<Person> listModel = new DefaultListModel<Person>();
+	private JList <Employee> internPersonList;
+	private DefaultListModel<Employee> listModel = new DefaultListModel<Employee>();
 	private JScrollPane internPersonlistScrollPane;
 	private JLabel showHiddenLabel;
 	private JCheckBox showHiddenBox;
@@ -203,12 +203,12 @@ public class LeftView extends JPanel implements ListSelectionListener, ActionLis
 		//List<Person> DETAILS MISSING, TEST ONLY
 		
 		//TEST
-		Person anders = new Person("Anders");
-		Person silje = new Person("Silje");
-		Person katrine = new Person("Katrine");
-		Person are = new Person("Are");
-		Person birger = new Person("Birger");
-		Person stian = new Person("Stian");
+		Employee anders = new Employee("Anders");
+		Employee silje = new Employee("Silje");
+		Employee katrine = new Employee("Katrine");
+		Employee are = new Employee("Are");
+		Employee birger = new Employee("Birger");
+		Employee stian = new Employee("Stian");
 		listModel.addElement(anders);
 		listModel.addElement(silje);
 		listModel.addElement(katrine);
@@ -216,7 +216,7 @@ public class LeftView extends JPanel implements ListSelectionListener, ActionLis
 		listModel.addElement(birger);
 		listModel.addElement(stian);
 		//TEST
-		internPersonList = new JList<Person>(listModel);
+		internPersonList = new JList<Employee>(listModel);
 		internPersonList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		internPersonList.setVisibleRowCount(5);
 		internPersonList.setName("internPersonList");

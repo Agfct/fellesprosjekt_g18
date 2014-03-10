@@ -1,7 +1,7 @@
 package gui;
 
 public class AppointmentHandler {
-	public static Appointment createAppointment(Person creator){
+	public static Appointment createAppointment(Employee creator){
 		return new Appointment(creator);
 	}
 	
