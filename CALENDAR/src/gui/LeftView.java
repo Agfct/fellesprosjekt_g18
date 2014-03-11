@@ -6,6 +6,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,6 +19,7 @@ import javax.swing.Action;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -33,7 +35,13 @@ import javax.swing.event.ListSelectionListener;
 
 import model.Employee;
 
-
+/** LeftView (JPanel)
+ *  It contains the buttons for Appointments (new, edit, appointments).
+ *	It Creates the newAppointmentView, editAppointmentsView and appointmentsView.
+ *	Keeps the list on what other internal appointment lists the user wants to track. //Not implemented yet
+ *  
+ * @author Anders
+ */
 public class LeftView extends JPanel implements ListSelectionListener, ActionListener, KeyListener{
 	private JLabel weekLabel;
 	private JLabel addExAppointmentsLabel;
@@ -49,8 +57,12 @@ public class LeftView extends JPanel implements ListSelectionListener, ActionLis
 	private JScrollPane internPersonlistScrollPane;
 	private JLabel showHiddenLabel;
 	private JCheckBox showHiddenBox;
+	private Image redCircleImg;
 
 	public LeftView(){
+		
+		// background and paint components
+		redCircleImg = new ImageIcon(this.getClass().getResource("/buttonImages/circleImg.png")).getImage();
 		
 		// Using a GridBagLayout for the Grid
 		setLayout(new GridBagLayout());
@@ -340,7 +352,6 @@ public class LeftView extends JPanel implements ListSelectionListener, ActionLis
 		cLabel21.gridy = 25;
 		add(new JLabel("                 "),cLabel21);
 
-		
 	}
 	// Painting the numbers
 	   @Override
@@ -349,22 +360,32 @@ public class LeftView extends JPanel implements ListSelectionListener, ActionLis
 	        Graphics2D g2d = (Graphics2D) g;
 	        
 			//Drawing the red circle
-			g2d.setColor(Color.RED);
-			int radius = 20;
-			Ellipse2D.Float circle = new Ellipse2D.Float(175,315,radius,radius);
-			g2d.fill(circle);
-			
+//			g2d.setColor(Color.RED);
+//			int radius = 20;
+//			Ellipse2D.Float circle = new Ellipse2D.Float(175,315,radius,radius);
+//			g2d.fill(circle);
+	        g2d.drawImage(redCircleImg, 173, 312, this);
+	        
 			//Drawing the number of new notifications
 			//setting Font and color
-			Font font = new Font("Tahoma", Font.BOLD, 18);
+			Font font = new Font("Tahoma", Font.BOLD, 14);
 			g2d.setFont(font);
 			g2d.setColor(Color.WHITE);
+			Integer nrOfNewAppointmentNotification = 28; //TEST
 			
-			// if(nrOfNewAppointmentNotification > 0){
-	        Integer nrOfNewAppointmentNotification = 3; //TEST
-	        g2d.drawString(nrOfNewAppointmentNotification.toString(), 180, 332);
-	        
+			if(nrOfNewAppointmentNotification > 0){
+				if (nrOfNewAppointmentNotification > 9){
+					g2d.drawString(nrOfNewAppointmentNotification.toString(), 177, 330);
+					
+				}
+				else{
+					g2d.drawString(nrOfNewAppointmentNotification.toString(), 182, 330);
+				}
+			}
 	    }
+	   
+    /** LISTENERS FOR THE ENTIRE JPANEL **/
+    /** WHEN FIELDS ARE MODIFIED CHANGES ARE REGISTERED HERE **/
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		System.out.println("("+this.getClass()+"):"+ "Pressing a button");

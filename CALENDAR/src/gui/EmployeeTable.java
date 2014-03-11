@@ -2,6 +2,7 @@ package gui;
 
 import javax.swing.table.AbstractTableModel;
 
+/** WARNING, NOT USED, REMOVE ***/
 class EmployeeTable extends AbstractTableModel {
     private String[] columnNames = {"First Name",
                                     "Last Name",

@@ -97,11 +97,11 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 	// The Lists
 	private JList<Employee> employeeList;
 	private JList<MeetingRoom> roomList;
-	private JList<Employee> participantsList;
 	private DefaultListModel<Employee> employeeListModel = new DefaultListModel<Employee>(); // USE THESE ??
 	private DefaultListModel<MeetingRoom> roomListModel = new DefaultListModel<MeetingRoom>(); // USE THESE ??
-	private DefaultListModel<Employee> participantsListModel = new DefaultListModel<Employee>(); // USE THESE ??
 	private EmployeeCellRenderer employeeRenderer;
+	
+	private ParticipantsListPanel participantsListPanel;
 	
 	private JButton addExParticipantsBtn;
 	private JButton bookBtn;
@@ -484,8 +484,8 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 //		cLabel17.gridwidth = 2;
 		cLabel17.gridheight = 5;
 //		cLabel17.ipady = 70;
-		descriptionField = new JTextArea(5,20);
-		descriptionField.setPreferredSize(new Dimension(5,20));
+		descriptionField = new JTextArea(5,35);
+		descriptionField.setPreferredSize(new Dimension(5,35));
 		descriptionField.setLineWrap(true);
 		cLabel17.fill = GridBagConstraints.HORIZONTAL;
 		cLabel17.anchor = GridBagConstraints.LINE_START;
@@ -512,52 +512,32 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 		participantsLabel.setFont(new Font(MainWindow.getMFont(),Font.BOLD,18));
 		add(participantsLabel,cLabel18);
 		
-		//List<Employee> DETAILS MISSING, TEST ONLY
-		/** START HERE, FIX THE TABLE **/
-//		participantsListTable = new JTable(new ParticipantsTable());
-//		participantsListTable.setShowVerticalLines(false);
-//		ParticipantsTable model = (ParticipantsTable) participantsListTable.getModel();
-//		model.addRow(new Object[]{"Anders","Lunde","",""});
+		//participantsListPanel, a ScrollPane with a participantsListPanel in it
+		//The participantsListPanel contains several ParticipantsView, that eatch contains one employee
+		participantsListPanel = new ParticipantsListPanel();
+		participantsListPanel.addParticipantView(new ParticipantsView("Anders"));
+		participantsListPanel.addParticipantView(new ParticipantsView("Silje"));
+		participantsListPanel.addParticipantView(new ParticipantsView("Are"));
+		participantsListPanel.addParticipantView(new ParticipantsView("Birger"));
+		participantsListPanel.addParticipantView(new ParticipantsView("Katrine"));
+		participantsListPanel.addParticipantView(new ParticipantsView("Stian"));
+		participantsListPanel.addParticipantView(new ParticipantsView("Anders med det lange navnet"));
+		participantsListPanel.addParticipantView(new ParticipantsView("Silje"));
+		participantsListPanel.addParticipantView(new ParticipantsView("Are"));
+		participantsListPanel.addParticipantView(new ParticipantsView("Birger"));
+		participantsListPanel.addParticipantView(new ParticipantsView("Katrine"));
+		participantsListPanel.addParticipantView(new ParticipantsView("Stian"));
 		
-		//adding dropdown boxes
-//		acceptedCol = participantsListTable.getColumnModel().getColumn(2);
-//		acceptedBox = new JComboBox<String>();
-//		acceptedBox.addItem("pending");
-//		acceptedBox.addItem("Accepted");
-//		acceptedBox.addItem("Declined");
-//		acceptedCol.setCellEditor(new DefaultCellEditor(acceptedBox));
-		
-		//TEST
-//		Employee roal = new Employee("Roal");
-//		Employee nina = new Employee("Nina");
-//		Employee jonny = new Employee("Jonny");
-//		Employee kåre = new Employee("Kåre");
-//		Employee sven = new Employee("Sven");
-//		Employee julie = new Employee("Julie");
-//		participantsListModel.addElement(roal);
-//		participantsListModel.addElement(nina);
-//		participantsListModel.addElement(jonny);
-//		participantsListModel.addElement(kåre);
-//		participantsListModel.addElement(sven);
-//		participantsListModel.addElement(julie);
-		//TEST
-//		participantsList = new JList<Employee>(participantsListModel);
-//		participantsList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-//		participantsList.setVisibleRowCount(11);
-//		participantsList.setName("participantsList");
-//		participantsList.addListSelectionListener(this);
-//		participantsList.setCellRenderer(renderer);
-		
-		participantsScrollPane = new JScrollPane(participantsList);
+		participantsScrollPane = new JScrollPane(participantsListPanel);
 		participantsScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		participantsScrollPane.setPreferredSize(new Dimension(40,200));
-		
+		participantsListPanel.setScrollPane(participantsScrollPane);
 		
 		GridBagConstraints cLabel19 = new GridBagConstraints();
 		cLabel19.fill = GridBagConstraints.HORIZONTAL;
 		cLabel19.insets = new Insets(5,0,0,0);
 //		cLabel19.anchor = GridBagConstraints.LINE_START;
-//		cLabel18.ipadx = 70;
+//		cLabel19.ipadx = 70;
 //		cLabel19.ipady = 70;
 //		cLabel19.weighty = 0.1;
 //		cLabel19.weightx = 0.4;
@@ -565,9 +545,6 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 		cLabel19.gridwidth = 3;
 		cLabel19.gridx = 4;
 		cLabel19.gridy = 9;
-//		participantsScrollPane.setPreferredSize(getPreferredSize());
-	
-//		this.add(participantsScrollPane, BorderLayout.CENTER);
 		add(participantsScrollPane, cLabel19);
 		
 		
@@ -836,7 +813,8 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
         g2d.drawImage(backgroundImg, 0, 0, this);
         
     }
-    /** LISTENERS FOR THE ENTIRE GUI **/
+    /** LISTENERS FOR THE ENTIRE JPANEL **/
+    /** WHEN FIELDS ARE MODIFIED CHANGES ARE REGISTERED HERE **/
     
 	// Key Listener for JTextFields
 	@Override
@@ -853,7 +831,8 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 	}
 	
 	// ActionListener for Buttons and ComboBoxes: 
-	// Add, Book, Save and Cancel
+	// Buttons: Add, Book, Save and Cancel
+	// ComboBoxes: startTime, EndTime, date(day, month, year)
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		System.out.println("("+this.getClass()+"):"+ "Pressing a button Or Modyfing a comboBox");
@@ -877,6 +856,7 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 //			MainWindow.removeNewAppointmentView();	
 		}
 	}
+	
 	// ItemListener for the RadioButtons
 	@Override
 	public void itemStateChanged(ItemEvent e) {
@@ -888,9 +868,9 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 		else if(e.getSource() == externalRadioButton){
 			setBookingGreyedOut(true);
 		}
-		
 	}
 	
+	// making the external / internal selection greyed out
 	public void setBookingGreyedOut(Boolean bol){
 		if(bol){
 			nrParticipantsField.setEditable(false);

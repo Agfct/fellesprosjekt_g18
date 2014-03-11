@@ -20,6 +20,12 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.plaf.basic.BasicArrowButton;
 
+/** TopView (JPanel)
+ *  It contains the buttons for change in week (today, back, forth), and the logOut button
+ *	It changes the calendar view based on week and goes to login screen through the MainView.MainWindow.setLoginMode();.
+ *  
+ * @author Anders
+ */
 public class TopView extends JPanel implements ActionListener{
 	private JButton previousWeekBtn;
 	private JButton nextWeekBtn;
@@ -158,7 +164,9 @@ public class TopView extends JPanel implements ActionListener{
 				"                                         "),cLabel9);
 
 	}
-	/** WHEN BUTTONS ARE PRESSED, ADD ACTION HERE **/
+	
+    /** LISTENERS FOR THE ENTIRE JPANEL **/
+    /** WHEN FIELDS ARE MODIFIED CHANGES ARE REGISTERED HERE **/
 	//What happens when the different buttons are pressed.
 	@Override
 	public void actionPerformed(ActionEvent e) {
