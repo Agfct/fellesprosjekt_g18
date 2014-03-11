@@ -108,11 +108,11 @@ class ThreadedTCPServer(SocketServer.ThreadingMixIn, SocketServer.TCPServer):
     pass
 
 if __name__ == "__main__":
-    HOST = 'localhost'
-    PORT = 9999
+    HOST = raw_input('Enter your ip: ')
+    PORT = raw_input('Enter port number to use: ')
 
     # Create the server, binding to localhost on port 9999
-    server = ThreadedTCPServer((HOST, PORT), ClientHandler)
+    server = ThreadedTCPServer((HOST, int(PORT)), ClientHandler)
 
     # Activate the server; this will keep running until you
     # interrupt the program with Ctrl-C
