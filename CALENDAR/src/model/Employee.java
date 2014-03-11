@@ -1,4 +1,4 @@
-package gui;
+package model;
 
 import java.util.ArrayList;
 
@@ -6,6 +6,7 @@ public class Employee {
 	private String name;
 	private String email;
 	private ArrayList<Notification> notifications;
+	private Boolean isSelected = false; //TEST
 	
 	//Constructor for a viewable person
 	public Employee(String name){
@@ -18,7 +19,13 @@ public class Employee {
 		this.email = email;
 		notifications = new ArrayList<Notification>();
 	}
-	
+	//TEST
+	public Boolean isSelected(){
+		return isSelected;
+	}
+	public void setSelected(boolean b){
+		isSelected = b;
+	}
 	//Notifications
 	public ArrayList<Notification> getNotifiations() {
 		return notifications;

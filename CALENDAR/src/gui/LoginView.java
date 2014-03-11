@@ -25,7 +25,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.Box;
 
-public class LoginWindow extends JPanel implements ActionListener {
+public class LoginView extends JPanel implements ActionListener {
 	private JButton loginBtn;
 	private JButton cancelBtn;
 	private JLabel headerLabel;
@@ -35,7 +35,7 @@ public class LoginWindow extends JPanel implements ActionListener {
 	private JPasswordField passwordField;
 	private Image backgroundImg;
 	
-	public LoginWindow(){
+	public LoginView(){
 		// Using a GridBagLayout for the Grid
 		setLayout(new GridBagLayout());
 		backgroundImg = new ImageIcon(this.getClass().getResource("/backgrounds/background1.png")).getImage();

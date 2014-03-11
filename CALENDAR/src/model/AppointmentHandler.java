@@ -1,4 +1,4 @@
-package gui;
+package model;
 
 public class AppointmentHandler {
 	public static Appointment createAppointment(Employee creator){

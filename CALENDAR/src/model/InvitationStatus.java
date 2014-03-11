@@ -1,4 +1,4 @@
-package gui;
+package model;
 
 public enum InvitationStatus {
 	UNANSWERED(0),
