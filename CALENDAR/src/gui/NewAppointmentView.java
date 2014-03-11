@@ -78,7 +78,10 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 	private JComboBox<String> endField;
 	private JComboBox<String> acceptedBox;
 	private JTextField durationField;
-	private JTextField dateField;
+//	private JTextField dateField;
+	private JComboBox<String> dateDayField;
+	private JComboBox<String> dateMonthField;	
+	private JComboBox<String> dateYearField;
 	private JTextField searchField;
 	private JTextField exParticipantsField;
 	private JTextField locationField;
@@ -183,7 +186,7 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 		startField.setEditable(true);
 		cLabel3.fill = GridBagConstraints.HORIZONTAL;
 		startField.setName("startField");
-		startField.addKeyListener(this);
+		startField.addActionListener(this);
 //		startField.add(MainWindow.getTimeArray());
 		
 		// DESIGN FOR ComboBox:
@@ -220,7 +223,7 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 		endField.setEditable(true);
 		cLabel5.fill = GridBagConstraints.HORIZONTAL;
 		endField.setName("endField");
-		endField.addKeyListener(this);
+		endField.addActionListener(this);
 //		endField.add(MainWindow.getTimeArray());
 		
 		// DESIGN FOR ComboBox:
@@ -270,20 +273,65 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 		dateLabel.setFont(new Font(MainWindow.getMFont(),Font.BOLD,18));
 		add(dateLabel,cLabel8);
 		
-		// dateField
-		GridBagConstraints cLabel9 = new GridBagConstraints();
-		cLabel9.insets = new Insets(0,20,0,50);
-		cLabel9.gridx = 1;
-		cLabel9.gridy = 7;
-		dateField = new JTextField(10);
-		cLabel9.fill = GridBagConstraints.HORIZONTAL;
-		dateField.setName("dateField");
-		dateField.addKeyListener(this);
+		// dateFields (day, month, year)
+		//dateDayField
+		GridBagConstraints cLabel9_day = new GridBagConstraints();
+		cLabel9_day.insets = new Insets(0,20,0,50);
+		cLabel9_day.gridx = 1;
+		cLabel9_day.gridy = 7;
+		cLabel9_day.anchor = GridBagConstraints.LINE_START;
+		DefaultComboBoxModel<String> dateDayFieldModel = new DefaultComboBoxModel<String>();
+		
+		//TEST: ADD CODE TO FILL BOX WITH NUMBERS
+		
+		dateDayField = new JComboBox<String>(dateDayFieldModel);
+//		cLabel9_day.fill = GridBagConstraints.HORIZONTAL;
+		dateDayField.setName("dateDayField");
+		dateDayField.addActionListener(this);
 		// DESIGN FOR Field:
 //		dateField.setBackground(MainWindow.getBckColor());
 //		dateField.setForeground(MainWindow.getTxtColor());
-		dateField.setFont(new Font(MainWindow.getMFont(),Font.BOLD, 12));
-		add(dateField,cLabel9);
+		dateDayField.setFont(new Font(MainWindow.getMFont(),Font.BOLD, 12));
+		add(dateDayField,cLabel9_day);
+		
+		//dateMonthField
+		GridBagConstraints cLabel9_month = new GridBagConstraints();
+		cLabel9_month.insets = new Insets(0,0,0,30);
+		cLabel9_month.gridx = 1;
+		cLabel9_month.gridy = 7;
+		DefaultComboBoxModel<String> dateMonthFieldModel = new DefaultComboBoxModel<String>();
+		
+		//TEST: ADD CODE TO FILL BOX WITH NUMBERS
+		
+		dateMonthField = new JComboBox<String>(dateMonthFieldModel);
+//		cLabel9_day.fill = GridBagConstraints.HORIZONTAL;
+		dateMonthField.setName("dateMonthField");
+		dateMonthField.addActionListener(this);
+		// DESIGN FOR Field:
+//		dateField.setBackground(MainWindow.getBckColor());
+//		dateField.setForeground(MainWindow.getTxtColor());
+		dateMonthField.setFont(new Font(MainWindow.getMFont(),Font.BOLD, 12));
+		add(dateMonthField,cLabel9_month);
+		
+		//dateYearField
+		GridBagConstraints cLabel9_year = new GridBagConstraints();
+		cLabel9_year.insets = new Insets(0,67,0,0);
+		cLabel9_year.gridx = 1;
+		cLabel9_year.gridy = 7;
+		DefaultComboBoxModel<String> dateYearFieldModel = new DefaultComboBoxModel<String>();
+		
+		//TEST: ADD CODE TO FILL BOX WITH NUMBERS
+		
+		dateYearField = new JComboBox<String>(dateYearFieldModel);
+//		cLabel9_day.fill = GridBagConstraints.HORIZONTAL;
+		dateYearField.setName("dateYearField");
+		dateYearField.addActionListener(this);
+		// DESIGN FOR Field:
+//		dateField.setBackground(MainWindow.getBckColor());
+//		dateField.setForeground(MainWindow.getTxtColor());
+		dateYearField.setFont(new Font(MainWindow.getMFont(),Font.BOLD, 12));
+		add(dateYearField,cLabel9_year);
+		
 		
 		// searchLabel
 		GridBagConstraints cLabel10 = new GridBagConstraints();
@@ -788,6 +836,7 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
         g2d.drawImage(backgroundImg, 0, 0, this);
         
     }
+    /** LISTENERS FOR THE ENTIRE GUI **/
     
 	// Key Listener for JTextFields
 	@Override
@@ -803,10 +852,11 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 		System.out.println("("+this.getClass()+"):"+ "Pressing a button: KeyTyped");
 	}
 	
-	// ActionListener for Buttons: Add, Book, Save and Cancel
+	// ActionListener for Buttons and ComboBoxes: 
+	// Add, Book, Save and Cancel
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		System.out.println("("+this.getClass()+"):"+ "Pressing a button");
+		System.out.println("("+this.getClass()+"):"+ "Pressing a button Or Modyfing a comboBox");
 		
 		// If cancelAppointmentBtn is pressed
 		if (e.getSource() == cancelAppointmentBtn){
