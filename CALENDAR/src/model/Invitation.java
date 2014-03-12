@@ -1,39 +1,71 @@
 package model;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
+
 public class Invitation {
 	private Employee person;
 	private InvitationStatus status;
 	private boolean edited;
 	private boolean hidden;
 	private Alarm alarm;
+	private PropertyChangeSupport pcs;
+	
+	//PropertyNames
+	public static String ANSWER_PROPERTY_NAME = "answer";
+	public static String EDITED_PROPERTY_NAME = "edited";
+	public static String HIDDEN_PROPERTY_NAME = "hidden";
+	
 	
 	public Invitation(Employee person) {
 		this.person = person;
 		status = InvitationStatus.UNANSWERED;
 		edited = false;
 		hidden = false;
+		pcs = new PropertyChangeSupport(this);
 	}
 	
 	private void sendNotification(){
 		//TODO: Send a notification to the creator
 	}
 	
-	public void reject(){
-		status = InvitationStatus.DECLINED;
-		sendNotification();
-	}
-	public void accept(){
-		status = InvitationStatus.ACCEPTED;
-		sendNotification();
+	//Listeners
+	public void addPropertyChangedListener(PropertyChangeListener listener){
+		pcs.addPropertyChangeListener(listener);
 	}
 	
+	public void removePropertyChangedListener(PropertyChangeListener listener){
+		pcs.removePropertyChangeListener(listener);
+	}
+	//---------
+	
+	
+	//Answers
+	public void reject(){
+		InvitationStatus oldStatus = status;
+		status = InvitationStatus.DECLINED;
+		sendNotification();
+		pcs.firePropertyChange(ANSWER_PROPERTY_NAME, oldStatus, status);
+	}
+	public void accept(){
+		InvitationStatus oldStatus = status;
+		status = InvitationStatus.ACCEPTED;
+		sendNotification();
+		pcs.firePropertyChange(ANSWER_PROPERTY_NAME, oldStatus, status);
+	}
+	//-------
+	
 	//Setters
-	public void setEdited(boolean isEdited) {
-		this.edited = isEdited;
+	public void setEdited(boolean edited) {
+		boolean old = this.edited;
+		this.edited = edited;
+		pcs.firePropertyChange(EDITED_PROPERTY_NAME, old, this.edited);
 	}
 
-	public void setHidden(boolean isHidden) {
-		this.hidden = isHidden;
+	public void setHidden(boolean hidden) {
+		boolean old = this.hidden;
+		this.hidden = hidden;
+		pcs.firePropertyChange(HIDDEN_PROPERTY_NAME, old, this.hidden);
 	}
 
 	public void setAlarm(Alarm alarm) {
@@ -44,7 +76,7 @@ public class Invitation {
 	//Getters
 	public boolean isEdited() 			{return edited;}
 	public boolean isHidden() 			{return hidden;}
-	public Employee getPerson() 			{return person;}
+	public Employee getPerson() 		{return person;}
 	public Alarm getAlarm() 			{return alarm;}
 	public InvitationStatus getStatus() {return status;}
 	//-------

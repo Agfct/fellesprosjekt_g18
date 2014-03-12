@@ -1,5 +1,6 @@
 package model;
 
+import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 
@@ -14,6 +15,7 @@ public class Appointment {
 	private ArrayList<Invitation> invitations;
 	private PropertyChangeSupport pcs;
 	
+	//PropertyNames
 	public static String INVITATIONS_PROPERTY_NAME = "invitations";
 	
 	//Lager en tom avtale
@@ -35,6 +37,9 @@ public class Appointment {
 	}
 
 	public void save(){
+		for (int i = 0; i < invitations.size(); i++) {
+			invitations.get(i).setEdited(true);
+		}
 		//TODO: Lagre i database
 	}
 	
@@ -60,9 +65,10 @@ public class Appointment {
 	}
 	//-----------
 
-	//Replies
+	//Get replies
 	public ArrayList<Invitation> getUnanswered(){
 		ArrayList<Invitation> unanswered = new ArrayList<Invitation>();
+		
 		for (int i = 0; i < invitations.size(); i++) {
 			if (invitations.get(i).getStatus() == InvitationStatus.UNANSWERED){
 				unanswered.add(invitations.get(i));
@@ -70,8 +76,10 @@ public class Appointment {
 		}
 		return unanswered;
 	}
+	
 	public ArrayList<Invitation> getDeclined(){
 		ArrayList<Invitation> declined = new ArrayList<Invitation>();
+		
 		for (int i = 0; i < invitations.size(); i++) {
 			if (invitations.get(i).getStatus() == InvitationStatus.DECLINED){
 				declined.add(invitations.get(i));
@@ -79,8 +87,10 @@ public class Appointment {
 		}
 		return declined;
 	}
+	
 	public ArrayList<Invitation> getAccepted(){
 		ArrayList<Invitation> accepted = new ArrayList<Invitation>();
+		
 		for (int i = 0; i < invitations.size(); i++) {
 			if (invitations.get(i).getStatus() == InvitationStatus.ACCEPTED){
 				accepted.add(invitations.get(i));
@@ -89,6 +99,16 @@ public class Appointment {
 		return accepted;
 	}
 	//-------
+	
+	//Listeners
+	public void addPropertyChangedListener(PropertyChangeListener listener){
+		pcs.addPropertyChangeListener(listener);
+	}
+
+	public void removePropertyChangedListener(PropertyChangeListener listener){
+		pcs.removePropertyChangeListener(listener);
+	}
+	//---------
 	
 	//Setters
 	public void setTitle(String title) 				{this.title = title;}

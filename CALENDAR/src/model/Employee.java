@@ -1,5 +1,7 @@
 package model;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 
 public class Employee {
@@ -7,6 +9,10 @@ public class Employee {
 	private String email;
 	private ArrayList<Notification> notifications;
 	private Boolean isSelected = false; //TEST
+	private PropertyChangeSupport pcs;
+	
+	//PropertyNames
+	public static String NOTIFICATIONS_PROPERTY_NAME = "notifications";
 	
 	//Constructor for a viewable person
 	public Employee(String name){
@@ -19,6 +25,7 @@ public class Employee {
 		this.email = email;
 		notifications = new ArrayList<Notification>();
 	}
+	
 	//TEST
 	public Boolean isSelected(){
 		return isSelected;
@@ -26,6 +33,7 @@ public class Employee {
 	public void setSelected(boolean b){
 		isSelected = b;
 	}
+	
 	//Notifications
 	public ArrayList<Notification> getNotifiations() {
 		return notifications;
@@ -36,14 +44,28 @@ public class Employee {
 	
 	public void addNotifiation(Notification notification) {
 		//Fjerner notification med samme appointmentID
+		ArrayList<Notification> oldList = notifications;
 		notifications.remove(notification);
 		notifications.add(notification);
+		pcs.firePropertyChange(NOTIFICATIONS_PROPERTY_NAME, oldList, notifications);
 	}
 	
 	public void removeNotification(Notification notification){
+		ArrayList<Notification> oldList = notifications;
 		notifications.remove(notification);
+		pcs.firePropertyChange(NOTIFICATIONS_PROPERTY_NAME, oldList, notifications);
 	}
 	//-------------
+	
+	//Listeners
+	public void addPropertyChangedListener(PropertyChangeListener listener){
+		pcs.addPropertyChangeListener(listener);
+	}
+	
+	public void removePropertyChangedListener(PropertyChangeListener listener){
+		pcs.removePropertyChangeListener(listener);
+	}
+	//---------
 	
 	//Getters/setters
 	public String getName() 			{return name;}
