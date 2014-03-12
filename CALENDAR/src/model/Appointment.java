@@ -1,5 +1,6 @@
 package model;
 
+import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 
 public class Appointment {
@@ -11,6 +12,9 @@ public class Appointment {
 	private boolean internal;
 	private String description;
 	private ArrayList<Invitation> invitations;
+	private PropertyChangeSupport pcs;
+	
+	public static String INVITATIONS_PROPERTY_NAME = "invitations";
 	
 	//Lager en tom avtale
 	public Appointment(Employee person){
@@ -36,11 +40,15 @@ public class Appointment {
 	
 	//Invitations
 	public void addInvitation(Invitation invitation){
+		ArrayList<Invitation> oldList = invitations;
 		invitations.add(invitation);
+		pcs.firePropertyChange(INVITATIONS_PROPERTY_NAME, oldList, invitations);
 	}
 	
 	public void removeInvitation(Invitation invitation){
+		ArrayList<Invitation> oldList = invitations;
 		invitations.remove(invitation);
+		pcs.firePropertyChange(INVITATIONS_PROPERTY_NAME, oldList, invitations);
 	}
 	
 	public ArrayList<Invitation> getInvitations() {
