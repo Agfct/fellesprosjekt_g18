@@ -5,6 +5,8 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
@@ -31,6 +33,7 @@ public class MainWindow extends JFrame{
 	private static LeftView leftView;
 	private static CalendarView calendarView;
 	private static NewAppointmentView newAppointmentView;
+	private static AppointmentsView appointmentsView;
 	private static JPanel backgroundPanel; //TEST 
 	private static Image backgroundImg; //TEST
 	private static String font;
@@ -43,7 +46,6 @@ public class MainWindow extends JFrame{
 	}
 	
 	public MainWindow(){
-		
 		//Setup for the main window, (size and other details)
 		mainWindow = this;
 		mainWindow.setSize(400, 200);
@@ -124,7 +126,7 @@ public class MainWindow extends JFrame{
 		mainScrollPane.getViewport().add(loginWindow);
 	}
 	
-	//adding an appointment view
+	//adding an newAppointment view
 	protected static void newAppointmentView(){
 		//adding an newAppointmentView to the layerPane
 		newAppointmentView = new NewAppointmentView();
@@ -137,6 +139,13 @@ public class MainWindow extends JFrame{
 //		newAppointmentView.setPreferredSize(new Dimension(1181, 754));
 //		mainScrollPane.getViewport().add(newAppointmentView);
 //		mainScrollPane.getViewport().remove(newAppointmentView);
+	}
+	//adding an appointment view
+	protected static void appointmentsView(){
+		//adding an AppointmentsView to the layerPane
+		appointmentsView = new AppointmentsView();
+		appointmentsView.setBounds(0, 0, 1200, 800);
+		layoutView.add(appointmentsView,JLayeredPane.POPUP_LAYER,4);
 	}
 	protected static void removeNewAppointmentView(){
 		layoutView.remove(newAppointmentView);

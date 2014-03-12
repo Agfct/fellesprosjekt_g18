@@ -803,7 +803,7 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 		
 	}
 	
-	// Overriding the paintComponent to get background
+	// Overriding the paintComponent to get background and Header
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -811,6 +811,18 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
         
         //background Image
         g2d.drawImage(backgroundImg, 0, 0, this);
+        
+        //Header
+		Font font = new Font("Tahoma", Font.BOLD, 24);
+		g2d.setFont(font);
+		g2d.setColor(Color.WHITE);
+		Boolean editAppointment = false; //TEST RELATE TO CORRECT ENTERING VIEW
+		if (editAppointment){
+			g2d.drawString("Edit Appointment", 450, 150);						
+		}
+		else{
+			g2d.drawString("New Appointment", 450, 150);						
+		}
         
     }
     /** LISTENERS FOR THE ENTIRE JPANEL **/
@@ -845,6 +857,10 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 		// If addExParticipantsBtn is pressed
 		else if (e.getSource() == addExParticipantsBtn){
 			System.out.println("Adding external Participant");
+			if (!exParticipantsField.getText().equals("")){
+				participantsListPanel.addParticipantView(new ParticipantsView(exParticipantsField.getText()));				
+			}
+			
 		}
 		// If bookBtn is pressed
 		else if (e.getSource() == bookBtn){

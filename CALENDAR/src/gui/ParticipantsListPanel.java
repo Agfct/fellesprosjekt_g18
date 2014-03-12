@@ -27,7 +27,7 @@ public class ParticipantsListPanel extends JPanel {
 			rows = 0;
 			
 			
-			//TEST
+			//Test
 			//http://www.java-forums.org/awt-swing/34534-gridbaglayout-anchor-wanna-move-all-components-top-left.html
 			GridBagConstraints c = new GridBagConstraints();
             c.gridx = 0;
@@ -44,9 +44,10 @@ public class ParticipantsListPanel extends JPanel {
             c.insets = new Insets( 0,0,0,0 );
  
             Label bottomEmptyLabel = new Label( "" );
-            bottomEmptyLabel.setBackground(( Color.pink ) );
+//            bottomEmptyLabel.setBackground(( Color.pink ) );
             setCompSize(bottomEmptyLabel, 3, 3 );
             this.add( bottomEmptyLabel , c);
+            //Test
 
 	}
 	
@@ -60,15 +61,27 @@ public class ParticipantsListPanel extends JPanel {
 		cLabel.anchor = GridBagConstraints.PAGE_START;
 		newView.setParticipantsListPanel(this);
 		this.add(newView,cLabel);
-		rows += 1;
+//		System.out.println("rowsadd "+ rows);
+		rows += 1; // WARNING ROWS WILL ALWAYS INCREASE, REMEMBER TO SORT LIST WHEN SAVING.
+		repaint();
+		invalidate();
+		validate();
+		// revalidating the Scroll pane
+		if (scrollPane != null){
+			scrollPane.repaint();
+			scrollPane.invalidate();
+			scrollPane.validate();
+		}
 	}
+	
+	//Methods to respond to the presses in the Views in the ListPanel
 	public void removeParticipantView(ParticipantsView oldView){
 		this.remove(oldView);
-//		if (rows-1 != -1){
-////			layout.setRows(rows-1);
+//		if (rows != 0){
+//			System.out.println("Blir kjørt");
 //			rows -= 1;
 //		}
-		System.out.println("Rows " + rows);
+//		System.out.println("Rows " + rows);
 		repaint();
 		invalidate();
 		validate();

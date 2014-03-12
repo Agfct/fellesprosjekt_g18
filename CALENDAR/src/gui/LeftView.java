@@ -359,11 +359,9 @@ public class LeftView extends JPanel implements ListSelectionListener, ActionLis
 	        super.paintComponent(g);
 	        Graphics2D g2d = (Graphics2D) g;
 	        
+	        
+	        // Appointments Notification Symbol:
 			//Drawing the red circle
-//			g2d.setColor(Color.RED);
-//			int radius = 20;
-//			Ellipse2D.Float circle = new Ellipse2D.Float(175,315,radius,radius);
-//			g2d.fill(circle);
 	        g2d.drawImage(redCircleImg, 173, 312, this);
 	        
 			//Drawing the number of new notifications
@@ -371,17 +369,31 @@ public class LeftView extends JPanel implements ListSelectionListener, ActionLis
 			Font font = new Font("Tahoma", Font.BOLD, 14);
 			g2d.setFont(font);
 			g2d.setColor(Color.WHITE);
-			Integer nrOfNewAppointmentNotification = 28; //TEST
+			Integer nrOfNewAppointmentsNotification = 28; //TEST
 			
-			if(nrOfNewAppointmentNotification > 0){
-				if (nrOfNewAppointmentNotification > 9){
-					g2d.drawString(nrOfNewAppointmentNotification.toString(), 177, 330);
-					
-				}
-				else{
-					g2d.drawString(nrOfNewAppointmentNotification.toString(), 182, 330);
-				}
+			if(nrOfNewAppointmentsNotification > 0){
+				if (nrOfNewAppointmentsNotification > 9){
+					g2d.drawString(nrOfNewAppointmentsNotification.toString(), 177, 330);}
+				else{ g2d.drawString(nrOfNewAppointmentsNotification.toString(), 182, 330);}
 			}
+			
+			//editAppointments Notification Symbol
+			//Drawing the red circle
+	        g2d.drawImage(redCircleImg, 173, 272, this);
+	        
+			//Drawing the number of new notifications
+			//setting Font and color
+			font = new Font("Tahoma", Font.BOLD, 14);
+			g2d.setFont(font);
+			g2d.setColor(Color.WHITE);
+			Integer nrOfeditAppointmentNotification = 5; //TEST
+			
+			if(nrOfeditAppointmentNotification > 0){
+				if (nrOfeditAppointmentNotification > 9){
+					g2d.drawString(nrOfeditAppointmentNotification.toString(), 177, 290);}
+				else{ g2d.drawString(nrOfeditAppointmentNotification.toString(), 182, 290);}
+			}
+			
 	    }
 	   
     /** LISTENERS FOR THE ENTIRE JPANEL **/
@@ -392,8 +404,13 @@ public class LeftView extends JPanel implements ListSelectionListener, ActionLis
 		
 		// If New Appointment is pressed
 		if (e.getSource() == newAppointmentBtn){
-			System.out.println("Opening new Appointment Window");
+			System.out.println("Opening newAppointment Window");
 			MainWindow.newAppointmentView(); 	
+		}
+		// If New Appointment is pressed
+		else if (e.getSource() == appointmentsBtn){
+			System.out.println("Opening Appointments Window");
+			MainWindow.appointmentsView();
 		}
 		
 	}

@@ -167,7 +167,14 @@ public class ParticipantsView extends JPanel implements ActionListener {
 			System.out.println("Removing Participant");
 			participantsListPanel.removeParticipantView(this);
 			
-		}		
+		}	
+		else if (e.getSource() == emailBtn){
+			System.out.println("Pressing eMail Btn");
+			// What to do when pressing eMailBtn?
+		}
+		else if(e.getSource() == statusField){
+			System.out.println("Changed to " + this.statusField.getSelectedItem());
+		}
 	}
 
 }

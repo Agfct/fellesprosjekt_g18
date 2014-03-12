@@ -14,6 +14,7 @@ import java.awt.Insets;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -36,6 +37,7 @@ public class LoginView extends JPanel implements ActionListener {
 	private Image backgroundImg;
 	
 	public LoginView(){
+		
 		// Using a GridBagLayout for the Grid
 		setLayout(new GridBagLayout());
 		backgroundImg = new ImageIcon(this.getClass().getResource("/backgrounds/background1.png")).getImage();
@@ -162,6 +164,8 @@ public class LoginView extends JPanel implements ActionListener {
 //        g2d.setPaint(gp);
 //        g2d.fillRect(0, 0, w, h);
     }
+    
+
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
