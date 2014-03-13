@@ -41,4 +41,14 @@ public class RoomBooker {
 		}
 		return meetingRoom;
 	}
+	//Returns all the rooms with capacity equal or bigger than the required capacity
+	public ArrayList<MeetingRoom> RoomsWithCapacity(short capacity){
+		ArrayList<MeetingRoom> okCapacity = new ArrayList<MeetingRoom>();
+		for (int i = 0; i < meetingRooms.size(); i++){
+			if(meetingRooms.get(i).getCapacity() >= capacity){
+				okCapacity.add(meetingRooms.get(i));
+			}
+		}
+		return okCapacity;
+	}
 }
