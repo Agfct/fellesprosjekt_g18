@@ -2,7 +2,7 @@ package model;
 
 import java.util.ArrayList;
 
-public class MeetingRoom {
+public class MeetingRoom implements Comparable<MeetingRoom> {
 	private String name;
 	private short capacity;
 	private ArrayList<TimeSlot> schedule;
@@ -46,4 +46,17 @@ public class MeetingRoom {
 	public String getName() 					{return name;}
 	public short getCapacity() 					{return capacity;}
 	public ArrayList<TimeSlot> getSchedule() 	{return schedule;}
+
+	@Override
+	public int compareTo(MeetingRoom otherRoom) {
+		if (this.capacity > otherRoom.capacity) {
+			return 1;
+		}
+		else if (this.capacity == otherRoom.capacity) {
+			return 0;
+		}
+		else {
+			return -1;
+		}
+	}
 }
