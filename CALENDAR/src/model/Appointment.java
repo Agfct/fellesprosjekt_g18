@@ -1,13 +1,11 @@
 package model;
 
 import gui.NewAppointmentView;
-import gui.ParticipantsView;
 
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 
 public class Appointment {
+	private int appointmentID;
 	private Creator creator;
 	private String title;
 	private TimeSlot timeSlot;
@@ -119,6 +117,7 @@ public class Appointment {
 	public void setLocation(String location) 		{this.location = location;}
 	public void setInternal(boolean internal) 		{this.internal = internal;}
 	public void setDescription(String description) 	{this.description = description;}
+	public void setAppointmentID(int appointmentID) {this.appointmentID = appointmentID;}
 	//-------
 	
 	//Getters
@@ -129,5 +128,6 @@ public class Appointment {
 	public MeetingRoom getRoom() 	{return room;}
 	public boolean isInternal() 	{return internal;}
 	public String getDescription() 	{return description;}
+	public int getAppointmentID()	{return appointmentID;}
 	//-------
 }

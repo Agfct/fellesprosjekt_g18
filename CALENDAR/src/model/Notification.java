@@ -22,4 +22,7 @@ public class Notification{
 	
 	//Getter
 	public int getAppointmentID() {return appointmentID;}
+	public String getMessage(){
+		return msg;
+	}
 }

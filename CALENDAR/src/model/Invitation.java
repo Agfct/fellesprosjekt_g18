@@ -7,6 +7,7 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
 public class Invitation {
+	private int invitationID;
 	private Employee person;
 	private InvitationStatus status;
 	private boolean edited;
@@ -65,6 +66,9 @@ public class Invitation {
 	//-------
 	
 	//Setters
+	public void setStatus(InvitationStatus is) {
+		this.status = is;
+	}
 	public void setEdited(boolean edited) {
 		boolean old = this.edited;
 		this.edited = edited;
@@ -80,6 +84,9 @@ public class Invitation {
 	public void setAlarm(Alarm alarm) {
 		this.alarm = alarm;
 	}
+	public void setInvitationID(int invitationID) {
+		this.invitationID = invitationID;
+	}
 	//-------
 	public void setParticipantsView(ParticipantsView newParticipantsView){
 		participantsView = newParticipantsView;
@@ -93,6 +100,6 @@ public class Invitation {
 	public Employee getPerson() 		{return person;}
 	public Alarm getAlarm() 			{return alarm;}
 	public InvitationStatus getStatus() {return status;}
-	
+	public int getInvitationID()		{return invitationID;}
 	//-------
 }
