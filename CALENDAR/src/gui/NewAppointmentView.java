@@ -60,6 +60,7 @@ import model.Appointment;
 import model.Employee;
 import model.Invitation;
 import model.MeetingRoom;
+import model.RoomBooker;
 import model.TimeSlot;
 
 public class NewAppointmentView extends JPanel implements MouseListener, KeyListener, ListSelectionListener, ActionListener , ItemListener, FocusListener{
@@ -85,9 +86,9 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 	private JComboBox<String> acceptedBox;
 	private JTextField durationField;
 //	private JTextField dateField;
-	private JComboBox<String> dateDayField;
-	private JComboBox<String> dateMonthField;	
-	private JComboBox<String> dateYearField;
+	private JComboBox<Integer> dateDayField;
+	private JComboBox<Integer> dateMonthField;	
+	private JComboBox<Integer> dateYearField;
 	private JTextField searchField;
 	private JTextField exParticipantsField;
 	private JTextField locationField;
@@ -124,11 +125,17 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 	// THE MODEL AND EMPLOYEES
 	
 	private Appointment appointmentModel;
+	private RoomBooker roomBooker;
+	
 //	private JTable employeeListTable;
 //	private JTable participantsListTable;
 //	private TableColumn acceptedCol;
 //	private EmployeeTable employeeTable;
 	
+
+
+
+
 	
 	public NewAppointmentView(Appointment newAppointmentModel){
 		// Using a GridBagLayout for the Grid
@@ -299,10 +306,10 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 		
 		//TEST: ADD CODE TO FILL BOX WITH NUMBERS
 		
-		dateDayField = new JComboBox<String>(dateDayFieldModel);
+		dateDayField = new JComboBox<Integer>();
 //		cLabel9_day.fill = GridBagConstraints.HORIZONTAL;
 		dateDayField.setName("dateDayField");
-		dateDayField.addActionListener(this);
+		
 		// DESIGN FOR Field:
 //		dateField.setBackground(MainWindow.getBckColor());
 //		dateField.setForeground(MainWindow.getTxtColor());
@@ -318,10 +325,10 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 		
 		//TEST: ADD CODE TO FILL BOX WITH NUMBERS
 		
-		dateMonthField = new JComboBox<String>(dateMonthFieldModel);
+		dateMonthField = new JComboBox<Integer>();
 //		cLabel9_day.fill = GridBagConstraints.HORIZONTAL;
 		dateMonthField.setName("dateMonthField");
-		dateMonthField.addActionListener(this);
+		
 		// DESIGN FOR Field:
 //		dateField.setBackground(MainWindow.getBckColor());
 //		dateField.setForeground(MainWindow.getTxtColor());
@@ -333,20 +340,26 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 		cLabel9_year.insets = new Insets(0,67,0,0);
 		cLabel9_year.gridx = 1;
 		cLabel9_year.gridy = 7;
-		DefaultComboBoxModel<String> dateYearFieldModel = new DefaultComboBoxModel<String>();
 		
 		//TEST: ADD CODE TO FILL BOX WITH NUMBERS
 		
-		dateYearField = new JComboBox<String>(dateYearFieldModel);
+		dateYearField = new JComboBox<Integer>();
 //		cLabel9_day.fill = GridBagConstraints.HORIZONTAL;
 		dateYearField.setName("dateYearField");
-		dateYearField.addActionListener(this);
+		
 		// DESIGN FOR Field:
 //		dateField.setBackground(MainWindow.getBckColor());
 //		dateField.setForeground(MainWindow.getTxtColor());
 		dateYearField.setFont(new Font(MainWindow.getMFont(),Font.BOLD, 12));
 		add(dateYearField,cLabel9_year);
 		
+		fillInDate();
+		dateMonthField.addActionListener(this);
+		dateYearField.addActionListener(this);
+		dateDayField.addActionListener(this);
+
+
+
 		
 		// searchLabel
 		GridBagConstraints cLabel10 = new GridBagConstraints();
@@ -725,11 +738,11 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 		//List<MeetingRoom> DETAILS MISSING, TEST ONLY
 		
 		//TEST
-		MeetingRoom H3 = new MeetingRoom("H3",(short)5,new ArrayList<TimeSlot>());
+		MeetingRoom H3 = new MeetingRoom("H3",(short)2,new ArrayList<TimeSlot>());
 		MeetingRoom R7 = new MeetingRoom("R7",(short)5,new ArrayList<TimeSlot>());
-		MeetingRoom H1 = new MeetingRoom("H1",(short)5,new ArrayList<TimeSlot>());
-		MeetingRoom K2 = new MeetingRoom("K2",(short)5,new ArrayList<TimeSlot>());
-		MeetingRoom R77 = new MeetingRoom("R77",(short)5,new ArrayList<TimeSlot>());
+		MeetingRoom H1 = new MeetingRoom("H1",(short)6,new ArrayList<TimeSlot>());
+		MeetingRoom K2 = new MeetingRoom("K2",(short)8,new ArrayList<TimeSlot>());
+		MeetingRoom R77 = new MeetingRoom("R77",(short)15,new ArrayList<TimeSlot>());
 		MeetingRoom S2 = new MeetingRoom("S2",(short)5,new ArrayList<TimeSlot>());
 		roomListModel.addElement(H3);
 		roomListModel.addElement(R7);
@@ -737,6 +750,15 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 		roomListModel.addElement(K2);
 		roomListModel.addElement(R77);
 		roomListModel.addElement(S2);
+		ArrayList<MeetingRoom> roomBookerTest = new ArrayList<MeetingRoom>();
+		roomBookerTest.add(H3);
+		roomBookerTest.add(R7);
+		roomBookerTest.add(H1);
+		roomBookerTest.add(K2);
+		roomBookerTest.add(R77);
+		roomBookerTest.add(S2);
+		roomBooker = new RoomBooker(roomBookerTest);
+		
 		//TEST
 		roomList = new JList<MeetingRoom>(roomListModel);
 		roomList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -827,6 +849,39 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 		}
         
     }
+    
+	public Boolean isLeapYear(int year){
+		if((2000+year)%4 == 0){
+			return true;
+		}
+		return false;
+	}
+	public void isValidDate(int date, int month, int year){
+		System.out.println(date + " " + month + " " + year);
+		if(isLeapYear(year) && month == 2 && date>29){
+			dateDayField.setSelectedItem(29);			
+		}
+		else if((!isLeapYear(year)) && month == 2 && date >28 ){
+			dateDayField.setSelectedItem(28);
+		}
+		else if(month == 4 || month == 6 || month ==9 || month == 11){
+			if(date==31){
+				dateDayField.setSelectedItem(30);
+			}
+		}
+	}
+	
+	public void fillInDate(){
+		for(int i = 1; i<=31; i++){
+			dateDayField.addItem((i));
+		}
+		for(int i = 1; i <= 12; i++){
+			dateMonthField.addItem(i);
+		}
+		for(int i=14; i<24; i++){
+			dateYearField.addItem(i);
+		}
+	}
     /** LISTENERS FOR THE ENTIRE JPANEL **/
     /** WHEN FIELDS ARE MODIFIED CHANGES ARE REGISTERED HERE **/
     
@@ -836,7 +891,21 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 	}
 
 	@Override
-	public void keyReleased(KeyEvent arg0) {
+	public void keyReleased(KeyEvent e) {
+		if(e.getSource() instanceof JTextField){
+			JTextField source = (JTextField) e.getSource();
+			if(source == nrParticipantsField){
+				System.out.println("er inne på participantsField");
+				String text = source.getText();
+				System.out.println(text);
+				ArrayList<MeetingRoom> availableRooms = roomBooker.availableRooms(text);
+				System.out.println(availableRooms);
+				roomListModel.clear();
+				for(int i = 0; i<availableRooms.size(); i++){
+					roomListModel.addElement(availableRooms.get(i));
+				}
+			}
+		}	
 	}
 
 	@Override
@@ -872,6 +941,21 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 		else if (e.getSource() == saveAppointmentBtn){
 			System.out.println("Saving the newAppointment");
 //			MainWindow.removeNewAppointmentView();	
+		}
+		else if(e.getSource() == dateDayField){
+			isValidDate((Integer) dateDayField.getSelectedItem(), 
+					(Integer) dateMonthField.getSelectedItem(), 
+					(Integer) dateYearField.getSelectedItem());
+		}
+		else if(e.getSource() == dateMonthField){
+			isValidDate((Integer) dateDayField.getSelectedItem(), 
+					(Integer) dateMonthField.getSelectedItem(), 
+					(Integer) dateYearField.getSelectedItem());
+		}
+		else if(e.getSource() == dateYearField){
+			isValidDate((Integer) dateDayField.getSelectedItem(), 
+					(Integer) dateMonthField.getSelectedItem(), 
+					(Integer) dateYearField.getSelectedItem());
 		}
 	}
 	
@@ -987,7 +1071,7 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 	public void appointmentChanged(String change, Employee employee) {
 		System.out.println("("+this.getClass()+"):"+ "Property changed on Appointment Model");
 		if (change.equals("add")){
-			appointmentModel.set
+//			appointmentModel.set
 			participantsListPanel.addParticipantView(new ParticipantsView(employee));
 		}
 		else if (change.equals("remove")){

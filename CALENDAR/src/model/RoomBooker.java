@@ -41,4 +41,30 @@ public class RoomBooker {
 		}
 		return meetingRoom;
 	}
+	//Returns all the rooms with capacity equal or bigger than the required capacity
+	public ArrayList<MeetingRoom> RoomsWithCapacity(short capacity){
+		ArrayList<MeetingRoom> okCapacity = new ArrayList<MeetingRoom>();
+		for (int i = 0; i < meetingRooms.size(); i++){
+			if(meetingRooms.get(i).getCapacity() >= capacity){
+				okCapacity.add(meetingRooms.get(i));
+			}
+		}
+		return okCapacity;
+	}
+	
+	public ArrayList<MeetingRoom> availableRooms(String string){
+		ArrayList<MeetingRoom> availableRooms = new ArrayList<MeetingRoom>();
+		try{
+			int capacity = Integer.parseInt(string);
+			for(int i = 0; i<meetingRooms.size(); i++){
+				if(meetingRooms.get(i).getCapacity() >= capacity){
+					availableRooms.add(meetingRooms.get(i));
+				}
+			}
+		}
+		catch(NumberFormatException e){
+			
+		}
+		return availableRooms;
+	}
 }
