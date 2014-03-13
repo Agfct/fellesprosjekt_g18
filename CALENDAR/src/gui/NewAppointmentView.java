@@ -79,9 +79,9 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 	private JComboBox<String> acceptedBox;
 	private JTextField durationField;
 //	private JTextField dateField;
-	private JComboBox<String> dateDayField;
-	private JComboBox<String> dateMonthField;	
-	private JComboBox<String> dateYearField;
+	private JComboBox<Integer> dateDayField;
+	private JComboBox<Integer> dateMonthField;	
+	private JComboBox<Integer> dateYearField;
 	private JTextField searchField;
 	private JTextField exParticipantsField;
 	private JTextField locationField;
@@ -120,6 +120,10 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 //	private TableColumn acceptedCol;
 //	private EmployeeTable employeeTable;
 	
+
+
+
+
 	
 	public NewAppointmentView(){
 		// Using a GridBagLayout for the Grid
@@ -284,10 +288,10 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 		
 		//TEST: ADD CODE TO FILL BOX WITH NUMBERS
 		
-		dateDayField = new JComboBox<String>(dateDayFieldModel);
+		dateDayField = new JComboBox<Integer>();
 //		cLabel9_day.fill = GridBagConstraints.HORIZONTAL;
 		dateDayField.setName("dateDayField");
-		dateDayField.addActionListener(this);
+		
 		// DESIGN FOR Field:
 //		dateField.setBackground(MainWindow.getBckColor());
 //		dateField.setForeground(MainWindow.getTxtColor());
@@ -303,10 +307,10 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 		
 		//TEST: ADD CODE TO FILL BOX WITH NUMBERS
 		
-		dateMonthField = new JComboBox<String>(dateMonthFieldModel);
+		dateMonthField = new JComboBox<Integer>();
 //		cLabel9_day.fill = GridBagConstraints.HORIZONTAL;
 		dateMonthField.setName("dateMonthField");
-		dateMonthField.addActionListener(this);
+		
 		// DESIGN FOR Field:
 //		dateField.setBackground(MainWindow.getBckColor());
 //		dateField.setForeground(MainWindow.getTxtColor());
@@ -318,20 +322,26 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 		cLabel9_year.insets = new Insets(0,67,0,0);
 		cLabel9_year.gridx = 1;
 		cLabel9_year.gridy = 7;
-		DefaultComboBoxModel<String> dateYearFieldModel = new DefaultComboBoxModel<String>();
 		
 		//TEST: ADD CODE TO FILL BOX WITH NUMBERS
 		
-		dateYearField = new JComboBox<String>(dateYearFieldModel);
+		dateYearField = new JComboBox<Integer>();
 //		cLabel9_day.fill = GridBagConstraints.HORIZONTAL;
 		dateYearField.setName("dateYearField");
-		dateYearField.addActionListener(this);
+		
 		// DESIGN FOR Field:
 //		dateField.setBackground(MainWindow.getBckColor());
 //		dateField.setForeground(MainWindow.getTxtColor());
 		dateYearField.setFont(new Font(MainWindow.getMFont(),Font.BOLD, 12));
 		add(dateYearField,cLabel9_year);
 		
+		fillInDate();
+		dateMonthField.addActionListener(this);
+		dateYearField.addActionListener(this);
+		dateDayField.addActionListener(this);
+
+
+
 		
 		// searchLabel
 		GridBagConstraints cLabel10 = new GridBagConstraints();
@@ -825,6 +835,39 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 		}
         
     }
+    
+	public Boolean isLeapYear(int year){
+		if((2000+year)%4 == 0){
+			return true;
+		}
+		return false;
+	}
+	public void isValidDate(int date, int month, int year){
+		System.out.println(date + " " + month + " " + year);
+		if(isLeapYear(year) && month == 2 && date>29){
+			dateDayField.setSelectedItem(29);			
+		}
+		else if((!isLeapYear(year)) && month == 2 && date >28 ){
+			dateDayField.setSelectedItem(28);
+		}
+		else if(month == 4 || month == 6 || month ==9 || month == 11){
+			if(date==31){
+				dateDayField.setSelectedItem(30);
+			}
+		}
+	}
+	
+	public void fillInDate(){
+		for(int i = 1; i<=31; i++){
+			dateDayField.addItem((i));
+		}
+		for(int i = 1; i <= 12; i++){
+			dateMonthField.addItem(i);
+		}
+		for(int i=14; i<24; i++){
+			dateYearField.addItem(i);
+		}
+	}
     /** LISTENERS FOR THE ENTIRE JPANEL **/
     /** WHEN FIELDS ARE MODIFIED CHANGES ARE REGISTERED HERE **/
     
@@ -870,6 +913,21 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 		else if (e.getSource() == saveAppointmentBtn){
 			System.out.println("Saving the newAppointment");
 //			MainWindow.removeNewAppointmentView();	
+		}
+		else if(e.getSource() == dateDayField){
+			isValidDate((Integer) dateDayField.getSelectedItem(), 
+					(Integer) dateMonthField.getSelectedItem(), 
+					(Integer) dateYearField.getSelectedItem());
+		}
+		else if(e.getSource() == dateMonthField){
+			isValidDate((Integer) dateDayField.getSelectedItem(), 
+					(Integer) dateMonthField.getSelectedItem(), 
+					(Integer) dateYearField.getSelectedItem());
+		}
+		else if(e.getSource() == dateYearField){
+			isValidDate((Integer) dateDayField.getSelectedItem(), 
+					(Integer) dateMonthField.getSelectedItem(), 
+					(Integer) dateYearField.getSelectedItem());
 		}
 	}
 	
