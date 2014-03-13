@@ -51,4 +51,20 @@ public class RoomBooker {
 		}
 		return okCapacity;
 	}
+	
+	public ArrayList<MeetingRoom> availableRooms(String string){
+		ArrayList<MeetingRoom> availableRooms = new ArrayList<MeetingRoom>();
+		try{
+			int capacity = Integer.parseInt(string);
+			for(int i = 0; i<meetingRooms.size(); i++){
+				if(meetingRooms.get(i).getCapacity() >= capacity){
+					availableRooms.add(meetingRooms.get(i));
+				}
+			}
+		}
+		catch(NumberFormatException e){
+			
+		}
+		return availableRooms;
+	}
 }
