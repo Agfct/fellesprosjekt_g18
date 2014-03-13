@@ -16,6 +16,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 
+import model.Appointment;
+import model.Employee;
+
 
 /** The Main (and Only) JFrame for the application.
  *  It contains the program main method and it starts the application.
@@ -39,6 +42,8 @@ public class MainWindow extends JFrame{
 	private static String font;
 	private static Color textColor;
 	private static Color btnBackgroundColor;
+	
+	private static Employee user;
 
 	public static void main(String[] args) {
 		new MainWindow(); // Start
@@ -127,9 +132,9 @@ public class MainWindow extends JFrame{
 	}
 	
 	//adding an newAppointment view
-	protected static void newAppointmentView(){
+	protected static void newAppointmentView(Appointment newAppointment){
 		//adding an newAppointmentView to the layerPane
-		newAppointmentView = new NewAppointmentView();
+		newAppointmentView = new NewAppointmentView(newAppointment);
 		newAppointmentView.setBounds(0, 0, 1200, 800);
 		layoutView.add(newAppointmentView,JLayeredPane.POPUP_LAYER,4);
 //		layoutView.remove(newAppointmentView);
@@ -163,6 +168,9 @@ public class MainWindow extends JFrame{
 	// Color used on the Background (Button Color and so on)
 	public static Color getBckColor(){
 		return btnBackgroundColor;
+	}
+	public static Employee getUser(){
+		return user;
 	}
 	// TEST FOR TIME ALTERNATIVES
 	public static ArrayList<String> getTimeArray(){
