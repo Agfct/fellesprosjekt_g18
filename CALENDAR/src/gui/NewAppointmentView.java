@@ -54,6 +54,7 @@ import javax.swing.table.TableModel;
 
 import model.Employee;
 import model.MeetingRoom;
+import model.RoomBooker;
 import model.TimeSlot;
 
 public class NewAppointmentView extends JPanel implements MouseListener, KeyListener, ListSelectionListener, ActionListener , ItemListener{
@@ -114,6 +115,8 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 	private ButtonGroup locationBtnGroup = new ButtonGroup();
 	
 	private Image backgroundImg;
+	
+	private RoomBooker roomBooker;
 	
 //	private JTable employeeListTable;
 //	private JTable participantsListTable;
@@ -733,11 +736,11 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 		//List<MeetingRoom> DETAILS MISSING, TEST ONLY
 		
 		//TEST
-		MeetingRoom H3 = new MeetingRoom("H3",(short)5,new ArrayList<TimeSlot>());
+		MeetingRoom H3 = new MeetingRoom("H3",(short)2,new ArrayList<TimeSlot>());
 		MeetingRoom R7 = new MeetingRoom("R7",(short)5,new ArrayList<TimeSlot>());
-		MeetingRoom H1 = new MeetingRoom("H1",(short)5,new ArrayList<TimeSlot>());
-		MeetingRoom K2 = new MeetingRoom("K2",(short)5,new ArrayList<TimeSlot>());
-		MeetingRoom R77 = new MeetingRoom("R77",(short)5,new ArrayList<TimeSlot>());
+		MeetingRoom H1 = new MeetingRoom("H1",(short)6,new ArrayList<TimeSlot>());
+		MeetingRoom K2 = new MeetingRoom("K2",(short)8,new ArrayList<TimeSlot>());
+		MeetingRoom R77 = new MeetingRoom("R77",(short)15,new ArrayList<TimeSlot>());
 		MeetingRoom S2 = new MeetingRoom("S2",(short)5,new ArrayList<TimeSlot>());
 		roomListModel.addElement(H3);
 		roomListModel.addElement(R7);
@@ -745,6 +748,15 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 		roomListModel.addElement(K2);
 		roomListModel.addElement(R77);
 		roomListModel.addElement(S2);
+		ArrayList<MeetingRoom> roomBookerTest = new ArrayList<MeetingRoom>();
+		roomBookerTest.add(H3);
+		roomBookerTest.add(R7);
+		roomBookerTest.add(H1);
+		roomBookerTest.add(K2);
+		roomBookerTest.add(R77);
+		roomBookerTest.add(S2);
+		roomBooker = new RoomBooker(roomBookerTest);
+		
 		//TEST
 		roomList = new JList<MeetingRoom>(roomListModel);
 		roomList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -877,7 +889,21 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 	}
 
 	@Override
-	public void keyReleased(KeyEvent arg0) {
+	public void keyReleased(KeyEvent e) {
+		if(e.getSource() instanceof JTextField){
+			JTextField source = (JTextField) e.getSource();
+			if(source == nrParticipantsField){
+				System.out.println("er inne på participantsField");
+				String text = source.getText();
+				System.out.println(text);
+				ArrayList<MeetingRoom> availableRooms = roomBooker.availableRooms(text);
+				System.out.println(availableRooms);
+				roomListModel.clear();
+				for(int i = 0; i<availableRooms.size(); i++){
+					roomListModel.addElement(availableRooms.get(i));
+				}
+			}
+		}	
 	}
 
 	@Override
