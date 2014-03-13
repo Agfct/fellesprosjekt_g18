@@ -21,6 +21,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 
 import javax.swing.ButtonGroup;
@@ -122,7 +124,6 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 	// THE MODEL AND EMPLOYEES
 	
 	private Appointment appointmentModel;
-	private 
 //	private JTable employeeListTable;
 //	private JTable participantsListTable;
 //	private TableColumn acceptedCol;
@@ -138,6 +139,8 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 		
 		/** CREATING MODEL **/
 		appointmentModel = newAppointmentModel;
+		appointmentModel.setNewAppointmentView(this);
+		
 		
 		/** CREATING BUTTONS, LABELS AND TEXT FIELDS **/
 		
@@ -857,7 +860,7 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 		else if (e.getSource() == addExParticipantsBtn){
 			System.out.println("Adding external Participant");
 			if (!exParticipantsField.getText().equals("")){
-				participantsListPanel.addParticipantView(new ParticipantsView(exParticipantsField.getText()));				
+//				participantsListPanel.addParticipantView(new ParticipantsView(exParticipantsField.getText()));		NEED FIX		
 			}
 			
 		}
@@ -926,7 +929,7 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 			}  
 			if (!selectedPerson.isSelected()){  
 				// REMOVING PERSON FROM THE PARTICIPANTS LIST
-				appointmentModel.removeInvitation(new Invitation(selectedPerson));
+				appointmentModel.removeInvitation(selectedPerson);
 //				emailList.removeElement(selectedPerson.toString());  
 			}  
 		}
@@ -979,6 +982,19 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 //		System.out.println("colname: "+columnName);
 //		System.out.println("personName: "+model.getValueAt(row, 0));
 //	}
+
+	// Property change for Appointment Model
+	public void appointmentChanged(String change, Employee employee) {
+		System.out.println("("+this.getClass()+"):"+ "Property changed on Appointment Model");
+		if (change.equals("add")){
+			appointmentModel.set
+			participantsListPanel.addParticipantView(new ParticipantsView(employee));
+		}
+		else if (change.equals("remove")){
+			participantsListPanel.removeParticipantView(new ParticipantsView(employee));
+
+		}
+	}
 
 
 

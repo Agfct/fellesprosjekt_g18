@@ -8,6 +8,7 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Insets;
+import java.awt.Label;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -36,8 +37,9 @@ public class ParticipantsView extends JPanel implements ActionListener {
 	private Employee employee;
 	GridBagLayout layout;
 	
-	public ParticipantsView(String name){ // TEST SHOULD HAVE PARAMETERS (Employee newEmployee)
+	public ParticipantsView(Employee newEmployee){ 
 		
+		employee = newEmployee;
 		//setting layout
 		layout = new GridBagLayout();
 		setLayout(layout);
@@ -51,7 +53,7 @@ public class ParticipantsView extends JPanel implements ActionListener {
 		cLabel0.gridy = 0;
 		cLabel0.anchor = GridBagConstraints.LINE_START;
 		firstNameLabel = new JLabel(); 
-		firstNameLabel.setText(name);//replace with actual employee name
+		firstNameLabel.setText(employee.getName());//replace with actual employee name
 		firstNameLabel.setName("firstNameLabel");
 		firstNameLabel.setPreferredSize(new Dimension(80,24));
 		//DESIGN for the Label text
@@ -131,6 +133,9 @@ public class ParticipantsView extends JPanel implements ActionListener {
 
 	}
 	
+	public Employee getEmployee(){
+		return employee;
+	}
 	public String getFirstName() {
 		return firstNameLabel.getText();
 	}
@@ -156,7 +161,6 @@ public class ParticipantsView extends JPanel implements ActionListener {
 		
 	}
 	
-
 	// Action Listener for Buttons
 	@Override
 	public void actionPerformed(ActionEvent e) {

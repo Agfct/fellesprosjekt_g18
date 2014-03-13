@@ -1,5 +1,8 @@
 package model;
 
+import gui.NewAppointmentView;
+import gui.ParticipantsView;
+
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
@@ -13,10 +16,10 @@ public class Appointment {
 	private boolean internal;
 	private String description;
 	private ArrayList<Invitation> invitations;
-	private PropertyChangeSupport pcs;
-	
+	private static NewAppointmentView newAppointmentView;
+
 	//PropertyNames
-	public static String INVITATIONS_PROPERTY_NAME = "invitations";
+	public final static String INVITATIONS_PROPERTY_NAME = "invitations";
 	
 	//Lager en tom avtale
 	public Appointment(Employee person){
@@ -34,6 +37,8 @@ public class Appointment {
 		this.internal = internal;
 		this.description = description;
 		this.invitations = invitations;
+		
+		
 	}
 
 	public void save(){
@@ -44,16 +49,16 @@ public class Appointment {
 	}
 	
 	//Invitations
-	public void addInvitation(Invitation invitation){
+	public void addInvitation(Employee employee){
 		ArrayList<Invitation> oldList = invitations;
-		invitations.add(invitation);
-		pcs.firePropertyChange(INVITATIONS_PROPERTY_NAME, oldList, invitations);
+		invitations.add(new Invitation(employee));
+		newAppointmentView.appointmentChanged("add", employee);
 	}
 	
-	public void removeInvitation(Invitation invitation){
+	public void removeInvitation(Employee employee){
 		ArrayList<Invitation> oldList = invitations;
-		invitations.remove(invitation);
-		pcs.firePropertyChange(INVITATIONS_PROPERTY_NAME, oldList, invitations);
+		invitations.remove(new Invitation(employee));
+		newAppointmentView.appointmentChanged("remove", employee);
 	}
 	
 	public ArrayList<Invitation> getInvitations() {
@@ -100,13 +105,10 @@ public class Appointment {
 	}
 	//-------
 	
-	//Listeners
-	public void addPropertyChangedListener(PropertyChangeListener listener){
-		pcs.addPropertyChangeListener(listener);
-	}
 
-	public void removePropertyChangedListener(PropertyChangeListener listener){
-		pcs.removePropertyChangeListener(listener);
+	//Listeners
+	public void setNewAppointmentView(NewAppointmentView appointmentView){
+		newAppointmentView = appointmentView;
 	}
 	//---------
 	
