@@ -13,12 +13,16 @@ import java.awt.Insets;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 
 import javax.swing.ButtonGroup;
@@ -52,12 +56,14 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 
+import model.Appointment;
 import model.Employee;
+import model.Invitation;
 import model.MeetingRoom;
 import model.RoomBooker;
 import model.TimeSlot;
 
-public class NewAppointmentView extends JPanel implements MouseListener, KeyListener, ListSelectionListener, ActionListener , ItemListener{
+public class NewAppointmentView extends JPanel implements MouseListener, KeyListener, ListSelectionListener, ActionListener , ItemListener, FocusListener{
 	private JLabel titleLabel;
 	private JLabel startLabel;
 	private JLabel endLabel;
@@ -116,6 +122,9 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 	
 	private Image backgroundImg;
 	
+	// THE MODEL AND EMPLOYEES
+	
+	private Appointment appointmentModel;
 	private RoomBooker roomBooker;
 	private ArrayList<Employee> allEmployees;
 	
@@ -129,12 +138,18 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 
 
 	
-	public NewAppointmentView(){
+	public NewAppointmentView(Appointment newAppointmentModel){
 		// Using a GridBagLayout for the Grid
 		setLayout(new GridBagLayout());
 //		setOpaque(false);
 		backgroundImg = new ImageIcon(this.getClass().getResource("/backgrounds/background1.png")).getImage();
 		setBackground(Color.GREEN);
+		
+		/** CREATING MODEL **/
+		appointmentModel = newAppointmentModel;
+		appointmentModel.setNewAppointmentView(this);
+		
+		
 		/** CREATING BUTTONS, LABELS AND TEXT FIELDS **/
 		
 		// titleLabel
@@ -158,7 +173,7 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 		titleField = new JTextField(10);
 		cLabel1.fill = GridBagConstraints.HORIZONTAL;
 		titleField.setName("titleField");
-		titleField.addKeyListener(this);
+		titleField.addFocusListener(this);
 		// DESIGN FOR Field:
 //		titleField.setBackground(MainWindow.getBckColor());
 //		titleField.setForeground(MainWindow.getTxtColor());
@@ -511,7 +526,7 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 		cLabel17.fill = GridBagConstraints.HORIZONTAL;
 		cLabel17.anchor = GridBagConstraints.LINE_START;
 		descriptionField.setName("descriptionField");
-		descriptionField.addKeyListener(this);
+		descriptionField.addFocusListener(this);
 		// DESIGN FOR Field:
 //		descriptionField.setBackground(MainWindow.getBckColor());
 //		descriptionField.setForeground(MainWindow.getTxtColor());
@@ -536,19 +551,6 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 		//participantsListPanel, a ScrollPane with a participantsListPanel in it
 		//The participantsListPanel contains several ParticipantsView, that eatch contains one employee
 		participantsListPanel = new ParticipantsListPanel();
-		participantsListPanel.addParticipantView(new ParticipantsView("Anders"));
-		participantsListPanel.addParticipantView(new ParticipantsView("Silje"));
-		participantsListPanel.addParticipantView(new ParticipantsView("Are"));
-		participantsListPanel.addParticipantView(new ParticipantsView("Birger"));
-		participantsListPanel.addParticipantView(new ParticipantsView("Katrine"));
-		participantsListPanel.addParticipantView(new ParticipantsView("Stian"));
-		participantsListPanel.addParticipantView(new ParticipantsView("Anders med det lange navnet"));
-		participantsListPanel.addParticipantView(new ParticipantsView("Silje"));
-		participantsListPanel.addParticipantView(new ParticipantsView("Are"));
-		participantsListPanel.addParticipantView(new ParticipantsView("Birger"));
-		participantsListPanel.addParticipantView(new ParticipantsView("Katrine"));
-		participantsListPanel.addParticipantView(new ParticipantsView("Stian"));
-		
 		participantsScrollPane = new JScrollPane(participantsListPanel);
 		participantsScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		participantsScrollPane.setPreferredSize(new Dimension(40,200));
@@ -942,7 +944,7 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 		else if (e.getSource() == addExParticipantsBtn){
 			System.out.println("Adding external Participant");
 			if (!exParticipantsField.getText().equals("")){
-				participantsListPanel.addParticipantView(new ParticipantsView(exParticipantsField.getText()));				
+//				participantsListPanel.addParticipantView(new ParticipantsView(exParticipantsField.getText()));		NEED FIX		
 			}
 			
 		}
@@ -1021,10 +1023,12 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 			employeeList.repaint(rect);  
 			if (selectedPerson.isSelected()){  
 				//ADDING PERSON TO THE PARTICIPANTS LIST
+				appointmentModel.addInvitation(selectedPerson);
 //				emailList.addElement(selectedPerson.toString());  
 			}  
 			if (!selectedPerson.isSelected()){  
 				// REMOVING PERSON FROM THE PARTICIPANTS LIST
+				appointmentModel.removeInvitation(selectedPerson);
 //				emailList.removeElement(selectedPerson.toString());  
 			}  
 		}
@@ -1053,7 +1057,18 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 		// TODO Auto-generated method stub
 		
 	}
-
+	// Focus listner for JTextFields
+	@Override
+	public void focusGained(FocusEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void focusLost(FocusEvent arg0) {
+		System.out.println("("+this.getClass()+"):"+ "Focus lost TextField");
+		// Updates Model
+		
+	}
 	//TableModelListener
 //	@Override
 //	public void tableChanged(TableModelEvent e) {
@@ -1084,6 +1099,19 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 			for(int i = 0; i < matching.size(); i++){
 				employeeListModel.addElement(matching.get(i));
 			}
+		}
+	}
+
+	// Property change for Appointment Model
+	public void appointmentChanged(String change, Employee employee) {
+		System.out.println("("+this.getClass()+"):"+ "Property changed on Appointment Model");
+		if (change.equals("add")){
+//			appointmentModel.set
+			participantsListPanel.addParticipantView(new ParticipantsView(employee));
+		}
+		else if (change.equals("remove")){
+			participantsListPanel.removeParticipantView(new ParticipantsView(employee));
+
 		}
 	}
 

@@ -1,14 +1,19 @@
 package model;
 
+import gui.NewAppointmentView;
+import gui.ParticipantsView;
+
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
 public class Invitation {
+	private int invitationID;
 	private Employee person;
 	private InvitationStatus status;
 	private boolean edited;
 	private boolean hidden;
 	private Alarm alarm;
+	private static ParticipantsView participantsView;
 	private PropertyChangeSupport pcs;
 	
 	//PropertyNames
@@ -23,6 +28,11 @@ public class Invitation {
 		edited = false;
 		hidden = false;
 		pcs = new PropertyChangeSupport(this);
+	}
+	
+	@Override
+	public boolean equals(Object obj){
+		return ((Invitation) obj).getPerson() == this.getPerson();
 	}
 	
 	private void sendNotification(){
@@ -56,6 +66,9 @@ public class Invitation {
 	//-------
 	
 	//Setters
+	public void setStatus(InvitationStatus is) {
+		this.status = is;
+	}
 	public void setEdited(boolean edited) {
 		boolean old = this.edited;
 		this.edited = edited;
@@ -71,13 +84,22 @@ public class Invitation {
 	public void setAlarm(Alarm alarm) {
 		this.alarm = alarm;
 	}
+	public void setInvitationID(int invitationID) {
+		this.invitationID = invitationID;
+	}
 	//-------
-	
+	public void setParticipantsView(ParticipantsView newParticipantsView){
+		participantsView = newParticipantsView;
+	}
+	public ParticipantsView getParticipantsView(){
+		return participantsView;
+	}
 	//Getters
 	public boolean isEdited() 			{return edited;}
 	public boolean isHidden() 			{return hidden;}
 	public Employee getPerson() 		{return person;}
 	public Alarm getAlarm() 			{return alarm;}
 	public InvitationStatus getStatus() {return status;}
+	public int getInvitationID()		{return invitationID;}
 	//-------
 }

@@ -10,6 +10,8 @@ import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.geom.Ellipse2D;
@@ -33,6 +35,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import model.Appointment;
 import model.Employee;
 
 /** LeftView (JPanel)
@@ -405,7 +408,7 @@ public class LeftView extends JPanel implements ListSelectionListener, ActionLis
 		// If New Appointment is pressed
 		if (e.getSource() == newAppointmentBtn){
 			System.out.println("Opening newAppointment Window");
-			MainWindow.newAppointmentView(); 	
+			MainWindow.newAppointmentView(new Appointment(MainWindow.getUser())); 	
 		}
 		// If New Appointment is pressed
 		else if (e.getSource() == appointmentsBtn){
@@ -440,4 +443,5 @@ public class LeftView extends JPanel implements ListSelectionListener, ActionLis
 		System.out.println("("+this.getClass()+"):"+ "Pressing a button: KeyTyped");
 		
 	}
+
 }

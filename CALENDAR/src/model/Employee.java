@@ -5,8 +5,10 @@ import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 
 public class Employee {
+	private int participantID;
 	private String name;
 	private String email;
+	private String password; // TEST PASSWORD ??
 	private ArrayList<Notification> notifications;
 	private Boolean isSelected = false; //TEST
 	private PropertyChangeSupport pcs;
@@ -70,8 +72,12 @@ public class Employee {
 	//Getters/setters
 	public String getName() 			{return name;}
 	public String getEmail() 			{return email;}
+	public int getParticipantID()		{return participantID;}
+	public String getPassword()			{return password;} //test
 	public void setName(String name) 	{this.name = name;}
 	public void setEmail(String email) 	{this.email = email;}
+	public void setParticipantID(int participantID) {this.participantID=participantID;}
+	public void setPassword(String password)		{this.password=password;}
 	//---------------
 	
 	@Override
