@@ -149,6 +149,9 @@ public class MainWindow extends JFrame{
 		layoutView.remove(newAppointmentView);
 		layoutView.repaint();
 	}
+	public static NewAppointmentView getNewAppoitnmentsView(){
+		return newAppointmentView;
+	}
 	
 	//adding an appointment view
 	protected static void appointmentsView(){

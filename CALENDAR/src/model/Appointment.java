@@ -1,9 +1,9 @@
 package model;
 
+import gui.MainWindow;
 import gui.NewAppointmentView;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 public class Appointment {
 	private int appointmentID;
@@ -15,14 +15,13 @@ public class Appointment {
 	private boolean internal;
 	private String description;
 	private ArrayList<Invitation> invitations;
-	private static NewAppointmentView newAppointmentView;
 
 	//PropertyNames
 	public final static String INVITATIONS_PROPERTY_NAME = "invitations";
 	
 	//Lager en tom avtale
 	public Appointment(Employee person){
-		this(new Creator(person), "", null, "", null, false, "", new ArrayList<Invitation>());
+		this(new Creator(person), "", new TimeSlot(0, 0), "", null, false, "", new ArrayList<Invitation>());
 	}
 	
 	public Appointment(Creator creator, String title, TimeSlot timeSlot,
@@ -51,14 +50,14 @@ public class Appointment {
 	public void addInvitation(Employee employee){
 		Invitation temp = new Invitation(employee);
 		invitations.add(temp);
-		newAppointmentView.appointmentChanged("add", temp);
+		MainWindow.getNewAppoitnmentsView().appointmentChanged("add", temp);
 		WTFisWithTheLIst();
 	}
 	
 	public void removeInvitation(Employee employee){
 		for (Invitation removedInvite : invitations) {
 			if(removedInvite.getEmployee() == employee){
-				newAppointmentView.appointmentChanged("remove", removedInvite);
+				MainWindow.getNewAppoitnmentsView().appointmentChanged("remove", removedInvite);
 				invitations.remove(removedInvite);
 				WTFisWithTheLIst();
 				break;
@@ -117,9 +116,7 @@ public class Appointment {
 	
 
 	//Listeners
-	public void setNewAppointmentView(NewAppointmentView appointmentView){
-		newAppointmentView = appointmentView;
-	}
+	
 	//---------
 	
 	//Setters
@@ -130,6 +127,7 @@ public class Appointment {
 	public void setInternal(boolean internal) 		{this.internal = internal;}
 	public void setDescription(String description) 	{this.description = description;}
 	public void setAppointmentID(int appointmentID) {this.appointmentID = appointmentID;}
+	public void setDuration(int newDur)				{this.timeSlot.setDuration(newDur);}
 	//-------
 	
 	//Getters
@@ -141,5 +139,6 @@ public class Appointment {
 	public boolean isInternal() 	{return internal;}
 	public String getDescription() 	{return description;}
 	public int getAppointmentID()	{return appointmentID;}
+	public long getDuration() 		{return getTimeSlot().getDuration();}
 	//-------
 }

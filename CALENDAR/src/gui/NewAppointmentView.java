@@ -148,7 +148,6 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 		
 		/** CREATING MODEL **/
 		appointmentModel = newAppointmentModel;
-		appointmentModel.setNewAppointmentView(this);
 		
 		
 		/** CREATING BUTTONS, LABELS AND TEXT FIELDS **/
@@ -277,7 +276,7 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 		durationField = new JTextField(10);
 		cLabel7.fill = GridBagConstraints.HORIZONTAL;
 		durationField.setName("durationField");
-		durationField.addKeyListener(this);
+		durationField.addFocusListener(this);
 		// DESIGN FOR Field:
 //		durationField.setBackground(MainWindow.getBckColor());
 //		durationField.setForeground(MainWindow.getTxtColor());
@@ -675,7 +674,7 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 		cLabel27.fill = GridBagConstraints.HORIZONTAL;
 		locationField = new JTextField(10);
 		locationField.setName("locationField");
-		locationField.addKeyListener(this);
+		locationField.addFocusListener(this);
 		locationField.setEnabled(false); // Disabled by default
 		// DESIGN FOR Field:
 //		locationField.setBackground(MainWindow.getBckColor());
@@ -1077,15 +1076,38 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 	}
 	// Focus listner for JTextFields
 	@Override
-	public void focusGained(FocusEvent arg0) {
-		// TODO Auto-generated method stub
+	public void focusGained(FocusEvent f) {
 		
 	}
 	@Override
-	public void focusLost(FocusEvent arg0) {
+	public void focusLost(FocusEvent f) {
 		System.out.println("("+this.getClass()+"):"+ "Focus lost TextField");
 		// Updates Model
+		if(f.getSource() == titleField){
+			appointmentModel.setTitle(titleField.getText());
+		}
+		else if(f.getSource() == durationField){
+			//TODO: NEED TO CHECK IF ITS IN, AND CLEAR FIELD IF NOT
+			appointmentModel.setDuration(Integer.parseInt(durationField.getText()));
+		}
+		else if(f.getSource() == descriptionField){
+			appointmentModel.setDescription(descriptionField.getText());
+		}
+		else if(f.getSource() == locationField){
+			appointmentModel.setLocation(locationField.getText());
+		}
 		
+		
+		
+		// TEST
+		System.out.println("AppointmentModel TITLE:");
+		System.out.println(appointmentModel.getTitle());
+		System.out.println("AppointmentModel DESCRIPTION:");
+		System.out.println(appointmentModel.getDescription());
+		System.out.println("AppointmentModel LOCATION:");
+		System.out.println(appointmentModel.getLocation());
+		System.out.println("AppointmentModel DURATION:");
+		System.out.println(appointmentModel.getDuration());
 	}
 	//TableModelListener
 //	@Override
@@ -1102,6 +1124,7 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 	public void showCorrectNames(String name){
 		if(name.equals("")){
 			//Initialize the list, and is supposed to show all names when you remove all text from searchField
+			employeeListModel.clear();
 			for(int i = 0; i < allEmployees.size(); i++){
 				employeeListModel.addElement(allEmployees.get(i));	
 			}

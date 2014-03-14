@@ -1,6 +1,5 @@
 package model;
 
-import gui.NewAppointmentView;
 import gui.ParticipantsView;
 
 import java.beans.PropertyChangeListener;
