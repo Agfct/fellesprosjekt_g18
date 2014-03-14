@@ -117,6 +117,7 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 	private Image backgroundImg;
 	
 	private RoomBooker roomBooker;
+	private ArrayList<Employee> allEmployees;
 	
 //	private JTable employeeListTable;
 //	private JTable participantsListTable;
@@ -388,12 +389,19 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 		Employee are = new Employee("Are");
 		Employee birger = new Employee("Birger");
 		Employee stian = new Employee("Stian");
-		employeeListModel.addElement(anders);
-		employeeListModel.addElement(silje);
-		employeeListModel.addElement(katrine);
-		employeeListModel.addElement(are);
-		employeeListModel.addElement(birger);
-		employeeListModel.addElement(stian);
+		
+		allEmployees = new ArrayList<Employee>();
+		allEmployees.add(anders);
+		allEmployees.add(silje);
+		allEmployees.add(katrine);
+		allEmployees.add(are);
+		allEmployees.add(birger);
+		allEmployees.add(stian);
+		
+		//ADDING ALL THE EMPLOYEES TO THE EMPLOYEELISTMODEL -- HELT NEDERST I METODEN showCorrectNames(String searchName)
+		showCorrectNames("");
+
+		
 //		TEST
 		employeeList = new JList<Employee>(employeeListModel);
 		employeeList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -893,7 +901,6 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 		if(e.getSource() instanceof JTextField){
 			JTextField source = (JTextField) e.getSource();
 			if(source == nrParticipantsField){
-				System.out.println("er inne på participantsField");
 				String text = source.getText();
 				System.out.println(text);
 				ArrayList<MeetingRoom> availableRooms = roomBooker.availableRooms(text);
@@ -903,7 +910,15 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 					roomListModel.addElement(availableRooms.get(i));
 				}
 			}
-		}	
+			if(source == searchField){
+				String searchName = searchField.getText();
+				System.out.println("You just searched for: " + searchName);
+				showCorrectNames(searchName);
+				//ArrayList<Employee> employeeListCopy = new ArrayList<Employee>();
+				
+				
+			}
+		}
 	}
 
 	@Override
@@ -1051,6 +1066,26 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 //		System.out.println("colname: "+columnName);
 //		System.out.println("personName: "+model.getValueAt(row, 0));
 //	}
+	public void showCorrectNames(String name){
+		if(name.equals("")){
+			//Initialize the list, and is supposed to show all names when you remove all text from searchField
+			for(int i = 0; i < allEmployees.size(); i++){
+				employeeListModel.addElement(allEmployees.get(i));	
+			}
+		}
+		else{
+			ArrayList<Employee> matching = new ArrayList<Employee>();
+			employeeListModel.clear();
+			for(int i = 0; i < allEmployees.size(); i++){
+				if(allEmployees.get(i).getName().toLowerCase().contains(name.toLowerCase())){
+					matching.add(allEmployees.get(i));
+				}
+			}
+			for(int i = 0; i < matching.size(); i++){
+				employeeListModel.addElement(matching.get(i));
+			}
+		}
+	}
 
 
 
