@@ -58,6 +58,9 @@ public class Employee {
 		pcs.firePropertyChange(NOTIFICATIONS_PROPERTY_NAME, oldList, notifications);
 	}
 	//-------------
+	public boolean equals(Object obj){
+		return ((Employee)obj).getName() == this.getName(); // WARNING CHECK ID ?
+	}
 	
 	//Listeners
 	public void addPropertyChangedListener(PropertyChangeListener listener){

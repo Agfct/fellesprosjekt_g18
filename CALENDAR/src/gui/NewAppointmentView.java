@@ -11,6 +11,7 @@ import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
 import java.awt.Rectangle;
+import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -64,7 +65,7 @@ import model.MeetingRoom;
 import model.RoomBooker;
 import model.TimeSlot;
 
-public class NewAppointmentView extends JPanel implements MouseListener, KeyListener, ListSelectionListener, ActionListener , ItemListener, FocusListener{
+public class NewAppointmentView extends JPanel implements MouseListener, KeyListener, ListSelectionListener, ActionListener , ItemListener, FocusListener, PropertyChangeListener{
 	private JLabel titleLabel;
 	private JLabel startLabel;
 	private JLabel endLabel;
@@ -123,6 +124,8 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 	
 	private Image backgroundImg;
 	
+	private boolean isNewAppointmentView;
+	
 	// THE MODEL AND EMPLOYEES
 	
 	private Appointment appointmentModel;
@@ -139,15 +142,21 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 
 
 	
-	public NewAppointmentView(Appointment newAppointmentModel){
+	public NewAppointmentView(Appointment newAppointmentModel, boolean isNewAppointmentView){
 		// Using a GridBagLayout for the Grid
 		setLayout(new GridBagLayout());
 //		setOpaque(false);
 		backgroundImg = new ImageIcon(this.getClass().getResource("/backgrounds/background1.png")).getImage();
 		setBackground(Color.GREEN);
+		this.isNewAppointmentView = isNewAppointmentView;
+		
+		/** ADDING EMPLOYEE LIST **/
+		allEmployees = MainWindow.getEmployeeList();
 		
 		/** CREATING MODEL **/
 		appointmentModel = newAppointmentModel;
+		appointmentModel.addPropertyChangedListener(this);
+		
 		
 		
 		/** CREATING BUTTONS, LABELS AND TEXT FIELDS **/
@@ -397,32 +406,15 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 //		employeeListTable = new JTable(employeeTable);
 //		employeeListTable.setShowVerticalLines(false);
 		
-		//TEST
-		Employee anders = new Employee("Anders");
-		Employee silje = new Employee("Silje");
-		Employee katrine = new Employee("Katrine");
-		Employee are = new Employee("Are");
-		Employee birger = new Employee("Birger");
-		Employee stian = new Employee("Stian");
-		
-		allEmployees = new ArrayList<Employee>();
-		allEmployees.add(anders);
-		allEmployees.add(silje);
-		allEmployees.add(katrine);
-		allEmployees.add(are);
-		allEmployees.add(birger);
-		allEmployees.add(stian);
-		
-		//ADDING ALL THE EMPLOYEES TO THE EMPLOYEELISTMODEL -- HELT NEDERST I METODEN showCorrectNames(String searchName)
-		showCorrectNames("");
-
-		
 //		TEST
 		employeeList = new JList<Employee>(employeeListModel);
 		employeeList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		employeeList.setVisibleRowCount(10);
 		employeeList.setName("employeeList");
 //		employeeList.addListSelectionListener(this);
+		
+
+		
 		employeeList.addMouseListener(this);
 		employeeRenderer = new EmployeeCellRenderer();
 		employeeList.setCellRenderer(employeeRenderer);
@@ -833,7 +825,9 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 //		loginBtn.setPreferredSize(new Dimension(200, 400));
 		add(cancelAppointmentBtn,cLabel34);
 		
-		
+		initializeAppointment();
+		//ADDING ALL THE EMPLOYEES TO THE EMPLOYEELISTMODEL -- HELT NEDERST I METODEN showCorrectNames(String searchName)
+		showCorrectNames("");
 	}
 	
 	// Overriding the paintComponent to get background and Header
@@ -849,17 +843,44 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 		Font font = new Font("Tahoma", Font.BOLD, 24);
 		g2d.setFont(font);
 		g2d.setColor(Color.WHITE);
-		Boolean editAppointment = false; //TEST RELATE TO CORRECT ENTERING VIEW
-		if (editAppointment){
+		if (!isNewAppointmentView){
 			g2d.drawString("Edit Appointment", 450, 150);						
 		}
 		else{
 			g2d.drawString("New Appointment", 450, 150);						
 		}
-        
     }
     public Appointment getAppointmentModel(){
     	return appointmentModel;
+    }
+    private void initializeAppointment(){
+    	//Title
+    	titleField.setText(appointmentModel.getTitle());
+    	//Start time
+    	startField.getEditor().setItem(appointmentModel.getTimeSlot().getStart());
+    	//End time
+    	endField.getEditor().setItem(appointmentModel.getTimeSlot().getEnd());
+    	// Duration
+    	durationField.setText(Long.toString(appointmentModel.getDuration()));
+    	// ParticipantsList
+		for (Invitation invitation : appointmentModel.getInvitations()) {
+			participantsListPanel.addParticipantView(invitation.getParticipantsView());
+		}
+		
+    	for (int i = 0; i < allEmployees.size(); i++) {
+    		for (Invitation invitation : appointmentModel.getInvitations()) {
+    			if(allEmployees.get(i).equals(invitation.getEmployee())){
+    				allEmployees.get(i).setSelected(true);
+    				System.out.println("Employee " + invitation.getEmployee() + " selectedPerson " + invitation.getEmployee().isSelected());
+    			}
+    		}
+    	}
+		employeeList.repaint();  
+    	// Description
+    	descriptionField.setText(appointmentModel.getDescription());
+    	// Location
+    	locationField.setText(appointmentModel.getLocation());
+    	// Booked Room
     }
     
 	public Boolean isLeapYear(int year){
@@ -1144,15 +1165,28 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 	}
 
 	// Property change for Appointment Model
-	public void appointmentChanged(String change, Invitation newInvitation) {
-		System.out.println("("+this.getClass()+"):"+ "Property changed on Appointment Model");
-		if (change.equals("add")){
-			participantsListPanel.addParticipantView(newInvitation.getParticipantsView());
+//	public void appointmentChanged(String change, Invitation newInvitation) {
+//		System.out.println("("+this.getClass()+"):"+ "Property changed on Appointment Model");
+//		if (change.equals("add")){
+//			participantsListPanel.addParticipantView(newInvitation.getParticipantsView());
+//		}
+//		else if (change.equals("remove")){
+//			newInvitation.getParticipantsView().removeThisView();
+//
+//		}
+//	}
+	// Property changed for appointments
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		// TODO Auto-generated method stub
+		System.out.println("FIRE IN THE HOLE 2");
+		if(evt.getPropertyName().equals("add")){
+			participantsListPanel.addParticipantView(((Invitation)evt.getNewValue()).getParticipantsView());
 		}
-		else if (change.equals("remove")){
-			newInvitation.getParticipantsView().removeThisView();
-
+		else if(evt.getPropertyName().equals("remove")){
+			((Invitation)evt.getNewValue()).getParticipantsView().removeThisView();
 		}
+		
 	}
 
 

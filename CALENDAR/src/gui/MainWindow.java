@@ -42,6 +42,7 @@ public class MainWindow extends JFrame{
 	private static String font;
 	private static Color textColor;
 	private static Color btnBackgroundColor;
+	private static ArrayList<Employee> allEmployees;
 	
 	private static Employee user;
 
@@ -105,6 +106,7 @@ public class MainWindow extends JFrame{
 		mainWindow.setContentPane(mainScrollPane);
 		mainScrollPane.getViewport().add(loginWindow);
 		mainWindow.setVisible(true);
+		mainWindow.createEmployeeList();
 	}
 //	public static MainWindow getMainWindow(){
 //		return mainWindow;
@@ -134,7 +136,7 @@ public class MainWindow extends JFrame{
 	//adding an newAppointment view
 	protected static void newAppointmentView(Appointment newAppointment){
 		//adding an newAppointmentView to the layerPane
-		newAppointmentView = new NewAppointmentView(newAppointment);
+		newAppointmentView = new NewAppointmentView(newAppointment,true);
 		newAppointmentView.setBounds(0, 0, 1200, 800);
 		layoutView.add(newAppointmentView,JLayeredPane.POPUP_LAYER,4);
 //		layoutView.remove(newAppointmentView);
@@ -180,6 +182,32 @@ public class MainWindow extends JFrame{
 	public static Employee getUser(){
 		return user;
 	}
+	
+	// WARNING CONNECT WITH DATABASE
+	public void createEmployeeList(){
+		//TEST
+		Employee anders = new Employee("Anders");
+		Employee silje = new Employee("Silje");
+		Employee katrine = new Employee("Katrine");
+		Employee are = new Employee("Are");
+		Employee birger = new Employee("Birger");
+		Employee stian = new Employee("Stian");
+
+		allEmployees = new ArrayList<Employee>();
+		allEmployees.add(anders);
+		allEmployees.add(silje);
+		allEmployees.add(katrine);
+		allEmployees.add(are);
+		allEmployees.add(birger);
+		allEmployees.add(stian);
+	}
+	public static ArrayList<Employee> getEmployeeList(){
+		return allEmployees;
+		
+		
+	}
+
+	
 	// TEST FOR TIME ALTERNATIVES
 	public static ArrayList<String> getTimeArray(){
 		ArrayList<String> timeArray = new ArrayList<String>();

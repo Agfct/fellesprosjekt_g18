@@ -50,22 +50,6 @@ public class Invitation {
 	}
 	//---------
 	
-	
-	//Answers
-	public void reject(){
-		InvitationStatus oldStatus = status;
-		status = InvitationStatus.ACCEPTED;
-		sendNotification();
-		pcs.firePropertyChange(ANSWER_PROPERTY_NAME, oldStatus, status);
-	}
-	public void accept(){
-		InvitationStatus oldStatus = status;
-		status = InvitationStatus.DECLINED;
-		sendNotification();
-		pcs.firePropertyChange(ANSWER_PROPERTY_NAME, oldStatus, status);
-	}
-	//-------
-	
 	public String toString(){
 		return "ID: "+invitationID + "Employee Name: "+ employee.getName() + "Status: " + status;
 	}

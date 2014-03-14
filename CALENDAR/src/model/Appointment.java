@@ -3,6 +3,8 @@ package model;
 import gui.MainWindow;
 import gui.NewAppointmentView;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 
 public class Appointment {
@@ -15,6 +17,7 @@ public class Appointment {
 	private boolean internal;
 	private String description;
 	private ArrayList<Invitation> invitations;
+	private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 
 	//PropertyNames
 	public final static String INVITATIONS_PROPERTY_NAME = "invitations";
@@ -50,14 +53,18 @@ public class Appointment {
 	public void addInvitation(Employee employee){
 		Invitation temp = new Invitation(employee);
 		invitations.add(temp);
-		MainWindow.getNewAppoitnmentsView().appointmentChanged("add", temp);
+//		MainWindow.getNewAppoitnmentsView().appointmentChanged("add", temp);
+		System.out.println("FIRE IN THE HOLE 1");
+		pcs.firePropertyChange("add", null, temp);
 		WTFisWithTheLIst();
 	}
 	
 	public void removeInvitation(Employee employee){
 		for (Invitation removedInvite : invitations) {
 			if(removedInvite.getEmployee() == employee){
-				MainWindow.getNewAppoitnmentsView().appointmentChanged("remove", removedInvite);
+//				MainWindow.getNewAppoitnmentsView().appointmentChanged("remove", removedInvite);
+				System.out.println("FIRE IN THE HOLE 1");
+				pcs.firePropertyChange("remove", null, removedInvite);
 				invitations.remove(removedInvite);
 				WTFisWithTheLIst();
 				break;
@@ -78,7 +85,14 @@ public class Appointment {
 		this.invitations = invitations;
 	}
 	//-----------
-
+	//Listeners
+	public void addPropertyChangedListener(PropertyChangeListener listener){
+		pcs.addPropertyChangeListener(listener);
+	}
+	
+	public void removePropertyChangedListener(PropertyChangeListener listener){
+		pcs.removePropertyChangeListener(listener);
+	}
 	//Get replies
 	public ArrayList<Invitation> getUnanswered(){
 		ArrayList<Invitation> unanswered = new ArrayList<Invitation>();

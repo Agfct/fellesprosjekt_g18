@@ -36,7 +36,11 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import model.Appointment;
+import model.Creator;
 import model.Employee;
+import model.Invitation;
+import model.InvitationStatus;
+import model.TimeSlot;
 
 /** LeftView (JPanel)
  *  It contains the buttons for Appointments (new, edit, appointments).
@@ -406,9 +410,17 @@ public class LeftView extends JPanel implements ListSelectionListener, ActionLis
 		System.out.println("("+this.getClass()+"):"+ "Pressing a button");
 		
 		// If New Appointment is pressed
+		// WARNING TEST TEST TEST
 		if (e.getSource() == newAppointmentBtn){
 			System.out.println("Opening newAppointment Window");
-			MainWindow.newAppointmentView(new Appointment(MainWindow.getUser())); 	
+			ArrayList<Invitation> array = new ArrayList<Invitation>();
+			for (Employee employer : MainWindow.getEmployeeList()) {
+				Invitation inv = new Invitation(employer);
+				inv.setStatus(InvitationStatus.ACCEPTED);
+				array.add(inv);				
+			}
+			Appointment app = new Appointment(new Creator(MainWindow.getUser()),"Gammelt Møte",new TimeSlot(0,4),"Borte Vekk",null,false,"Vi skal ha møte, kom", array);
+			MainWindow.newAppointmentView(app); 	
 		}
 		// If New Appointment is pressed
 		else if (e.getSource() == appointmentsBtn){
