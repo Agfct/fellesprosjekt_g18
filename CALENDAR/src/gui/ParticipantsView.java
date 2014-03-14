@@ -13,14 +13,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+import javax.net.ssl.SSLEngineResult.Status;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
 
 import model.Employee;
+import model.Invitation;
+import model.InvitationStatus;
 
 // Using this because a ListModel was not advanced enough for the application
 // Creates a Panel with buttons and labels for a specific employee object
@@ -28,9 +32,10 @@ public class ParticipantsView extends JPanel implements ActionListener {
 	private JLabel firstNameLabel;
 	private JLabel lastNameLabel;
 	private JButton emailBtn;
-	private JComboBox<String> statusField;
+	private JComboBox<InvitationStatus> statusField;
 	private JButton removeBtn;
 	private ParticipantsListPanel participantsListPanel;
+	private Invitation invitation;
 	
 	private ImageIcon removeIcon;
 	
@@ -43,7 +48,7 @@ public class ParticipantsView extends JPanel implements ActionListener {
 		//setting layout
 		layout = new GridBagLayout();
 		setLayout(layout);
-		
+		setOpaque(false);
 		removeIcon = new ImageIcon(this.getClass().getResource("/buttonImages/deleteBtnImg.png"));
 
 		//firstNameLabel
@@ -96,14 +101,17 @@ public class ParticipantsView extends JPanel implements ActionListener {
 		cLabel3.gridx = 3;
 		cLabel3.gridy = 0;
 		//TEST ADDING THE TIMES TO THE COMBO BOX
-		DefaultComboBoxModel<String> statusFieldModel = new DefaultComboBoxModel<String>();
-		statusField = new JComboBox<String>(statusFieldModel);
+		DefaultComboBoxModel<InvitationStatus> statusFieldModel = new DefaultComboBoxModel<InvitationStatus>();
+		statusField = new JComboBox<InvitationStatus>(statusFieldModel);
 		statusField.setPreferredSize(new Dimension(86,24));
 		statusField.setEditable(false);
 		//adding to the dropdownBox
-		statusFieldModel.addElement("<html><font color=\"BLACK\">Pending</font></html>");	
-		statusFieldModel.addElement("<html><font color=\"GREEN\">Accepted</font></html>");			
-		statusFieldModel.addElement("<html><font color=\"RED\">Declined</font></html>");		
+		statusFieldModel.addElement(InvitationStatus.PENDING);
+		statusFieldModel.addElement(InvitationStatus.DECLINED);
+		statusFieldModel.addElement(InvitationStatus.ACCEPTED);
+//		statusFieldModel.addElement("<html><font color=\"BLACK\">Pending</font></html>");	
+//		statusFieldModel.addElement("<html><font color=\"GREEN\">Accepted</font></html>");			
+//		statusFieldModel.addElement("<html><font color=\"RED\">Declined</font></html>");		
 		
 		statusField.setName("statusField");
 		statusField.addActionListener(this);
@@ -160,6 +168,13 @@ public class ParticipantsView extends JPanel implements ActionListener {
 		participantsListPanel = newParticipantsListPanel;
 		
 	}
+	public void setInvitation(Invitation invite){
+		invitation = invite;
+	}
+	
+	public String toString(){
+		return "employee: "+ employee;
+	}
 	
 	// Action Listener for Buttons
 	@Override
@@ -168,8 +183,11 @@ public class ParticipantsView extends JPanel implements ActionListener {
 		
 		// If cancelAppointmentBtn is pressed
 		if (e.getSource() == removeBtn){
-			System.out.println("Removing Participant");
-			participantsListPanel.removeParticipantView(this);
+			//Removing the check
+			employee.setSelected(! employee.isSelected());
+			participantsListPanel.getNewAppointmentView().getEmployeeList().repaint();
+			// running the appointment remove invitation
+			participantsListPanel.getNewAppointmentView().getAppointmentModel().removeInvitation(employee);
 			
 		}	
 		else if (e.getSource() == emailBtn){
@@ -177,8 +195,15 @@ public class ParticipantsView extends JPanel implements ActionListener {
 			// What to do when pressing eMailBtn?
 		}
 		else if(e.getSource() == statusField){
-			System.out.println("Changed to " + this.statusField.getSelectedItem());
+			invitation.setStatus((InvitationStatus)statusField.getSelectedItem());
 		}
+	}
+	public void removeThisView(){
+		participantsListPanel.removeParticipantView(this);
+	}
+	
+	public void changeStatusField(InvitationStatus invStatus){
+		statusField.setSelectedItem(invStatus);
 	}
 
 }

@@ -17,7 +17,9 @@ public class ParticipantsListPanel extends JPanel {
 	GridBagLayout layout;
 	Integer rows;
 	JScrollPane scrollPane;
-	
+	NewAppointmentView newAppointmentView;
+	//TODO: 
+	/** LAGE EN ARRAYLIST MED JPANELS I STEDE FOR DETTE SKITET: **/
 	public ParticipantsListPanel(){
 		
 			//setting layout
@@ -25,7 +27,7 @@ public class ParticipantsListPanel extends JPanel {
 			setLayout(layout);
 //			layout.setColumns(1);
 			rows = 0;
-			
+			setBackground(Color.WHITE);
 			
 			//Test
 			//http://www.java-forums.org/awt-swing/34534-gridbaglayout-anchor-wanna-move-all-components-top-left.html
@@ -95,6 +97,16 @@ public class ParticipantsListPanel extends JPanel {
 	public void setScrollPane(JScrollPane newScrollPane){
 		scrollPane = newScrollPane;
 	}
+	public void setNewAppointmentView(NewAppointmentView view){
+		this.newAppointmentView = view;
+	}
+	public NewAppointmentView getNewAppointmentView(){
+		return newAppointmentView;
+	}
+	public void resetRows(){
+		rows = 0;
+	}
+	
 	
 	//test
 	public static void setCompSize(Component comp , int width, int height)

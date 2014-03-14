@@ -1,15 +1,19 @@
 package model;
 
 public enum InvitationStatus {
-	UNANSWERED(0),
-	DECLINED(-1),
-	ACCEPTED(1);
+	PENDING("<html><font color=\"BLACK\">Pending</font></html>"),
+	DECLINED("<html><font color=\"RED\">Declined</font></html>"),
+	ACCEPTED("<html><font color=\"GREEN\">Accepted</font></html>");
 	
-	private final int status;
-	InvitationStatus (int status){
+	private final String status;
+	InvitationStatus (String status){
 		this.status = status;
 	}
 	
 	//Getter
-	public int getStatus(){return status;}
+	public String getStatus(){return status;}
+	
+	public String toString(){
+		return status;
+	}
 }
