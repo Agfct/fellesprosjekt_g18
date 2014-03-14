@@ -6,6 +6,8 @@ import java.util.ArrayList;
 
 public class Employee {
 	private int participantID;
+	private int employeeID;
+	private String username;
 	private String name;
 	private String email;
 	private String password; // TEST PASSWORD ??
@@ -70,12 +72,15 @@ public class Employee {
 	//---------
 	
 	//Getters/setters
-	public String getName() 			{return name;}
-	public String getEmail() 			{return email;}
-	public int getParticipantID()		{return participantID;}
-	public String getPassword()			{return password;} //test
-	public void setName(String name) 	{this.name = name;}
-	public void setEmail(String email) 	{this.email = email;}
+	public String getName() 						{return name;}
+	public String getEmail() 						{return email;}
+	public String getUsername() 					{return username;}
+	public int getParticipantID()					{return participantID;}
+	public int getEmployeeID()						{return employeeID;}
+	public String getPassword()						{return password;} //test
+	public void setName(String name) 				{this.name = name;}
+	public void setUsername(String username) 		{this.username = username;}
+	public void setEmail(String email) 				{this.email = email;}
 	public void setParticipantID(int participantID) {this.participantID=participantID;}
 	public void setPassword(String password)		{this.password=password;}
 	//---------------
