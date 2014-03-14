@@ -3,6 +3,7 @@ package model;
 import gui.NewAppointmentView;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class Appointment {
 	private int appointmentID;
@@ -48,15 +49,26 @@ public class Appointment {
 	
 	//Invitations
 	public void addInvitation(Employee employee){
-		ArrayList<Invitation> oldList = invitations;
-		invitations.add(new Invitation(employee));
-		newAppointmentView.appointmentChanged("add", employee);
+		Invitation temp = new Invitation(employee);
+		invitations.add(temp);
+		newAppointmentView.appointmentChanged("add", temp);
+		WTFisWithTheLIst();
 	}
 	
 	public void removeInvitation(Employee employee){
-		ArrayList<Invitation> oldList = invitations;
-		invitations.remove(new Invitation(employee));
-		newAppointmentView.appointmentChanged("remove", employee);
+		for (Invitation removedInvite : invitations) {
+			if(removedInvite.getEmployee() == employee){
+				newAppointmentView.appointmentChanged("remove", removedInvite);
+				invitations.remove(removedInvite);
+				WTFisWithTheLIst();
+				break;
+			}
+		}
+	}
+	public void WTFisWithTheLIst(){
+		for (int i = 0; i < invitations.size(); i++) {
+			System.out.println(invitations.get(i).toString());
+		}
 	}
 	
 	public ArrayList<Invitation> getInvitations() {
@@ -73,7 +85,7 @@ public class Appointment {
 		ArrayList<Invitation> unanswered = new ArrayList<Invitation>();
 		
 		for (int i = 0; i < invitations.size(); i++) {
-			if (invitations.get(i).getStatus() == InvitationStatus.UNANSWERED){
+			if (invitations.get(i).getStatus() == InvitationStatus.PENDING){
 				unanswered.add(invitations.get(i));
 			}
 		}
@@ -84,7 +96,7 @@ public class Appointment {
 		ArrayList<Invitation> declined = new ArrayList<Invitation>();
 		
 		for (int i = 0; i < invitations.size(); i++) {
-			if (invitations.get(i).getStatus() == InvitationStatus.DECLINED){
+			if (invitations.get(i).getStatus() == InvitationStatus.ACCEPTED){
 				declined.add(invitations.get(i));
 			}
 		}
@@ -95,7 +107,7 @@ public class Appointment {
 		ArrayList<Invitation> accepted = new ArrayList<Invitation>();
 		
 		for (int i = 0; i < invitations.size(); i++) {
-			if (invitations.get(i).getStatus() == InvitationStatus.ACCEPTED){
+			if (invitations.get(i).getStatus() == InvitationStatus.DECLINED){
 				accepted.add(invitations.get(i));
 			}
 		}

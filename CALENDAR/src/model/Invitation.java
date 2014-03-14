@@ -8,12 +8,12 @@ import java.beans.PropertyChangeSupport;
 
 public class Invitation {
 	private int invitationID;
-	private Employee person;
+	private Employee employee;
 	private InvitationStatus status;
 	private boolean edited;
 	private boolean hidden;
 	private Alarm alarm;
-	private static ParticipantsView participantsView;
+	private ParticipantsView participantsView;
 	private PropertyChangeSupport pcs;
 	
 	//PropertyNames
@@ -23,16 +23,18 @@ public class Invitation {
 	
 	
 	public Invitation(Employee person) {
-		this.person = person;
-		status = InvitationStatus.UNANSWERED;
+		this.employee = person;
+		status = InvitationStatus.PENDING;
 		edited = false;
 		hidden = false;
 		pcs = new PropertyChangeSupport(this);
+		participantsView = new ParticipantsView(person);
+		participantsView.setInvitation(this);
 	}
 	
 	@Override
 	public boolean equals(Object obj){
-		return ((Invitation) obj).getPerson() == this.getPerson();
+		return ((Invitation) obj).getEmployee() == this.getEmployee();
 	}
 	
 	private void sendNotification(){
@@ -53,21 +55,26 @@ public class Invitation {
 	//Answers
 	public void reject(){
 		InvitationStatus oldStatus = status;
-		status = InvitationStatus.DECLINED;
+		status = InvitationStatus.ACCEPTED;
 		sendNotification();
 		pcs.firePropertyChange(ANSWER_PROPERTY_NAME, oldStatus, status);
 	}
 	public void accept(){
 		InvitationStatus oldStatus = status;
-		status = InvitationStatus.ACCEPTED;
+		status = InvitationStatus.DECLINED;
 		sendNotification();
 		pcs.firePropertyChange(ANSWER_PROPERTY_NAME, oldStatus, status);
 	}
 	//-------
 	
+	public String toString(){
+		return "ID: "+invitationID + "Employee Name: "+ employee.getName() + "Status: " + status;
+	}
 	//Setters
 	public void setStatus(InvitationStatus is) {
+		System.out.println("ER DET RETT STATUS: " + is );
 		this.status = is;
+		participantsView.changeStatusField(status);
 	}
 	public void setEdited(boolean edited) {
 		boolean old = this.edited;
@@ -97,7 +104,7 @@ public class Invitation {
 	//Getters
 	public boolean isEdited() 			{return edited;}
 	public boolean isHidden() 			{return hidden;}
-	public Employee getPerson() 		{return person;}
+	public Employee getEmployee() 		{return employee;}
 	public Alarm getAlarm() 			{return alarm;}
 	public InvitationStatus getStatus() {return status;}
 	public int getInvitationID()		{return invitationID;}

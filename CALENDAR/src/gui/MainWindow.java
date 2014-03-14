@@ -145,6 +145,11 @@ public class MainWindow extends JFrame{
 //		mainScrollPane.getViewport().add(newAppointmentView);
 //		mainScrollPane.getViewport().remove(newAppointmentView);
 	}
+	protected static void removeNewAppointmentView(){
+		layoutView.remove(newAppointmentView);
+		layoutView.repaint();
+	}
+	
 	//adding an appointment view
 	protected static void appointmentsView(){
 		//adding an AppointmentsView to the layerPane
@@ -152,8 +157,8 @@ public class MainWindow extends JFrame{
 		appointmentsView.setBounds(0, 0, 1200, 800);
 		layoutView.add(appointmentsView,JLayeredPane.POPUP_LAYER,4);
 	}
-	protected static void removeNewAppointmentView(){
-		layoutView.remove(newAppointmentView);
+	protected static void removeAppointmentView(){
+		layoutView.remove(appointmentsView);
 		layoutView.repaint();
 	}
 	

@@ -20,17 +20,17 @@ public class EmployeeCellRenderer extends JCheckBox implements ListCellRenderer<
 			boolean isSelected, boolean cellHasFocus) {
 		
 		
-		setOpaque(true);
-		if(isSelected){
-			setForeground(list.getSelectionForeground());
-			setBackground(list.getSelectionBackground());			
-			setBorder(new LineBorder(Color.BLUE));
-		}
-		else{
-			setForeground(list.getForeground());
-			setBackground(list.getBackground());	
-		}
-		
+		setOpaque(false);
+//		if(isSelected){
+//			setForeground(list.getSelectionForeground());
+//			setBackground(list.getSelectionBackground());			
+//			setBorder(new LineBorder(Color.BLUE));
+//		}
+//		else{
+//			setForeground(list.getForeground());
+//			setBackground(list.getBackground());	
+//		}
+//		
 		setEnabled(list.isEnabled());
 		setSelected(((Employee)value).isSelected());
 		setFont(list.getFont());
