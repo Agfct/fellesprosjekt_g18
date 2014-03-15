@@ -154,5 +154,7 @@ public class Appointment {
 	public String getDescription() 	{return description;}
 	public int getAppointmentID()	{return appointmentID;}
 	public long getDuration() 		{return getTimeSlot().getDuration();}
+	public long getStartTime()		{return getTimeSlot().getStart();}
+	public long getEndTime()		{return getTimeSlot().getEnd();}
 	//-------
 }

@@ -182,6 +182,9 @@ public class MainWindow extends JFrame{
 	public static Employee getUser(){
 		return user;
 	}
+	public Image getBackgroundImage(){
+		return backgroundImg;
+	}
 	
 	// WARNING CONNECT WITH DATABASE
 	public void createEmployeeList(){

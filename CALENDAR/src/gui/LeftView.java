@@ -56,7 +56,7 @@ public class LeftView extends JPanel implements ListSelectionListener, ActionLis
 	private JComboBox weekBox;
 //	private JCalendar monthCal; EXTRA ??
 	private JButton newAppointmentBtn;
-	private JButton editAppointmentBtn;
+	private JButton editAppointmentsBtn;
 	private JButton appointmentsBtn;
 	private JTextField searchField;
 	private JList <Employee> internPersonList;
@@ -112,8 +112,8 @@ public class LeftView extends JPanel implements ListSelectionListener, ActionLis
 		weekBox.setName("weekBox");
 		weekBox.addActionListener(this);
 		//DESIGN for the Label text
-		weekBox.setBackground(MainWindow.getBckColor());
-		weekBox.setForeground(MainWindow.getTxtColor());
+//		weekBox.setBackground(MainWindow.getBckColor());
+//		weekBox.setForeground(MainWindow.getTxtColor());
 		weekBox.setFont(new Font(MainWindow.getMFont(),Font.BOLD,14));
 //		loginBtn.setPreferredSize(new Dimension(200, 400));
 		add(weekBox,cLabel1);
@@ -150,21 +150,21 @@ public class LeftView extends JPanel implements ListSelectionListener, ActionLis
 //		loginBtn.setPreferredSize(new Dimension(200, 400));
 		add(newAppointmentBtn,cLabel3);
 		
-		//editAppointmentBtn
+		//editAppointmentsBtn
 		GridBagConstraints cLabel4 = new GridBagConstraints();
 //		cLabel1.insets = new Insets(20,50,0,0);
 		cLabel4.gridx = 0;
 		cLabel4.gridy = 10;
-		editAppointmentBtn = new JButton("Edit Appointment");
-		editAppointmentBtn.setName("editAppointmentBtn");
-		editAppointmentBtn.addActionListener(this);
+		editAppointmentsBtn = new JButton("Edit Appointments");
+		editAppointmentsBtn.setName("editAppointmentsBtn");
+		editAppointmentsBtn.addActionListener(this);
 		// DESIGN FOR BUTTON:
-		editAppointmentBtn.setBackground(MainWindow.getBckColor());
-		editAppointmentBtn.setForeground(MainWindow.getTxtColor());
-		editAppointmentBtn.setFocusPainted(false);
-		editAppointmentBtn.setFont(new Font(MainWindow.getMFont(),Font.BOLD, 12));
+		editAppointmentsBtn.setBackground(MainWindow.getBckColor());
+		editAppointmentsBtn.setForeground(MainWindow.getTxtColor());
+		editAppointmentsBtn.setFocusPainted(false);
+		editAppointmentsBtn.setFont(new Font(MainWindow.getMFont(),Font.BOLD, 12));
 //		loginBtn.setPreferredSize(new Dimension(200, 400));
-		add(editAppointmentBtn,cLabel4);
+		add(editAppointmentsBtn,cLabel4);
 		
 		//appointmentsBtn
 		GridBagConstraints cLabel5 = new GridBagConstraints();
@@ -296,6 +296,7 @@ public class LeftView extends JPanel implements ListSelectionListener, ActionLis
 		cLabel12.gridwidth = GridBagConstraints.REMAINDER;
 		showHiddenBox = new JCheckBox();
 		showHiddenBox.setName("showHiddenBox");
+		showHiddenBox.setOpaque(false);
 		//DESIGN for the Label text
 		showHiddenBox.setForeground(Color.BLACK);
 		showHiddenBox.setFont(new Font(MainWindow.getMFont(),Font.BOLD,12));

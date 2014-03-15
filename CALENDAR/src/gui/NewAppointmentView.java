@@ -452,8 +452,9 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 		exParticipantsLabel = new JLabel("External Participants:");
 		exParticipantsLabel.setName("exParticipantsLabel");
 		//DESIGN for the Label text
-		exParticipantsLabel.setForeground(MainWindow.getTxtColor());
-		exParticipantsLabel.setFont(new Font(MainWindow.getMFont(),Font.BOLD,18));
+//		exParticipantsLabel.setForeground(MainWindow.getTxtColor());
+		exParticipantsLabel.setForeground(Color.BLACK);
+		exParticipantsLabel.setFont(new Font(MainWindow.getMFont(),Font.BOLD,16));
 		add(exParticipantsLabel,cLabel13);
 		
 		// exParticipantsField

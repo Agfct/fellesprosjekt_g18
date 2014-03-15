@@ -14,7 +14,7 @@ public class CalendarView extends JPanel {
 	private Image backgroundImg;
 	
 	public CalendarView(){
-		backgroundImg = new ImageIcon(this.getClass().getResource("/backgrounds/background2.png")).getImage();
+		backgroundImg = new ImageIcon(this.getClass().getResource("/backgrounds/temp_background.png")).getImage();
 	}
 	
 	// Overriding the paintComponent to get GraidientPaint
