@@ -56,7 +56,7 @@ public class LeftView extends JPanel implements ListSelectionListener, ActionLis
 	private JComboBox weekBox;
 //	private JCalendar monthCal; EXTRA ??
 	private JButton newAppointmentBtn;
-	private JButton editAppointmentsBtn;
+	private JButton editAppointmentBtn;
 	private JButton appointmentsBtn;
 	private JTextField searchField;
 	private JList <Employee> internPersonList;
@@ -150,21 +150,21 @@ public class LeftView extends JPanel implements ListSelectionListener, ActionLis
 //		loginBtn.setPreferredSize(new Dimension(200, 400));
 		add(newAppointmentBtn,cLabel3);
 		
-		//editAppointmentsBtn
+		//editAppointmentBtn
 		GridBagConstraints cLabel4 = new GridBagConstraints();
 //		cLabel1.insets = new Insets(20,50,0,0);
 		cLabel4.gridx = 0;
 		cLabel4.gridy = 10;
-		editAppointmentsBtn = new JButton("Edit Appointments");
-		editAppointmentsBtn.setName("editAppointmentsBtn");
-		editAppointmentsBtn.addActionListener(this);
+		editAppointmentBtn = new JButton("Edit Appointment");
+		editAppointmentBtn.setName("editAppointmentBtn");
+		editAppointmentBtn.addActionListener(this);
 		// DESIGN FOR BUTTON:
-		editAppointmentsBtn.setBackground(MainWindow.getBckColor());
-		editAppointmentsBtn.setForeground(MainWindow.getTxtColor());
-		editAppointmentsBtn.setFocusPainted(false);
-		editAppointmentsBtn.setFont(new Font(MainWindow.getMFont(),Font.BOLD, 12));
+		editAppointmentBtn.setBackground(MainWindow.getBckColor());
+		editAppointmentBtn.setForeground(MainWindow.getTxtColor());
+		editAppointmentBtn.setFocusPainted(false);
+		editAppointmentBtn.setFont(new Font(MainWindow.getMFont(),Font.BOLD, 12));
 //		loginBtn.setPreferredSize(new Dimension(200, 400));
-		add(editAppointmentsBtn,cLabel4);
+		add(editAppointmentBtn,cLabel4);
 		
 		//appointmentsBtn
 		GridBagConstraints cLabel5 = new GridBagConstraints();
@@ -427,6 +427,11 @@ public class LeftView extends JPanel implements ListSelectionListener, ActionLis
 		else if (e.getSource() == appointmentsBtn){
 			System.out.println("Opening Appointments Window");
 			MainWindow.appointmentsView();
+		}
+		// If Edit Appointments is pressed
+		else if (e.getSource() == editAppointmentBtn){
+			System.out.println("Opening EditAppointments Window");
+			MainWindow.editAppointmentsView();
 		}
 		
 	}

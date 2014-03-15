@@ -40,7 +40,8 @@ public class LoginView extends JPanel implements ActionListener {
 		
 		// Using a GridBagLayout for the Grid
 		setLayout(new GridBagLayout());
-		backgroundImg = new ImageIcon(this.getClass().getResource("/backgrounds/background1.png")).getImage();
+//		backgroundImg = new ImageIcon(this.getClass().getResource("/backgrounds/background1.png")).getImage();
+		backgroundImg = MainWindow.getBackgroundImage();
 		setOpaque(false);
 
 		/** CREATING BUTTONS, LABELS AND TEXT FIELDS **/
@@ -164,7 +165,9 @@ public class LoginView extends JPanel implements ActionListener {
 //        g2d.setPaint(gp);
 //        g2d.fillRect(0, 0, w, h);
     }
-    
+    public void setBackgroundImg(Image newImg){
+    	backgroundImg = newImg;
+    }
 
 
 	@Override

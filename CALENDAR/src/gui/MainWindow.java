@@ -10,10 +10,12 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 
 import model.Appointment;
@@ -36,6 +38,7 @@ public class MainWindow extends JFrame{
 	private static LeftView leftView;
 	private static CalendarView calendarView;
 	private static NewAppointmentView newAppointmentView;
+	private static EditAppointmentsView editAppointmentsView;
 	private static AppointmentsView appointmentsView;
 	private static JPanel backgroundPanel; //TEST 
 	private static Image backgroundImg; //TEST
@@ -64,9 +67,10 @@ public class MainWindow extends JFrame{
 		font = "Tahoma";
 		textColor = Color.WHITE;
 		btnBackgroundColor = new Color(59,89,182);
+		backgroundImg = new ImageIcon(mainWindow.getClass().getResource("/backgrounds/background1.png")).getImage();
+
 		
 		//background TEST (creating a background Panel with an Image)
-		backgroundImg = new ImageIcon(this.getClass().getResource("/backgrounds/background1.png")).getImage();
 		backgroundPanel = new JPanel(){
 			@Override
 			  protected void paintComponent(Graphics g) {
@@ -133,7 +137,7 @@ public class MainWindow extends JFrame{
 		mainScrollPane.getViewport().add(loginWindow);
 	}
 	
-	//adding an newAppointment view
+	//adding an newAppointmentView
 	protected static void newAppointmentView(Appointment newAppointment){
 		//adding an newAppointmentView to the layerPane
 		newAppointmentView = new NewAppointmentView(newAppointment,true);
@@ -155,15 +159,27 @@ public class MainWindow extends JFrame{
 		return newAppointmentView;
 	}
 	
-	//adding an appointment view
+	//adding an appointmentView
 	protected static void appointmentsView(){
 		//adding an AppointmentsView to the layerPane
 		appointmentsView = new AppointmentsView();
 		appointmentsView.setBounds(0, 0, 1200, 800);
 		layoutView.add(appointmentsView,JLayeredPane.POPUP_LAYER,4);
 	}
-	protected static void removeAppointmentView(){
+	protected static void removeAppointmentsView(){
 		layoutView.remove(appointmentsView);
+		layoutView.repaint();
+	}
+	
+	//adding an editAppointmentsView
+	protected static void editAppointmentsView(){
+		//adding an AppointmentsView to the layerPane
+		editAppointmentsView = new EditAppointmentsView();
+		editAppointmentsView.setBounds(0, 0, 1200, 800);
+		layoutView.add(editAppointmentsView,JLayeredPane.POPUP_LAYER,4);
+	}
+	protected static void removeEditAppointmentsView(){
+		layoutView.remove(editAppointmentsView);
 		layoutView.repaint();
 	}
 	
@@ -182,7 +198,7 @@ public class MainWindow extends JFrame{
 	public static Employee getUser(){
 		return user;
 	}
-	public Image getBackgroundImage(){
+	public static Image getBackgroundImage(){
 		return backgroundImg;
 	}
 	
@@ -209,7 +225,51 @@ public class MainWindow extends JFrame{
 		
 		
 	}
-
+	//Setting color and theme for CALENDAR
+	public static void setFontAndColor(int nr){
+		if(nr == 1){
+			font = "Tahoma";
+			textColor = Color.WHITE;
+			btnBackgroundColor = new Color(194,32,42);
+			backgroundImg = new ImageIcon(mainWindow.getClass().getResource("/backgrounds/background2.png")).getImage();
+			mainWindow.repaintAll(); //repaint all views
+		}
+		else{ //Default color
+			font = "Tahoma";
+			textColor = Color.WHITE;
+			btnBackgroundColor = new Color(59,89,182);
+			backgroundImg = new ImageIcon(mainWindow.getClass().getResource("/backgrounds/background1.png")).getImage();
+			mainWindow.repaintAll(); //repaint all views
+		}
+	}
+	private void repaintAll(){
+		System.out.println("REPAINTING ALL MUHAHA");
+		loginWindow.setBackgroundImg(backgroundImg);
+		loginWindow.repaint();
+		topView.repaint();
+		leftView.repaint();
+		for (int i = 0; i < leftView.getComponentCount(); i++) {
+			if (leftView.getComponent(i).getBackground() != new JTextField().getBackground() &&  
+					leftView.getComponent(i).getBackground() != new JComboBox().getBackground()){
+				leftView.getComponent(i).setBackground(MainWindow.getBckColor());
+				leftView.getComponent(i).setForeground(MainWindow.getTxtColor());
+			}
+		}
+		for (int i = 0; i < loginWindow.getComponentCount(); i++) {
+			if (loginWindow.getComponent(i).getBackground() != new JTextField().getBackground() &&  
+					loginWindow.getComponent(i).getBackground() != new JComboBox().getBackground()){
+				loginWindow.getComponent(i).setBackground(MainWindow.getBckColor());
+				loginWindow.getComponent(i).setForeground(MainWindow.getTxtColor());
+			}
+		}
+		for (int i = 0; i < topView.getComponentCount(); i++) {
+			if (topView.getComponent(i).getBackground() != new JTextField().getBackground() &&  
+					topView.getComponent(i).getBackground() != new JComboBox().getBackground()){
+				topView.getComponent(i).setBackground(MainWindow.getBckColor());
+				topView.getComponent(i).setForeground(MainWindow.getTxtColor());
+			}
+		}
+	}
 	
 	// TEST FOR TIME ALTERNATIVES
 	public static ArrayList<String> getTimeArray(){

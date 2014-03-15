@@ -11,6 +11,8 @@ import java.awt.Insets;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.Box;
 import javax.swing.JButton;
@@ -19,6 +21,7 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.plaf.basic.BasicArrowButton;
+
 
 /** TopView (JPanel)
  *  It contains the buttons for change in week (today, back, forth), and the logOut button
@@ -33,12 +36,14 @@ public class TopView extends JPanel implements ActionListener{
 	private JButton logOutBtn;
 	private JLabel userNameLabel;
 	private JLabel weekLabel;
+	private int color;
 
 	public TopView(){
 		// Using a GridBagLayout for the Grid
 		setLayout(new GridBagLayout());
 		setOpaque(false);
 //		setBackground(Color.GREEN);
+		addMouseListener(new MAdapter());
 		/** CREATING BUTTONS, LABELS AND TEXT FIELDS **/
 		
 		//Username Label
@@ -194,6 +199,33 @@ public class TopView extends JPanel implements ActionListener{
 		else if(e.getSource() == nextWeekBtn){
 			System.out.println("Going to the Next Week");
 			// 
+		}
+	}
+	
+	//TEST
+	private class MAdapter extends MouseAdapter {
+		
+		public void mousePressed(MouseEvent event){
+			if (event.getX() > 0 && event.getX() < 0 + 5 && 
+					event.getY() > 0 && event.getY() < 0 + 5){
+				setColor();
+			}
+		}
+		public void mouseReleased(MouseEvent event){
+
+		}
+		public void mouseClicked(MouseEvent event){
+
+		}
+	}
+	public void setColor(){
+		if(color == 0){
+			color = 1;
+			MainWindow.setFontAndColor(1);
+		}
+		else{
+			color = 0;
+			MainWindow.setFontAndColor(0);
 		}
 	}
 	

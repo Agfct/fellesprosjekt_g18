@@ -83,7 +83,8 @@ public class AppointmentsView extends JPanel implements ListSelectionListener , 
 		//Setting Layout (GridBagLayout)
 		setLayout(new GridBagLayout());
 //		setOpaque(false);
-		backgroundImg = new ImageIcon(this.getClass().getResource("/backgrounds/background1.png")).getImage();
+//		backgroundImg = new ImageIcon(this.getClass().getResource("/backgrounds/background1.png")).getImage();
+		backgroundImg = MainWindow.getBackgroundImage();
 		
 		/** CREATING BUTTONS, LABELS AND TEXT FIELDS **/
 		
@@ -91,7 +92,7 @@ public class AppointmentsView extends JPanel implements ListSelectionListener , 
 		//TEST
 		Employee employer = new Employee("Anders");
 		Appointment App1 = new Appointment(employer);
-		App1.setTitle("Seriøst Møte som har sykt lang tittel");
+		App1.setTitle("Seriøst Møte som har sykt lang tittel som ikke går");
 		Appointment App2 = new Appointment(employer);
 		App2.setTitle("Møte");
 		Appointment App3 = new Appointment(employer);
@@ -479,7 +480,7 @@ public class AppointmentsView extends JPanel implements ListSelectionListener , 
         g2d.drawImage(backgroundImg, 0, 0, this);
         
         //TEST SQUARE
-        g2d.setColor(Color.RED);
+//        g2d.setColor(Color.RED);
 //        g2d.fillRect(530, 270, 400, 300);
         
         //Header
@@ -527,7 +528,7 @@ public class AppointmentsView extends JPanel implements ListSelectionListener , 
 		// If cancelAppointmentBtn is pressed
 		else if (e.getSource() == closeBtn){
 			System.out.println("Closing AppointmentsView");
-			MainWindow.removeAppointmentView();
+			MainWindow.removeAppointmentsView();
 		}
 		
 	}

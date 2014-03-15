@@ -146,7 +146,8 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 		// Using a GridBagLayout for the Grid
 		setLayout(new GridBagLayout());
 //		setOpaque(false);
-		backgroundImg = new ImageIcon(this.getClass().getResource("/backgrounds/background1.png")).getImage();
+//		backgroundImg = new ImageIcon(this.getClass().getResource("/backgrounds/background1.png")).getImage();
+		backgroundImg = MainWindow.getBackgroundImage();
 		setBackground(Color.GREEN);
 		this.isNewAppointmentView = isNewAppointmentView;
 		
