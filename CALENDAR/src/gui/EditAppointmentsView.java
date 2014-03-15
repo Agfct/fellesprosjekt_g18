@@ -8,10 +8,12 @@ import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -26,6 +28,7 @@ public class EditAppointmentsView extends JPanel implements ActionListener{
 	private Image backgroundImg;
 	
 	private JScrollPane appointmentsScrollPane;
+	private AppointmentsPanelList appointmentsPanelList;
 	
 	private JButton closeBtn;
 	
@@ -44,29 +47,19 @@ public class EditAppointmentsView extends JPanel implements ActionListener{
 		App1.setTitle("Seriøst Møte som har sykt lang tittel som ikke går");
 		Appointment App2 = new Appointment(employer);
 		App2.setTitle("Møte");
-//		appointmentsListModel.addElement(App1);
-//		appointmentsListModel.addElement(App2);
-//		appointmentRenderer = new AppointmentCellRenderer();
-//		//TEST
-//		appointmentsList = new JList<Appointment>(appointmentsListModel);
-//		appointmentsList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-////		appointmentsList.setVisibleRowCount();
-//		appointmentsList.setName("appointmentsList");
-//		appointmentsList.addListSelectionListener(this);
-//		appointmentsList.setEnabled(true); //Disabled by default
-//		appointmentsList.setCellRenderer(appointmentRenderer); // Lage en renderer
-//		
-//		appointmentsScrollPane = new JScrollPane(appointmentsList);
-		appointmentsScrollPane = new JScrollPane();
+		
+		appointmentsPanelList = new AppointmentsPanelList();
+		appointmentsScrollPane = new JScrollPane(appointmentsPanelList);
 		appointmentsScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-//		appointmentsScrollPane.setEnabled(false); //Disabled by default
 		appointmentsScrollPane.setPreferredSize(new Dimension(80,300));
+		appointmentsPanelList.setScrollPane(appointmentsScrollPane);
+		appointmentsPanelList.setEditAppointmentsView(this);
 		
 		GridBagConstraints cLabel0 = new GridBagConstraints();
 		cLabel0.fill = GridBagConstraints.HORIZONTAL;
 //		cLabel0.insets = new Insets(0,0,0,0);
 //		cLabel0.anchor = GridBagConstraints.LINE_START;
-		cLabel0.ipadx = 100;
+//		cLabel0.ipadx = 100;
 //		cLabel0.ipady = 70;
 //		cLabel0.weighty = 0.1;
 //		cLabel0.weightx = 0.1;
@@ -75,12 +68,16 @@ public class EditAppointmentsView extends JPanel implements ActionListener{
 		cLabel0.gridx = 0;
 		cLabel0.gridy = 0;
 	
-//		this.add(participantsScrollPane, BorderLayout.CENTER);
+		//TODO: REMOVE THIS:
+		appointmentsPanelList.addAppointmentsPanel(new AppointmentsPanel(new Appointment(new Employee("Anders"))));
+		appointmentsPanelList.addAppointmentsPanel(new AppointmentsPanel(new Appointment(new Employee("Fredrik"))));
+
+		//		this.add(participantsScrollPane, BorderLayout.CENTER);
 		add(appointmentsScrollPane, cLabel0);
 		
 		//closeBtn
 		GridBagConstraints cLabel3 = new GridBagConstraints();
-//		cLabel22.insets = new Insets(0,0,0,50);
+		cLabel3.insets = new Insets(10,0,0,0);
 		cLabel3.gridx = 10;
 		cLabel3.gridy = 11;
 		cLabel3.anchor = GridBagConstraints.LINE_END;
@@ -94,6 +91,17 @@ public class EditAppointmentsView extends JPanel implements ActionListener{
 		closeBtn.setFont(new Font(MainWindow.getMFont(),Font.BOLD, 14));
 //		loginBtn.setPreferredSize(new Dimension(200, 400));
 		add(closeBtn,cLabel3);
+		
+		//to move the appointmentsPane
+		GridBagConstraints cLabel4 = new GridBagConstraints();
+		cLabel4.gridx = 9;
+		cLabel4.gridy = 11;
+		add(new JLabel("                                                     "),cLabel4);
+		
+		GridBagConstraints cLabel5 = new GridBagConstraints();
+		cLabel5.gridx = 8;
+		cLabel5.gridy = 11;
+		add(new JLabel("                                                       "),cLabel5);
 	}
 	
 	// Overriding the paintComponent to get background and Header

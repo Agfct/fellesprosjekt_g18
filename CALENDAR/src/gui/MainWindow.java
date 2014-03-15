@@ -248,6 +248,7 @@ public class MainWindow extends JFrame{
 		loginWindow.repaint();
 		topView.repaint();
 		leftView.repaint();
+		layoutView.repaint();
 		for (int i = 0; i < leftView.getComponentCount(); i++) {
 			if (leftView.getComponent(i).getBackground() != new JTextField().getBackground() &&  
 					leftView.getComponent(i).getBackground() != new JComboBox().getBackground()){

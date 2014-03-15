@@ -110,11 +110,12 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 	private DefaultListModel<MeetingRoom> roomListModel = new DefaultListModel<MeetingRoom>(); // USE THESE ??
 	private EmployeeCellRenderer employeeRenderer;
 	
-	private ParticipantsListPanel participantsListPanel;
+	private ParticipantsPanelList participantsPanelList;
 	
 	private JButton addExParticipantsBtn;
 	private JButton bookBtn;
 	private JButton saveAppointmentBtn;
+	private JButton deleteAppointmentBtn;
 	private JButton cancelAppointmentBtn;
 	
 	private JRadioButton internalRadioButton;
@@ -369,8 +370,6 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 		dateYearField.addActionListener(this);
 		dateDayField.addActionListener(this);
 
-
-
 		
 		// searchLabel
 		GridBagConstraints cLabel10 = new GridBagConstraints();
@@ -542,14 +541,14 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 		participantsLabel.setFont(new Font(MainWindow.getMFont(),Font.BOLD,18));
 		add(participantsLabel,cLabel18);
 		
-		//participantsListPanel, a ScrollPane with a participantsListPanel in it
-		//The participantsListPanel contains several ParticipantsView, that eatch contains one employee
-		participantsListPanel = new ParticipantsListPanel();
-		participantsScrollPane = new JScrollPane(participantsListPanel);
+		//participantsPanelList, a ScrollPane with a participantsPanelList in it
+		//The participantsPanelList contains several ParticipantsPanel, that eatch contains one employee
+		participantsPanelList = new ParticipantsPanelList();
+		participantsScrollPane = new JScrollPane(participantsPanelList);
 		participantsScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		participantsScrollPane.setPreferredSize(new Dimension(40,200));
-		participantsListPanel.setScrollPane(participantsScrollPane);
-		participantsListPanel.setNewAppointmentView(this);
+		participantsPanelList.setScrollPane(participantsScrollPane);
+		participantsPanelList.setNewAppointmentView(this);
 		
 		GridBagConstraints cLabel19 = new GridBagConstraints();
 		cLabel19.fill = GridBagConstraints.HORIZONTAL;
@@ -810,11 +809,32 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 //		loginBtn.setPreferredSize(new Dimension(200, 400));
 		add(saveAppointmentBtn,cLabel33);
 		
-		//saveAppointmentBtn
-		GridBagConstraints cLabel34 = new GridBagConstraints();
-		cLabel34.insets = new Insets(0,0,0,0);
-		cLabel34.gridx = 10;
-		cLabel34.gridy = 21;
+		// if editAppointment is enabled
+		if(!isNewAppointmentView){
+			//deleteAppointmentBtn
+			GridBagConstraints cLabel34 = new GridBagConstraints();
+			cLabel34.insets = new Insets(0,63,0,10);
+			cLabel34.gridx = 9;
+			cLabel34.gridy = 21;
+//			cLabel34.anchor = GridBagConstraints.LINE_END;
+			deleteAppointmentBtn = new JButton("Delete");
+			deleteAppointmentBtn.setName("deleteAppointmentBtn");
+			deleteAppointmentBtn.addActionListener(this);
+			// DESIGN FOR Field:
+			deleteAppointmentBtn.setBackground(MainWindow.getBckColor());
+//			deleteAppointmentBtn.setForeground(MainWindow.getTxtColor());
+			deleteAppointmentBtn.setForeground(Color.BLACK);
+			deleteAppointmentBtn.setFocusPainted(false);
+			deleteAppointmentBtn.setFont(new Font(MainWindow.getMFont(),Font.BOLD, 18));
+	//		loginBtn.setPreferredSize(new Dimension(200, 400));
+			add(deleteAppointmentBtn,cLabel34);
+		}
+		
+		//cancelAppointmentBtn
+		GridBagConstraints cLabel35 = new GridBagConstraints();
+		cLabel35.insets = new Insets(0,0,0,0);
+		cLabel35.gridx = 10;
+		cLabel35.gridy = 21;
 //		cLabel15.anchor = GridBagConstraints.LINE_START;
 		cancelAppointmentBtn = new JButton("Cancel");
 		cancelAppointmentBtn.setName("cancelAppointmentBtn");
@@ -825,7 +845,7 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 		cancelAppointmentBtn.setFocusPainted(false);
 		cancelAppointmentBtn.setFont(new Font(MainWindow.getMFont(),Font.BOLD, 18));
 //		loginBtn.setPreferredSize(new Dimension(200, 400));
-		add(cancelAppointmentBtn,cLabel34);
+		add(cancelAppointmentBtn,cLabel35);
 		
 		initializeAppointment();
 		//ADDING ALL THE EMPLOYEES TO THE EMPLOYEELISTMODEL -- HELT NEDERST I METODEN showCorrectNames(String searchName)
@@ -866,7 +886,7 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
     	durationField.setText(Long.toString(appointmentModel.getDuration()));
     	// ParticipantsList
 		for (Invitation invitation : appointmentModel.getInvitations()) {
-			participantsListPanel.addParticipantView(invitation.getParticipantsView());
+			participantsPanelList.addParticipantPanel(invitation.getParticipantsView());
 		}
 		
     	for (int i = 0; i < allEmployees.size(); i++) {
@@ -988,6 +1008,12 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 			}
 			
 		}
+		// If addExParticipantsBtn is pressed
+		else if (e.getSource() == deleteAppointmentBtn){
+			System.out.println("Deleting Appointment");
+			//TODO: DELETE AN APPOINTMENT!!
+			
+		}
 		// If bookBtn is pressed
 		else if (e.getSource() == bookBtn){
 			System.out.println("Auto Booking a Room");
@@ -1076,27 +1102,20 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 	
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
+	
 	// Focus listner for JTextFields
 	@Override
 	public void focusGained(FocusEvent f) {
@@ -1170,7 +1189,7 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 //	public void appointmentChanged(String change, Invitation newInvitation) {
 //		System.out.println("("+this.getClass()+"):"+ "Property changed on Appointment Model");
 //		if (change.equals("add")){
-//			participantsListPanel.addParticipantView(newInvitation.getParticipantsView());
+//			participantsPanelList.addParticipantView(newInvitation.getParticipantsView());
 //		}
 //		else if (change.equals("remove")){
 //			newInvitation.getParticipantsView().removeThisView();
@@ -1183,7 +1202,7 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 		// TODO Auto-generated method stub
 		System.out.println("FIRE IN THE HOLE 2");
 		if(evt.getPropertyName().equals("add")){
-			participantsListPanel.addParticipantView(((Invitation)evt.getNewValue()).getParticipantsView());
+			participantsPanelList.addParticipantPanel(((Invitation)evt.getNewValue()).getParticipantsView());
 		}
 		else if(evt.getPropertyName().equals("remove")){
 			((Invitation)evt.getNewValue()).getParticipantsView().removeThisView();

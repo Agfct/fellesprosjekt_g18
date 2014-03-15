@@ -28,13 +28,13 @@ import model.InvitationStatus;
 
 // Using this because a ListModel was not advanced enough for the application
 // Creates a Panel with buttons and labels for a specific employee object
-public class ParticipantsView extends JPanel implements ActionListener {
+public class ParticipantsPanel extends JPanel implements ActionListener {
 	private JLabel firstNameLabel;
 	private JLabel lastNameLabel;
 	private JButton emailBtn;
 	private JComboBox<InvitationStatus> statusField;
 	private JButton removeBtn;
-	private ParticipantsListPanel participantsListPanel;
+	private ParticipantsPanelList participantsPanelList;
 	private Invitation invitation;
 	
 	private ImageIcon removeIcon;
@@ -42,7 +42,7 @@ public class ParticipantsView extends JPanel implements ActionListener {
 	private Employee employee;
 	GridBagLayout layout;
 	
-	public ParticipantsView(Employee newEmployee){ 
+	public ParticipantsPanel(Employee newEmployee){ 
 		
 		employee = newEmployee;
 		//setting layout
@@ -163,9 +163,9 @@ public class ParticipantsView extends JPanel implements ActionListener {
 		this.lastNameLabel.setText(lastNameLabel);
 	}
 
-	public void setParticipantsListPanel(ParticipantsListPanel newParticipantsListPanel){
+	public void setParticipantsPanelList(ParticipantsPanelList newParticipantsListPanel){
 		//Choosing what list this view is in
-		participantsListPanel = newParticipantsListPanel;
+		participantsPanelList = newParticipantsListPanel;
 		
 	}
 	public void setInvitation(Invitation invite){
@@ -185,9 +185,9 @@ public class ParticipantsView extends JPanel implements ActionListener {
 		if (e.getSource() == removeBtn){
 			//Removing the check
 			employee.setSelected(! employee.isSelected());
-			participantsListPanel.getNewAppointmentView().getEmployeeList().repaint();
+			participantsPanelList.getNewAppointmentView().getEmployeeList().repaint();
 			// running the appointment remove invitation
-			participantsListPanel.getNewAppointmentView().getAppointmentModel().removeInvitation(employee);
+			participantsPanelList.getNewAppointmentView().getAppointmentModel().removeInvitation(employee);
 			
 		}	
 		else if (e.getSource() == emailBtn){
@@ -199,7 +199,7 @@ public class ParticipantsView extends JPanel implements ActionListener {
 		}
 	}
 	public void removeThisView(){
-		participantsListPanel.removeParticipantView(this);
+		participantsPanelList.removeParticipantPanel(this);
 	}
 	
 	public void changeStatusField(InvitationStatus invStatus){

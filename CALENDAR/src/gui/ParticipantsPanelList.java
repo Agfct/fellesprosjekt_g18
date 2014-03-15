@@ -12,14 +12,13 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 // Used to create a List of ParticipantsViews
-public class ParticipantsListPanel extends JPanel {
+public class ParticipantsPanelList extends JPanel {
 	GridBagLayout layout;
 	Integer rows;
 	JScrollPane scrollPane;
 	NewAppointmentView newAppointmentView;
-	//TODO: 
-	/** LAGE EN ARRAYLIST MED JPANELS I STEDE FOR DETTE SKITET: **/
-	public ParticipantsListPanel(){
+	
+	public ParticipantsPanelList(){
 		
 			//setting layout
 			layout = new GridBagLayout();
@@ -53,14 +52,14 @@ public class ParticipantsListPanel extends JPanel {
 	}
 	
 	//adding a new View to the Panel
-	public void addParticipantView(ParticipantsView newView){
+	public void addParticipantPanel(ParticipantsPanel newView){
 //		layout.setRows(rows+1);
 		GridBagConstraints cLabel = new GridBagConstraints();
 		cLabel.gridy = rows;
 //		cLabel.weightx = 1d;
 		cLabel.weighty = 1d;
 		cLabel.anchor = GridBagConstraints.PAGE_START;
-		newView.setParticipantsListPanel(this);
+		newView.setParticipantsPanelList(this);
 		this.add(newView,cLabel);
 //		System.out.println("rowsadd "+ rows);
 		rows += 1; // WARNING ROWS WILL ALWAYS INCREASE, REMEMBER TO SORT LIST WHEN SAVING.
@@ -76,7 +75,7 @@ public class ParticipantsListPanel extends JPanel {
 	}
 	
 	//Methods to respond to the presses in the Views in the ListPanel
-	public void removeParticipantView(ParticipantsView oldView){
+	public void removeParticipantPanel(ParticipantsPanel oldView){
 		this.remove(oldView);
 //		if (rows != 0){
 //			System.out.println("Blir kjørt");

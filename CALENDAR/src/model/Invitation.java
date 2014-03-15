@@ -1,6 +1,6 @@
 package model;
 
-import gui.ParticipantsView;
+import gui.ParticipantsPanel;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -12,7 +12,7 @@ public class Invitation {
 	private boolean edited;
 	private boolean hidden;
 	private Alarm alarm;
-	private ParticipantsView participantsView;
+	private ParticipantsPanel participantsView;
 	private PropertyChangeSupport pcs;
 	
 	//PropertyNames
@@ -27,7 +27,7 @@ public class Invitation {
 		edited = false;
 		hidden = false;
 		pcs = new PropertyChangeSupport(this);
-		participantsView = new ParticipantsView(person);
+		participantsView = new ParticipantsPanel(person);
 		participantsView.setInvitation(this);
 	}
 	
@@ -78,10 +78,10 @@ public class Invitation {
 		this.invitationID = invitationID;
 	}
 	//-------
-	public void setParticipantsView(ParticipantsView newParticipantsView){
+	public void setParticipantsView(ParticipantsPanel newParticipantsView){
 		participantsView = newParticipantsView;
 	}
-	public ParticipantsView getParticipantsView(){
+	public ParticipantsPanel getParticipantsView(){
 		return participantsView;
 	}
 	//Getters

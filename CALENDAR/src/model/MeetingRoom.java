@@ -41,7 +41,10 @@ public class MeetingRoom implements Comparable<MeetingRoom> {
 		this.schedule = schedule;
 	}
 	
-	
+	@Override
+	public String toString(){
+		return name;
+	}
 	//Getters
 	public String getName() 					{return name;}
 	public short getCapacity() 					{return capacity;}

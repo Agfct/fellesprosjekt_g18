@@ -128,7 +128,10 @@ public class Appointment {
 	}
 	//-------
 	
-
+	public String getDate(){
+		//TODO: FIX REAL DATE !!
+		return "10.24.2013"; 
+	}
 	//Listeners
 	
 	//---------

@@ -412,6 +412,7 @@ public class LeftView extends JPanel implements ListSelectionListener, ActionLis
 		
 		// If New Appointment is pressed
 		// WARNING TEST TEST TEST
+		//TODO: REMOVE TEST
 		if (e.getSource() == newAppointmentBtn){
 			System.out.println("Opening newAppointment Window");
 			ArrayList<Invitation> array = new ArrayList<Invitation>();
@@ -439,21 +440,15 @@ public class LeftView extends JPanel implements ListSelectionListener, ActionLis
 	// List selection Listener for the internPersonList
 	@Override
 	public void valueChanged(ListSelectionEvent arg0) {
-		// TODO Auto-generated method stub
-		
 	}
 	
 	// Key listener for textField Search
 	@Override
 	public void keyPressed(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
