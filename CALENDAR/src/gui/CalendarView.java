@@ -79,7 +79,7 @@ public class CalendarView extends JPanel {
 		font = new Font("Tahoma", Font.PLAIN, 12);
 		g2d.setFont(font);
 		g2d.setColor(Color.BLACK);
-
+//TODO: Draw propper day/month for all days
 		g2d.drawString("6/3", 118, 20);
 
     }

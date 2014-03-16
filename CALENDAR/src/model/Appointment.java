@@ -1,5 +1,6 @@
 package model;
 
+import gui.AppointmentApp;
 import gui.MainWindow;
 import gui.NewAppointmentView;
 
@@ -18,6 +19,7 @@ public class Appointment {
 	private String description;
 	private ArrayList<Invitation> invitations;
 	private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
+	private AppointmentApp appointmentApp;
 
 	//PropertyNames
 	public final static String INVITATIONS_PROPERTY_NAME = "invitations";
@@ -145,6 +147,9 @@ public class Appointment {
 	public void setDescription(String description) 	{this.description = description;}
 	public void setAppointmentID(int appointmentID) {this.appointmentID = appointmentID;}
 	public void setDuration(int newDur)				{this.timeSlot.setDuration(newDur);}
+	public void setAppointmentApp(AppointmentApp appointmentApp) {
+		this.appointmentApp = appointmentApp;
+	}
 	//-------
 	
 	//Getters
@@ -159,5 +164,11 @@ public class Appointment {
 	public long getDuration() 		{return getTimeSlot().getDuration();}
 	public long getStartTime()		{return getTimeSlot().getStart();}
 	public long getEndTime()		{return getTimeSlot().getEnd();}
+	public AppointmentApp getAppointmentApp() {
+		return appointmentApp;
+	}
 	//-------
+
+
+
 }
