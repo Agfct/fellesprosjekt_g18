@@ -94,7 +94,7 @@ public class AppointmentsPanel extends JPanel implements ActionListener {
 //		cLabel2.insets = new Insets(-30,0,0,0);
 		cLabel2.gridx = 0;
 		cLabel2.gridy = 1;
-		date = new JLabel(appointment.getDate());
+		date = new JLabel(appointment.getDateString());
 		date.setName("date");
 		date.setPreferredSize(new Dimension(80,20));
 		//DESIGN for the Label text

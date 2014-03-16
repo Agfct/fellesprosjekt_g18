@@ -16,6 +16,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.geom.Ellipse2D;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import javax.swing.Action;
 import javax.swing.ComboBoxModel;
@@ -421,7 +422,14 @@ public class LeftView extends JPanel implements ListSelectionListener, ActionLis
 				inv.setStatus(InvitationStatus.ACCEPTED);
 				array.add(inv);				
 			}
-			Appointment app = new Appointment(new Creator(MainWindow.getUser()),"Gammelt Møte",new TimeSlot(0,4),"Borte Vekk",null,false,"Vi skal ha møte, kom", array);
+			Calendar c = Calendar.getInstance();
+//			long start = c.getTimeInMillis();
+//			c.add(Calendar.HOUR_OF_DAY, 1);
+//			c.add(Calendar.HOUR, 1);
+//			long end = c.getTimeInMillis();
+			long start = Long.parseLong("1394983800000");
+			long end = Long.parseLong("1394987400000");
+			Appointment app = new Appointment(new Creator(MainWindow.getUser()),"Gammelt Møte",new TimeSlot(start,end),"Borte Vekk",null,false,"Vi skal ha møte, kom", array);
 			MainWindow.newAppointmentView(app); 	
 		}
 		// If New Appointment is pressed

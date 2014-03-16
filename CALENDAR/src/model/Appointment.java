@@ -1,11 +1,9 @@
 package model;
 
-import gui.MainWindow;
-import gui.NewAppointmentView;
-
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Appointment {
 	private int appointmentID;
@@ -21,6 +19,7 @@ public class Appointment {
 
 	//PropertyNames
 	public final static String INVITATIONS_PROPERTY_NAME = "invitations";
+	public final static String TIMESLOT_PROPERTY_NAME = "timeSlot";
 	
 	//Lager en tom avtale
 	public Appointment(Employee person){
@@ -128,9 +127,12 @@ public class Appointment {
 	}
 	//-------
 	
-	public String getDate(){
-		//TODO: FIX REAL DATE !!
-		return "10.24.2013"; 
+	public String getDateString(){
+		return getDate().toString().replace('-', '.');
+	}
+	
+	private void fireTimeSlotChanged(TimeSlot timeSlot){
+		pcs.firePropertyChange(TIMESLOT_PROPERTY_NAME, timeSlot, getTimeSlot());
 	}
 	//Listeners
 	
@@ -144,7 +146,27 @@ public class Appointment {
 	public void setInternal(boolean internal) 		{this.internal = internal;}
 	public void setDescription(String description) 	{this.description = description;}
 	public void setAppointmentID(int appointmentID) {this.appointmentID = appointmentID;}
-	public void setDuration(int newDur)				{this.timeSlot.setDuration(newDur);}
+	//wibbly wobbly... time-y wimey... stuff.
+	public void setDuration(long newDuration){
+		TimeSlot timeSlot = getTimeSlot();
+		this.timeSlot.setDuration(newDuration);
+		fireTimeSlotChanged(timeSlot);
+	}
+	public void setStartTime(long newStart){
+		TimeSlot timeSlot = getTimeSlot();
+		this.timeSlot.setStart(newStart);
+		fireTimeSlotChanged(timeSlot);
+	}
+	public void setEndTime(long newEnd){
+		TimeSlot timeSlot = getTimeSlot();
+		this.timeSlot.setEnd(newEnd);
+		fireTimeSlotChanged(timeSlot);
+	}
+	public void setDate(Date newDate){
+		TimeSlot timeSlot = getTimeSlot();
+		this.timeSlot.setDate(newDate);
+		fireTimeSlotChanged(timeSlot);
+	}
 	//-------
 	
 	//Getters
@@ -159,5 +181,6 @@ public class Appointment {
 	public long getDuration() 		{return getTimeSlot().getDuration();}
 	public long getStartTime()		{return getTimeSlot().getStart();}
 	public long getEndTime()		{return getTimeSlot().getEnd();}
+	public Date getDate()			{return getTimeSlot().getDate();}
 	//-------
 }
