@@ -45,9 +45,9 @@ public class TimeSlot {
 	public void setDate(Date date){
 		Calendar c = Calendar.getInstance();
 		c.setTime(date);
+		System.out.println(c.getTime().toString());
 		setStart(c.getTimeInMillis());
 	}
-	//TODO: MATTE STUFF. beregne start-tid. og duration, og veksle mellom disse.
 	//Getters
 	public long getEnd() 		{return end;}
 	public long getStart()		{return start;}

@@ -30,6 +30,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultCellEditor;
@@ -225,7 +226,7 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 		startField.setEditable(true);
 		cLabel3.fill = GridBagConstraints.HORIZONTAL;
 		startField.setName("startField");
-		startField.addActionListener(this);
+		
 //		startField.add(MainWindow.getTimeArray());
 		
 		// DESIGN FOR ComboBox:
@@ -262,7 +263,7 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 		endField.setEditable(true);
 		cLabel5.fill = GridBagConstraints.HORIZONTAL;
 		endField.setName("endField");
-		endField.addActionListener(this);
+		
 //		endField.add(MainWindow.getTimeArray());
 		
 		// DESIGN FOR ComboBox:
@@ -319,11 +320,11 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 		cLabel9_day.gridx = 1;
 		cLabel9_day.gridy = 7;
 		cLabel9_day.anchor = GridBagConstraints.LINE_START;
-		DefaultComboBoxModel<String> dateDayFieldModel = new DefaultComboBoxModel<String>();
+		DefaultComboBoxModel<Integer> dateDayFieldModel = new DefaultComboBoxModel<Integer>();
 		
 		//TEST: ADD CODE TO FILL BOX WITH NUMBERS
 		
-		dateDayField = new JComboBox<Integer>();
+		dateDayField = new JComboBox<Integer>(dateDayFieldModel);
 //		cLabel9_day.fill = GridBagConstraints.HORIZONTAL;
 		dateDayField.setName("dateDayField");
 		
@@ -338,11 +339,11 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 		cLabel9_month.insets = new Insets(0,0,0,30);
 		cLabel9_month.gridx = 1;
 		cLabel9_month.gridy = 7;
-		DefaultComboBoxModel<String> dateMonthFieldModel = new DefaultComboBoxModel<String>();
+		DefaultComboBoxModel<Integer> dateMonthFieldModel = new DefaultComboBoxModel<Integer>();
 		
 		//TEST: ADD CODE TO FILL BOX WITH NUMBERS
 		
-		dateMonthField = new JComboBox<Integer>();
+		dateMonthField = new JComboBox<Integer>(dateMonthFieldModel);
 //		cLabel9_day.fill = GridBagConstraints.HORIZONTAL;
 		dateMonthField.setName("dateMonthField");
 		
@@ -357,10 +358,13 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 		cLabel9_year.insets = new Insets(0,67,0,0);
 		cLabel9_year.gridx = 1;
 		cLabel9_year.gridy = 7;
+		DefaultComboBoxModel<Integer> dateYearFieldModel = new DefaultComboBoxModel<Integer>();
+
 		
 		//TEST: ADD CODE TO FILL BOX WITH NUMBERS
 		
-		dateYearField = new JComboBox<Integer>();
+		
+		dateYearField = new JComboBox<Integer>(dateYearFieldModel);
 //		cLabel9_day.fill = GridBagConstraints.HORIZONTAL;
 		dateYearField.setName("dateYearField");
 		
@@ -371,9 +375,7 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 		add(dateYearField,cLabel9_year);
 		
 		fillInDate();
-		dateMonthField.addActionListener(this);
-		dateYearField.addActionListener(this);
-		dateDayField.addActionListener(this);
+		
 
 		
 		// searchLabel
@@ -853,6 +855,11 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 		add(cancelAppointmentBtn,cLabel35);
 		
 		initializeAppointment();
+		startField.addActionListener(this);
+		endField.addActionListener(this);
+		dateMonthField.addActionListener(this);
+		dateYearField.addActionListener(this);
+		dateDayField.addActionListener(this);
 		//ADDING ALL THE EMPLOYEES TO THE EMPLOYEELISTMODEL -- HELT NEDERST I METODEN showCorrectNames(String searchName)
 		showCorrectNames("");
 	}
@@ -1035,6 +1042,7 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 					(Integer) dateMonthField.getSelectedItem(), 
 					(Integer) dateYearField.getSelectedItem());
 			long date = getSelectedDateAsLong((String)startField.getSelectedItem());
+			System.out.println(new Date(date));
 			if (date != -1) appointmentModel.setDate(new Date(date));
 		}
 		else if(e.getSource() == dateMonthField){
@@ -1086,18 +1094,19 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 	}
 	
 	private long getSelectedDateAsLong(String timeOfDay){
-		SimpleDateFormat format = new SimpleDateFormat("yyMMddHHmmssZ");
-		Calendar c = Calendar.getInstance();
-		String date = "";
+		SimpleDateFormat format = new SimpleDateFormat("yyMMddHHmmssZ", Locale.GERMANY);
 		timeOfDay = timeOfDay.replaceFirst(":", "");
+		System.out.println(timeOfDay);
+		String date = "";
 		date += dateYearField.getSelectedItem().toString().length() == 2 ? dateYearField.getSelectedItem() : "0" + dateYearField.getSelectedItem();
 		date += dateMonthField.getSelectedItem().toString().length() == 2 ? dateMonthField.getSelectedItem() : "0" + dateMonthField.getSelectedItem();
 		date += dateDayField.getSelectedItem().toString().length() == 2 ? dateDayField.getSelectedItem() : "0" + dateDayField.getSelectedItem();
 		date += timeOfDay.length() == 4 ? timeOfDay : "0" + timeOfDay;
 		date += "00";
-		date += "+0100";
+		date += "+0000";
 		System.out.println(date);
 		try {
+			Calendar c = Calendar.getInstance();
 			c.setTime(format.parse(date));
 			return c.getTimeInMillis();
 		} catch (ParseException e) {
@@ -1279,11 +1288,13 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 			
 			//Fixing startTimeFormat
 			if (timeSlot.getStart() != 0) {
+				System.out.println("From model: " + new Date(timeSlot.getStart()));
 				setStartField(timeSlot.getStart());
 			}
 			
 			//Fixing endTimeFormat
 			if (timeSlot.getEnd() != 0){
+				System.out.println("From model: " + new Date(timeSlot.getEnd()));
 				setEndField(timeSlot.getEnd());
 			}
 			
@@ -1303,6 +1314,7 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 		String textFormat = hour + ":" + (minute.length() == 2 ? minute : "0" + minute) ;
 		startField.getEditor().setItem(textFormat);
 		System.out.println(textFormat);
+		System.out.println(startField.getSelectedItem());
 	}
 	
 	private void setEndField(long endTime){
@@ -1313,6 +1325,7 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 		String textFormat = hour + ":" + (minute.length() == 2 ? minute : "0" + minute) ;
 		endField.getEditor().setItem(textFormat);
 		System.out.println(textFormat);
+		System.out.println(endField.getSelectedItem());
 	}
 	
 	private void setDurationField(long dur){
@@ -1322,9 +1335,9 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 	private void setDateFields(Date date){
 		Calendar c = Calendar.getInstance();
 		c.setTime(date);
-		dateDayField.getEditor().setItem(c.get(Calendar.DAY_OF_MONTH));
-		dateMonthField.getEditor().setItem(c.get(Calendar.MONTH)+1);
-		dateYearField.getEditor().setItem(c.get(Calendar.YEAR));
+		dateDayField.setSelectedItem(c.get(Calendar.DAY_OF_MONTH));
+		dateMonthField.setSelectedItem(c.get(Calendar.MONTH)+1);
+		dateYearField.setSelectedItem(c.get(Calendar.YEAR));
 		System.out.println("Date changed");
 	}
 
