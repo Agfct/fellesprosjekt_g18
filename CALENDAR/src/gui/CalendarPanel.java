@@ -1,6 +1,8 @@
 package gui;
 
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -14,6 +16,7 @@ public class CalendarPanel extends JPanel{
 	private JScrollPane calendarScrollPane;
 	private Image calendarImg;
 	private Image backgroundImg;
+	private Font font;
 	
 	
 	public CalendarPanel(){
@@ -36,8 +39,11 @@ public class CalendarPanel extends JPanel{
         //background Image
 //        g2d.drawImage(backgroundImg, -200, -100, this);
         
+        
         //The Calendar Image
         g2d.drawImage(calendarImg, 0, 0, this);
+        
+
 
     }
     

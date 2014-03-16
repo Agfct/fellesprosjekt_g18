@@ -3,6 +3,7 @@ package gui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -21,8 +22,8 @@ import javax.swing.ScrollPaneConstants;
 
 
 /** The Calendar for the application.
- *  Its only a visual version of what is really build into the other options in the program.
- *	It has a custom CalendarPanel.
+ *  This View displays the days in the week (The non scrollable view ontop of the calendarPanel).
+ *	It has a custom CalendarPanel that contains all the appointments.
  *  
  * @author Anders
  */
@@ -31,6 +32,7 @@ public class CalendarView extends JPanel {
 	private Image calendarImg;
 	private JScrollPane calendarScrollPane;
 	private CalendarPanel calendarPanel;
+	private Font font;
 	
 	public CalendarView(){
 //		backgroundImg = new ImageIcon(this.getClass().getResource("/backgrounds/calendarBackground.png")).getImage();
@@ -71,6 +73,14 @@ public class CalendarView extends JPanel {
         
         //The Calendar Image
         g2d.drawImage(calendarImg, 0, 0, this);
+        
+        
+        //Paint the Days
+		font = new Font("Tahoma", Font.PLAIN, 12);
+		g2d.setFont(font);
+		g2d.setColor(Color.BLACK);
+
+		g2d.drawString("6/3", 118, 20);
 
     }
     public void refreshBackgroundImg(){
