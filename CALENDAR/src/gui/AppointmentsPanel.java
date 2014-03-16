@@ -118,7 +118,7 @@ public class AppointmentsPanel extends JPanel implements ActionListener {
 		
 		//editBtn
 		GridBagConstraints cLabel4 = new GridBagConstraints();
-		cLabel4.insets = new Insets(0,0,-35,0);
+		cLabel4.insets = new Insets(0,0,-30,0);
 		cLabel4.gridx = 4;
 		cLabel4.gridy = 0;
 		editBtn = new JButton("Edit");
@@ -134,7 +134,7 @@ public class AppointmentsPanel extends JPanel implements ActionListener {
 		
 		//removeBtn
 		GridBagConstraints cLabel5 = new GridBagConstraints();
-		cLabel5.insets = new Insets(0,10,-35,0);
+		cLabel5.insets = new Insets(0,10,-30,0);
 		cLabel5.gridx = 6;
 		cLabel5.gridy = 0;
 		cLabel5.anchor = GridBagConstraints.LINE_END;

@@ -27,7 +27,8 @@ public class AppointmentCellRenderer implements ListCellRenderer<Appointment>{
 		
 		// Time     | Title  | Pending
 		// Date     | Room   | hidden ?
-		String time = Long.toString(value.getStartTime())+'-'+ value.getEndTime();
+//		String time = Long.toString(value.getStartTime())+'-'+ value.getEndTime();
+		String time = "12:00"+"-"+"18:30";
 		String title = value.getTitle();
 //		String Pending = value.get // get that persons invitation+
 //		String date = value.getDate // get date and put it correctly into label
