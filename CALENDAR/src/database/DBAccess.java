@@ -417,7 +417,7 @@ public class DBAccess{
 	public ResultSet createResultSet(String query) throws Exception {
 		try {	
 			Class.forName("com.mysql.jdbc.Driver");
-			DriverManager.registerDriver(new com.mysql.jdbc.Driver());
+//			DriverManager.registerDriver(new com.mysql.jdbc.Driver());
 			con = DriverManager.getConnection(conURL, "areeh", "Legend100");
 			stmt = con.createStatement();
 			return rs = stmt.executeQuery(query);
@@ -430,7 +430,7 @@ public class DBAccess{
 	public Statement prepareEdit() throws Exception {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			DriverManager.registerDriver(new com.mysql.jdbc.Driver());
+//			DriverManager.registerDriver(new com.mysql.jdbc.Driver());
 			con = DriverManager.getConnection(conURL, "areeh", "Legend100");
 			return con.createStatement();
 		} catch (Exception e) {

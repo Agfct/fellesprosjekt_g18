@@ -118,7 +118,14 @@ public class CalendarView extends JPanel {
 		app.addInvitation(MainWindow.getUser());
 		app.getInvitation(MainWindow.getUser()).setStatus(InvitationStatus.ACCEPTED);
 		app.setTitle("Et Møte");
+		app.setDescription("Vi skal ha et langt møte om masse tull");
 		invitedAppointments.add(app);
+		Appointment app2 = new Appointment(new Employee("Frode"));
+		app2.addInvitation(MainWindow.getUser());
+		app2.getInvitation(MainWindow.getUser()).setStatus(InvitationStatus.PENDING);
+		app2.setTitle("Et kjedelig  møte");
+		app2.setDescription("Dette blir kjedelig gutter!, Nå skal det kode testes! En veldig lang description som hadde gått utenfor første linje");
+		invitedAppointments.add(app2);
 //		for (int i = 0; i < MainWindow.getEmployeeList().size(); i++) {
 //			invitedAppointments.add(new Appointment(MainWindow.getEmployeeList().get(i)));			
 //		}

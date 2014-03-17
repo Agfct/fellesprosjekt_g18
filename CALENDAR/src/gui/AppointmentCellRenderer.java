@@ -40,6 +40,7 @@ public class AppointmentCellRenderer implements ListCellRenderer<Appointment>{
 		else{
 			 status = InvitationStatus.PENDING;
 		}
+		System.out.println("CELL RENDERER IS RENDERING");
 //		String date = value.getDate // get date and put it correctly into label
 		
 		// Using Html to create a table for the values
@@ -54,7 +55,7 @@ public class AppointmentCellRenderer implements ListCellRenderer<Appointment>{
 	    					"<tr>"+
 	    						"<th width='40'px>"+"dd.mm.year"+"</th>"+
 	    						"<th width='40'px>"+"Room nr 5"+"</th>"+
-	    						"<th class='long' width='20'px>"+"Hidden?"+"</div>"+
+	    						"<th class='long' width='20'px>"+"Hidden"+"</div>"+
 	    					"</tr>"+
 	    				"</table>"+
 	    				"</html>");

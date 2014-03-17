@@ -130,8 +130,9 @@ public class MainWindow extends JFrame{
 		mainWindow.createEmployeeList();
 
 		//adding network listener
-		networkClient = new Client(serverIP, serverPort);
-		requestHandler = new RequestHandler(networkClient);
+		//TODO: ENABLE
+//		networkClient = new Client(serverIP, serverPort);
+//		requestHandler = new RequestHandler(networkClient);
 	}
 //	public static MainWindow getMainWindow(){
 //		return mainWindow;

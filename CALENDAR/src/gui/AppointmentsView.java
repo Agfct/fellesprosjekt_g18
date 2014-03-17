@@ -38,6 +38,8 @@ import javax.swing.event.ListSelectionListener;
 
 import model.Appointment;
 import model.Employee;
+import model.Invitation;
+import model.InvitationStatus;
 import model.MeetingRoom;
 import model.TimeSlot;
 /** Contains all your invitations as appointments
@@ -80,6 +82,8 @@ public class AppointmentsView extends JPanel implements ListSelectionListener , 
 	private Image backgroundImg;
 	
 	private AppointmentCellRenderer appointmentRenderer;
+	
+	private Invitation invitationModel;
 	
 	public AppointmentsView (){
 		
@@ -331,6 +335,7 @@ public class AppointmentsView extends JPanel implements ListSelectionListener , 
 		acceptRadioBtn = new JRadioButton();
 		acceptRadioBtn.setOpaque(false);
 		acceptRadioBtn.setName("acceptRadioBtn");
+		acceptRadioBtn.setEnabled(false);
 		acceptRadioBtn.addItemListener(this);
 		statusBtnGroup.add(acceptRadioBtn);
 		// DESIGN FOR CheckBox:
@@ -346,6 +351,7 @@ public class AppointmentsView extends JPanel implements ListSelectionListener , 
 		declineRadioBtn = new JRadioButton();
 		declineRadioBtn.setOpaque(false);
 		declineRadioBtn.setName("declineRadioBtn");
+		declineRadioBtn.setEnabled(false);
 		declineRadioBtn.addItemListener(this);
 		statusBtnGroup.add(declineRadioBtn);
 		// DESIGN FOR CheckBox:
@@ -368,6 +374,7 @@ public class AppointmentsView extends JPanel implements ListSelectionListener , 
 		
 		alarmBox = new JComboBox<String>(alarmFieldModel);
 		alarmBox.setEditable(false);
+		alarmBox.setEnabled(false);
 //		cLabel17.fill = GridBagConstraints.HORIZONTAL;
 		alarmBox.setName("alarmBox");
 //		alarmBox.addActionListener(this);
@@ -388,6 +395,7 @@ public class AppointmentsView extends JPanel implements ListSelectionListener , 
 		hideBox = new JCheckBox();
 		hideBox.setName("hideBox");
 		hideBox.setOpaque(false);
+		hideBox.setEnabled(false);
 		//DESIGN for the Label text
 		hideBox.setForeground(MainWindow.getTxtColor());
 		hideBox.setFont(new Font(MainWindow.getMFont(),Font.BOLD,16));
@@ -478,13 +486,32 @@ public class AppointmentsView extends JPanel implements ListSelectionListener , 
 		}
     }
     
+    public void setInvitationModel(Invitation invitation){
+    	invitationModel = invitation;
+    }
+    public void loadInvitationValues(){
+    	acceptRadioBtn.setEnabled(true);
+    	declineRadioBtn.setEnabled(true);
+    	if(invitationModel.getStatus() == InvitationStatus.ACCEPTED){
+    		acceptRadioBtn.setSelected(true);
+    	}else if (invitationModel.getStatus() == InvitationStatus.DECLINED){
+    		declineRadioBtn.setSelected(true);
+    	}
+    }
 	//ListSelection Listener for the List of Appointments
 	@Override
 	public void valueChanged(ListSelectionEvent e) {
-		// TODO FIXE SLIK AT DEN FINNER RIKTIG BASERT PÅ INDEX
+		// TODO FIXE SLIK AT SERVER FÅR VITE AT APPOINTMENT STATUS FORANDRER SEG ?
+		// TODO ADD HIDDEN VARIABLE SOMWHERE TO INDICATE PREFRENCE 
 		System.out.println("du tryker på en appointment");
-//		descriptionField.setText(((Appointment)e.getSource()).getDescription());
+		System.out.println("fra model: "+ appointmentsList.getSelectedValue().getDescription());
 		
+		statusBtnGroup.clearSelection();
+		//Setting the invitation Model
+		setInvitationModel(appointmentsList.getSelectedValue().getInvitation(MainWindow.getUser()));
+		loadInvitationValues();
+		// Setting description field
+		descriptionField.setText(appointmentsList.getSelectedValue().getDescription());
 		
 	}
 	
@@ -502,8 +529,18 @@ public class AppointmentsView extends JPanel implements ListSelectionListener , 
 	
 	//Item Listener for Radio Buttons
 	@Override
-	public void itemStateChanged(ItemEvent arg0) {
-		// TODO Auto-generated method stub
+	public void itemStateChanged(ItemEvent e) {
+		System.out.println("("+this.getClass()+"):"+ "Pressing a Radio Button");
+		if (e.getSource() == acceptRadioBtn){
+			// ONLY FOR REALTIME CHANGES DISCARD IF USING SAVE
+//			invitationModel.setStatus(InvitationStatus.ACCEPTED);
+//			appointmentsList.repaint();
+		}
+		else if(e.getSource() == declineRadioBtn){
+			// ONLY FOR REALTIME CHANGES DISCARD IF USING SAVE
+//			invitationModel.setStatus(InvitationStatus.DECLINED);
+//			appointmentsList.repaint();
+		}
 		
 	}
 	
@@ -515,6 +552,13 @@ public class AppointmentsView extends JPanel implements ListSelectionListener , 
 		// If cancelAppointmentBtn is pressed
 		if (e.getSource() == saveBtn){
 			System.out.println("Pressed Save, Changed appointment Info");
+			if(acceptRadioBtn.isSelected()){
+				invitationModel.setStatus(InvitationStatus.ACCEPTED);
+			}else if(declineRadioBtn.isSelected()){
+				invitationModel.setStatus(InvitationStatus.DECLINED);
+			}
+			appointmentsList.repaint();
+			//TODO: SEND REQUEST TO SERVER ??
 		}
 		// If cancelAppointmentBtn is pressed
 		else if (e.getSource() == closeBtn){

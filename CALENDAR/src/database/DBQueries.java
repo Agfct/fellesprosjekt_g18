@@ -27,10 +27,10 @@ public class DBQueries {
 	    }
 	    System.out.println(dba.getEmployeeByUsername("Siv"));
 	    
-	    ArrayList<MeetingRoom> g = dba.getAllMeetingRooms();
-	    for (MeetingRoom h : g) {
-	    	System.out.println(h);
-	    }
+//	    ArrayList<MeetingRoom> g = dba.getAllMeetingRooms();
+//	    for (MeetingRoom h : g) {
+//	    	System.out.println(h);
+//	    }
 	    Employee siv = dba.getEmployeeByParticipantID(11);
 	    System.out.println(dba.checkPassword(siv, "Siv123"));
 	  }

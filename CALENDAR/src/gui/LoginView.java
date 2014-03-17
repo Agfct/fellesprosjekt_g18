@@ -156,16 +156,7 @@ public class LoginView extends JPanel implements ActionListener {
         
         //background Image
         g2d.drawImage(backgroundImg, 0, 0, this);
-        
-        //GRADIENT BACKGROUND
-//        g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
-//        int w = getWidth();
-//        int h = getHeight();
-//        Color color1 = Color.BLUE;
-//        Color color2 = Color.WHITE;
-//        GradientPaint gp = new GradientPaint(0, 0, color1, 0, h/2, color2);
-//        g2d.setPaint(gp);
-//        g2d.fillRect(0, 0, w, h);
+
     }
     public void setBackgroundImg(Image newImg){
     	backgroundImg = newImg;
@@ -177,7 +168,7 @@ public class LoginView extends JPanel implements ActionListener {
 		System.out.println("("+this.getClass()+"):"+ "Pressing a button");
 		if(e.getSource() == loginBtn){
 			System.out.println("Logging inn");
-			MainWindow.requestLogin(userNameField.getText(), passwordField.getText());
+//			MainWindow.requestLogin(userNameField.getText(), passwordField.getText());
 			//TODO: REMOVE
 			Employee carl = new Employee("Carl");
 			MainWindow.setUser(carl);
