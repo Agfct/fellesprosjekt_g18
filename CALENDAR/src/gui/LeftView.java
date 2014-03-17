@@ -430,7 +430,7 @@ public class LeftView extends JPanel implements ListSelectionListener, ActionLis
 			long start = Long.parseLong("1394983800000");
 			long end = Long.parseLong("1394987400000");
 			Appointment app = new Appointment(new Creator(MainWindow.getUser()),"Gammelt Møte",new TimeSlot(start,end),"Borte Vekk",null,false,"Vi skal ha møte, kom", array);
-			MainWindow.newAppointmentView(app); 	
+			MainWindow.newAppointmentView(app,true,""); 	
 		}
 		// If New Appointment is pressed
 		else if (e.getSource() == appointmentsBtn){

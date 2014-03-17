@@ -142,10 +142,10 @@ public class MainWindow extends JFrame{
 	}
 	
 	//adding an newAppointmentView
-	protected static void newAppointmentView(Appointment newAppointment , boolean newOrEdit){
+	protected static void newAppointmentView(Appointment newAppointment , boolean newOrEdit ,String from){
 		//adding an newAppointmentView to the layerPane
 		// True = newAppointmentViee, False = editAppointmentView
-		newAppointmentView = new NewAppointmentView(newAppointment,newOrEdit);
+		newAppointmentView = new NewAppointmentView(newAppointment,newOrEdit, from);
 		newAppointmentView.setBounds(0, 0, 1200, 800);
 		layoutView.add(newAppointmentView,JLayeredPane.POPUP_LAYER,4);
 	}

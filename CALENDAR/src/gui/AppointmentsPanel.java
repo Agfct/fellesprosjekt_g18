@@ -208,7 +208,8 @@ public class AppointmentsPanel extends JPanel implements ActionListener {
 		else if (e.getSource() == editBtn){
 			System.out.println("Pressing edit Btn");
 			// Open newAppointmentView for editing
-			MainWindow.newAppointmentView(appointment, false);
+			MainWindow.newAppointmentView(appointment, false,"editApp");
+			MainWindow.removeEditAppointmentsView();
 		}
 	}
 	public void removeThisPanel(){
