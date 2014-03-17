@@ -64,7 +64,7 @@ public class ServerRequest {
 		try {
 			Employee emp = db.getEmployeeByUsername(username);
 			boolean checkPassword = db.checkPassword(emp, password);
-			if (checkPassword = true) {
+			if (checkPassword == true) {
 				return new Packet("LOGIN_ACCEPTED", emp);
 			}
 			else return new Packet("LOGIN_DENIED");

@@ -289,20 +289,21 @@ public class MainWindow extends JFrame{
 		}
 	}
 	// Sending login request and attempting to log in
-		public static void requestLogin(String user, String password){
-			Packet response = requestHandler.loginRequest(user, password);
-			System.out.println("du fekk en ting" + response.getName());
+	public static void requestLogin(String user, String password){		
+		System.out.println("MainWindow: Sending loginRequest...");
+		Packet response = requestHandler.loginRequest(user, password);
+		System.out.println("MainWindow: Response received" + response.getName());
 
-			if (response.getName().equals("LOGIN_ACCEPTED")){
-				setCalendarMode();
-			}
-			else{
-				// add warning message here
-				System.out.println("hahah du kan ikkje logge inn");
-				setLoginMode();
-			}
+		if (response.getName().equals("LOGIN_ACCEPTED")){
+			setCalendarMode();
 		}
-	
+		else{
+			// add warning message here
+			System.out.println("MainWindow: can not log inn");
+			setLoginMode();
+		}
+	}
+
 	// TEST FOR TIME ALTERNATIVES
 	public static ArrayList<String> getTimeArray(){
 		ArrayList<String> timeArray = new ArrayList<String>();

@@ -8,7 +8,7 @@ import java.net.SocketException;
 
 import networkDiv.Packet;
 
-public class RequestThread implements Runnable {
+public class RequestThread extends Thread{
 	
 	Socket clientSocket;
 	ServerRequest serverRequest;
@@ -35,15 +35,17 @@ public class RequestThread implements Runnable {
 	}
 	public void run () {
 		try {
-			Packet packet = (Packet) inputStream.readObject();
-			Packet response = serverRequest.getRespose(packet);
-			outputStream.writeObject(response);
+			while (true){
+				Packet packet = (Packet) inputStream.readObject();
+				Packet response = serverRequest.getRespose(packet);
+				outputStream.writeObject(response);
+			}
 		}
 		catch (SocketException e) {
 			System.out.println("RequestThread: Socket not found!");
 		}
 		catch (IOException | ClassNotFoundException e) {
-			
+
 			e.printStackTrace();
 		}
 	}

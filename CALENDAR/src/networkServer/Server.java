@@ -51,6 +51,10 @@ public class Server implements Runnable {
 		}
 	}
 	
+//	public void addRequest (Socket clientSocket){
+//		new RequestThread(clientSocket).start();
+//	}
+	
 	public synchronized boolean isRunning () {
 		return running;
 	}

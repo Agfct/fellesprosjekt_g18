@@ -47,8 +47,11 @@ public class Client {
 		Packet response;
 		
 		try {
+			System.out.println("Client: Sending request...");
 			requestOutput.writeObject(request);
+			System.out.println("...");
 			response = (Packet) requestInput.readObject();
+			System.out.println("Client: Response received!");
 			return response;
 		}
 		catch (Exception e) {
