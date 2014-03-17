@@ -36,10 +36,10 @@ public class DBAccess{
 		}
 	}
 
-	public MeetingRoom getAllMeetingRooms() throws Exception {
+	public ArrayList<MeetingRoom> getAllMeetingRooms() throws Exception {
 		try {
 			rs = createResultSet("select * from meetingroom");
-			return writeMeetingRoomResultSet(rs);
+			return writeAllMeetingRoomResultSet(rs);
 		} catch (Exception e) {
 			throw e;
 		} finally {

@@ -26,6 +26,11 @@ public class DBQueries {
 	    	System.out.println(d);
 	    }
 	    System.out.println(dba.getEmployeeByUsername("Siv"));
+	    
+	    ArrayList<MeetingRoom> g = dba.getAllMeetingRooms();
+	    for (MeetingRoom h : g) {
+	    	System.out.println(h);
+	    }
 	  }
 
 	
