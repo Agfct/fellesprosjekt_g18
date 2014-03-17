@@ -1,5 +1,9 @@
 package model;
 
+import gui.AppointmentApp;
+import gui.MainWindow;
+import gui.NewAppointmentView;
+
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
@@ -16,6 +20,7 @@ public class Appointment {
 	private String description;
 	private ArrayList<Invitation> invitations;
 	private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
+	private AppointmentApp appointmentApp;
 
 	//PropertyNames
 	public final static String INVITATIONS_PROPERTY_NAME = "invitations";
@@ -146,6 +151,7 @@ public class Appointment {
 	public void setInternal(boolean internal) 		{this.internal = internal;}
 	public void setDescription(String description) 	{this.description = description;}
 	public void setAppointmentID(int appointmentID) {this.appointmentID = appointmentID;}
+	
 	//wibbly wobbly... time-y wimey... stuff.
 	public void setDuration(long newDuration){
 		TimeSlot timeSlot = getTimeSlot();
@@ -167,6 +173,9 @@ public class Appointment {
 		this.timeSlot.setDate(newDate);
 		fireTimeSlotChanged(timeSlot);
 	}
+	public void setAppointmentApp(AppointmentApp appointmentApp) {
+		this.appointmentApp = appointmentApp;
+	}
 	//-------
 	
 	//Getters
@@ -182,5 +191,8 @@ public class Appointment {
 	public long getStartTime()		{return getTimeSlot().getStart();}
 	public long getEndTime()		{return getTimeSlot().getEnd();}
 	public Date getDate()			{return getTimeSlot().getDate();}
+	public AppointmentApp getAppointmentApp() {
+		return appointmentApp;
+	}
 	//-------
 }

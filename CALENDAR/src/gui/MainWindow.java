@@ -9,6 +9,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -32,11 +33,12 @@ public class MainWindow extends JFrame{
 	private static MainWindow mainWindow;
 	private static JLayeredPane layoutView;
 	private static JScrollPane mainScrollPane;
-	private static JScrollPane calendarViewScrollPane;
+//	private static JScrollPane calendarViewScrollPane;
 	private static LoginView loginWindow;
 	private static TopView topView;
 	private static LeftView leftView;
 	private static CalendarView calendarView;
+	private static CalendarPanel calendarPanel;
 	private static NewAppointmentView newAppointmentView;
 	private static EditAppointmentsView editAppointmentsView;
 	private static AppointmentsView appointmentsView;
@@ -82,29 +84,31 @@ public class MainWindow extends JFrame{
 		backgroundPanel.setBounds(0,0,2000,2000);
 		
 		// JPanels
+		calendarPanel = new CalendarPanel(); //Panel must be created before the CalendarView
 		loginWindow = new LoginView();
 		topView = new TopView();
 		topView.setBounds(0, 0, 1200, 100); // setting the area for the TopView (x,y,width,height)
 		leftView = new LeftView();
 		leftView.setBounds(0,100,200,700); // setting the area for the LeftView (x,y,width,height)
 		calendarView = new CalendarView();
-//		calendarView.setBounds(200,100,1000,900); // setting the area for the Calendar (x,y,width,height)
+		calendarView.setBounds(200,100,1000,700); // setting the area for the Calendar (x,y,width,height)
 		
 		// Panes
 		mainScrollPane = new JScrollPane();
 		mainScrollPane.setName("mainScrollPane");
-		calendarViewScrollPane = new JScrollPane();
-		calendarViewScrollPane.setName("calendarViewScrollPane");
-		calendarViewScrollPane.setBounds(200, 100, 1000, 700);
-		calendarViewScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+//		calendarViewScrollPane = new JScrollPane();
+//		calendarViewScrollPane.setName("calendarViewScrollPane");
+//		calendarViewScrollPane.setBounds(200, 100, 1000, 700);
+//		calendarViewScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+//		calendarViewScrollPane.setBorder(BorderFactory.createEmptyBorder());
 		layoutView =  new JLayeredPane();
 		layoutView.setPreferredSize(new Dimension(1181, 754)); //Size so that Scroll Bars reacts
 		layoutView.add(backgroundPanel,JLayeredPane.DEFAULT_LAYER,0); //Background TEST	
 		layoutView.add(topView,JLayeredPane.PALETTE_LAYER,1); //adding the topView to the DEFAULT (bottom) layer of the layoutPane
 		layoutView.add(leftView,JLayeredPane.PALETTE_LAYER,2); //adding the topView to the DEFAULT (bottom) layer of the layoutPane
-		layoutView.add(calendarViewScrollPane,JLayeredPane.PALETTE_LAYER,3); //adding the calendarView ScrollPane 
-		calendarViewScrollPane.getViewport().add(calendarView); // adding the calendarView to the ScrollPane
-			
+		layoutView.add(calendarView,JLayeredPane.PALETTE_LAYER,3); //adding the calendarView ScrollPane 
+//		layoutView.add(calendarViewScrollPane,JLayeredPane.PALETTE_LAYER,3); //adding the calendarView ScrollPane 
+//		calendarViewScrollPane.getViewport().add(calendarView); // adding the calendarView to the ScrollPane
 		
 		//adding stuff
 		mainWindow.setContentPane(mainScrollPane);
@@ -157,6 +161,9 @@ public class MainWindow extends JFrame{
 	}
 	public static NewAppointmentView getNewAppoitnmentsView(){
 		return newAppointmentView;
+	}
+	public static CalendarPanel getCalendarPanel(){
+		return calendarPanel;
 	}
 	
 	//adding an appointmentView
@@ -249,6 +256,7 @@ public class MainWindow extends JFrame{
 		topView.repaint();
 		leftView.repaint();
 		layoutView.repaint();
+		calendarView.refreshBackgroundImg();
 		for (int i = 0; i < leftView.getComponentCount(); i++) {
 			if (leftView.getComponent(i).getBackground() != new JTextField().getBackground() &&  
 					leftView.getComponent(i).getBackground() != new JComboBox().getBackground()){
