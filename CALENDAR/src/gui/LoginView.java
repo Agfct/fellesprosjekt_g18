@@ -177,11 +177,11 @@ public class LoginView extends JPanel implements ActionListener {
 		System.out.println("("+this.getClass()+"):"+ "Pressing a button");
 		if(e.getSource() == loginBtn){
 			System.out.println("Logging inn");
+			MainWindow.requestLogin(userNameField.getText(), passwordField.getText());
 			//TODO: REMOVE
 			Employee carl = new Employee("Carl");
 			MainWindow.setUser(carl);
 			MainWindow.getTopView().setUserName(carl.getName());
-			
 			MainWindow.setCalendarMode();
 		}
 		else if(e.getSource() == cancelBtn){
