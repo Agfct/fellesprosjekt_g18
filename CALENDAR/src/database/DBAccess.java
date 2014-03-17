@@ -36,10 +36,10 @@ public class DBAccess{
 		}
 	}
 
-	public ArrayList<MeetingRoom> getAllMeetingRooms() throws Exception {
+	public MeetingRoom getAllMeetingRooms() throws Exception {
 		try {
 			rs = createResultSet("select * from meetingroom");
-			return writeAllMeetingRoomResultSet(rs);
+			return writeMeetingRoomResultSet(rs);
 		} catch (Exception e) {
 			throw e;
 		} finally {
@@ -49,11 +49,8 @@ public class DBAccess{
 
 	public boolean checkPassword(Employee employee, String password) throws Exception {
 		try {
-			System.out.println(employee.getParticipantID());
 			rs = createResultSet(String.format("select password from employee where participantID = %d", employee.getParticipantID()));
-			rs.next();
-			String result = writePasswordResultSet(rs);
-			return (result.equals(password));
+			return (writePasswordResultSet(rs)==password);
 		} catch (Exception e) {
 			throw e;
 		} finally {
@@ -325,15 +322,11 @@ public class DBAccess{
 
 	private Employee writeEmployeeResultSet(ResultSet rs) throws SQLException {
 		Employee employee = new Employee(rs.getString("username"));
-		employee.setParticipantID(rs.getInt("participantID"));
-		employee.setEmail(rs.getString("email"));
-		employee.setName(rs.getString("name"));
 		return employee;
 	}
 
 	private String writePasswordResultSet(ResultSet rs) throws SQLException {
-		String pass = rs.getString("password");
-		return pass;
+		return rs.getString("password");
 	}
 
 	private Appointment writeAppointmentResultSet(ResultSet rs) throws Exception {
@@ -407,8 +400,8 @@ public class DBAccess{
 	//unnecessary
 	public Appointment setCreator(Appointment appointment) throws Exception {
 		try {
-			String query = String.format("select * from employee where participantID = %d", appointment.getCreator().getPerson().getParticipantID());
-			System.out.println(appointment.getCreator().getPerson().getParticipantID() +"Confirm");
+			String query = String.format("select * from employee where participantID = %d", appointment.getCreator().getEmployee().getParticipantID());
+			System.out.println(appointment.getCreator().getEmployee().getParticipantID() +"Confirm");
 			rs = createResultSet(query);
 			Employee employee =  writeEmployeeResultSet(rs);
 			appointment.setCreator(new Creator(employee));
@@ -463,11 +456,3 @@ public class DBAccess{
 		}
 	}
 }
-
-
-
-
-
-
-
-

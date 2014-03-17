@@ -57,27 +57,17 @@ public class Appointment {
 	public void addInvitation(Employee employee){
 		Invitation temp = new Invitation(employee);
 		invitations.add(temp);
-//		MainWindow.getNewAppoitnmentsView().appointmentChanged("add", temp);
-		System.out.println("FIRE IN THE HOLE 1");
 		pcs.firePropertyChange("add", null, temp);
-		WTFisWithTheLIst();
 	}
 	
 	public void removeInvitation(Employee employee){
 		for (Invitation removedInvite : invitations) {
 			if(removedInvite.getEmployee() == employee){
 //				MainWindow.getNewAppoitnmentsView().appointmentChanged("remove", removedInvite);
-				System.out.println("FIRE IN THE HOLE 1");
 				pcs.firePropertyChange("remove", null, removedInvite);
 				invitations.remove(removedInvite);
-				WTFisWithTheLIst();
 				break;
 			}
-		}
-	}
-	public void WTFisWithTheLIst(){
-		for (int i = 0; i < invitations.size(); i++) {
-			System.out.println(invitations.get(i).toString());
 		}
 	}
 	
@@ -197,6 +187,14 @@ public class Appointment {
 	public Date getDate()			{return getTimeSlot().getDate();}
 	public AppointmentApp getAppointmentApp() {
 		return appointmentApp;
+	}
+	public Invitation getInvitation(Employee employee){
+		for (Invitation invite : invitations) {
+			if(invite.getEmployee() == employee){
+				return invite;
+			}
+		}
+		return null;
 	}
 	//-------
 }

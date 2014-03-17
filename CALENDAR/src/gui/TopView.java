@@ -53,7 +53,7 @@ public class TopView extends JPanel implements ActionListener{
 		cLabel0.gridy = 0;
 		cLabel0.anchor = GridBagConstraints.LINE_START;
 //		cLabel0.gridwidth = 2;
-		userNameLabel = new JLabel("Username"); //replace with actual name
+		userNameLabel = new JLabel("Username");
 		userNameLabel.setName("userNameLabel");
 		//DESIGN for the Label text
 		userNameLabel.setForeground(MainWindow.getTxtColor());
@@ -227,6 +227,14 @@ public class TopView extends JPanel implements ActionListener{
 			color = 0;
 			MainWindow.setFontAndColor(0);
 		}
+	}
+
+	public String getUserName() {
+		return userNameLabel.getText();
+	}
+
+	public void setUserName(String userName) {
+		userNameLabel.setText(userName);
 	}
 	
 	// Overriding the paintComponent to get GraidientPaint

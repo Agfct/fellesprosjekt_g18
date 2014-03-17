@@ -26,6 +26,8 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.Box;
 
+import model.Employee;
+
 public class LoginView extends JPanel implements ActionListener {
 	private JButton loginBtn;
 	private JButton cancelBtn;
@@ -176,7 +178,11 @@ public class LoginView extends JPanel implements ActionListener {
 		if(e.getSource() == loginBtn){
 			System.out.println("Logging inn");
 			MainWindow.requestLogin(userNameField.getText(), passwordField.getText());
-			
+			//TODO: REMOVE
+			Employee carl = new Employee("Carl");
+			MainWindow.setUser(carl);
+			MainWindow.getTopView().setUserName(carl.getName());
+			MainWindow.setCalendarMode();
 		}
 		else if(e.getSource() == cancelBtn){
 			System.out.println("EXITING APPLICATION");

@@ -55,7 +55,6 @@ public class Invitation {
 	}
 	//Setters
 	public void setStatus(InvitationStatus is) {
-		System.out.println("ER DET RETT STATUS: " + is );
 		this.status = is;
 		participantsView.changeStatusField(status);
 	}

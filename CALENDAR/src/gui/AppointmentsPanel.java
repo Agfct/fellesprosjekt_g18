@@ -12,6 +12,7 @@ import java.awt.Label;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.net.ssl.SSLEngineResult.Status;
 import javax.swing.DefaultComboBoxModel;
@@ -63,9 +64,9 @@ public class AppointmentsPanel extends JPanel implements ActionListener {
 		cLabel0.gridx = 0;
 		cLabel0.gridy = 0;
 		cLabel0.anchor = GridBagConstraints.LINE_START;
-		startEndTime = new JLabel(); 
-//		String time = appointment.getStartTime()+"-"+appointment.getEndTime();
-		String time = "01:00"+"-"+"12:30";
+		startEndTime = new JLabel();
+		String time = appointment.getStartTime()+"-"+appointment.getEndTime();
+//		String time = "01:00"+"-"+"12:30";
 		startEndTime.setText(time);
 		startEndTime.setName("startEndTime");
 		startEndTime.setPreferredSize(new Dimension(80,24));
@@ -76,14 +77,20 @@ public class AppointmentsPanel extends JPanel implements ActionListener {
 		
 		//title
 		GridBagConstraints cLabel1 = new GridBagConstraints();
-		cLabel1.insets = new Insets(5,5,0,0);
+		cLabel1.insets = new Insets(5,5,0,0);			
 		cLabel1.gridx = 2;
 		cLabel1.gridy = 0;
-		cLabel1.anchor = GridBagConstraints.CENTER;
-//		title = new JLabel(appointment.getTitle());
-		title = new JLabel("A CAPSLOCK MEETING THAT NEVER ENDS"); //TODO: REMOVE THIS
+//		cLabel1.anchor = GridBagConstraints.CENTER;
+		title = new JLabel(appointment.getTitle());
 		title.setName("title");
-		title.setPreferredSize(new Dimension(180,20));
+		if(appointment.getTitle().length() < 20){
+			title.setPreferredSize(new Dimension(80,20));
+			cLabel1.insets = new Insets(5,63,0,42);
+		}
+		else{
+//			cLabel1.insets = new Insets(5,5,0,0);
+			title.setPreferredSize(new Dimension(180,20));
+		}
 		//DESIGN for the Label text
 		title.setForeground(Color.BLACK);
 		title.setFont(new Font(MainWindow.getMFont(),Font.BOLD,12));

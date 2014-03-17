@@ -13,6 +13,7 @@ import java.awt.Image;
 import java.awt.Insets;
 import java.awt.Point;
 import java.awt.RenderingHints;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -20,10 +21,15 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 
+import model.Appointment;
+import model.Employee;
+import model.InvitationStatus;
+
 
 /** The Calendar for the application.
  *  This View displays the days in the week (The non scrollable view ontop of the calendarPanel).
  *	It has a custom CalendarPanel that contains all the appointments.
+ *  CalendarView contains t
  *  
  * @author Anders
  */
@@ -33,6 +39,9 @@ public class CalendarView extends JPanel {
 	private JScrollPane calendarScrollPane;
 	private CalendarPanel calendarPanel;
 	private Font font;
+	private static ArrayList<Appointment> yourAppointments;
+	private static ArrayList<Appointment> invitedAppointments;
+	private static ArrayList<Appointment> otherAppointments;
 	
 	public CalendarView(){
 //		backgroundImg = new ImageIcon(this.getClass().getResource("/backgrounds/calendarBackground.png")).getImage();
@@ -42,6 +51,7 @@ public class CalendarView extends JPanel {
 		setLayout(new GridBagLayout());
 		setOpaque(false);
 		//Setting Size
+		
 
 		/** Setting CalendarPanel **/
 		calendarPanel = MainWindow.getCalendarPanel();
@@ -83,6 +93,47 @@ public class CalendarView extends JPanel {
 		g2d.drawString("6/3", 118, 20);
 
     }
+    
+	/** ADDING APPOINTMENTS TO PROGRAM **/
+	public void createOtherAppointments(){
+		//TODO: ADD THE CLIENT CALL FOR APPOINTMENTS
+		otherAppointments = new ArrayList<Appointment>(); // REMOVE
+		for (int i = 0; i < MainWindow.getEmployeeList().size(); i++) {
+			otherAppointments.add(new Appointment(MainWindow.getEmployeeList().get(i)));			
+		}
+	}
+	public void createYourAppointments(){
+		//TODO: ADD THE CLIENT CALL FOR APPOINTMENTS
+		yourAppointments = new ArrayList<Appointment>();
+//		yourAppointments = new ArrayList<Appointment>(); // REMOVE
+//		for (int i = 0; i < MainWindow.getEmployeeList().size(); i++) {
+//			yourAppointments.add(new Appointment(MainWindow.getEmployeeList().get(i)));			
+//		}
+	}
+	public void createInvitedAppointments(){
+		//TODO: ADD THE CLIENT CALL FOR APPOINTMENTS
+		invitedAppointments = new ArrayList<Appointment>(); // REMOVE
+		
+		Appointment app = new Appointment(new Employee("Fredrik"));
+		app.addInvitation(MainWindow.getUser());
+		app.getInvitation(MainWindow.getUser()).setStatus(InvitationStatus.ACCEPTED);
+		app.setTitle("Et Møte");
+		invitedAppointments.add(app);
+//		for (int i = 0; i < MainWindow.getEmployeeList().size(); i++) {
+//			invitedAppointments.add(new Appointment(MainWindow.getEmployeeList().get(i)));			
+//		}
+	}
+	
+	public static ArrayList<Appointment> getYourAppointments(){
+		return yourAppointments;
+	}
+	public static ArrayList<Appointment> getInvitedAppointments(){
+		return invitedAppointments;
+	}
+	public static ArrayList<Appointment> getOtherAppointments(){
+		return otherAppointments;
+	}
+	
     public void refreshBackgroundImg(){
     	backgroundImg = MainWindow.getBackgroundImage();
     	repaint();

@@ -1045,7 +1045,10 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 		// If saveAppointmentBtn is pressed
 		else if (e.getSource() == saveAppointmentBtn){
 			System.out.println("Saving the newAppointment");
-//			MainWindow.removeNewAppointmentView();	
+			//TODO: SENDE TIL DATABASEN, OG FÅ APPOINTMENT I RETUR
+			//TODO: KRAV FOR Å FÅ TRYKKE SAVE
+			CalendarView.getYourAppointments().add(appointmentModel);
+			MainWindow.removeNewAppointmentView();	
 		}
 		
 		//TODO: Fix Timey whimey stuff
@@ -1232,14 +1235,6 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 		
 		
 		// TEST
-		System.out.println("AppointmentModel TITLE:");
-		System.out.println(appointmentModel.getTitle());
-		System.out.println("AppointmentModel DESCRIPTION:");
-		System.out.println(appointmentModel.getDescription());
-		System.out.println("AppointmentModel LOCATION:");
-		System.out.println(appointmentModel.getLocation());
-		System.out.println("AppointmentModel DURATION:");
-		System.out.println(appointmentModel.getDuration());
 	}
 	//TableModelListener
 //	@Override
@@ -1290,7 +1285,6 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		// TODO Auto-generated method stub
-		System.out.println("FIRE IN THE HOLE 2");
 		if(evt.getPropertyName().equals("add")){
 			participantsPanelList.addParticipantPanel(((Invitation)evt.getNewValue()).getParticipantsView());
 		}

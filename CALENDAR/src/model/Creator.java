@@ -17,7 +17,7 @@ public class Creator {
 		this.statusChanged = statusChanged;
 	}
 	
-	public Employee getPerson(){
+	public Employee getEmployee(){
 		return person;
 	}
 	

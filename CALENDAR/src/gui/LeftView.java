@@ -412,24 +412,9 @@ public class LeftView extends JPanel implements ListSelectionListener, ActionLis
 		System.out.println("("+this.getClass()+"):"+ "Pressing a button");
 		
 		// If New Appointment is pressed
-		// WARNING TEST TEST TEST
-		//TODO: REMOVE TEST
 		if (e.getSource() == newAppointmentBtn){
 			System.out.println("Opening newAppointment Window");
-			ArrayList<Invitation> array = new ArrayList<Invitation>();
-			for (Employee employer : MainWindow.getEmployeeList()) {
-				Invitation inv = new Invitation(employer);
-				inv.setStatus(InvitationStatus.ACCEPTED);
-				array.add(inv);				
-			}
-			Calendar c = Calendar.getInstance();
-//			long start = c.getTimeInMillis();
-//			c.add(Calendar.HOUR_OF_DAY, 1);
-//			c.add(Calendar.HOUR, 1);
-//			long end = c.getTimeInMillis();
-			long start = Long.parseLong("1394983800000");
-			long end = Long.parseLong("1394987400000");
-			Appointment app = new Appointment(new Creator(MainWindow.getUser()),"Gammelt Møte",new TimeSlot(start,end),"Borte Vekk",null,false,"Vi skal ha møte, kom", array);
+			Appointment app = new Appointment(MainWindow.getUser());
 			MainWindow.newAppointmentView(app,true,""); 	
 		}
 		// If New Appointment is pressed
