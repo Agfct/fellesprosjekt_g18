@@ -6,7 +6,7 @@ import model.*;
 import java.util.ArrayList;
 
 public class DBAccess{
-	private String conURL = "jdbc:mysql://mysql.stud.ntnu.no/areeh_calenderDB";
+	private String conURL = "jdbc:mysql://mysql.stud.ntnu.no/areeh_calenderdb";
 	private Connection con;
 	private String dbName;
 	private Statement stmt;
@@ -61,6 +61,7 @@ public class DBAccess{
 	public Employee getEmployeeByParticipantID(int participantID) throws Exception {
 		try {
 			rs = createResultSet(String.format("select * from employee where participantID = %d", participantID));
+			rs.next();
 			return writeEmployeeResultSet(rs);
 		} catch (Exception e) {
 			throw e;
@@ -164,7 +165,7 @@ public class DBAccess{
 	public ArrayList<Appointment> getCreatedAppointments(int participantID) throws Exception {
 		Employee creator = getEmployeeByParticipantID(participantID);
 		try {	
-			rs = createResultSet(String.format("select * from appointment where creator = %s;", creator.getName()));
+			rs = createResultSet(String.format("select * from appointment where creator = \"%s\";", creator.getName()));
 			return writeAllAppointmentsResultSet(rs);
 		} catch (Exception e) {
 			throw e;

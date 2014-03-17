@@ -139,6 +139,8 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 	private RoomBooker roomBooker;
 	private ArrayList<Employee> allEmployees;
 	
+	private String from;
+	
 //	private JTable employeeListTable;
 //	private JTable participantsListTable;
 //	private TableColumn acceptedCol;
@@ -149,7 +151,7 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 
 
 	
-	public NewAppointmentView(Appointment newAppointmentModel, boolean isNewAppointmentView){
+	public NewAppointmentView(Appointment newAppointmentModel, boolean isNewAppointmentView, String from){
 		// Using a GridBagLayout for the Grid
 		setLayout(new GridBagLayout());
 //		setOpaque(false);
@@ -158,6 +160,8 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 		setBackground(Color.GREEN);
 		this.isNewAppointmentView = isNewAppointmentView;
 		
+		this.from = from;
+
 		/** ADDING EMPLOYEE LIST **/
 		allEmployees = MainWindow.getEmployeeList();
 		
@@ -1012,7 +1016,13 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 		// If cancelAppointmentBtn is pressed
 		if (e.getSource() == cancelAppointmentBtn){
 			System.out.println("Canceled the newAppointment");
-			MainWindow.removeNewAppointmentView();	
+			if(from.equals("editApp")){
+				MainWindow.removeNewAppointmentView();
+				MainWindow.editAppointmentsView();
+			}
+			else{
+				MainWindow.removeNewAppointmentView();	
+			}
 		}
 		// If addExParticipantsBtn is pressed
 		else if (e.getSource() == addExParticipantsBtn){
