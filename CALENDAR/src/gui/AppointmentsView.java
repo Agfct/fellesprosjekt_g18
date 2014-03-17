@@ -40,7 +40,10 @@ import model.Appointment;
 import model.Employee;
 import model.MeetingRoom;
 import model.TimeSlot;
-
+/** Contains all your invitations as appointments
+ *  
+ * @author Anders
+ */
 public class AppointmentsView extends JPanel implements ListSelectionListener , FocusListener, ItemListener, ActionListener{
 	private JLabel filtersLabel;
 	private JLabel acceptedLabel;
@@ -89,35 +92,10 @@ public class AppointmentsView extends JPanel implements ListSelectionListener , 
 		/** CREATING BUTTONS, LABELS AND TEXT FIELDS **/
 		
 		// appointmentsList
-		//TEST
-		Employee employer = new Employee("Anders");
-		Appointment App1 = new Appointment(employer);
-		App1.setTitle("Seriøst Møte som har sykt lang tittel som ikke går");
-		Appointment App2 = new Appointment(employer);
-		App2.setTitle("Møte");
-		Appointment App3 = new Appointment(employer);
-		App3.setTitle("Boorring meeting");
-		Appointment App4 = new Appointment(employer);
-		App4.setTitle("Møt meg i dag?");
-		Appointment App5 = new Appointment(employer);
-		App5.setTitle("Business meeting");
-		Appointment App6 = new Appointment(employer);
-		App6.setTitle("Budsjett møte");
-		Appointment App7 = new Appointment(employer);
-		App7.setTitle("Ikke egentlig et møte");
-		Appointment App8 = new Appointment(employer);
-		App8.setTitle("Tittel         asdadsadadadadasd        som er lang      ");
-		appointmentsListModel.addElement(App1);
-		appointmentsListModel.addElement(App2);
-		appointmentsListModel.addElement(App3);
-		appointmentsListModel.addElement(App4);
-		appointmentsListModel.addElement(App5);
-		appointmentsListModel.addElement(App6);
-		appointmentsListModel.addElement(App7);
-		appointmentsListModel.addElement(App8);
 		appointmentRenderer = new AppointmentCellRenderer();
-		//TEST
+		
 		appointmentsList = new JList<Appointment>(appointmentsListModel);
+		
 		appointmentsList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 //		appointmentsList.setVisibleRowCount();
 		appointmentsList.setName("appointmentsList");
@@ -272,6 +250,7 @@ public class AppointmentsView extends JPanel implements ListSelectionListener , 
 //		cLabel9.anchor = GridBagConstraints.LINE_START;
 		descriptionField.setName("descriptionField");
 		descriptionField.addFocusListener(this);
+		descriptionField.setEditable(false);
 		// DESIGN FOR Field:
 //		descriptionField.setBackground(MainWindow.getBckColor());
 //		descriptionField.setForeground(MainWindow.getTxtColor());
@@ -467,6 +446,9 @@ public class AppointmentsView extends JPanel implements ListSelectionListener , 
 //		cLabel24.gridy = 10;
 //		add(new JLabel("                       "),cLabel24);
 		
+		/** ADDING APPOINTMENTS **/
+		addAppointments();
+		
 		
 		
 	}
@@ -490,10 +472,18 @@ public class AppointmentsView extends JPanel implements ListSelectionListener , 
 		g2d.drawString("Appointments", 450, 150);						
     }
     
+    public void addAppointments(){
+    	for (int i = 0; i < CalendarView.getInvitedAppointments().size(); i++) {
+    		appointmentsListModel.addElement(CalendarView.getInvitedAppointments().get(i));
+		}
+    }
+    
 	//ListSelection Listener for the List of Appointments
 	@Override
 	public void valueChanged(ListSelectionEvent e) {
 		// TODO Auto-generated method stub
+		System.out.println("du tryker på en appointment");
+//		descriptionField.setText(((Appointment)e.getSource()).getDescription());
 		
 	}
 	

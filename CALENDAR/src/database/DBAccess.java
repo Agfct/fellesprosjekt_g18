@@ -400,8 +400,8 @@ public class DBAccess{
 	//unnecessary
 	public Appointment setCreator(Appointment appointment) throws Exception {
 		try {
-			String query = String.format("select * from employee where participantID = %d", appointment.getCreator().getPerson().getParticipantID());
-			System.out.println(appointment.getCreator().getPerson().getParticipantID() +"Confirm");
+			String query = String.format("select * from employee where participantID = %d", appointment.getCreator().getEmployee().getParticipantID());
+			System.out.println(appointment.getCreator().getEmployee().getParticipantID() +"Confirm");
 			rs = createResultSet(query);
 			Employee employee =  writeEmployeeResultSet(rs);
 			appointment.setCreator(new Creator(employee));

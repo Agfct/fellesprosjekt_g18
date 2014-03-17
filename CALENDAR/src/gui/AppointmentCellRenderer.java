@@ -12,6 +12,8 @@ import javax.swing.ListCellRenderer;
 import javax.swing.border.LineBorder;
 
 import model.Appointment;
+import model.Invitation;
+import model.InvitationStatus;
 
 public class AppointmentCellRenderer implements ListCellRenderer<Appointment>{
 	protected DefaultListCellRenderer defaultRenderer = new DefaultListCellRenderer();
@@ -30,7 +32,14 @@ public class AppointmentCellRenderer implements ListCellRenderer<Appointment>{
 //		String time = Long.toString(value.getStartTime())+'-'+ value.getEndTime();
 		String time = "12:00"+"-"+"18:30";
 		String title = value.getTitle();
-//		String Pending = value.get // get that persons invitation+
+		Invitation invitation = value.getInvitation(MainWindow.getUser()); // get that persons invitation+
+		InvitationStatus status;
+		if(invitation != null){
+			 status  = invitation.getStatus();
+		}
+		else{
+			 status = InvitationStatus.PENDING;
+		}
 //		String date = value.getDate // get date and put it correctly into label
 		
 		// Using Html to create a table for the values
@@ -39,8 +48,8 @@ public class AppointmentCellRenderer implements ListCellRenderer<Appointment>{
 	    				"<table class='fixed'>"+
 	    					"<tr>"+
 	    						"<th width='40'px>"+time+"</th>"+
-	    						"<th width='250'px>"+title+"</th>"+
-	    						"<th class='long' width='20'px>"+"Pending"+"</div>"+
+	    						"<th width='240'px>"+title+"</th>"+
+	    						"<th class='long' width='20'px>"+status.getStatus()+"</div>"+
 	    					"</tr>"+
 	    					"<tr>"+
 	    						"<th width='40'px>"+"dd.mm.year"+"</th>"+

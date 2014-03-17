@@ -38,6 +38,8 @@ public class EditAppointmentsView extends JPanel implements ActionListener{
 				
 		backgroundImg = MainWindow.getBackgroundImage();
 		
+
+		
 		/** CREATING BUTTONS, LABELS AND TEXT FIELDS **/
 		
 		// appointmentsList
@@ -68,11 +70,8 @@ public class EditAppointmentsView extends JPanel implements ActionListener{
 		cLabel0.gridx = 0;
 		cLabel0.gridy = 0;
 	
-		//TODO: REMOVE THIS:
-		appointmentsPanelList.addAppointmentsPanel(new AppointmentsPanel(new Appointment(new Employee("Anders"))));
-		appointmentsPanelList.addAppointmentsPanel(new AppointmentsPanel(new Appointment(new Employee("Fredrik"))));
 
-		//		this.add(participantsScrollPane, BorderLayout.CENTER);
+		//this.add(participantsScrollPane, BorderLayout.CENTER);
 		add(appointmentsScrollPane, cLabel0);
 		
 		//closeBtn
@@ -102,6 +101,9 @@ public class EditAppointmentsView extends JPanel implements ActionListener{
 		cLabel5.gridx = 8;
 		cLabel5.gridy = 11;
 		add(new JLabel("                                                       "),cLabel5);
+		
+		/** ADDING ALL APPOINTMENTS EVERYTIME CONSTRUCTOR RUNS**/
+		addAllAppointments();
 	}
 	
 	// Overriding the paintComponent to get background and Header
@@ -122,6 +124,14 @@ public class EditAppointmentsView extends JPanel implements ActionListener{
 		g2d.setFont(font);
 		g2d.setColor(Color.WHITE);
 		g2d.drawString("Edit Appointments", 450, 150);						
+    }
+    public void addAllAppointments(){
+    	
+    	for (int i = 0; i < CalendarView.getYourAppointments().size(); i++) {
+    			System.out.println("adding all apointements");
+    			System.out.println("");
+    			appointmentsPanelList.addAppointmentsPanel(new AppointmentsPanel(CalendarView.getYourAppointments().get(i)));
+		}
     }
     
     // ActionListener for buttons (Close and so on)

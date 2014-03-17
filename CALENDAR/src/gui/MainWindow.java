@@ -49,6 +49,7 @@ public class MainWindow extends JFrame{
 	private static Color btnBackgroundColor;
 	private static ArrayList<Employee> allEmployees;
 	
+	/** The Main user "you", of the program **/
 	private static Employee user;
 
 	public static void main(String[] args) {
@@ -115,6 +116,7 @@ public class MainWindow extends JFrame{
 		mainScrollPane.getViewport().add(loginWindow);
 		mainWindow.setVisible(true);
 		mainWindow.createEmployeeList();
+
 	}
 //	public static MainWindow getMainWindow(){
 //		return mainWindow;
@@ -125,6 +127,10 @@ public class MainWindow extends JFrame{
 	}
 	// This changes from the LoginView to the 3 main views (Top,Left and Calendar)
 	protected static void setCalendarMode(){
+		calendarView.createInvitedAppointments(); // appointments after Employee
+		calendarView.createOtherAppointments(); // appointments after Employee
+		calendarView.createYourAppointments(); // appointments after Employee
+		
 		mainScrollPane.getViewport().remove(loginWindow);
 		mainWindow.setSize(1216, 838); // Resize the window
 		mainWindow.setLocationRelativeTo(null); // Putting the rezised window back into the middle
@@ -155,6 +161,9 @@ public class MainWindow extends JFrame{
 	}
 	public static NewAppointmentView getNewAppoitnmentsView(){
 		return newAppointmentView;
+	}
+	public static TopView getTopView(){
+		return topView;
 	}
 	public static CalendarPanel getCalendarPanel(){
 		return calendarPanel;
@@ -195,6 +204,10 @@ public class MainWindow extends JFrame{
 	// Color used on the Background (Button Color and so on)
 	public static Color getBckColor(){
 		return btnBackgroundColor;
+	}
+	
+	public static void setUser(Employee setUser){
+		user = setUser;
 	}
 	public static Employee getUser(){
 		return user;
