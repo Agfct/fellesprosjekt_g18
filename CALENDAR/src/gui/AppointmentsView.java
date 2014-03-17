@@ -481,9 +481,10 @@ public class AppointmentsView extends JPanel implements ListSelectionListener , 
 	//ListSelection Listener for the List of Appointments
 	@Override
 	public void valueChanged(ListSelectionEvent e) {
-		// TODO Auto-generated method stub
+		// TODO FIXE SLIK AT DEN FINNER RIKTIG BASERT PÅ INDEX
 		System.out.println("du tryker på en appointment");
 //		descriptionField.setText(((Appointment)e.getSource()).getDescription());
+		
 		
 	}
 	
