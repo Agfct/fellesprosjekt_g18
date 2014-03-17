@@ -49,8 +49,11 @@ public class DBAccess{
 
 	public boolean checkPassword(Employee employee, String password) throws Exception {
 		try {
+			System.out.println(employee.getParticipantID());
 			rs = createResultSet(String.format("select password from employee where participantID = %d", employee.getParticipantID()));
-			return (writePasswordResultSet(rs)==password);
+			rs.next();
+			String result = writePasswordResultSet(rs);
+			return (result.equals(password));
 		} catch (Exception e) {
 			throw e;
 		} finally {
@@ -322,11 +325,15 @@ public class DBAccess{
 
 	private Employee writeEmployeeResultSet(ResultSet rs) throws SQLException {
 		Employee employee = new Employee(rs.getString("username"));
+		employee.setParticipantID(rs.getInt("participantID"));
+		employee.setEmail(rs.getString("email"));
+		employee.setName(rs.getString("name"));
 		return employee;
 	}
 
 	private String writePasswordResultSet(ResultSet rs) throws SQLException {
-		return rs.getString("password");
+		String pass = rs.getString("password");
+		return pass;
 	}
 
 	private Appointment writeAppointmentResultSet(ResultSet rs) throws Exception {

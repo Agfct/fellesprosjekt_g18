@@ -13,7 +13,7 @@ public class DBQueries {
 	  public static void main(String[] args) throws Exception {
 	    DBAccess dba = new DBAccess();
 	    
-	    ArrayList<Appointment> a = dba.getAllAppointments(11);
+	    ArrayList<Appointment> a = dba.getAllAppointments(12);
 	    for (Appointment b : a) {
 	    	System.out.println(b);
 	    }
@@ -31,6 +31,8 @@ public class DBQueries {
 	    for (MeetingRoom h : g) {
 	    	System.out.println(h);
 	    }
+	    Employee siv = dba.getEmployeeByParticipantID(11);
+	    System.out.println(dba.checkPassword(siv, "Siv123"));
 	  }
 
 	
