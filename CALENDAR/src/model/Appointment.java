@@ -81,6 +81,10 @@ public class Appointment {
 		}
 	}
 	
+	public void setCreator(Creator creator) {
+		this.creator = creator;
+	}
+
 	public ArrayList<Invitation> getInvitations() {
 		return invitations;
 	}
