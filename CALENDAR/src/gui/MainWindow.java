@@ -19,6 +19,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 
+import networkClient.Client;
+import networkClient.RequestHandler;
+import networkDiv.Packet;
 import model.Appointment;
 import model.Employee;
 
@@ -48,8 +51,16 @@ public class MainWindow extends JFrame{
 	private static Color textColor;
 	private static Color btnBackgroundColor;
 	private static ArrayList<Employee> allEmployees;
-	
+	private static Client networkClient;
+	private static RequestHandler requestHandler;
 	private static Employee user;
+
+
+	//ip and port for testing
+	private static String serverIP = "localhost";
+	private static int serverPort = 6060;
+
+
 
 	public static void main(String[] args) {
 		new MainWindow(); // Start
@@ -115,6 +126,10 @@ public class MainWindow extends JFrame{
 		mainScrollPane.getViewport().add(loginWindow);
 		mainWindow.setVisible(true);
 		mainWindow.createEmployeeList();
+
+		//adding network listener
+		networkClient = new Client(serverIP, serverPort);
+		requestHandler = new RequestHandler(networkClient);
 	}
 //	public static MainWindow getMainWindow(){
 //		return mainWindow;
@@ -273,6 +288,20 @@ public class MainWindow extends JFrame{
 			}
 		}
 	}
+	// Sending login request and attempting to log in
+		public static void requestLogin(String user, String password){
+			Packet response = requestHandler.loginRequest(user, password);
+			System.out.println("du fekk en ting" + response.getName());
+
+			if (response.getName().equals("LOGIN_ACCEPTED")){
+				setCalendarMode();
+			}
+			else{
+				// add warning message here
+				System.out.println("hahah du kan ikkje logge inn");
+				setLoginMode();
+			}
+		}
 	
 	// TEST FOR TIME ALTERNATIVES
 	public static ArrayList<String> getTimeArray(){
