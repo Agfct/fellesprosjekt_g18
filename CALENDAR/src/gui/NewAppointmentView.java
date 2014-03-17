@@ -1037,6 +1037,8 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 			System.out.println("Saving the newAppointment");
 //			MainWindow.removeNewAppointmentView();	
 		}
+		
+		//TODO: Fix Timey whimey stuff
 		else if(e.getSource() == dateDayField){
 			isValidDate((Integer) dateDayField.getSelectedItem(), 
 					(Integer) dateMonthField.getSelectedItem(), 
@@ -1203,6 +1205,8 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 		if(f.getSource() == titleField){
 			appointmentModel.setTitle(titleField.getText());
 		}
+		
+		//TODO: Fix timey whimey stuff
 		else if(f.getSource() == durationField){
 			if (isValidDuration()){
 				appointmentModel.setDuration(Long.parseLong(durationField.getText())*60000);
@@ -1306,6 +1310,7 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 		}
 	}
 	
+	//TODO: Change Timey whimey stuff to int
 	private void setStartField(long startTime){
 		Calendar start = Calendar.getInstance();
 		start.setTimeInMillis(startTime);
