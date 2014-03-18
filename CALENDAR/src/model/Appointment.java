@@ -7,6 +7,7 @@ import gui.NewAppointmentView;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 public class Appointment {
@@ -127,10 +128,6 @@ public class Appointment {
 	}
 	//-------
 	
-	public String getDateString(){
-		return getDate().toString().replace('-', '.');
-	}
-	
 	private void fireTimeSlotChanged(TimeSlot timeSlot){
 		pcs.firePropertyChange(TIMESLOT_PROPERTY_NAME, timeSlot, getTimeSlot());
 	}
@@ -182,13 +179,17 @@ public class Appointment {
 	public boolean isInternal() 	{return internal;}
 	public String getDescription() 	{return description;}
 	public int getAppointmentID()	{return appointmentID;}
-	public long getDuration() 		{return getTimeSlot().getDuration();}
-	public long getStartTime()		{return getTimeSlot().getStart();}
-	public long getEndTime()		{return getTimeSlot().getEnd();}
+	public long getDuration() 		{return getTimeSlot().getDuration()/60000;}
+	public String getStartTime()	{return hourMinString(timeSlot.getStart());}
+	public String getEndTime()		{return hourMinString(timeSlot.getEnd());}
 	public Date getDate()			{return getTimeSlot().getDate();}
-	public AppointmentApp getAppointmentApp() {
-		return appointmentApp;
+	
+	public String getDateString()	{
+		Calendar c = Calendar.getInstance();
+		c.setTime(getDate());
+		return c.get(Calendar.DAY_OF_MONTH) + "." + (c.get(Calendar.MONTH)+1) + "." + c.get(Calendar.YEAR);
 	}
+	public AppointmentApp getAppointmentApp() {return appointmentApp;}
 	public Invitation getInvitation(Employee employee){
 		for (Invitation invite : invitations) {
 			if(invite.getEmployee() == employee){
@@ -196,6 +197,14 @@ public class Appointment {
 			}
 		}
 		return null;
+	}
+	
+	private String hourMinString(long hourMin){
+		Calendar start = Calendar.getInstance();
+		start.setTimeInMillis(hourMin);
+		String hour = Integer.toString(start.get(Calendar.HOUR_OF_DAY));
+		String minute = Integer.toString(start.get(Calendar.MINUTE));
+		return (hour.length() == 2 ? hour : "0" + hour) + ":" + (minute.length() == 2 ? minute : "0" + minute);
 	}
 	//-------
 }

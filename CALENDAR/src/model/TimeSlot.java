@@ -45,7 +45,6 @@ public class TimeSlot {
 	public void setDate(Date date){
 		Calendar c = Calendar.getInstance();
 		c.setTime(date);
-		System.out.println(c.getTime().toString());
 		setStart(c.getTimeInMillis());
 	}
 	//Getters
