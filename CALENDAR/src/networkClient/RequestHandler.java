@@ -18,22 +18,22 @@ public class RequestHandler {
 	public Packet loginRequest (String username, String password){
 		return client.request("LOGIN_REQUEST", username, password);
 	}
-	public Packet getAllEmployees (){
-		return client.request("GET_ALL_EMPLOYEES");
+	public Packet addEmployee (Employee employee){
+		return client.request("ADD_EMPLOYEE", employee);
 	}
-	public Packet createEmployee (Employee employee){
-		return client.request("CREATE_EMPLOYEE", employee);
-	}
-	public Packet createNotification (Notification notification){
-		return client.request("CREATE_NOTIFICATION", notification);
+	public Packet addNotification (Notification notification){
+		return client.request("ADD_NOTIFICATION", notification);
 	}
 	public Packet editAppointment (Appointment appointment){
 		return client.request("EDIT_APPOINTMENT", appointment);
 	}
+	public Packet getAllEmployees (){
+		return client.request("GET_ALL_EMPLOYEES");
+	}
 	public Packet getAlarmByID (int id){
 		return client.request("GET_ALARM_BY_ID", id);
 	}
-	public Packet GetAllApointments (int participantID){
+	public Packet getAllApointments (int participantID){
 		return client.request("GET_ALL_APPOINTMENTS", participantID);
 	}
 	public Packet getAllInvitations (int appointmentID){

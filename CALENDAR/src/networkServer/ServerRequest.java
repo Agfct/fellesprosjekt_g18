@@ -31,10 +31,11 @@ public class ServerRequest {
 			
 			// Request packets received from client
 			case "LOGIN_REQUEST": return userValidation((String) packet.getObject(0), (String) packet.getObject(1));
-			case "GET_ALL_EMPLOYEES": return getAllEmployees();
-			case "CREATE_EMPLOYEE": return createEmployee((Employee) packet.getObject(0));
-			case "CREATE_NOTIFICATION": return createNotification((Notification) packet.getObject(0));
+			case "ADD_EMPLOYEE": return createEmployee((Employee) packet.getObject(0));
+			case "ADD_NOTIFICATION": return createNotification((Notification) packet.getObject(0));
+			case "ADD_APPOINTMENT": return createAppointment((Appointment) packet.getObject(0));
 			case "EDIT_APPOINTMENT": return editAppointment((Appointment) packet.getObject(0));
+			case "GET_ALL_EMPLOYEES": return getAllEmployees();
 			case "GET_ALARM_BY_ID": return getAlarmByID((int) packet.getObject(0));
 			case "GET_ALL_APPOINTMENTS": return GetAllApointments((int) packet.getObject(0));
 			case "GET_ALL_INVITATIONS": return getAllInvitations((int) packet.getObject(0));
@@ -60,6 +61,7 @@ public class ServerRequest {
 
 	
 	
+
 	private Packet userValidation (String username, String password) {
 		try {
 			boolean checkPassword = db.checkPassword(username, password);
@@ -73,17 +75,6 @@ public class ServerRequest {
 			System.out.println("ServerRequest: userValidation failed!");
 			e.printStackTrace();
 			return new Packet("ERROR", "ServerRequest: userValidation failed!", e);
-		}
-	}
-	private Packet getAllEmployees () {
-		try {
-			ArrayList<Employee> allEmp = db.getAllEmployees();
-			return new Packet("ALL_EMPLOYEES", allEmp);
-		} 
-		catch (Exception e) {
-			System.out.println("ServerRequest: getAllEmployees failed!");
-			e.printStackTrace();
-			return new Packet("ERROR", "ServerRequest: getAllEmployees failed!", e);
 		}
 	}
 	private Packet createEmployee (Employee employee) {
@@ -108,6 +99,17 @@ public class ServerRequest {
 			return new Packet("ERROR", "ServerRequest: createNotification failed!", e);
 		}
 	}
+	private Packet createAppointment(Appointment object) {
+		try {
+			db.createAppointment(object);
+			return new Packet("APPOINTMENT_CREATED");
+		} 
+		catch (Exception e) {
+			System.out.println("ServerRequest: createAppointment failed!");
+			e.printStackTrace();
+			return new Packet("ERROR", "ServerRequest: createAppointment failed!", e);
+		}
+	}
 	private Packet editAppointment (Appointment appointment) {
 		try {
 			db.editAppointment(appointment);
@@ -117,6 +119,17 @@ public class ServerRequest {
 			System.out.println("ServerRequest: editAppointment failed!");
 			e.printStackTrace();
 			return new Packet("ERROR", "ServerRequest: editAppointment failed!", e);
+		}
+	}
+	private Packet getAllEmployees () {
+		try {
+			ArrayList<Employee> allEmp = db.getAllEmployees();
+			return new Packet("ALL_EMPLOYEES", allEmp);
+		} 
+		catch (Exception e) {
+			System.out.println("ServerRequest: getAllEmployees failed!");
+			e.printStackTrace();
+			return new Packet("ERROR", "ServerRequest: getAllEmployees failed!", e);
 		}
 	}
 	private Packet getAlarmByID (int alarmID) {
