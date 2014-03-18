@@ -24,6 +24,9 @@ public class RequestHandler {
 	public Packet addNotification (Notification notification){
 		return client.request("ADD_NOTIFICATION", notification);
 	}
+	public Packet addAppointment (Appointment appointment){
+		return client.request("ADD_APPOINTMENT", appointment);
+	}
 	public Packet editAppointment (Appointment appointment){
 		return client.request("EDIT_APPOINTMENT", appointment);
 	}
