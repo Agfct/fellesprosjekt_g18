@@ -193,7 +193,7 @@ public class Appointment  implements Serializable{
 	
 	public Invitation getInvitation(Employee employee){
 		for (Invitation invite : invitations) {
-			if(invite.getEmployee() == employee){
+			if(invite.getEmployee().equals(employee)){
 				return invite;
 			}
 		}
