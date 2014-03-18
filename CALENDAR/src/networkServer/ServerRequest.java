@@ -30,14 +30,18 @@ public class ServerRequest {
 			
 			
 			// Request packets received from client
+//			Login
 			case "LOGIN_REQUEST": return userValidation((String) packet.getObject(0), (String) packet.getObject(1));
+//			Add
 			case "ADD_EMPLOYEE": return createEmployee((Employee) packet.getObject(0));
 			case "ADD_NOTIFICATION": return createNotification((Notification) packet.getObject(0));
 			case "ADD_APPOINTMENT": return createAppointment((Appointment) packet.getObject(0));
+//			Edit
 			case "EDIT_APPOINTMENT": return editAppointment((Appointment) packet.getObject(0));
+//			Get
 			case "GET_ALL_EMPLOYEES": return getAllEmployees();
 			case "GET_ALARM_BY_ID": return getAlarmByID((int) packet.getObject(0));
-			case "GET_ALL_APPOINTMENTS": return GetAllApointments((int) packet.getObject(0));
+			case "GET_ALL_APPOINTMENTS": return getAllApointments((int) packet.getObject(0));
 			case "GET_ALL_INVITATIONS": return getAllInvitations((int) packet.getObject(0));
 			case "GET_ALL_MEETING_ROOMS": return getAllMeetingRooms();
 			case "GET_APPOINTMENT_BY_ID": return getAppointmentByID((int) packet.getObject(0));
@@ -49,7 +53,11 @@ public class ServerRequest {
 			case "GET_INVITED_APPOINTMENTS": return getInvitedAppointments((int) packet.getObject(0));
 			case "GET_NOTIFICATIONS_BY_PARTICIPANT_ID": return getNotificationsByParticipantID((int) packet.getObject(0));
 			case "GET_SCHEDULE": return getSchedule((String) packet.getObject(0));
-			
+//			Delete
+			case "SET_APPOINTMENT_AS_DELETED": return setDeletedAppointmentByID((int) packet.getObject(0));
+//			Remove
+			case "REMOVE_ADDOINTMENT": return removeAppointmentByID((int) packet.getObject(0));
+
 			
 			default: return noResponse();
 			}
@@ -62,6 +70,7 @@ public class ServerRequest {
 	
 	
 
+//	Login
 	private Packet userValidation (String username, String password) {
 		try {
 			boolean checkPassword = db.checkPassword(username, password);
@@ -77,21 +86,22 @@ public class ServerRequest {
 			return new Packet("ERROR", "ServerRequest: userValidation failed!", e);
 		}
 	}
+//	Add
 	private Packet createEmployee (Employee employee) {
 		try {
 			db.createEmployee(employee);
-			return new Packet("EMPLOYEE_CREATED");
+			return new Packet("EMPLOYEE_ADDED");
 		} 
 		catch (Exception e) {
-			System.out.println("ServerRequest: createEmployees failed!");
+			System.out.println("ServerRequest: addEmployees failed!");
 			e.printStackTrace();
-			return new Packet("ERROR", "ServerRequest: createEmployees failed!", e);
+			return new Packet("ERROR", "ServerRequest: addEmployees failed!", e);
 		}
 	}
 	private Packet createNotification (Notification notification) {
 		try {
 			db.createNotification(notification);
-			return new Packet("NOTIFICATION_CREATED");
+			return new Packet("NOTIFICATION_ADDED");
 		} 
 		catch (Exception e) {
 			System.out.println("ServerRequest: createNotification failed!");
@@ -102,7 +112,7 @@ public class ServerRequest {
 	private Packet createAppointment(Appointment object) {
 		try {
 			db.createAppointment(object);
-			return new Packet("APPOINTMENT_CREATED");
+			return new Packet("APPOINTMENT_ADDED");
 		} 
 		catch (Exception e) {
 			System.out.println("ServerRequest: createAppointment failed!");
@@ -110,6 +120,7 @@ public class ServerRequest {
 			return new Packet("ERROR", "ServerRequest: createAppointment failed!", e);
 		}
 	}
+//	Edit
 	private Packet editAppointment (Appointment appointment) {
 		try {
 			db.editAppointment(appointment);
@@ -121,6 +132,7 @@ public class ServerRequest {
 			return new Packet("ERROR", "ServerRequest: editAppointment failed!", e);
 		}
 	}
+//	Get
 	private Packet getAllEmployees () {
 		try {
 			ArrayList<Employee> allEmp = db.getAllEmployees();
@@ -143,7 +155,7 @@ public class ServerRequest {
 			return new Packet("ERROR", "ServerRequest: getAlarmByID failed!", e);
 		}
 	}
-	private Packet GetAllApointments (int participantID) {
+	private Packet getAllApointments (int participantID) {
 		try {
 			ArrayList<Appointment> allAppointments = db.getAllAppointments(participantID);
 			return new Packet("ALL_APPOINTMENTS", allAppointments);
@@ -275,7 +287,31 @@ public class ServerRequest {
 			e.printStackTrace();
 			return new Packet("ERROR", "ServerRequest: getSchedule failed!", e);
 		}
-	}	
+	}
+//	Delete
+	private Packet setDeletedAppointmentByID(int appointmentID) {
+		try {
+			db.setDeletedAppointmentByID(appointmentID);
+			return new Packet("APPOINTMENT_SET_AS_DELETED");
+		} 
+		catch (Exception e) {
+			System.out.println("ServerRequest: setDeletedAppointmentByID failed!");
+			e.printStackTrace();
+			return new Packet("ERROR", "ServerRequest: setDeletedAppointmentByID failed!", e);
+		}		
+	}
+//	Remove
+	private Packet removeAppointmentByID(int appointmentID) {
+		try {
+			db.removeAppointmentByID(appointmentID);
+			return new Packet("APPOINTMENT_REMOVED");
+		} 
+		catch (Exception e) {
+			System.out.println("ServerRequest: removeAppointmentByID failed!");
+			e.printStackTrace();
+			return new Packet("ERROR", "ServerRequest: removeAppointmentByID failed!", e);
+		}
+	}
 	
 	
 	
