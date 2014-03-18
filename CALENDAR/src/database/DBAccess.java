@@ -57,16 +57,18 @@ public class DBAccess{
 	}
 
 
-	public boolean checkPassword(Employee employee, String password) throws Exception {
+	public boolean checkPassword(String username, String password) throws Exception {
 		try {
-			System.out.println(employee.getParticipantID());
-			rs = createResultSet(String.format("select password from employee where participantID = %d", employee.getParticipantID()));
-			if (rs.next()) {
-			String result = writePasswordResultSet(rs);
-			return (result.equals(password));
-			} else {
+//			System.out.println(employee.getParticipantID());
+			Employee employee = getEmployeeByUsername(username);
+			if (employee == null) {
 				System.err.println("No matching employee");
 				return false;
+			}
+			else{
+				rs = createResultSet(String.format("select password from employee where participantID = %d", employee.getParticipantID()));
+				String result = writePasswordResultSet(rs);
+				return (result.equals(password));
 			}
 		} catch (Exception e) {
 			throw e;
@@ -232,7 +234,7 @@ public class DBAccess{
 
 	public ArrayList<Appointment> getCreatedAppointments(int participantID) throws Exception {
 		Employee creator = getEmployeeByParticipantID(participantID);
-		try {	
+		try {
 			rs = createResultSet(String.format("select * from appointment where creator = %d;", creator.getParticipantID()));
 			return writeAllAppointmentsResultSet(rs);
 		} catch (Exception e) {
@@ -246,8 +248,13 @@ public class DBAccess{
 	public Employee getEmployeeByUsername(String user) throws Exception {
 		try {
 			rs = createResultSet(String.format("select * from employee where username = \"%s\"", user));
-			rs.next();
-			return writeEmployeeResultSet(rs);
+			if (rs.next()) {
+				return writeEmployeeResultSet(rs);
+				
+			} else {
+				System.err.println("DBAccess: No matching user!");
+				return null;
+			}
 		} catch (Exception e) {
 			throw e;
 		} finally { 
@@ -432,8 +439,14 @@ public class DBAccess{
 
 
 	private String writePasswordResultSet(ResultSet rs) throws SQLException {
-		String pass = rs.getString("password");
-		return pass;
+		if (rs.next()) {
+			String pass = rs.getString("password");
+			return pass;
+			
+		} else {
+			System.err.println("DBAccess: No matching user or no pass");
+			return null;
+		}
 	}
 
 
