@@ -11,6 +11,7 @@ import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -29,6 +30,7 @@ public class EditAppointmentsView extends JPanel implements ActionListener{
 	
 	private JScrollPane appointmentsScrollPane;
 	private AppointmentsPanelList appointmentsPanelList;
+	private ArrayList<Appointment> appointments;
 	
 	private JButton closeBtn;
 	
@@ -127,10 +129,11 @@ public class EditAppointmentsView extends JPanel implements ActionListener{
     }
     public void addAllAppointments(){
     	
-    	for (int i = 0; i < CalendarView.getYourAppointments().size(); i++) {
+    	appointments = MainWindow.getRequestHandler().getCreatedAppointments(MainWindow.getUser());
+    	
+    	for (int i = 0; i < appointments.size(); i++) {
     			System.out.println("adding all apointements");
-    			System.out.println("");
-    			appointmentsPanelList.addAppointmentsPanel(new AppointmentsPanel(CalendarView.getYourAppointments().get(i)));
+    			appointmentsPanelList.addAppointmentsPanel(new AppointmentsPanel(appointments.get(i)));
 		}
     }
     

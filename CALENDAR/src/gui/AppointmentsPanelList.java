@@ -104,6 +104,9 @@ public class AppointmentsPanelList extends JPanel {
 	public void resetRows(){
 		rows = 0;
 	}
+	public void updateView(){
+		editAppointmentsView.addAllAppointments();
+	}
 	
 	
 	//test

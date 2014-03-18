@@ -1,2 +1,5 @@
 /gui
 /model
+/database
+/networkClient
+/networkServer

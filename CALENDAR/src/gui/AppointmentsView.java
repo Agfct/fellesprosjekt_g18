@@ -26,6 +26,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
@@ -73,6 +74,7 @@ public class AppointmentsView extends JPanel implements ListSelectionListener , 
 	private ButtonGroup statusBtnGroup = new ButtonGroup();
 	
 	private JScrollPane appointmentsScrollPane;
+	private ArrayList<Appointment> appointments;
 	private JList<Appointment> appointmentsList;
 	private DefaultListModel<Appointment> appointmentsListModel = new DefaultListModel<Appointment>();
 	
@@ -461,6 +463,7 @@ public class AppointmentsView extends JPanel implements ListSelectionListener , 
 		
 		/** ADDING APPOINTMENTS **/
 		addAppointments();
+		uppdateAppointments();
 		
 		
 		
@@ -484,18 +487,21 @@ public class AppointmentsView extends JPanel implements ListSelectionListener , 
 		g2d.setColor(Color.WHITE);
 		g2d.drawString("Appointments", 450, 150);						
     }
-    
+
     public void addAppointments(){
+    	appointments = MainWindow.getRequestHandler().getInvitedAppointments(MainWindow.getUser());
+    }
+    public void uppdateAppointments(){
 		appointmentsListModel.removeAllElements();
-    	for (int i = 0; i < CalendarView.getInvitedAppointments().size(); i++) {
+    	for (int i = 0; i < appointments.size(); i++) {
     		// check if hidden and if hidden box is checked
-    		if(!CalendarView.getInvitedAppointments().get(i).getInvitation(MainWindow.getUser()).isHidden() || showHiddenBox.isSelected()){
+    		if(!appointments.get(i).getInvitation(MainWindow.getUser()).isHidden() || showHiddenBox.isSelected()){
     			// If its pending
-    			if(CalendarView.getInvitedAppointments().get(i).getInvitation(MainWindow.getUser()).getStatus().equals(InvitationStatus.PENDING) 
-    					&& pendingBox.isSelected() || !CalendarView.getInvitedAppointments().get(i).getInvitation(MainWindow.getUser()).getStatus().equals(InvitationStatus.PENDING)){
-    				if(CalendarView.getInvitedAppointments().get(i).getInvitation(MainWindow.getUser()).getStatus().equals(InvitationStatus.ACCEPTED)
-    						&& acceptedBox.isSelected() || !CalendarView.getInvitedAppointments().get(i).getInvitation(MainWindow.getUser()).getStatus().equals(InvitationStatus.ACCEPTED)){
-    					appointmentsListModel.addElement(CalendarView.getInvitedAppointments().get(i));
+    			if(appointments.get(i).getInvitation(MainWindow.getUser()).getStatus().equals(InvitationStatus.PENDING) 
+    					&& pendingBox.isSelected() || !appointments.get(i).getInvitation(MainWindow.getUser()).getStatus().equals(InvitationStatus.PENDING)){
+    				if(appointments.get(i).getInvitation(MainWindow.getUser()).getStatus().equals(InvitationStatus.ACCEPTED)
+    						&& acceptedBox.isSelected() || !appointments.get(i).getInvitation(MainWindow.getUser()).getStatus().equals(InvitationStatus.ACCEPTED)){
+    					appointmentsListModel.addElement(appointments.get(i));
     				}
     			}
     		}
@@ -538,10 +544,15 @@ public class AppointmentsView extends JPanel implements ListSelectionListener , 
 	@Override
 	public void valueChanged(ListSelectionEvent e) {
 		if (appointmentsList.getSelectedValue() != null) {
-			// TODO FIXE SLIK AT SERVER FÅR VITE AT APPOINTMENT STATUS FORANDRER SEG ?
-			// TODO ADD HIDDEN VARIABLE SOMWHERE TO INDICATE PREFRENCE 
-			System.out.println("du tryker på en appointment");
-			System.out.println("fra model: "+ appointmentsList.getSelectedValue().getDescription());
+			int appID = appointmentsList.getSelectedValue().getAppointmentID();
+			
+			addAppointments();
+			uppdateAppointments();
+			for (int i = 0; i < appointmentsList.getModel().getSize(); i++) {
+				if(appointmentsListModel.getElementAt(i).getAppointmentID() == appID){
+					appointmentsList.setSelectedIndex(i);
+				}
+			}
 			
 			statusBtnGroup.clearSelection();
 			//Setting the invitation Model
@@ -591,25 +602,29 @@ public class AppointmentsView extends JPanel implements ListSelectionListener , 
 			System.out.println("Pressed Save, Changed appointment Info");
 			if(acceptRadioBtn.isSelected() && acceptRadioBtn.isEnabled()){
 				invitationModel.setStatus(InvitationStatus.ACCEPTED);
-				if(!acceptedBox.isSelected()){ // if you accept and the Filter Accepted is off, it removes the focus
-					setNotSelectedMode();
-				}
-				addAppointments();
+				uppdateAppointments();
 				
 			}else if(declineRadioBtn.isSelected() && declineRadioBtn.isEnabled()){
 				invitationModel.setStatus(InvitationStatus.DECLINED);
-				addAppointments();
+				uppdateAppointments();
 			}
 			// Hide
 			if(hideBox.isSelected() && hideBox.isEnabled()){
 				invitationModel.setHidden(true);
-				addAppointments();
+				uppdateAppointments();
 			}else if (!hideBox.isSelected() && hideBox.isEnabled()){
 				invitationModel.setHidden(false);
 			}
 			
+			if(MainWindow.getRequestHandler().editInvitation(invitationModel)){
+				addAppointments();
+				uppdateAppointments();
+			}else{
+				addAppointments();
+				uppdateAppointments();
+				JOptionPane.showMessageDialog(MainWindow.getMainWindow(),"Could not Save Appointment. Cloud not Available");
+			}
 			appointmentsList.repaint();
-			//TODO: SEND REQUEST TO SERVER ??
 		}
 		// If cancelAppointmentBtn is pressed
 		else if (e.getSource() == closeBtn){
@@ -618,7 +633,7 @@ public class AppointmentsView extends JPanel implements ListSelectionListener , 
 		}
 		else if (e.getSource() == acceptedBox){
 			System.out.println("acceptedBox");
-			addAppointments();
+			uppdateAppointments();
 		}
 		else if (e.getSource() == pendingBox){
 			System.out.println("pendingBox");
@@ -627,11 +642,11 @@ public class AppointmentsView extends JPanel implements ListSelectionListener , 
 					setNotSelectedMode(); // if you have a pending notification selected
 				}
 			}
-			addAppointments();
+			uppdateAppointments();
 		}
 		else if (e.getSource() == showHiddenBox){
 			System.out.println("showHidenBox");
-			addAppointments();
+			uppdateAppointments();
 		}
 		
 		

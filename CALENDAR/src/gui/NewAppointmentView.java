@@ -42,6 +42,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
@@ -112,7 +113,7 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 	// The Lists
 	private JList<Employee> employeeList;
 	private JList<MeetingRoom> roomList;
-	private DefaultListModel<Employee> employeeListModel = new DefaultListModel<Employee>(); // USE THESE ??
+	private DefaultListModel<Employee> employeeListModel; // USE THESE ??
 	private DefaultListModel<MeetingRoom> roomListModel = new DefaultListModel<MeetingRoom>(); // USE THESE ??
 	private EmployeeCellRenderer employeeRenderer;
 	
@@ -166,6 +167,7 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 		allEmployees = MainWindow.getEmployeeList();
 		
 		/** CREATING MODEL **/
+		employeeListModel = new DefaultListModel<Employee>();
 		appointmentModel = newAppointmentModel;
 		appointmentModel.addPropertyChangedListener(this);
 		
@@ -410,21 +412,11 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 		searchField.setFont(new Font(MainWindow.getMFont(),Font.BOLD, 12));
 		add(searchField,cLabel11);
 		
-		
-		//List<Employee> DETAILS MISSING, TEST ONLY
-//		employeeTable = new EmployeeTable();
-//		employeeTable.addTableModelListener(this);
-//		employeeListTable = new JTable(employeeTable);
-//		employeeListTable.setShowVerticalLines(false);
-		
-//		TEST
 		employeeList = new JList<Employee>(employeeListModel);
 		employeeList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		employeeList.setVisibleRowCount(10);
 		employeeList.setName("employeeList");
 //		employeeList.addListSelectionListener(this);
-		
-
 		
 		employeeList.addMouseListener(this);
 		employeeRenderer = new EmployeeCellRenderer();
@@ -866,6 +858,7 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 		dateDayField.addActionListener(this);
 		//ADDING ALL THE EMPLOYEES TO THE EMPLOYEELISTMODEL -- HELT NEDERST I METODEN showCorrectNames(String searchName)
 		showCorrectNames("");
+		
 	}
 	
 	// Overriding the paintComponent to get background and Header
@@ -892,6 +885,9 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
     	return appointmentModel;
     }
     private void initializeAppointment(){
+    	for (Employee employer : allEmployees) {
+			employer.setSelected(false);
+		}
     	//Title
     	titleField.setText(appointmentModel.getTitle());
     	//Start time
@@ -1035,7 +1031,21 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 		// If addExParticipantsBtn is pressed
 		else if (e.getSource() == deleteAppointmentBtn){
 			System.out.println("Deleting Appointment");
-			//TODO: DELETE AN APPOINTMENT!!
+			if(appointmentModel.getInvitations().isEmpty()){
+				if(MainWindow.getRequestHandler().removeAppointment(appointmentModel)){
+					MainWindow.removeNewAppointmentView();
+					MainWindow.editAppointmentsView();
+				}else{
+					JOptionPane.showMessageDialog(MainWindow.getMainWindow(),"Could not delete Appointment. Cloud not Available");
+				}
+			}else{
+				if(MainWindow.getRequestHandler().setAppointmentAsDeleted(appointmentModel)){
+					MainWindow.removeNewAppointmentView();
+					MainWindow.editAppointmentsView();
+				}else{
+					JOptionPane.showMessageDialog(MainWindow.getMainWindow(),"Could not delete Appointment. Cloud not Available");
+				}
+			}
 			
 		}
 		// If bookBtn is pressed
@@ -1044,14 +1054,24 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 		}
 		// If saveAppointmentBtn is pressed
 		else if (e.getSource() == saveAppointmentBtn){
-			System.out.println("Saving the newAppointment");
-			//TODO: SENDE TIL DATABASEN, OG FÅ APPOINTMENT I RETUR
-			//TODO: KRAV FOR Å FÅ TRYKKE SAVE
-			CalendarView.getYourAppointments().add(appointmentModel);
-			MainWindow.removeNewAppointmentView();	
+			if(from.equals("editApp")){
+				if(MainWindow.getRequestHandler().editAppointment(appointmentModel)){
+					MainWindow.removeNewAppointmentView();
+					MainWindow.editAppointmentsView();
+				}else{
+					JOptionPane.showMessageDialog(MainWindow.getMainWindow(),"Could not Save Appointment. Cloud not Available");
+				}
+			}
+			else{
+				System.out.println("Saving the newAppointment");
+				if(MainWindow.getRequestHandler().addAppointment(appointmentModel)){
+					MainWindow.removeNewAppointmentView();	
+				}else{
+					JOptionPane.showMessageDialog(MainWindow.getMainWindow(),"Could not Save Appointment. Cloud not Available");
+				}
+			}
 		}
 		
-		//TODO: Fix Timey whimey stuff
 		else if(e.getSource() == dateDayField){
 			isValidDate((Integer) dateDayField.getSelectedItem(), 
 					(Integer) dateMonthField.getSelectedItem(), 

@@ -114,7 +114,7 @@ public class DBAccess{
 	public void createNotification(Notification notification) throws Exception{
 		try {
 			stmt = prepareEdit();
-			stmt.executeUpdate(String.format("insert into notification values (null, %d, null, \"%s\", \"%s\") where appointmentID = %d on duplicate key update message = \"%s\"", notification.getAppointmentID(), notification.getMessage(), notification.getMessage() ));	
+			stmt.executeUpdate(String.format("insert into notification values (null, %d, null, \"%s\", \"%s\") where appointmentID = %d on duplicate key update message = \"%s\"", notification.getAppointment(), notification.getMessage(), notification.getMessage() ));	
 		} catch ( NullPointerException e) {
 			System.err.println("A field in the edit is null");
 		}

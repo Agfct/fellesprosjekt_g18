@@ -58,7 +58,7 @@ public class ParticipantsPanel extends JPanel implements ActionListener {
 		cLabel0.gridy = 0;
 		cLabel0.anchor = GridBagConstraints.LINE_START;
 		firstNameLabel = new JLabel(); 
-		firstNameLabel.setText(employee.getName());//replace with actual employee name
+		firstNameLabel.setText(employee.getName());
 		firstNameLabel.setName("firstNameLabel");
 		firstNameLabel.setPreferredSize(new Dimension(80,24));
 		//DESIGN for the Label text
@@ -67,11 +67,12 @@ public class ParticipantsPanel extends JPanel implements ActionListener {
 		add(firstNameLabel,cLabel0);
 		
 		//lastNameLabel
+		//TODO: REMOVE LAST NAME GIVE NAME MORE SPACE
 		GridBagConstraints cLabel1 = new GridBagConstraints();
 		cLabel1.insets = new Insets(0,5,0,4);
 		cLabel1.gridx = 1;
 		cLabel1.gridy = 0;
-		lastNameLabel = new JLabel("LastName"); //replace with actual name
+		lastNameLabel = new JLabel(""); //replace with actual name
 		lastNameLabel.setName("lastNameLabel");
 		lastNameLabel.setPreferredSize(new Dimension(80,20));
 		//DESIGN for the Label text

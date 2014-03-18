@@ -1,27 +1,27 @@
 package model;
 
 public class Notification{
-	private final int appointmentID;
+	private final Appointment appointment;
 	private final String msg;
 	//TODO: Legge til type. Trengs det egentlig?
 	
-	public Notification(int appointmentID, String msg) {
-		this.appointmentID = appointmentID;
+	public Notification(Appointment appointment, String msg) {
+		this.appointment = appointment;
 		this.msg = msg;
 	}
 	
 	@Override
 	public boolean equals(Object notification){
-		return this.appointmentID == ((Notification)notification).getAppointmentID();
+		return this.appointment == ((Notification)notification).getAppointment();
 	}
 	
 	@Override
 	public String toString(){
-		return appointmentID + ": " + msg;
+		return appointment + ": " + msg;
 	}
 	
 	//Getter
-	public int getAppointmentID() {return appointmentID;}
+	public Appointment getAppointment() {return appointment;}
 	public String getMessage(){
 		return msg;
 	}

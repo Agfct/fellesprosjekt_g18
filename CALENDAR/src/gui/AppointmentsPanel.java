@@ -21,6 +21,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import model.Appointment;
@@ -204,13 +205,19 @@ public class AppointmentsPanel extends JPanel implements ActionListener {
 		
 		// If cancelAppointmentBtn is pressed
 		if (e.getSource() == removeBtn){
-			//THIS REMOVES THE APPOINTMENT
-			//TODO: REMOVE APPOINTMENT 
-			//Removing the check
-//			appointmentsPanelList.getNewAppointmentView().getEmployeeList().repaint();
-			// running the appointment remove invitation
-//			appointmentsPanelList.getNewAppointmentView().getAppointmentModel().removeInvitation(employee);
-			
+			if(appointment.getInvitations().isEmpty()){
+				if(MainWindow.getRequestHandler().removeAppointment(appointment)){
+					appointmentsPanelList.updateView();
+				}else{
+					JOptionPane.showMessageDialog(MainWindow.getMainWindow(),"Could not delete Appointment. Cloud not Available");
+				}
+			}else{
+				if(MainWindow.getRequestHandler().setAppointmentAsDeleted(appointment)){
+					appointmentsPanelList.updateView();
+				}else{
+					JOptionPane.showMessageDialog(MainWindow.getMainWindow(),"Could not delete Appointment. Cloud not Available");
+				}
+			}
 		}	
 		else if (e.getSource() == editBtn){
 			System.out.println("Pressing edit Btn");

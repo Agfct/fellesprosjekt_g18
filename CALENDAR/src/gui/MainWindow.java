@@ -136,9 +136,9 @@ public class MainWindow extends JFrame{
 		networkClient = new Client(serverIP, serverPort);
 		requestHandler = new RequestHandler(networkClient);
 	}
-//	public static MainWindow getMainWindow(){
-//		return mainWindow;
-//	}
+	public static MainWindow getMainWindow(){
+		return mainWindow;
+	}
 	// Returns the mainScrollPane for use outside of class
 	public static JScrollPane getMainScrollPane(){
 		return mainScrollPane;
@@ -222,6 +222,9 @@ public class MainWindow extends JFrame{
 		layoutView.repaint();
 	}
 	
+	public static RequestHandler getRequestHandler(){
+		return requestHandler;
+	}
 	// Type of Font used in program
 	public static String getMFont(){
 		return font;

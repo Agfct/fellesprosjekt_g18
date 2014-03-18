@@ -39,9 +39,9 @@ public class CalendarView extends JPanel {
 	private JScrollPane calendarScrollPane;
 	private CalendarPanel calendarPanel;
 	private Font font;
-	private static ArrayList<Appointment> yourAppointments;
-	private static ArrayList<Appointment> invitedAppointments;
-	private static ArrayList<Appointment> otherAppointments;
+	private  ArrayList<Appointment> yourAppointments;
+	private  ArrayList<Appointment> invitedAppointments;
+	private  ArrayList<Appointment> otherAppointments;
 	
 	public CalendarView(){
 //		backgroundImg = new ImageIcon(this.getClass().getResource("/backgrounds/calendarBackground.png")).getImage();
@@ -113,31 +113,31 @@ public class CalendarView extends JPanel {
 	public void createInvitedAppointments(){
 		//TODO: ADD THE CLIENT CALL FOR APPOINTMENTS
 		invitedAppointments = new ArrayList<Appointment>(); // REMOVE
-		
-		Appointment app = new Appointment(new Employee("Fredrik"));
-		app.addInvitation(MainWindow.getUser());
-		app.getInvitation(MainWindow.getUser()).setStatus(InvitationStatus.ACCEPTED);
-		app.setTitle("Et Møte");
-		app.setDescription("Vi skal ha et langt møte om masse tull");
-		invitedAppointments.add(app);
-		Appointment app2 = new Appointment(new Employee("Frode"));
-		app2.addInvitation(MainWindow.getUser());
-		app2.getInvitation(MainWindow.getUser()).setStatus(InvitationStatus.PENDING);
-		app2.setTitle("Et kjedelig  møte");
-		app2.setDescription("Dette blir kjedelig gutter!, Nå skal det kode testes! En veldig lang description som hadde gått utenfor første linje");
-		invitedAppointments.add(app2);
+//		
+//		Appointment app = new Appointment(new Employee("Fredrik"));
+//		app.addInvitation(MainWindow.getUser());
+//		app.getInvitation(MainWindow.getUser()).setStatus(InvitationStatus.ACCEPTED);
+//		app.setTitle("Et Møte");
+//		app.setDescription("Vi skal ha et langt møte om masse tull");
+//		invitedAppointments.add(app);
+//		Appointment app2 = new Appointment(new Employee("Frode"));
+//		app2.addInvitation(MainWindow.getUser());
+//		app2.getInvitation(MainWindow.getUser()).setStatus(InvitationStatus.PENDING);
+//		app2.setTitle("Et kjedelig  møte");
+//		app2.setDescription("Dette blir kjedelig gutter!, Nå skal det kode testes! En veldig lang description som hadde gått utenfor første linje");
+//		invitedAppointments.add(app2);
 //		for (int i = 0; i < MainWindow.getEmployeeList().size(); i++) {
 //			invitedAppointments.add(new Appointment(MainWindow.getEmployeeList().get(i)));			
 //		}
 	}
 	
-	public static ArrayList<Appointment> getYourAppointments(){
+	public ArrayList<Appointment> getYourAppointments(){
 		return yourAppointments;
 	}
-	public static ArrayList<Appointment> getInvitedAppointments(){
+	public ArrayList<Appointment> getInvitedAppointments(){
 		return invitedAppointments;
 	}
-	public static ArrayList<Appointment> getOtherAppointments(){
+	public ArrayList<Appointment> getOtherAppointments(){
 		return otherAppointments;
 	}
 	
