@@ -31,7 +31,6 @@ public class EmployeeCellRenderer extends JCheckBox implements ListCellRenderer<
 //			setBackground(list.getBackground());	
 //		}
 //		
-		System.out.println("KJØRER REPAINT  isSelected: " + ((Employee)value).isSelected());
 		setEnabled(list.isEnabled());
 		setSelected(((Employee)value).isSelected());
 		setFont(list.getFont());

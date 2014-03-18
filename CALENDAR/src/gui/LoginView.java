@@ -17,6 +17,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -28,7 +30,7 @@ import javax.swing.Box;
 
 import model.Employee;
 
-public class LoginView extends JPanel implements ActionListener {
+public class LoginView extends JPanel implements ActionListener , KeyListener{
 	private JButton loginBtn;
 	private JButton cancelBtn;
 	private JLabel headerLabel;
@@ -93,6 +95,7 @@ public class LoginView extends JPanel implements ActionListener {
 		cLabel4.gridy = 3;
 		passwordField = new JPasswordField(15);
 		passwordField.setName("passwordField");
+		passwordField.addKeyListener(this);
 //		loginBtn.setPreferredSize(new Dimension(200, 400));
 		add(passwordField,cLabel4);
 		
@@ -169,15 +172,26 @@ public class LoginView extends JPanel implements ActionListener {
 		if(e.getSource() == loginBtn){
 			System.out.println("Logging inn");
 			MainWindow.requestLogin(userNameField.getText(), passwordField.getText());
-			//TODO: REMOVE
-//			Employee carl = new Employee("Carl");
-//			MainWindow.setUser(carl);
-//			MainWindow.getTopView().setUserName(carl.getName());
-//			MainWindow.setCalendarMode();
 		}
 		else if(e.getSource() == cancelBtn){
 			System.out.println("EXITING APPLICATION");
 			System.exit(0);
 		}
+	}
+	//keyListener for JTextfield
+	@Override
+	public void keyPressed(KeyEvent e) {
+		if (e.getKeyCode() == KeyEvent.VK_ENTER){
+			System.out.println("Logging inn");
+			MainWindow.requestLogin(userNameField.getText(), passwordField.getText());
+		}
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
 	}
 }

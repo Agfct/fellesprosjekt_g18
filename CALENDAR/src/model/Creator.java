@@ -1,6 +1,8 @@
 package model;
 
-public class Creator {
+import java.io.Serializable;
+
+public class Creator implements Serializable{
 	private final Employee employee;
 	private boolean statusChanged;
 	

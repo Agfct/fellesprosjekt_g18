@@ -1,6 +1,7 @@
 package gui;
 
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -87,19 +88,19 @@ public class EmailPanel extends JPanel implements ActionListener, FocusListener 
 
 
 		//Header Text
-		GridBagConstraints cLabel0 = new GridBagConstraints();
-		cLabel0.insets = new Insets(0,0,0,0);
-		cLabel0.gridx = 2;
-		cLabel0.gridy = 0;
-		cLabel0.gridwidth = 2;
-		cLabel0.anchor = GridBagConstraints.LINE_START;
-		headerLabel = new JLabel("Email");
-		headerLabel.setName("headerLabel");
-		//DESIGN for the Label text
-		headerLabel.setForeground(MainWindow.getTxtColor());
-		headerLabel.setFont(new Font(MainWindow.getMFont(),Font.BOLD,28));
-		//				loginBtn.setPreferredSize(new Dimension(200, 400));
-		add(headerLabel,cLabel0);
+//		GridBagConstraints cLabel0 = new GridBagConstraints();
+//		cLabel0.insets = new Insets(0,0,0,0);
+//		cLabel0.gridx = 2;
+//		cLabel0.gridy = 0;
+//		cLabel0.gridwidth = 2;
+//		cLabel0.anchor = GridBagConstraints.LINE_START;
+//		headerLabel = new JLabel("Email");
+//		headerLabel.setName("headerLabel");
+//		//DESIGN for the Label text
+//		headerLabel.setForeground(MainWindow.getTxtColor());
+//		headerLabel.setFont(new Font(MainWindow.getMFont(),Font.BOLD,28));
+//		//				loginBtn.setPreferredSize(new Dimension(200, 400));
+//		add(headerLabel,cLabel0);
 
 
 		//name Label & TextField
@@ -277,9 +278,14 @@ public class EmailPanel extends JPanel implements ActionListener, FocusListener 
 		Graphics2D g2d = (Graphics2D) g;
 		//background Image
 		g2d.drawImage(backgroundImg, 0, 0, this);
-
-
+		
+        //Header
+		Font font = new Font("Tahoma", Font.BOLD, 24);
+		g2d.setFont(font);
+		g2d.setColor(Color.WHITE);
+		g2d.drawString("Email", 580, 300);						
 	}
+	
 	public void setBackgroundImg(Image newImg){
 		backgroundImg = newImg;
 	}

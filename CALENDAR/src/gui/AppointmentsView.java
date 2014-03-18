@@ -168,7 +168,6 @@ public class AppointmentsView extends JPanel implements ListSelectionListener , 
 		acceptedBox.setName("acceptedBox");
 		acceptedBox.setOpaque(false);
 		acceptedBox.addActionListener(this);
-		acceptedBox.setSelected(true);
 		//DESIGN for the Label text
 		acceptedBox.setForeground(MainWindow.getTxtColor());
 		acceptedBox.setFont(new Font(MainWindow.getMFont(),Font.BOLD,14));
@@ -226,7 +225,6 @@ public class AppointmentsView extends JPanel implements ListSelectionListener , 
 		pendingBox = new JCheckBox();
 		pendingBox.setName("pendingBox");
 		pendingBox.setOpaque(false);
-		pendingBox.setSelected(true);
 		pendingBox.addActionListener(this);
 		//DESIGN for the Label text
 		pendingBox.setForeground(MainWindow.getTxtColor());
@@ -381,7 +379,7 @@ public class AppointmentsView extends JPanel implements ListSelectionListener , 
 		
 		alarmBox = new JComboBox<String>(alarmFieldModel);
 		alarmBox.setEditable(false);
-//		alarmBox.setEnabled(false);
+		alarmBox.setEnabled(false);
 //		cLabel17.fill = GridBagConstraints.HORIZONTAL;
 		alarmBox.setName("alarmBox");
 //		alarmBox.addActionListener(this);
@@ -490,11 +488,14 @@ public class AppointmentsView extends JPanel implements ListSelectionListener , 
 
     public void addAppointments(){
     	appointments = MainWindow.getRequestHandler().getInvitedAppointments(MainWindow.getUser());
+    	
     }
     public void uppdateAppointments(){
 		appointmentsListModel.removeAllElements();
     	for (int i = 0; i < appointments.size(); i++) {
     		// check if hidden and if hidden box is checked
+//    		System.out.println("1:"+appointments.get(i).getInvitation(MainWindow.getUser()).isHidden());
+    		System.out.println("1:"+appointments.get(i).getInvitation(MainWindow.getUser()));
     		if(!appointments.get(i).getInvitation(MainWindow.getUser()).isHidden() || showHiddenBox.isSelected()){
     			// If its pending
     			if(appointments.get(i).getInvitation(MainWindow.getUser()).getStatus().equals(InvitationStatus.PENDING) 
@@ -616,14 +617,14 @@ public class AppointmentsView extends JPanel implements ListSelectionListener , 
 				invitationModel.setHidden(false);
 			}
 			
-			if(MainWindow.getRequestHandler().editInvitation(invitationModel)){
+//			if(MainWindow.getRequestHandler().editInvitation(invitationModel)){ TODO
 				addAppointments();
 				uppdateAppointments();
-			}else{
-				addAppointments();
-				uppdateAppointments();
-				JOptionPane.showMessageDialog(MainWindow.getMainWindow(),"Could not Save Appointment. Cloud not Available");
-			}
+//			}else{
+//				addAppointments();
+//				uppdateAppointments();
+//				JOptionPane.showMessageDialog(MainWindow.getMainWindow(),"Could not Save Appointment. Cloud not Available");
+//			}
 			appointmentsList.repaint();
 		}
 		// If cancelAppointmentBtn is pressed

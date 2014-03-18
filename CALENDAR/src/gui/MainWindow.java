@@ -289,7 +289,6 @@ public class MainWindow extends JFrame{
 		}
 	}
 	private void repaintAll(){
-		System.out.println("REPAINTING ALL MUHAHA");
 		loginWindow.setBackgroundImg(backgroundImg);
 		loginWindow.repaint();
 		topView.repaint();

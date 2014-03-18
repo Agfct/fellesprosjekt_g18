@@ -291,7 +291,7 @@ public class ServerRequest {
 //	Delete
 	private Packet setDeletedAppointmentByID(int appointmentID) {
 		try {
-			db.setDeletedAppointmentByID(appointmentID);
+//			db.setDeletedAppointmentByID(appointmentID); TODO DeComment
 			return new Packet("APPOINTMENT_SET_AS_DELETED");
 		} 
 		catch (Exception e) {
@@ -303,7 +303,7 @@ public class ServerRequest {
 //	Remove
 	private Packet removeAppointmentByID(int appointmentID) {
 		try {
-			db.removeAppointmentByID(appointmentID);
+//			db.removeAppointmentByID(appointmentID); TODO: DeComment
 			return new Packet("APPOINTMENT_REMOVED");
 		} 
 		catch (Exception e) {
