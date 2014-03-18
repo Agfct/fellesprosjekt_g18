@@ -165,6 +165,8 @@ public class AppointmentsView extends JPanel implements ListSelectionListener , 
 		acceptedBox = new JCheckBox();
 		acceptedBox.setName("acceptedBox");
 		acceptedBox.setOpaque(false);
+		acceptedBox.addActionListener(this);
+		acceptedBox.setSelected(true);
 		//DESIGN for the Label text
 		acceptedBox.setForeground(MainWindow.getTxtColor());
 		acceptedBox.setFont(new Font(MainWindow.getMFont(),Font.BOLD,14));
@@ -193,6 +195,7 @@ public class AppointmentsView extends JPanel implements ListSelectionListener , 
 		showHiddenBox = new JCheckBox();
 		showHiddenBox.setName("showHiddenBox");
 		showHiddenBox.setOpaque(false);
+		showHiddenBox.addActionListener(this);
 		//DESIGN for the Label text
 		showHiddenBox.setForeground(MainWindow.getTxtColor());
 		showHiddenBox.setFont(new Font(MainWindow.getMFont(),Font.BOLD,14));
@@ -221,6 +224,8 @@ public class AppointmentsView extends JPanel implements ListSelectionListener , 
 		pendingBox = new JCheckBox();
 		pendingBox.setName("pendingBox");
 		pendingBox.setOpaque(false);
+		pendingBox.setSelected(true);
+		pendingBox.addActionListener(this);
 		//DESIGN for the Label text
 		pendingBox.setForeground(MainWindow.getTxtColor());
 		pendingBox.setFont(new Font(MainWindow.getMFont(),Font.BOLD,14));
@@ -481,11 +486,21 @@ public class AppointmentsView extends JPanel implements ListSelectionListener , 
     }
     
     public void addAppointments(){
+		appointmentsListModel.removeAllElements();
     	for (int i = 0; i < CalendarView.getInvitedAppointments().size(); i++) {
-    		appointmentsListModel.addElement(CalendarView.getInvitedAppointments().get(i));
+    		// check if hidden and if hidden box is checked
+    		if(!CalendarView.getInvitedAppointments().get(i).getInvitation(MainWindow.getUser()).isHidden() || showHiddenBox.isSelected()){
+    			if(CalendarView.getInvitedAppointments().get(i).getInvitation(MainWindow.getUser()).getStatus().equals(InvitationStatus.PENDING) 
+    					&& pendingBox.isSelected()){
+    				if(CalendarView.getInvitedAppointments().get(i).getInvitation(MainWindow.getUser()).getStatus().equals(InvitationStatus.ACCEPTED)
+    						&& acceptedBox.isSelected()){
+    					appointmentsListModel.addElement(CalendarView.getInvitedAppointments().get(i));
+    				}
+    			}
+    		}
 		}
     }
-    
+
     public void setInvitationModel(Invitation invitation){
     	invitationModel = invitation;
     }
@@ -508,18 +523,19 @@ public class AppointmentsView extends JPanel implements ListSelectionListener , 
 	//ListSelection Listener for the List of Appointments
 	@Override
 	public void valueChanged(ListSelectionEvent e) {
-		// TODO FIXE SLIK AT SERVER FÅR VITE AT APPOINTMENT STATUS FORANDRER SEG ?
-		// TODO ADD HIDDEN VARIABLE SOMWHERE TO INDICATE PREFRENCE 
-		System.out.println("du tryker på en appointment");
-		System.out.println("fra model: "+ appointmentsList.getSelectedValue().getDescription());
-		
-		statusBtnGroup.clearSelection();
-		//Setting the invitation Model
-		setInvitationModel(appointmentsList.getSelectedValue().getInvitation(MainWindow.getUser()));
-		loadInvitationValues();
-		// Setting description field
-		descriptionField.setText(appointmentsList.getSelectedValue().getDescription());
-		
+		if (appointmentsList.getSelectedValue() != null) {
+			// TODO FIXE SLIK AT SERVER FÅR VITE AT APPOINTMENT STATUS FORANDRER SEG ?
+			// TODO ADD HIDDEN VARIABLE SOMWHERE TO INDICATE PREFRENCE 
+			System.out.println("du tryker på en appointment");
+			System.out.println("fra model: "+ appointmentsList.getSelectedValue().getDescription());
+			
+			statusBtnGroup.clearSelection();
+			//Setting the invitation Model
+			setInvitationModel(appointmentsList.getSelectedValue().getInvitation(MainWindow.getUser()));
+			loadInvitationValues();
+			// Setting description field
+			descriptionField.setText(appointmentsList.getSelectedValue().getDescription());
+		}
 	}
 	
 	//Focus Listener for Description Field
@@ -567,9 +583,14 @@ public class AppointmentsView extends JPanel implements ListSelectionListener , 
 			// Hide
 			if(hideBox.isSelected()){
 				invitationModel.setHidden(true);
+				appointmentsListModel.removeElement(appointmentsList.getSelectedValue());
 			}else if (!hideBox.isSelected()){
 				invitationModel.setHidden(false);
 			}
+			
+			// REDO LIST
+//			appointmentsListModel.removeAllElements();
+//			addAppointments();
 			appointmentsList.repaint();
 			//TODO: SEND REQUEST TO SERVER ??
 		}
@@ -578,6 +599,17 @@ public class AppointmentsView extends JPanel implements ListSelectionListener , 
 			System.out.println("Closing AppointmentsView");
 			MainWindow.removeAppointmentsView();
 		}
+		else if (e.getSource() == acceptedBox){
+			System.out.println("acceptedBox");
+		}
+		else if (e.getSource() == pendingBox){
+			System.out.println("pendingBox");
+		}
+		else if (e.getSource() == showHiddenBox){
+			System.out.println("showHidenBox");
+		}
+		
+		
 		
 	}
 }

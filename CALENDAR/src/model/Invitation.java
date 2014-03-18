@@ -7,7 +7,7 @@ import java.beans.PropertyChangeSupport;
 
 public class Invitation {
 	private int invitationID;
-	private int appointmentID;
+	private Appointment appointment;
 	private Employee employee;
 	private InvitationStatus status;
 	private boolean edited;
@@ -84,12 +84,12 @@ public class Invitation {
 	public ParticipantsPanel getParticipantsView(){
 		return participantsView;
 	}
-	public void setAppointmentID(int appointmentID) {
-		this.appointmentID = appointmentID;
+	public void setAppointment(Appointment appointment) {
+		this.appointment = appointment;
 	}
 
 	//Getters
-	public int getAppointmentID() 		{return appointmentID;}
+	public Appointment getAppointment() 		{return appointment;}
 	public boolean isEdited() 			{return edited;}
 	public boolean isHidden() 			{return hidden;}
 	public Employee getEmployee() 		{return employee;}

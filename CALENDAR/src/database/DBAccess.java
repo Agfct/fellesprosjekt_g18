@@ -138,7 +138,7 @@ public class DBAccess{
 	public void createInvitation(Invitation invitation) throws Exception {
 		try {
 			stmt = prepareEdit();
-			stmt.executeUpdate(String.format("insert into invitation values(null, %d, %d, %d, \"%s\", %b, %b)",invitation.getAppointmentID(), invitation.getEmployee().getParticipantID(), invitation.getAlarm().getAlarmID(), invitation.getStatus().name(), invitation.isEdited(), invitation.isHidden() ));
+			stmt.executeUpdate(String.format("insert into invitation values(null, %d, %d, %d, \"%s\", %b, %b)",invitation.getAppointment().getAppointmentID(), invitation.getEmployee().getParticipantID(), invitation.getAlarm().getAlarmID(), invitation.getStatus().name(), invitation.isEdited(), invitation.isHidden() ));
 
 
 		} catch ( NullPointerException e) {

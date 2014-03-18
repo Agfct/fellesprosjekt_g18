@@ -56,6 +56,7 @@ public class Appointment {
 	//Invitations
 	public void addInvitation(Employee employee){
 		Invitation temp = new Invitation(employee);
+		temp.setAppointment(this);
 		invitations.add(temp);
 		pcs.firePropertyChange("add", null, temp);
 	}
