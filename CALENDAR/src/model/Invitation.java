@@ -12,7 +12,7 @@ public class Invitation {
 	private InvitationStatus status;
 	private boolean edited;
 	private boolean hidden;
-	private Alarm alarm;
+	private long alarmTime;
 	private ParticipantsPanel participantsView;
 	private PropertyChangeSupport pcs;
 	
@@ -22,8 +22,9 @@ public class Invitation {
 	public static String HIDDEN_PROPERTY_NAME = "hidden";
 	
 	
-	public Invitation(Employee person) {
+	public Invitation(Employee person, Appointment appointment) {
 		this.employee = person;
+		this.appointment = appointment;
 		status = InvitationStatus.PENDING;
 		edited = false;
 		hidden = false;
@@ -54,6 +55,14 @@ public class Invitation {
 	public String toString(){
 		return "ID: "+invitationID + "Employee Name: "+ employee.getName() + "Status: " + status;
 	}
+	public long getAlarmTime() {
+		return alarmTime;
+	}
+
+	public void setAlarmTime(long alarmTime) {
+		this.alarmTime = alarmTime;
+	}
+
 	//Setters
 	public void setStatus(InvitationStatus is) {
 		this.status = is;
@@ -71,9 +80,6 @@ public class Invitation {
 		pcs.firePropertyChange(HIDDEN_PROPERTY_NAME, old, this.hidden);
 	}
 
-	public void setAlarm(Alarm alarm) {
-		this.alarm = alarm;
-	}
 	public void setInvitationID(int invitationID) {
 		this.invitationID = invitationID;
 	}
@@ -93,7 +99,6 @@ public class Invitation {
 	public boolean isEdited() 			{return edited;}
 	public boolean isHidden() 			{return hidden;}
 	public Employee getEmployee() 		{return employee;}
-	public Alarm getAlarm() 			{return alarm;}
 	public InvitationStatus getStatus() {return status;}
 	public int getInvitationID()		{return invitationID;}
 	//-------

@@ -1,15 +1,16 @@
 package model;
 
 import gui.AppointmentApp;
+import gui.MainWindow;
+import gui.NewAppointmentView;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-public class Appointment implements Serializable {
+public class Appointment {
 	private int appointmentID;
 	private Creator creator;
 	private String title;
@@ -55,8 +56,7 @@ public class Appointment implements Serializable {
 	
 	//Invitations
 	public void addInvitation(Employee employee){
-		Invitation temp = new Invitation(employee);
-		temp.setAppointment(this);
+		Invitation temp = new Invitation(employee, this);
 		invitations.add(temp);
 		pcs.firePropertyChange("add", null, temp);
 	}

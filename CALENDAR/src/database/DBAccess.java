@@ -10,23 +10,94 @@ import java.util.ArrayList;
 public class DBAccess{
 	private String conURL = "jdbc:mysql://mysql.stud.ntnu.no/areeh_calenderdb";
 	private Connection con;
-	private String dbName;
 	private Statement stmt;
 	private ResultSet rs;
-
-
-	public ArrayList<Notification> getNotificationsByParticipantID(int participantID) throws Exception{
+	
+	public void editInvitation(Invitation invitation) throws Exception {
 		try {
-			rs = createResultSet(String.format("select * from notification where participantID = %d", participantID));
-			return writeAllNotificationsResultSet(rs);
+			stmt = prepareEdit();
+			stmt.executeUpdate(String.format("update invitation set alarmTime = %d, invitationStatus = \"%s\", statusChanged = %b, statusHidden = %b where invitationID = %d", invitation.getAlarmTime(), invitation.getStatus().name(), invitation.isEdited(), invitation.isHidden(), invitation.getInvitationID()));	
+		} catch ( NullPointerException e) {
+			throw e;
+			//System.err.println("A field in the edit request is null");
+		}
+	}
+	
+	public void removeAppointmentMeetingRoom(String roomname, int appID) throws Exception{
+		try {
+			stmt = prepareEdit();
+			stmt.executeUpdate(String.format("delete from appointmentmeetingroom where appID = %d and roomname = \"%s\"", appID, roomname));
 		} catch (Exception e) {
+			System.err.println("Possible invalid ID");
+			throw e;
+		} finally {
+			close();
+		}		
+	}
+	
+	public void removeAlarmByID(int alarmID) throws Exception {
+		try {
+			stmt = prepareEdit();
+			stmt.executeUpdate(String.format("delete from alarm where alarmID = %d", alarmID));
+		} catch (Exception e) {
+			System.err.println("Possible invalid ID");
 			throw e;
 		} finally {
 			close();
 		}
-
-
 	}
+	
+	public void removeInvitationByID(int invID) throws Exception {
+		try {
+			stmt = prepareEdit();
+			stmt.executeUpdate(String.format("delete from invitation where invitationID = %d", invID));
+		} catch (Exception e) {
+			System.err.println("Possible invalid ID");
+			throw e;
+		} finally {
+			close();
+		}
+	}
+	
+	public void removeAppointmentByID(int appID) throws Exception {
+		try {
+			stmt = prepareEdit();
+			stmt.executeUpdate(String.format("delete from appointment where appointmentID = %d", appID));
+		} catch (Exception e) {
+			System.err.println("Possible invalid ID");
+			throw e;
+		} finally {
+			close();
+		}
+	}
+
+	
+	
+	public void setDeletedAppointmentByID(int appID) throws Exception {
+		try {
+			stmt = prepareEdit();
+			stmt.executeUpdate(String.format("update table appointment set isDeleted = 1 where appointmentID = %d", appID));
+		} catch (Exception e) {
+			System.err.println("Possible invalid ID");
+			throw e;
+		} finally {
+			close();
+		}
+	}
+	
+//	DEPRECATED
+//	public ArrayList<Notification> getNotificationsByParticipantID(int participantID) throws Exception{
+//		try {
+//			rs = createResultSet(String.format("select * from notification where participantID = %d", participantID));
+//			return writeAllNotificationsResultSet(rs);
+//		} catch (Exception e) {
+//			throw e;
+//		} finally {
+//			close();
+//		}
+//
+//
+//	}
 
 
 
@@ -95,33 +166,34 @@ public class DBAccess{
 	}
 
 
-	public Alarm getAlarmByID(int alarmID) throws Exception {
-		try {
-			rs = createResultSet(String.format("select * from alarm where alarmID = %d", alarmID));
-			if (rs.next()) {
-				return writeAlarmResultSet(rs);	
-			} else {
-				return null;
-			}
-		} catch (Exception e) {
-			throw e;
-		} finally {
-			close();
-		}
-	}
+//	DEPRECATED
+//	public Alarm getAlarmByID(int alarmID) throws Exception {
+//		try {
+//			rs = createResultSet(String.format("select * from alarm where alarmID = %d", alarmID));
+//			if (rs.next()) {
+//				return writeAlarmResultSet(rs);	
+//			} else {
+//				return null;
+//			}
+//		} catch (Exception e) {
+//			throw e;
+//		} finally {
+//			close();
+//		}
+//	}
 
 
-	public void createNotification(Notification notification) throws Exception{
-		try {
-			stmt = prepareEdit();
-			stmt.executeUpdate(String.format("insert into notification values (null, %d, null, \"%s\", \"%s\") where appointmentID = %d on duplicate key update message = \"%s\"", notification.getAppointment(), notification.getMessage(), notification.getMessage() ));	
-		} catch ( NullPointerException e) {
-			System.err.println("A field in the edit is null");
-		}
-
-
-	}
-
+//	public void createNotification(Notification notification) throws Exception{
+//		try {
+//			stmt = prepareEdit();
+//			stmt.executeUpdate(String.format("insert into notification values (null, %d, null, \"%s\", \"%s\") where appointmentID = %d on duplicate key update message = \"%s\"", notification.getAppointmentID(), notification.getMessage(), notification.getMessage() ));	
+//		} catch ( NullPointerException e) {
+//			System.err.println("A field in the edit is null");
+//		}
+//
+//
+//	}
+//
 
 	public void createEmployee(Employee employee) throws Exception {
 		try {
@@ -130,6 +202,8 @@ public class DBAccess{
 			stmt.executeUpdate(String.format("insert into employee values(null, \"%s\", \"%s\", (select last_insert_ID()), \"%s\", \"%s\")", employee.getUsername(), employee.getPassword(), employee.getName(), employee.getEmail()));
 		} catch ( NullPointerException e) {
 			System.err.println("A field in the edit is null");
+		}finally {
+			close();
 		}
 
 
@@ -139,11 +213,13 @@ public class DBAccess{
 	public void createInvitation(Invitation invitation) throws Exception {
 		try {
 			stmt = prepareEdit();
-			stmt.executeUpdate(String.format("insert into invitation values(null, %d, %d, %d, \"%s\", %b, %b)",invitation.getAppointment().getAppointmentID(), invitation.getEmployee().getParticipantID(), invitation.getAlarm().getAlarmID(), invitation.getStatus().name(), invitation.isEdited(), invitation.isHidden() ));
+			stmt.executeUpdate(String.format("insert into invitation values(null, %d, %d, %d, \"%s\", %b, %b)",invitation.getAppointment().getAppointmentID(), invitation.getEmployee().getParticipantID(), invitation.getAlarmTime(), invitation.getStatus().name(), invitation.isEdited(), invitation.isHidden() ));
 
 
 		} catch ( NullPointerException e) {
 			System.err.println("A field in the created object is null");
+		}finally {
+			close();
 		}
 
 
@@ -156,15 +232,19 @@ public class DBAccess{
 			stmt.executeUpdate(String.format("update appointment set startTime = %d, endTime = %d, location = \"%s\", description = \"%s\", username = \"%s\" where appointmentID = %d", app.getTimeSlot(), app.getLocation(), app.getDescription(), app.getCreator(), app.getAppointmentID()));	
 		} catch ( NullPointerException e) {
 			System.err.println("A field in the edit request is null");
+		}finally {
+			close();
 		}
 	}
 	
 	public void createAppointment(Appointment app) throws Exception {
 		try {
 			stmt = prepareEdit();
-			stmt.executeUpdate(String.format("insert into appointment values(null, %d, %d, \"%s\", \"%s\", %d)", app.getTimeSlot().getStart(), app.getTimeSlot().getEnd(), app.getLocation(), app.getDescription(), app.getCreator().getEmployee().getParticipantID()));	
+			stmt.executeUpdate(String.format("insert into appointment values(null, %d, %d, \"%s\", \"%s\", %d, 0)", app.getTimeSlot().getStart(), app.getTimeSlot().getEnd(), app.getLocation(), app.getDescription(), app.getCreator().getEmployee().getParticipantID()));	
 		} catch ( NullPointerException e) {
 			System.err.println("A field in the add request is null");
+		} finally {
+			close();
 		}
 	}
 
@@ -221,7 +301,7 @@ public class DBAccess{
 
 	public ArrayList<Appointment> getInvitedAppointments(int participantID) throws Exception {
 		try {
-			rs = createResultSet(String.format("select * from appointment natural join invitation where participantID = %d;", participantID));
+			rs = createResultSet(String.format("select * from appointment natural join invitation where participantID = %d and isDeleted = 0;", participantID));
 			return writeAllAppointmentsResultSet(rs);
 		} catch (Exception e) {
 			throw e;
@@ -243,7 +323,7 @@ public class DBAccess{
 	public ArrayList<Appointment> getCreatedAppointments(int participantID) throws Exception {
 		Employee creator = getEmployeeByParticipantID(participantID);
 		try {
-			rs = createResultSet(String.format("select * from appointment where creator = %d;", creator.getParticipantID()));
+			rs = createResultSet(String.format("select * from appointment where creator = %d and isDeleted = 0;", creator.getParticipantID()));
 			return writeAllAppointmentsResultSet(rs);
 		} catch (Exception e) {
 			throw e;
@@ -269,11 +349,22 @@ public class DBAccess{
 			close();
 		}
 	}
+	
+	public ArrayList<Appointment> getDeletedAppointmentsByParticipantID(int partID) throws Exception {
+			try {
+				rs = createResultSet(String.format("select * from appointment natural join invitation where participantID = %d and isDeleted = 1;", partID));
+				return writeAllAppointmentsResultSet(rs);
+			} catch (Exception e) {
+				throw e;
+			} finally {
+				close();
+			}	
+	}
 
 
 	public Appointment getAppointmentByID(int appointmentID) throws Exception {
 		try {
-			rs = createResultSet(String.format("select * from appointment where appointmentID = %d", appointmentID));
+			rs = createResultSet(String.format("select * from appointment where appointmentID = %d and isDeleted = 0", appointmentID));
 			if (rs.next()) {
 				return writeAppointmentResultSet(rs);	
 			} else {
@@ -332,27 +423,26 @@ public class DBAccess{
 
 	}
 
-
-	private ArrayList<Notification> writeAllNotificationsResultSet(ResultSet rs) throws Exception {
-		ArrayList<Notification> notifications = new ArrayList<Notification>();
-		while (rs.next()) {
-			Notification notification = writeNotificationResultSet(rs);
-			notifications.add(notification);
-		}
-		return notifications;
-	}
-
-
-	private Notification writeNotificationResultSet(ResultSet rs) throws Exception {
-		int appointmentID = rs.getInt("appointmentID");
-		Appointment appointment = getAppointmentByID(appointmentID);
-		int participantID = rs.getInt("participantID");
-		String message = rs.getString("message");
-		String type = rs.getString("type");
-		return new Notification(appointment, message);
+//	DEPRECATED
+//	private ArrayList<Notification> writeAllNotificationsResultSet(ResultSet rs) throws Exception {
+//		ArrayList<Notification> notifications = new ArrayList<Notification>();
+//		while (rs.next()) {
+//			Notification notification = writeNotificationResultSet(rs);
+//			notifications.add(notification);
+//		}
+//		return notifications;
+//	}
 
 
-	}
+//	DEPRECATED
+//	private Notification writeNotificationResultSet(ResultSet rs) throws Exception {
+//		int appointmentID = rs.getInt("appointmentID");
+//		Appointment appointment = getAppointmentByID(appointmentID);
+//		int participantID = rs.getInt("participantID");
+//		String message = rs.getString("message");
+//		String type = rs.getString("type");
+//		return new Notification(appointment, message);
+//	}
 
 
 	private ArrayList<TimeSlot> writeScheduleResultSet(ResultSet rs) throws SQLException {
@@ -389,17 +479,17 @@ public class DBAccess{
 		return new MeetingRoom(roomName, capacity, schedule);
 	}
 
-
-	private Alarm writeAlarmResultSet(ResultSet rs) throws Exception {
-		Alarm alarm = new Alarm();
-		int alarmID = rs.getInt("alarmID");
-		String type = rs.getString("type");
-		int time = rs.getInt("time");
-		alarm.setDescription(type);
-		alarm.setTime(time);
-		alarm.setAlarmID(alarmID);
-		return alarm;
-	}
+//	DEPRECATED
+//	private Alarm writeAlarmResultSet(ResultSet rs) throws Exception {
+//		Alarm alarm = new Alarm();
+//		int alarmID = rs.getInt("alarmID");
+//		String type = rs.getString("type");
+//		int time = rs.getInt("time");
+//		alarm.setDescription(type);
+//		alarm.setTime(time);
+//		alarm.setAlarmID(alarmID);
+//		return alarm;
+//	}
 
 
 	private ArrayList<Appointment> writeAllAppointmentsResultSet(ResultSet rs) throws Exception {
@@ -487,13 +577,14 @@ public class DBAccess{
 	private Invitation writeInvitationResultSet(ResultSet rs) throws Exception {
 		int participantID = rs.getInt("participantID");
 		Employee employee = getEmployeeByParticipantID(participantID);
-		Invitation invitation = new Invitation(employee);
+		Appointment appointment = getAppointmentByID(rs.getInt("appointmentID"));
+		Invitation invitation = new Invitation(employee, appointment);
 		int invitationID = rs.getInt("invitationID");
-		int appointmentID = rs.getInt("appointmentID");
 		int alarmID = rs.getInt("alarmID");
 		boolean statusChanged = rs.getBoolean("statusChanged");
 		boolean statusHidden = rs.getBoolean("statusHidden");
 		String invitationStatus = rs.getString("invitationStatus");
+		long alarmTime = rs.getLong("alarmTime");
 		//for testing
 //		System.out.println(invitationID);
 //		System.out.println(appointmentID);
@@ -507,11 +598,7 @@ public class DBAccess{
 		} catch (NullPointerException e) {
 			System.err.println("writeInvitation: No invitationStatus set");
 		}
-		Alarm alarm = getAlarmByID(alarmID);
-		if (alarm==null) {
-			System.out.println("writeInvitation: No alarm set");
-		}
-		invitation.setAlarm(alarm);
+		invitation.setAlarmTime(alarmTime);
 		invitation.setEdited(statusChanged);
 		invitation.setHidden(statusHidden);
 		invitation.setInvitationID(invitationID);
