@@ -131,8 +131,8 @@ public class MainWindow extends JFrame{
 
 		//adding network listener
 		//TODO: ENABLE
-//		networkClient = new Client(serverIP, serverPort);
-//		requestHandler = new RequestHandler(networkClient);
+		networkClient = new Client(serverIP, serverPort);
+		requestHandler = new RequestHandler(networkClient);
 	}
 //	public static MainWindow getMainWindow(){
 //		return mainWindow;
@@ -309,6 +309,9 @@ public class MainWindow extends JFrame{
 		System.out.println("MainWindow: Response received" + response.getName());
 
 		if (response.getName().equals("LOGIN_ACCEPTED")){
+			Employee newUser = (Employee) response.getObject(0);
+			setUser(newUser);
+			getTopView().setUserName(newUser.getName());
 			setCalendarMode();
 		}
 		else{

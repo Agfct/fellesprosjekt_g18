@@ -2,9 +2,10 @@ package model;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Employee {
+public class Employee implements Serializable{
 	private int participantID;
 	private int employeeID;
 	private String username;
