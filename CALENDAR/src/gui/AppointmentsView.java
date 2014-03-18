@@ -617,14 +617,14 @@ public class AppointmentsView extends JPanel implements ListSelectionListener , 
 				invitationModel.setHidden(false);
 			}
 			
-//			if(MainWindow.getRequestHandler().editInvitation(invitationModel)){ TODO
+			if(MainWindow.getRequestHandler().editInvitation(invitationModel)){
 				addAppointments();
 				uppdateAppointments();
-//			}else{
-//				addAppointments();
-//				uppdateAppointments();
-//				JOptionPane.showMessageDialog(MainWindow.getMainWindow(),"Could not Save Appointment. Cloud not Available");
-//			}
+			}else{
+				addAppointments();
+				uppdateAppointments();
+				JOptionPane.showMessageDialog(MainWindow.getMainWindow(),"Could not Save Appointment. Cloud not Available");
+			}
 			appointmentsList.repaint();
 		}
 		// If cancelAppointmentBtn is pressed
