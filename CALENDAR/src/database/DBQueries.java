@@ -16,19 +16,23 @@ public class DBQueries {
 	public static void fullDBTest() throws Exception {
 		DBAccess dba = new DBAccess();
 		Employee siv = dba.getEmployeeByParticipantID(11);
+		Employee anders = dba.getEmployeeByParticipantID(18);
 		
-		Invitation invitation = dba.getInvitationByID(7);
-		System.out.println(invitation);
-		System.out.println(invitation.isHidden());
-		
+		ArrayList<Appointment> appointments = dba.getInvitedAppointments(18);
+		System.out.println(appointments.get(0).getInvitations());
+		for (Invitation inv : appointments.get(0).getInvitations()) {
+			System.out.println(inv.getEmployee());
+		}
+		System.out.println(appointments.get(0).getInvitation(anders).isHidden());
 
 		//dba.createEmployee(siv);
 		//System.out.println("createEmployee: Duplicate Siv if correct");
-
+		
+//		System.out.println("getInvitedAppointments:");
 //		System.out.println(dba.getInvitedAppointments(18));
 //
 //		System.out.println("editInvitation:");
-//		Appointment appointment = dba.getAppointmentByID(2);
+//		Appointment appointment = dba.getAppointmentByID(2);	
 //		System.out.println(appointment);
 //		Invitation invitation = new Invitation(siv, appointment);
 //		invitation.setInvitationID(1);
@@ -67,11 +71,11 @@ public class DBQueries {
 //			System.out.println(k);
 //		}
 //
-//		System.out.println("getAllAppointments:");
-//		ArrayList<Appointment> a = dba.getAllAppointments(11);
-//		for (Appointment b : a) {
-//			System.out.println(b);
-//		}
+//	System.out.println("getAllAppointments:");
+//	ArrayList<Appointment> a = dba.getAllAppointments(11);
+//	for (Appointment b : a) {
+//		System.out.println(b);
+//	}
 //
 //		System.out.println("getGroupMembers:");
 //		dba.getGroupMembers("test");

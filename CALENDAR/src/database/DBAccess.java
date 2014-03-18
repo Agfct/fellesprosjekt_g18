@@ -530,6 +530,8 @@ public class DBAccess{
 		ArrayList<Appointment> appointments = new ArrayList<Appointment>();
 		while (rs.next()) {
 			Appointment appointment = writeAppointmentResultSet(rs);
+			System.out.println(getAllInvitationsByAppointmentID(appointment.getAppointmentID()));
+			appointment.setInvitations(getAllInvitationsByAppointmentID(appointment.getAppointmentID()));
 			appointments.add(appointment);
 		}
 		return appointments;
