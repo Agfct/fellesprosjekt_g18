@@ -25,6 +25,10 @@ public class Group {
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+	public void setMembers(ArrayList<Employee> members) {
+		this.members = members;
+	}
 	//-------
 
 	//Getters

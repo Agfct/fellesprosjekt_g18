@@ -3,7 +3,9 @@ package database;
 
 import java.lang.reflect.*;
 import java.sql.*;
+
 import model.*;
+
 import java.util.ArrayList;
 
 
@@ -259,9 +261,27 @@ public class DBAccess{
 			close();
 		}
 	}
+	
+	public Group getGroupByID(int participantID) throws Exception {
+		try {
+			rs = createResultSet(String.format("select * from group where participantID = %d", participantID));
+			return writeGroupResultSet(rs);
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			close();
+		}
+		
+	}
 
 
 
+
+	private Group writeGroupResultSet(ResultSet rs) throws Exception {
+		Group group = new Group(rs.getString("groupname"));
+		group.setMembers(getGroupMembers(group.getName()));
+		return group;
+	}
 
 	public ArrayList<Invitation> getAllInvitationsByParticipantID(int participantID) throws Exception {
 		try {
@@ -550,9 +570,11 @@ public class DBAccess{
 
 	private Appointment writeAppointmentResultSet(ResultSet rs) throws Exception {
 		int creatorID = rs.getInt("creator");
+		ArrayList<Invitation> invitations = new ArrayList();
 		Employee creatorObject = getEmployeeByParticipantID(creatorID);
 		Appointment appointment = new Appointment(creatorObject);
 		int appointmentID = rs.getInt("appointmentID");
+		invitations = getAllInvitationsByAppointmentID(appointmentID);
 		long start = rs.getLong("startTime");
 		long end = rs.getLong("endTime");
 		String location = rs.getString("location");
@@ -580,7 +602,6 @@ public class DBAccess{
 		Appointment appointment = getAppointmentByID(rs.getInt("appointmentID"));
 		Invitation invitation = new Invitation(employee, appointment);
 		int invitationID = rs.getInt("invitationID");
-		int alarmID = rs.getInt("alarmID");
 		boolean statusChanged = rs.getBoolean("statusChanged");
 		boolean statusHidden = rs.getBoolean("statusHidden");
 		String invitationStatus = rs.getString("invitationStatus");
