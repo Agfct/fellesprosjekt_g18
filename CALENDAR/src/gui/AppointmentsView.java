@@ -495,16 +495,38 @@ public class AppointmentsView extends JPanel implements ListSelectionListener , 
     	for (int i = 0; i < appointments.size(); i++) {
     		// check if hidden and if hidden box is checked
 //    		System.out.println("1:"+appointments.get(i).getInvitation(MainWindow.getUser()).isHidden());
-    		System.out.println("1:"+appointments.get(i).getInvitation(MainWindow.getUser()));
+    		System.out.println("Hvilken er det: "+appointments.get(i).getDescription() + " i " +i);
+    		System.out.println("1:"+appointments.get(i).getInvitation(MainWindow.getUser()) + "i " +i);
+    		System.out.println("1:"+appointments.get(i).getInvitation(MainWindow.getUser()).isHidden());
     		if(!appointments.get(i).getInvitation(MainWindow.getUser()).isHidden() || showHiddenBox.isSelected()){
-    			// If its pending
-    			if(appointments.get(i).getInvitation(MainWindow.getUser()).getStatus().equals(InvitationStatus.PENDING) 
-    					&& pendingBox.isSelected() || !appointments.get(i).getInvitation(MainWindow.getUser()).getStatus().equals(InvitationStatus.PENDING)){
-    				if(appointments.get(i).getInvitation(MainWindow.getUser()).getStatus().equals(InvitationStatus.ACCEPTED)
-    						&& acceptedBox.isSelected() || !appointments.get(i).getInvitation(MainWindow.getUser()).getStatus().equals(InvitationStatus.ACCEPTED)){
-    					appointmentsListModel.addElement(appointments.get(i));
-    				}
+    			
+    			// If none of the pending or accepted only is selected
+    			if(!pendingBox.isSelected() && !acceptedBox.isSelected()){
+    				appointmentsListModel.addElement(appointments.get(i));
     			}
+    			//ifBoth pending and accepted is selected
+    			else if(pendingBox.isSelected() && acceptedBox.isSelected() 
+    					&& (appointments.get(i).getInvitation(MainWindow.getUser()).getStatus().equals(InvitationStatus.ACCEPTED)
+    							||appointments.get(i).getInvitation(MainWindow.getUser()).getStatus().equals(InvitationStatus.PENDING) )){
+    				appointmentsListModel.addElement(appointments.get(i));
+    			}
+    			// If Show pending only is selected
+    			else if(pendingBox.isSelected() && appointments.get(i).getInvitation(MainWindow.getUser()).getStatus().equals(InvitationStatus.PENDING)){
+    				appointmentsListModel.addElement(appointments.get(i));
+    			}
+    			// If Show Accepted only is selected
+    			else if(acceptedBox.isSelected() && appointments.get(i).getInvitation(MainWindow.getUser()).getStatus().equals(InvitationStatus.ACCEPTED)){
+    				appointmentsListModel.addElement(appointments.get(i));
+    			}
+
+    		
+//    			if(appointments.get(i).getInvitation(MainWindow.getUser()).getStatus().equals(InvitationStatus.PENDING) 
+//    					&& pendingBox.isSelected() || !appointments.get(i).getInvitation(MainWindow.getUser()).getStatus().equals(InvitationStatus.PENDING)){
+//    				if(appointments.get(i).getInvitation(MainWindow.getUser()).getStatus().equals(InvitationStatus.ACCEPTED)
+//    						&& acceptedBox.isSelected() || !appointments.get(i).getInvitation(MainWindow.getUser()).getStatus().equals(InvitationStatus.ACCEPTED)){
+//    					appointmentsListModel.addElement(appointments.get(i));
+//    				}
+//    			}
     		}
 		}
     }
@@ -603,7 +625,7 @@ public class AppointmentsView extends JPanel implements ListSelectionListener , 
 			System.out.println("Pressed Save, Changed appointment Info");
 			if(acceptRadioBtn.isSelected() && acceptRadioBtn.isEnabled()){
 				invitationModel.setStatus(InvitationStatus.ACCEPTED);
-				uppdateAppointments();
+				uppdateAppointments(); //TODO: UANSETT HVA DU GJØR SKAL DU KJØRE UPPDATE SÅ IKKE HA EN I HVER ENESTE IF ??
 				
 			}else if(declineRadioBtn.isSelected() && declineRadioBtn.isEnabled()){
 				invitationModel.setStatus(InvitationStatus.DECLINED);
@@ -617,14 +639,14 @@ public class AppointmentsView extends JPanel implements ListSelectionListener , 
 				invitationModel.setHidden(false);
 			}
 			
-			if(MainWindow.getRequestHandler().editInvitation(invitationModel)){
+//			if(MainWindow.getRequestHandler().editInvitation(invitationModel)){
 				addAppointments();
 				uppdateAppointments();
-			}else{
-				addAppointments();
-				uppdateAppointments();
-				JOptionPane.showMessageDialog(MainWindow.getMainWindow(),"Could not Save Appointment. Cloud not Available");
-			}
+//			}else{
+//				addAppointments();
+//				uppdateAppointments();
+//				JOptionPane.showMessageDialog(MainWindow.getMainWindow(),"Could not Save Appointment. Cloud not Available");
+//			}
 			appointmentsList.repaint();
 		}
 		// If cancelAppointmentBtn is pressed

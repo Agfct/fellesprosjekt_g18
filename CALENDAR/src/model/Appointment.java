@@ -6,11 +6,12 @@ import gui.NewAppointmentView;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-public class Appointment {
+public class Appointment  implements Serializable{
 	private int appointmentID;
 	private Creator creator;
 	private String title;
@@ -189,6 +190,7 @@ public class Appointment {
 		return c.get(Calendar.DAY_OF_MONTH) + "." + (c.get(Calendar.MONTH)+1) + "." + c.get(Calendar.YEAR);
 	}
 	public AppointmentApp getAppointmentApp() {return appointmentApp;}
+	
 	public Invitation getInvitation(Employee employee){
 		for (Invitation invite : invitations) {
 			if(invite.getEmployee() == employee){
