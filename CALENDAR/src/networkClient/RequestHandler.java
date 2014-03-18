@@ -3,7 +3,6 @@ package networkClient;
 import java.util.ArrayList;
 
 import networkDiv.Packet;
-import model.Alarm;
 import model.Appointment;
 import model.Employee;
 import model.Invitation;
@@ -54,10 +53,7 @@ public class RequestHandler {
 		Packet response = client.request("GET_ALL_EMPLOYEES");
 		return ((ArrayList<Appointment>) response.getObject(0));
 	}
-	public Alarm getAlarmByID (int id){
-		Packet response = client.request("GET_ALARM_BY_ID", id);
-		return ((Alarm) response.getObject(0));
-	}
+	
 	public ArrayList<Appointment> getAllApointments (Employee employee){
 		Packet response = client.request("GET_ALL_APPOINTMENTS", employee.getParticipantID());
 		return ((ArrayList<Appointment>) response.getObject(0));
