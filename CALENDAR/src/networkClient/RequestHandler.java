@@ -58,12 +58,12 @@ public class RequestHandler {
 		Packet response = client.request("GET_ALARM_BY_ID", id);
 		return ((Alarm) response.getObject(0));
 	}
-	public ArrayList<Appointment> getAllApointments (int participantID){
-		Packet response = client.request("GET_ALL_APPOINTMENTS", participantID);
+	public ArrayList<Appointment> getAllApointments (Employee employee){
+		Packet response = client.request("GET_ALL_APPOINTMENTS", employee.getParticipantID());
 		return ((ArrayList<Appointment>) response.getObject(0));
 	}
-	public ArrayList<Appointment> getAllInvitations (int appointmentID){
-		Packet response = client.request("GET_ALL_INVITATIONS", appointmentID);
+	public ArrayList<Appointment> getAllInvitations (Appointment appointment){
+		Packet response = client.request("GET_ALL_INVITATIONS", appointment.getAppointmentID());
 		return ((ArrayList<Appointment>) response.getObject(0));
 	}
 	public ArrayList<Appointment> getAllMeetingRooms (){
@@ -74,8 +74,8 @@ public class RequestHandler {
 		Packet response = client.request("GET_APPOINTMENT_BY_ID", appointmentID);
 		return ((Appointment) response.getObject(0));
 	}
-	public ArrayList<Appointment> getCreatedAppointments (int participantID){
-		Packet response = client.request("GET_CREATED_APPOINTMENTS", participantID);
+	public ArrayList<Appointment> getCreatedAppointments (Employee employee){
+		Packet response = client.request("GET_CREATED_APPOINTMENTS", employee.getParticipantID());
 		return ((ArrayList<Appointment>) response.getObject(0));
 	}
 	public Employee getEmployeeByParticipantID (int participantID){
@@ -94,12 +94,12 @@ public class RequestHandler {
 		Packet response = client.request("GET_INVITATION_BY_ID", invitationID);
 		return ((Invitation) response.getObject(0));
 	}
-	public ArrayList<Appointment> getInvitedAppointments (int participantID){
-		Packet response = client.request("GET_INVITED_APPOINTMENTS", participantID);
+	public ArrayList<Appointment> getInvitedAppointments (Employee employee){
+		Packet response = client.request("GET_INVITED_APPOINTMENTS", employee.getParticipantID());
 		return ((ArrayList<Appointment>) response.getObject(0));
 	}
-	public ArrayList<Notification> getNotificationsByParticipantID (int participantID){
-		Packet response = client.request("GET_NOTIFICATIONS_BY_PARTICIPANT_ID", participantID);
+	public ArrayList<Notification> getNotifications (Employee employee){
+		Packet response = client.request("GET_NOTIFICATIONS_BY_PARTICIPANT_ID", employee.getParticipantID());
 		return ((ArrayList<Notification>) response.getObject(0));
 	}
 	public Boolean getSchedule (String meetingRoom){
