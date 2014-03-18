@@ -1,12 +1,12 @@
 package model;
 
 public class Creator {
-	private final Employee person;
+	private final Employee employee;
 	private boolean statusChanged;
 	
 
 	public Creator(Employee person) {
-		this.person = person;
+		this.employee = person;
 		statusChanged = false;
 	}
 	
@@ -18,7 +18,7 @@ public class Creator {
 	}
 	
 	public Employee getEmployee(){
-		return person;
+		return employee;
 	}
 	
 }

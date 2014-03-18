@@ -42,6 +42,14 @@ public class AppointmentCellRenderer implements ListCellRenderer<Appointment>{
 		}
 		System.out.println("CELL RENDERER IS RENDERING");
 //		String date = value.getDate // get date and put it correctly into label
+//		String room = roomNoe 
+		String hide;
+		boolean hidden = invitation.isHidden();
+		if (hidden){
+			hide = "hidden";
+		}else{
+			hide = "visible";
+		}
 		
 		// Using Html to create a table for the values
 	    renderer.setText("<html>"+
@@ -55,7 +63,7 @@ public class AppointmentCellRenderer implements ListCellRenderer<Appointment>{
 	    					"<tr>"+
 	    						"<th width='40'px>"+"dd.mm.year"+"</th>"+
 	    						"<th width='40'px>"+"Room nr 5"+"</th>"+
-	    						"<th class='long' width='20'px>"+"Hidden"+"</div>"+
+	    						"<th class='long' width='20'px>"+hide+"</div>"+
 	    					"</tr>"+
 	    				"</table>"+
 	    				"</html>");

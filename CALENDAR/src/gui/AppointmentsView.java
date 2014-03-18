@@ -374,7 +374,7 @@ public class AppointmentsView extends JPanel implements ListSelectionListener , 
 		
 		alarmBox = new JComboBox<String>(alarmFieldModel);
 		alarmBox.setEditable(false);
-		alarmBox.setEnabled(false);
+//		alarmBox.setEnabled(false);
 //		cLabel17.fill = GridBagConstraints.HORIZONTAL;
 		alarmBox.setName("alarmBox");
 //		alarmBox.addActionListener(this);
@@ -492,11 +492,18 @@ public class AppointmentsView extends JPanel implements ListSelectionListener , 
     public void loadInvitationValues(){
     	acceptRadioBtn.setEnabled(true);
     	declineRadioBtn.setEnabled(true);
+    	hideBox.setEnabled(true);
     	if(invitationModel.getStatus() == InvitationStatus.ACCEPTED){
     		acceptRadioBtn.setSelected(true);
     	}else if (invitationModel.getStatus() == InvitationStatus.DECLINED){
     		declineRadioBtn.setSelected(true);
     	}
+    	if(invitationModel.isHidden()){
+    		hideBox.setSelected(true);
+    	}else{
+    		hideBox.setSelected(false);
+    	}
+    	
     }
 	//ListSelection Listener for the List of Appointments
 	@Override
@@ -556,6 +563,12 @@ public class AppointmentsView extends JPanel implements ListSelectionListener , 
 				invitationModel.setStatus(InvitationStatus.ACCEPTED);
 			}else if(declineRadioBtn.isSelected()){
 				invitationModel.setStatus(InvitationStatus.DECLINED);
+			}
+			// Hide
+			if(hideBox.isSelected()){
+				invitationModel.setHidden(true);
+			}else if (!hideBox.isSelected()){
+				invitationModel.setHidden(false);
 			}
 			appointmentsList.repaint();
 			//TODO: SEND REQUEST TO SERVER ??
