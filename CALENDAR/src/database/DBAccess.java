@@ -22,6 +22,8 @@ public class DBAccess{
 		} catch ( NullPointerException e) {
 			throw e;
 			//System.err.println("A field in the edit request is null");
+		} finally {
+			close();
 		}
 	}
 	
@@ -37,17 +39,18 @@ public class DBAccess{
 		}		
 	}
 	
-	public void removeAlarmByID(int alarmID) throws Exception {
-		try {
-			stmt = prepareEdit();
-			stmt.executeUpdate(String.format("delete from alarm where alarmID = %d", alarmID));
-		} catch (Exception e) {
-			System.err.println("Possible invalid ID");
-			throw e;
-		} finally {
-			close();
-		}
-	}
+//	DEPRECATED
+//	public void removeAlarmByID(int alarmID) throws Exception {
+//		try {
+//			stmt = prepareEdit();
+//			stmt.executeUpdate(String.format("delete from alarm where alarmID = %d", alarmID));
+//		} catch (Exception e) {
+//			System.err.println("Possible invalid ID");
+//			throw e;
+//		} finally {
+//			close();
+//		}
+//	}
 	
 	public void removeInvitationByID(int invID) throws Exception {
 		try {
@@ -388,10 +391,15 @@ public class DBAccess{
 
 
 	public Appointment getAppointmentByID(int appointmentID) throws Exception {
+		Appointment app = prepareAppointmentByID(appointmentID);
+		app.setInvitations(getAllInvitationsByAppointmentID(appointmentID));
+		return app;
+	}
+	public Appointment prepareAppointmentByID(int appointmentID) throws Exception {
 		try {
 			rs = createResultSet(String.format("select * from appointment where appointmentID = %d and isDeleted = 0", appointmentID));
 			if (rs.next()) {
-				return writeAppointmentResultSet(rs);	
+				return writeAppointmentResultSet(rs);
 			} else {
 				System.err.println("No matching appointment");
 				return null;
@@ -401,6 +409,7 @@ public class DBAccess{
 		} finally {
 			close();
 		}
+		
 	}
 
 
@@ -409,7 +418,7 @@ public class DBAccess{
 			rs = createResultSet(String.format("select * from invitation where invitationID = %d", invitationID));
 			if (rs.next()) {	
 				Invitation invitation = writeInvitationResultSet(rs);
-				return setUsername(invitation);
+				return invitation;
 			} else {
 				System.err.println("No matching invitation");
 				return null;
@@ -575,11 +584,9 @@ public class DBAccess{
 
 	private Appointment writeAppointmentResultSet(ResultSet rs) throws Exception {
 		int creatorID = rs.getInt("creator");
-		ArrayList<Invitation> invitations = new ArrayList();
 		Employee creatorObject = getEmployeeByParticipantID(creatorID);
 		Appointment appointment = new Appointment(creatorObject);
 		int appointmentID = rs.getInt("appointmentID");
-		invitations = getAllInvitationsByAppointmentID(appointmentID);
 		long start = rs.getLong("startTime");
 		long end = rs.getLong("endTime");
 		String location = rs.getString("location");
@@ -604,7 +611,7 @@ public class DBAccess{
 	private Invitation writeInvitationResultSet(ResultSet rs) throws Exception {
 		int participantID = rs.getInt("participantID");
 		Employee employee = getEmployeeByParticipantID(participantID);
-		Appointment appointment = getAppointmentByID(rs.getInt("appointmentID"));
+		Appointment appointment = prepareAppointmentByID(rs.getInt("appointmentID"));
 		Invitation invitation = new Invitation(employee, appointment);
 		int invitationID = rs.getInt("invitationID");
 		boolean statusChanged = rs.getBoolean("statusChanged");

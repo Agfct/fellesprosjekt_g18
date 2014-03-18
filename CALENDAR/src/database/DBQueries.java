@@ -16,6 +16,11 @@ public class DBQueries {
 	public static void fullDBTest() throws Exception {
 		DBAccess dba = new DBAccess();
 		Employee siv = dba.getEmployeeByParticipantID(11);
+		
+		Invitation invitation = dba.getInvitationByID(7);
+		System.out.println(invitation);
+		System.out.println(invitation.isHidden());
+		
 
 		//dba.createEmployee(siv);
 		//System.out.println("createEmployee: Duplicate Siv if correct");
@@ -38,8 +43,8 @@ public class DBQueries {
 //		System.out.println(invitation.getAppointment().getAppointmentID());
 //		dba.editInvitation(invitation);
 		
-		System.out.println("getGroupByID:");
-		System.out.println(dba.getGroupByID(4));
+//		System.out.println("getGroupByID:");
+//		System.out.println(dba.getGroupByID(4));
 
 
 //
