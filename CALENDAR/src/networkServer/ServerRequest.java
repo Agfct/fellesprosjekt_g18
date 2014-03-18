@@ -4,7 +4,6 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 import database.DBAccess;
-import model.Alarm;
 import model.Appointment;
 import model.Employee;
 import model.Invitation;
@@ -34,13 +33,11 @@ public class ServerRequest {
 			case "LOGIN_REQUEST": return userValidation((String) packet.getObject(0), (String) packet.getObject(1));
 //			Add
 			case "ADD_EMPLOYEE": return createEmployee((Employee) packet.getObject(0));
-			case "ADD_NOTIFICATION": return createNotification((Notification) packet.getObject(0));
 			case "ADD_APPOINTMENT": return createAppointment((Appointment) packet.getObject(0));
 //			Edit
 			case "EDIT_APPOINTMENT": return editAppointment((Appointment) packet.getObject(0));
 //			Get
 			case "GET_ALL_EMPLOYEES": return getAllEmployees();
-			case "GET_ALARM_BY_ID": return getAlarmByID((int) packet.getObject(0));
 			case "GET_ALL_APPOINTMENTS": return getAllApointments((int) packet.getObject(0));
 			case "GET_ALL_INVITATIONS": return getAllInvitations((int) packet.getObject(0));
 			case "GET_ALL_MEETING_ROOMS": return getAllMeetingRooms();
@@ -51,7 +48,6 @@ public class ServerRequest {
 			case "GET_GROUP_MEMBERS": return getGroupMembers((String) packet.getObject(0));
 			case "GET_INVITATION_BY_ID": return getInvitationByID((int) packet.getObject(0));
 			case "GET_INVITED_APPOINTMENTS": return getInvitedAppointments((int) packet.getObject(0));
-			case "GET_NOTIFICATIONS_BY_PARTICIPANT_ID": return getNotificationsByParticipantID((int) packet.getObject(0));
 			case "GET_SCHEDULE": return getSchedule((String) packet.getObject(0));
 //			Delete
 			case "SET_APPOINTMENT_AS_DELETED": return setDeletedAppointmentByID((int) packet.getObject(0));
@@ -98,17 +94,7 @@ public class ServerRequest {
 			return new Packet("ERROR", "ServerRequest: addEmployees failed!", e);
 		}
 	}
-	private Packet createNotification (Notification notification) {
-		try {
-			db.createNotification(notification);
-			return new Packet("NOTIFICATION_ADDED");
-		} 
-		catch (Exception e) {
-			System.out.println("ServerRequest: createNotification failed!");
-			e.printStackTrace();
-			return new Packet("ERROR", "ServerRequest: createNotification failed!", e);
-		}
-	}
+	
 	private Packet createAppointment(Appointment object) {
 		try {
 			db.createAppointment(object);
@@ -144,17 +130,7 @@ public class ServerRequest {
 			return new Packet("ERROR", "ServerRequest: getAllEmployees failed!", e);
 		}
 	}
-	private Packet getAlarmByID (int alarmID) {
-		try {
-			Alarm alarm = db.getAlarmByID(alarmID);
-			return new Packet("ALARM", alarm);
-		} 
-		catch (Exception e) {
-			System.out.println("ServerRequest: getAlarmByID failed!");
-			e.printStackTrace();
-			return new Packet("ERROR", "ServerRequest: getAlarmByID failed!", e);
-		}
-	}
+	
 	private Packet getAllApointments (int participantID) {
 		try {
 			ArrayList<Appointment> allAppointments = db.getAllAppointments(participantID);
@@ -266,17 +242,8 @@ public class ServerRequest {
 			return new Packet("ERROR", "ServerRequest: getInvitedAppointments failed!", e);
 		}
 	}
-	private Packet getNotificationsByParticipantID (int participantID) {
-		try {
-			ArrayList<Notification> notifications = db.getNotificationsByParticipantID(participantID);
-			return new Packet("NOTIFICATIONS", notifications);
-		} 
-		catch (Exception e) {
-			System.out.println("ServerRequest: getNotificationsByParticipantID failed!");
-			e.printStackTrace();
-			return new Packet("ERROR", "ServerRequest: getNotificationsByParticipantID failed!", e);
-		}
-	}
+	
+	
 	private Packet getSchedule (String meetingRoom) {
 		try {
 			ArrayList<TimeSlot> schedule = db.getSchedule(meetingRoom);
