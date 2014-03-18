@@ -46,7 +46,7 @@ public class DBQueries {
 	    for (MeetingRoom h : g) {
 	    	System.out.println(h);
 	    }
-	    System.out.println(dba.checkPassword(siv, "Siv123"));
+	    System.out.println(dba.checkPassword(siv.getName(), "Siv123"));
 	  }
 
 
