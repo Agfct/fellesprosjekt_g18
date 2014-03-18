@@ -192,7 +192,7 @@ public class ParticipantsPanel extends JPanel implements ActionListener {
 		}	
 		else if (e.getSource() == emailBtn){
 			System.out.println("Pressing eMail Btn");
-			// What to do when pressing eMailBtn?
+			MainWindow.newEmailPanel(invitation);
 		}
 		else if(e.getSource() == statusField){
 			invitation.setStatus((InvitationStatus)statusField.getSelectedItem());

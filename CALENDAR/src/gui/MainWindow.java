@@ -24,6 +24,7 @@ import networkClient.RequestHandler;
 import networkDiv.Packet;
 import model.Appointment;
 import model.Employee;
+import model.Invitation;
 
 
 /** The Main (and Only) JFrame for the application.
@@ -43,6 +44,7 @@ public class MainWindow extends JFrame{
 	private static CalendarView calendarView;
 	private static CalendarPanel calendarPanel;
 	private static NewAppointmentView newAppointmentView;
+	private static EmailPanel emailPanel;
 	private static EditAppointmentsView editAppointmentsView;
 	private static AppointmentsView appointmentsView;
 	private static JPanel backgroundPanel; //TEST 
@@ -206,6 +208,17 @@ public class MainWindow extends JFrame{
 	}
 	protected static void removeEditAppointmentsView(){
 		layoutView.remove(editAppointmentsView);
+		layoutView.repaint();
+	}
+	// adding emailPanels
+	protected static void newEmailPanel(Invitation invitation){
+		//adding an AppointmentsView to the layerPane
+		emailPanel = new EmailPanel(invitation);
+		emailPanel.setBounds(0, 0, 1200, 800);
+		layoutView.add(emailPanel,JLayeredPane.DRAG_LAYER,5);
+	}
+	protected static void removeEmailPanel(){
+		layoutView.remove(emailPanel);
 		layoutView.repaint();
 	}
 	
