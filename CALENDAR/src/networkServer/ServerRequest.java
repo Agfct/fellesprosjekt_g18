@@ -62,8 +62,8 @@ public class ServerRequest {
 	
 	private Packet userValidation (String username, String password) {
 		try {
+			boolean checkPassword = db.checkPassword(username, password);
 			Employee emp = db.getEmployeeByUsername(username);
-			boolean checkPassword = db.checkPassword(emp, password);
 			if (checkPassword == true) {
 				return new Packet("LOGIN_ACCEPTED", emp);
 			}
