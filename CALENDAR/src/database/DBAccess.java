@@ -264,8 +264,13 @@ public class DBAccess{
 	
 	public Group getGroupByID(int participantID) throws Exception {
 		try {
-			rs = createResultSet(String.format("select * from group where participantID = %d", participantID));
-			return writeGroupResultSet(rs);
+			rs = createResultSet(String.format("select * from groupe where participantID = %d", participantID));
+			if (rs.next()) {
+				return writeGroupResultSet(rs);				
+			} else {
+				System.err.println("No such group");
+				return null;
+			}
 		} catch (Exception e) {
 			throw e;
 		} finally {
