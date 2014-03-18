@@ -501,6 +501,18 @@ public class AppointmentsView extends JPanel implements ListSelectionListener , 
     		}
 		}
     }
+    
+    public void setNotSelectedMode(){
+    	statusBtnGroup.clearSelection();
+    	acceptRadioBtn.setEnabled(false);
+      	declineRadioBtn.setEnabled(false);
+      	descriptionField.setText("");
+      	alarmBox.setSelectedIndex(0);
+      	alarmBox.setEnabled(false);
+      	hideBox.setEnabled(false);
+      	hideBox.setSelected(false);
+      	
+    }
 
     public void setInvitationModel(Invitation invitation){
     	invitationModel = invitation;
@@ -508,6 +520,7 @@ public class AppointmentsView extends JPanel implements ListSelectionListener , 
     public void loadInvitationValues(){
     	acceptRadioBtn.setEnabled(true);
     	declineRadioBtn.setEnabled(true);
+    	alarmBox.setEnabled(true);
     	hideBox.setEnabled(true);
     	if(invitationModel.getStatus() == InvitationStatus.ACCEPTED){
     		acceptRadioBtn.setSelected(true);
@@ -576,17 +589,22 @@ public class AppointmentsView extends JPanel implements ListSelectionListener , 
 		// If cancelAppointmentBtn is pressed
 		if (e.getSource() == saveBtn){
 			System.out.println("Pressed Save, Changed appointment Info");
-			if(acceptRadioBtn.isSelected()){
+			if(acceptRadioBtn.isSelected() && acceptRadioBtn.isEnabled()){
 				invitationModel.setStatus(InvitationStatus.ACCEPTED);
+				if(!acceptedBox.isSelected()){ // if you accept and the Filter Accepted is off, it removes the focus
+					setNotSelectedMode();
+				}
 				addAppointments();
-			}else if(declineRadioBtn.isSelected()){
+				
+			}else if(declineRadioBtn.isSelected() && declineRadioBtn.isEnabled()){
 				invitationModel.setStatus(InvitationStatus.DECLINED);
+				addAppointments();
 			}
 			// Hide
-			if(hideBox.isSelected()){
+			if(hideBox.isSelected() && hideBox.isEnabled()){
 				invitationModel.setHidden(true);
 				addAppointments();
-			}else if (!hideBox.isSelected()){
+			}else if (!hideBox.isSelected() && hideBox.isEnabled()){
 				invitationModel.setHidden(false);
 			}
 			
@@ -604,6 +622,11 @@ public class AppointmentsView extends JPanel implements ListSelectionListener , 
 		}
 		else if (e.getSource() == pendingBox){
 			System.out.println("pendingBox");
+			if(appointmentsList.getSelectedValue() != null){
+				if (appointmentsList.getSelectedValue().getInvitation(MainWindow.getUser()).getStatus().equals(InvitationStatus.PENDING)){
+					setNotSelectedMode(); // if you have a pending notification selected
+				}
+			}
 			addAppointments();
 		}
 		else if (e.getSource() == showHiddenBox){

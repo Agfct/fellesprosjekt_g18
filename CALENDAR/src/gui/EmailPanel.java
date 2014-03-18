@@ -67,8 +67,8 @@ public class EmailPanel extends JPanel implements ActionListener, FocusListener 
 		name = invite.getEmployee().getName();
 		String desc = invite.getAppointment().getDescription();
 		email = invite.getEmployee().getEmail();
-		Long startTime = invite.getAppointment().getStartTime();
-		Long endTime = invite.getAppointment().getEndTime();
+		String startTime = invite.getAppointment().getStartTime();
+		String endTime = invite.getAppointment().getEndTime();
 		String location = invite.getAppointment().getLocation();
 
 
