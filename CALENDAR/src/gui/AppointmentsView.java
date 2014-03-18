@@ -490,10 +490,11 @@ public class AppointmentsView extends JPanel implements ListSelectionListener , 
     	for (int i = 0; i < CalendarView.getInvitedAppointments().size(); i++) {
     		// check if hidden and if hidden box is checked
     		if(!CalendarView.getInvitedAppointments().get(i).getInvitation(MainWindow.getUser()).isHidden() || showHiddenBox.isSelected()){
+    			// If its pending
     			if(CalendarView.getInvitedAppointments().get(i).getInvitation(MainWindow.getUser()).getStatus().equals(InvitationStatus.PENDING) 
-    					&& pendingBox.isSelected()){
+    					&& pendingBox.isSelected() || !CalendarView.getInvitedAppointments().get(i).getInvitation(MainWindow.getUser()).getStatus().equals(InvitationStatus.PENDING)){
     				if(CalendarView.getInvitedAppointments().get(i).getInvitation(MainWindow.getUser()).getStatus().equals(InvitationStatus.ACCEPTED)
-    						&& acceptedBox.isSelected()){
+    						&& acceptedBox.isSelected() || !CalendarView.getInvitedAppointments().get(i).getInvitation(MainWindow.getUser()).getStatus().equals(InvitationStatus.ACCEPTED)){
     					appointmentsListModel.addElement(CalendarView.getInvitedAppointments().get(i));
     				}
     			}
@@ -577,20 +578,18 @@ public class AppointmentsView extends JPanel implements ListSelectionListener , 
 			System.out.println("Pressed Save, Changed appointment Info");
 			if(acceptRadioBtn.isSelected()){
 				invitationModel.setStatus(InvitationStatus.ACCEPTED);
+				addAppointments();
 			}else if(declineRadioBtn.isSelected()){
 				invitationModel.setStatus(InvitationStatus.DECLINED);
 			}
 			// Hide
 			if(hideBox.isSelected()){
 				invitationModel.setHidden(true);
-				appointmentsListModel.removeElement(appointmentsList.getSelectedValue());
+				addAppointments();
 			}else if (!hideBox.isSelected()){
 				invitationModel.setHidden(false);
 			}
 			
-			// REDO LIST
-//			appointmentsListModel.removeAllElements();
-//			addAppointments();
 			appointmentsList.repaint();
 			//TODO: SEND REQUEST TO SERVER ??
 		}
@@ -601,12 +600,15 @@ public class AppointmentsView extends JPanel implements ListSelectionListener , 
 		}
 		else if (e.getSource() == acceptedBox){
 			System.out.println("acceptedBox");
+			addAppointments();
 		}
 		else if (e.getSource() == pendingBox){
 			System.out.println("pendingBox");
+			addAppointments();
 		}
 		else if (e.getSource() == showHiddenBox){
 			System.out.println("showHidenBox");
+			addAppointments();
 		}
 		
 		
