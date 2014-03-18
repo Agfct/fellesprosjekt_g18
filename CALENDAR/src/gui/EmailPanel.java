@@ -256,9 +256,6 @@ public class EmailPanel extends JPanel implements ActionListener, FocusListener 
 		cLabe13.gridy = 7;
 		add(new JLabel("               "),cLabe13);
 
-
-
-
 		//To make the sendEmail and cancel button look nice
 		GridBagConstraints cLabe14 = new GridBagConstraints();
 		cLabe14.gridx = 1;
