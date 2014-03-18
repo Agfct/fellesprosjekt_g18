@@ -1057,7 +1057,6 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 					(Integer) dateMonthField.getSelectedItem(), 
 					(Integer) dateYearField.getSelectedItem());
 			long date = getSelectedDateAsLong((String)startField.getSelectedItem());
-			System.out.println(new Date(date));
 			if (date != -1) appointmentModel.setDate(new Date(date));
 		}
 		else if(e.getSource() == dateMonthField){
@@ -1109,9 +1108,8 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 	}
 	
 	private long getSelectedDateAsLong(String timeOfDay){
-		SimpleDateFormat format = new SimpleDateFormat("yyMMddHHmmssZ", Locale.GERMANY);
+		SimpleDateFormat format = new SimpleDateFormat("yyMMddHHmmssZ");
 		timeOfDay = timeOfDay.replaceFirst(":", "");
-		System.out.println(timeOfDay);
 		String date = "";
 		date += dateYearField.getSelectedItem().toString().length() == 2 ? dateYearField.getSelectedItem() : "0" + dateYearField.getSelectedItem();
 		date += dateMonthField.getSelectedItem().toString().length() == 2 ? dateMonthField.getSelectedItem() : "0" + dateMonthField.getSelectedItem();
@@ -1119,10 +1117,13 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 		date += timeOfDay.length() == 4 ? timeOfDay : "0" + timeOfDay;
 		date += "00";
 		date += "+0000";
-		System.out.println(date);
 		try {
 			Calendar c = Calendar.getInstance();
 			c.setTime(format.parse(date));
+			c.add(Calendar.HOUR_OF_DAY,-1);
+			if (c.get(Calendar.MONTH) > 2 && c.get(Calendar.MONTH) < 10){
+				c.add(Calendar.HOUR_OF_DAY, -1);
+			}
 			return c.getTimeInMillis();
 		} catch (ParseException e) {
 			System.out.println("Wrong date format");
@@ -1136,7 +1137,6 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 		System.out.println("("+this.getClass()+"):"+ "Pressing a Radiobutton");
 		if(e.getSource() == internalRadioButton){
 			setBookingGreyedOut(false);
-			
 		}
 		else if(e.getSource() == externalRadioButton){
 			setBookingGreyedOut(true);
@@ -1219,7 +1219,6 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 			appointmentModel.setTitle(titleField.getText());
 		}
 		
-		//TODO: Fix timey whimey stuff
 		else if(f.getSource() == durationField){
 			if (isValidDuration()){
 				appointmentModel.setDuration(Long.parseLong(durationField.getText())*60000);
@@ -1296,60 +1295,52 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 			
 			//Fixing startTimeFormat
 			if (timeSlot.getStart() != 0) {
-				System.out.println("From model: " + new Date(timeSlot.getStart()));
-				setStartField(timeSlot.getStart());
+				setStartField(appointmentModel.getStartTime());
 			}
 			
 			//Fixing endTimeFormat
 			if (timeSlot.getEnd() != 0){
-				System.out.println("From model: " + new Date(timeSlot.getEnd()));
-				setEndField(timeSlot.getEnd());
+				setEndField(appointmentModel.getEndTime());
 			}
 			
 			//Fixing durationFormat
 			if (timeSlot.getDuration() != 0){
-				setDurationField(timeSlot.getDuration());
+				setDurationField(appointmentModel.getDuration());
 			}
 			setDateFields(timeSlot.getDate());
 		}
 	}
 	
-	//TODO: Change Timey whimey stuff to int
-	private void setStartField(long startTime){
-		Calendar start = Calendar.getInstance();
-		start.setTimeInMillis(startTime);
-		String hour = Integer.toString(start.get(Calendar.HOUR_OF_DAY));
-		String minute = Integer.toString(start.get(Calendar.MINUTE));
-		String textFormat = hour + ":" + (minute.length() == 2 ? minute : "0" + minute) ;
-		startField.getEditor().setItem(textFormat);
-		System.out.println(textFormat);
-		System.out.println(startField.getSelectedItem());
+	private void setStartField(String startTime){
+		if (startField.getSelectedItem() != startTime){
+			startField.setSelectedItem(startTime);
+		}
 	}
 	
-	private void setEndField(long endTime){
-		Calendar end = Calendar.getInstance();
-		end.setTimeInMillis(endTime);
-		String hour = Integer.toString(end.get(Calendar.HOUR_OF_DAY));
-		String minute = Integer.toString(end.get(Calendar.MINUTE));
-		String textFormat = hour + ":" + (minute.length() == 2 ? minute : "0" + minute) ;
-		endField.getEditor().setItem(textFormat);
-		System.out.println(textFormat);
-		System.out.println(endField.getSelectedItem());
+	private void setEndField(String endTime){
+		if (startField.getSelectedItem() != endTime){
+			endField.setSelectedItem(endTime);
+		}
 	}
 	
 	private void setDurationField(long dur){
-		durationField.setText(Long.toString(dur / 60000));
+		if (!durationField.getText().equals(Long.toString(dur))){
+			durationField.setText(Long.toString(dur));
+		}
 	}
 	
 	private void setDateFields(Date date){
 		Calendar c = Calendar.getInstance();
 		c.setTime(date);
-		dateDayField.setSelectedItem(c.get(Calendar.DAY_OF_MONTH));
-		dateMonthField.setSelectedItem(c.get(Calendar.MONTH)+1);
-		dateYearField.setSelectedItem(c.get(Calendar.YEAR));
+		if ((int) dateDayField.getSelectedItem() != c.get(Calendar.DAY_OF_MONTH)){
+			dateDayField.setSelectedItem(c.get(Calendar.DAY_OF_MONTH));
+		}
+		if ((int) dateMonthField.getSelectedItem() != c.get(Calendar.MONTH)+1){
+			dateMonthField.setSelectedItem(c.get(Calendar.MONTH)+1);
+		}
+		if ((int) dateYearField.getSelectedItem() != c.get(Calendar.YEAR)){
+			dateYearField.setSelectedItem(c.get(Calendar.YEAR));
+		}
 		System.out.println("Date changed");
 	}
-
-
-
 }
