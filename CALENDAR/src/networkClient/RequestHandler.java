@@ -1,9 +1,14 @@
 package networkClient;
 
+import java.util.ArrayList;
+
 import networkDiv.Packet;
+import model.Alarm;
 import model.Appointment;
 import model.Employee;
+import model.Invitation;
 import model.Notification;
+import model.TimeSlot;
 
 public class RequestHandler {
 	
@@ -14,62 +19,105 @@ public class RequestHandler {
 		this.client = client;
 	}
 	
-	
+//	Login
 	public Packet loginRequest (String username, String password){
 		return client.request("LOGIN_REQUEST", username, password);
 	}
-	public Packet addEmployee (Employee employee){
-		return client.request("ADD_EMPLOYEE", employee);
+//	Add
+	public Boolean addEmployee (Employee employee){
+		Packet response = client.request("ADD_EMPLOYEE", employee);
+		if(response.getName().equals("EMPLOYEE_ADDED")){
+			return true;			
+		}return false;
 	}
-	public Packet addNotification (Notification notification){
-		return client.request("ADD_NOTIFICATION", notification);
+	public Boolean addNotification (Notification notification){
+		Packet response = client.request("ADD_NOTIFICATION", notification);
+		if(response.getName().equals("NOTIFICATION_ADDED")){
+			return true;			
+		}return false;
 	}
-	public Packet addAppointment (Appointment appointment){
-		return client.request("ADD_APPOINTMENT", appointment);
+	public Boolean addAppointment (Appointment appointment){
+		Packet response = client.request("ADD_APPOINTMENT", appointment);
+		if(response.getName().equals("APPOINTMENT_ADDED")){
+			return true;			
+		}return false;
 	}
-	public Packet editAppointment (Appointment appointment){
-		return client.request("EDIT_APPOINTMENT", appointment);
+//	Edit
+	public Boolean editAppointment (Appointment appointment){
+		Packet response = client.request("EDIT_APPOINTMENT", appointment);
+		if(response.getName().equals("APPOINTMENT_EDITED")){
+			return true;			
+		}return false;
 	}
-	public Packet getAllEmployees (){
-		return client.request("GET_ALL_EMPLOYEES");
+//	Get
+	public ArrayList<Appointment> getAllEmployees (){
+		Packet response = client.request("GET_ALL_EMPLOYEES");
+		return ((ArrayList<Appointment>) response.getObject(0));
 	}
-	public Packet getAlarmByID (int id){
-		return client.request("GET_ALARM_BY_ID", id);
+	public Alarm getAlarmByID (int id){
+		Packet response = client.request("GET_ALARM_BY_ID", id);
+		return ((Alarm) response.getObject(0));
 	}
-	public Packet getAllApointments (int participantID){
-		return client.request("GET_ALL_APPOINTMENTS", participantID);
+	public ArrayList<Appointment> getAllApointments (int participantID){
+		Packet response = client.request("GET_ALL_APPOINTMENTS", participantID);
+		return ((ArrayList<Appointment>) response.getObject(0));
 	}
-	public Packet getAllInvitations (int appointmentID){
-		return client.request("GET_ALL_INVITATIONS", appointmentID);
+	public ArrayList<Appointment> getAllInvitations (int appointmentID){
+		Packet response = client.request("GET_ALL_INVITATIONS", appointmentID);
+		return ((ArrayList<Appointment>) response.getObject(0));
 	}
-	public Packet getAllMeetingRooms (){
-		return client.request("GET_ALL_MEETING_ROOMS");
+	public ArrayList<Appointment> getAllMeetingRooms (){
+		Packet response = client.request("GET_ALL_MEETING_ROOMS");
+		return ((ArrayList<Appointment>) response.getObject(0));
 	}
-	public Packet getAppointmentByID (int appointmentID){
-		return client.request("GET_APPOINTMENT_BY_ID", appointmentID);
+	public Appointment getAppointmentByID (int appointmentID){
+		Packet response = client.request("GET_APPOINTMENT_BY_ID", appointmentID);
+		return ((Appointment) response.getObject(0));
 	}
-	public Packet getCreatedAppointments (int participantID){
-		return client.request("GET_CREATED_APPOINTMENTS", participantID);
+	public ArrayList<Appointment> getCreatedAppointments (int participantID){
+		Packet response = client.request("GET_CREATED_APPOINTMENTS", participantID);
+		return ((ArrayList<Appointment>) response.getObject(0));
 	}
-	public Packet getEmployeeByParticipantID (int participantID){
-		return client.request("GET_EMPLOYEE_BY_PARTICIPANT_ID", participantID);
+	public Employee getEmployeeByParticipantID (int participantID){
+		Packet response = client.request("GET_EMPLOYEE_BY_PARTICIPANT_ID", participantID);
+		return ((Employee) response.getObject(0));
 	}
-	public Packet getEmployeeByUsername (String username){
-		return client.request("GET_EMPLOYEE_BY_USERNAME", username);
+	public Employee getEmployeeByUsername (String username){
+		Packet response = client.request("GET_EMPLOYEE_BY_USERNAME", username);
+		return ((Employee) response.getObject(0));
 	}
-	public Packet getGroupMembers (String groupname){
-		return client.request("GET_GROUP_MEMBERS", groupname);
+	public ArrayList<Appointment> getGroupMembers (String groupname){
+		Packet response = client.request("GET_GROUP_MEMBERS", groupname);
+		return ((ArrayList<Appointment>) response.getObject(0));
 	}
-	public Packet getInvitationByID (int invitationID){
-		return client.request("GET_INVITATION_BY_ID", invitationID);
+	public Invitation getInvitationByID (int invitationID){
+		Packet response = client.request("GET_INVITATION_BY_ID", invitationID);
+		return ((Invitation) response.getObject(0));
 	}
-	public Packet getInvitedAppointments (int participantID){
-		return client.request("GET_INVITED_APPOINTMENTS", participantID);
+	public ArrayList<Appointment> getInvitedAppointments (int participantID){
+		Packet response = client.request("GET_INVITED_APPOINTMENTS", participantID);
+		return ((ArrayList<Appointment>) response.getObject(0));
 	}
-	public Packet getNotificationsByParticipantID (int participantID){
-		return client.request("GET_NOTIFICATIONS_BY_PARTICIPANT_ID", participantID);
+	public ArrayList<Notification> getNotificationsByParticipantID (int participantID){
+		Packet response = client.request("GET_NOTIFICATIONS_BY_PARTICIPANT_ID", participantID);
+		return ((ArrayList<Notification>) response.getObject(0));
 	}
-	public Packet getSchedule (String meetingRoom){
-		return client.request("GET_SCHEDULE", meetingRoom);
+	public Boolean getSchedule (String meetingRoom){
+		Packet response = client.request("GET_SCHEDULE", meetingRoom);
+		return ((Boolean) response.getObject(0));
+	}
+//	Delete
+	public Boolean setAppointmentAsDeleted (Appointment appointment){
+		Packet response = client.request("SET_APPOINTMENT_AS_DELETED", appointment);
+		if(response.getName().equals("APPOINTMENT_SET_AS_DELETED")){
+			return true;			
+		}return false;
+	}
+//	Remove
+	public Boolean removeAppointment (Appointment appointment){
+		Packet response = client.request("REMOVE_APPOINTMENT", appointment);
+		if(response.getName().equals("APPOINTMENT_REMOVED")){
+			return true;			
+		}return false;
 	}
 }
