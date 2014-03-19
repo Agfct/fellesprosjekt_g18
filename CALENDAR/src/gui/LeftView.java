@@ -1,6 +1,7 @@
 package gui;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -17,6 +18,7 @@ import java.awt.event.KeyListener;
 import java.awt.geom.Ellipse2D;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Properties;
 
 import javax.swing.Action;
 import javax.swing.ComboBoxModel;
@@ -50,11 +52,12 @@ import model.TimeSlot;
  *  
  * @author Anders
  */
+@SuppressWarnings("serial")
 public class LeftView extends JPanel implements ListSelectionListener, ActionListener, KeyListener{
 	private JLabel weekLabel;
 	private JLabel addExAppointmentsLabel;
 	private JLabel searchLabel;
-	private JComboBox weekBox;
+	private JComboBox<Integer> weekBox;
 //	private JCalendar monthCal; EXTRA ??
 	private JButton newAppointmentBtn;
 	private JButton editAppointmentBtn;
@@ -66,6 +69,7 @@ public class LeftView extends JPanel implements ListSelectionListener, ActionLis
 	private JLabel showHiddenLabel;
 	private JCheckBox showHiddenBox;
 	private Image redCircleImg;
+	private JDatePicker datePicker;
 
 	public LeftView(){
 		
@@ -103,13 +107,13 @@ public class LeftView extends JPanel implements ListSelectionListener, ActionLis
 		for (int i = 0; i < 53; i++) {
 			weeks.add(i);
 		}
-		DefaultComboBoxModel  model = new DefaultComboBoxModel();
+		DefaultComboBoxModel<Integer>  model = new DefaultComboBoxModel<Integer>();
 		for (int i = 0; i < weeks.size(); i++) {
 			model.addElement(i);
 		}
 		//TEST WEEKSs
 		
-		weekBox = new JComboBox(model);
+		weekBox = new JComboBox<Integer>(model);
 		weekBox.setName("weekBox");
 		weekBox.addActionListener(this);
 		//DESIGN for the Label text
@@ -121,19 +125,17 @@ public class LeftView extends JPanel implements ListSelectionListener, ActionLis
 
 		
 		//JCalendar
-		GridBagConstraints cLabel2 = new GridBagConstraints();
-//		cLabel0.insets = new Insets(0,50,0,0);
-		cLabel2.gridx = 0;
-		cLabel2.gridy = 4;
+//		GridBagConstraints cLabel2 = new GridBagConstraints();
+//		cLabel2.insets = new Insets(0,50,0,0);
+//		cLabel2.gridx = 0;
+//		cLabel2.gridy = 4;
 //		cLabel2.gridwidth = 2;
-//		monthCal = new JLabel("CALENDAR HERE"); //replace with actual name
-//		monthCal.setName("monthCal");
+//		datePickerLabel = new JLabel("Select a date"); //replace with actual name
+//		datePickerLabel.setName("monthCal");
 //		//DESIGN for the Label text
-//		monthCal.setForeground(Color.RED);
-//		monthCal.setFont(new Font(MainWindow.getMFont(),Font.BOLD,18));
-////		loginBtn.setPreferredSize(new Dimension(200, 400));
-//		add(monthCal,cLabel0);
-		add(new JLabel("CALENDAR INN HERE"),cLabel2);
+//		datePickerLabel.setForeground(Color.RED);
+//		datePickerLabel.setFont(new Font(MainWindow.getMFont(),Font.BOLD,18));
+//		add(datePickerLabel,cLabel0);
 		
 		//newAppointmentBtn
 		GridBagConstraints cLabel3 = new GridBagConstraints();

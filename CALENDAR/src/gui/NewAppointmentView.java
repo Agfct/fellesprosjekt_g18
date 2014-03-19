@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.TimeZone;
 
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultCellEditor;
@@ -1130,18 +1131,21 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 	private long getSelectedDateAsLong(String timeOfDay){
 		SimpleDateFormat format = new SimpleDateFormat("yyMMddHHmmssZ");
 		timeOfDay = timeOfDay.replaceFirst(":", "");
-		String date = "";
-		date += dateYearField.getSelectedItem().toString().length() == 2 ? dateYearField.getSelectedItem() : "0" + dateYearField.getSelectedItem();
-		date += dateMonthField.getSelectedItem().toString().length() == 2 ? dateMonthField.getSelectedItem() : "0" + dateMonthField.getSelectedItem();
-		date += dateDayField.getSelectedItem().toString().length() == 2 ? dateDayField.getSelectedItem() : "0" + dateDayField.getSelectedItem();
-		date += timeOfDay.length() == 4 ? timeOfDay : "0" + timeOfDay;
-		date += "00";
-		date += "+0000";
+		String dateText = "";
+		dateText += dateYearField.getSelectedItem().toString().length() == 2 ? dateYearField.getSelectedItem() : "0" + dateYearField.getSelectedItem();
+		dateText += dateMonthField.getSelectedItem().toString().length() == 2 ? dateMonthField.getSelectedItem() : "0" + dateMonthField.getSelectedItem();
+		dateText += dateDayField.getSelectedItem().toString().length() == 2 ? dateDayField.getSelectedItem() : "0" + dateDayField.getSelectedItem();
+		dateText += timeOfDay.length() == 4 ? timeOfDay : "0" + timeOfDay;
+		dateText += "00";
+		dateText += "+0100";
 		try {
 			Calendar c = Calendar.getInstance();
-			c.setTime(format.parse(date));
-			c.add(Calendar.HOUR_OF_DAY,-1);
-			if (c.get(Calendar.MONTH) > 2 && c.get(Calendar.MONTH) < 10){
+			TimeZone tz = TimeZone.getTimeZone("Europe/Oslo");
+			TimeZone.setDefault(tz);
+			Date date = format.parse(dateText);
+			c.setTime(date);
+			System.out.println(tz.inDaylightTime(date));
+			if (tz.inDaylightTime(date)){
 				c.add(Calendar.HOUR_OF_DAY, -1);
 			}
 			return c.getTimeInMillis();
@@ -1326,7 +1330,7 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 			if (timeSlot.getDuration() != 0){
 				setDurationField(appointmentModel.getDuration());
 			}
-			setDateFields(timeSlot.getDate());
+			setDateFields(appointmentModel.getDate());
 		}
 	}
 	
