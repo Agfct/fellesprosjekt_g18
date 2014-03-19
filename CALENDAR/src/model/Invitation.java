@@ -4,8 +4,9 @@ import gui.ParticipantsPanel;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.io.Serializable;
 
-public class Invitation {
+public class Invitation implements Serializable{
 	private int invitationID;
 	private Appointment appointment;
 	private Employee employee;

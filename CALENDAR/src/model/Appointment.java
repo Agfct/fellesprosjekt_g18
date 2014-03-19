@@ -64,7 +64,7 @@ public class Appointment  implements Serializable{
 	
 	public void removeInvitation(Employee employee){
 		for (Invitation removedInvite : invitations) {
-			if(removedInvite.getEmployee() == employee){
+			if(removedInvite.getEmployee().equals(employee)){
 //				MainWindow.getNewAppoitnmentsView().appointmentChanged("remove", removedInvite);
 				pcs.firePropertyChange("remove", null, removedInvite);
 				invitations.remove(removedInvite);

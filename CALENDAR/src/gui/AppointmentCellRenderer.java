@@ -40,7 +40,6 @@ public class AppointmentCellRenderer implements ListCellRenderer<Appointment>{
 		else{
 			 status = InvitationStatus.PENDING;
 		}
-		System.out.println("CELL RENDERER IS RENDERING");
 //		String date = value.getDate // get date and put it correctly into label
 //		String room = roomNoe 
 		String hide;

@@ -565,7 +565,7 @@ public class AppointmentsView extends JPanel implements ListSelectionListener , 
     }
 	//ListSelection Listener for the List of Appointments
 	@Override
-	public void valueChanged(ListSelectionEvent e) {
+	public void valueChanged(ListSelectionEvent e) { //TODO: LOOPS REMOVE Add and Update appointmetns from this method
 		if (appointmentsList.getSelectedValue() != null) {
 			int appID = appointmentsList.getSelectedValue().getAppointmentID();
 			
