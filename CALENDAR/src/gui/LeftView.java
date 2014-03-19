@@ -69,7 +69,6 @@ public class LeftView extends JPanel implements ListSelectionListener, ActionLis
 	private JLabel showHiddenLabel;
 	private JCheckBox showHiddenBox;
 	private Image redCircleImg;
-	private JDatePicker datePicker;
 
 	public LeftView(){
 		

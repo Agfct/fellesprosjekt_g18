@@ -15,8 +15,8 @@ public class Invitation implements Serializable{
 	private boolean edited;
 	private boolean hidden;
 	private long alarmTime;
-	private ParticipantsPanel participantsView;
-	private PropertyChangeSupport pcs;
+	private transient ParticipantsPanel participantsView;
+	private transient PropertyChangeSupport pcs;
 	
 	//PropertyNames
 	public static String ANSWER_PROPERTY_NAME = "answer";
