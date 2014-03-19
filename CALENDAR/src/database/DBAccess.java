@@ -563,6 +563,13 @@ public class DBAccess{
 		return invitations;
 	}
 
+
+
+
+
+
+
+
 	private Employee writeEmployeeResultSet(ResultSet rs) throws SQLException {
 		Employee employee = new Employee(rs.getString("name"), rs.getString("email"));
 		employee.setEmployeeID(rs.getInt("employeeID"));

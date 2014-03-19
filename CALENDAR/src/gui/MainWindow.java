@@ -323,7 +323,6 @@ public class MainWindow extends JFrame{
 		System.out.println("MainWindow: Response received" + response.getName());
 
 		if (response.getName().equals("LOGIN_ACCEPTED")){
-//			Employee newUser = (Employee) response.getObject(0);
 			Employee newUser = requestHandler.getEmployeeByParticipantID(((Employee) response.getObject(0)).getParticipantID());
 			System.out.println("EMPLOYEE ID: "+ newUser.getEmployeeID());
 			System.out.println("PARTICIPANTS ID: "+ newUser.getParticipantID());
