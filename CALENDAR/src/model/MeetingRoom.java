@@ -1,8 +1,9 @@
 package model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class MeetingRoom implements Comparable<MeetingRoom> {
+public class MeetingRoom implements Comparable<MeetingRoom>, Serializable {
 	private String name;
 	private short capacity;
 	private ArrayList<TimeSlot> schedule;
