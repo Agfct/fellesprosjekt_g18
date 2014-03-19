@@ -3,6 +3,11 @@ package networkServer;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.Iterator;
+
+import model.Invitation;
+import database.DBAccess;
 
 public class Server implements Runnable {
 	
@@ -11,17 +16,27 @@ public class Server implements Runnable {
 	private int port;
 	private boolean running;
 	private ServerSocket serverSocket;
+	private final DBAccess db;
+	private AlarmHandler alarmHandler;
 	private Thread activeThread;
 	
 	
 	public Server (int port) {
 		this.port = port;
+		db = new DBAccess();
+		alarmHandler = new AlarmHandler();
 	}
 	
 	public void run () {
 		synchronized (this) {
 			activeThread = Thread.currentThread();
 		}
+		
+		ArrayList<Invitation> alarmedInvitations = db.getAlarmedInvitations();
+		for (Invitation invitation : alarmedInvitations) {
+			alarmHandler.setAlarm(invitation);
+		}
+		
 		openServerSocket();
 		
 		while (!isRunning()) {
@@ -37,7 +52,7 @@ public class Server implements Runnable {
 				}
 				throw new RuntimeException("Server: Could not accept client socket!", e);
 			}
-			new Thread(new RequestThread(clientSocket)).start();
+			new Thread(new RequestThread(clientSocket, db, alarmHandler)).start();
 		}
 	}
 	

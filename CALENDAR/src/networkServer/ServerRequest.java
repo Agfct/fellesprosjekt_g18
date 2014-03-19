@@ -17,9 +17,11 @@ public class ServerRequest {
 	
 	private final DBAccess db;
 	private final EmailHandler emailHandler;
+	private final AlarmHandler alarmHandler;
 	
-	public ServerRequest () {
-		db = new DBAccess();
+	public ServerRequest (DBAccess db, AlarmHandler alarmHandler) {
+		this.db = db;
+		this.alarmHandler = alarmHandler;
 		emailHandler = new EmailHandler();
 		
 	}
@@ -128,6 +130,7 @@ public class ServerRequest {
 	private Packet editInvitation (Invitation invitation) {
 		try {
 			db.editInvitation(invitation);
+			invitation.getAlarmTime()
 			return new Packet("INVITATION_EDITED");
 		}
 		catch (Exception e) {
