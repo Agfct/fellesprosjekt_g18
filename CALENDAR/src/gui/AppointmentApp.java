@@ -29,16 +29,20 @@ public class AppointmentApp extends JPanel {
 	private Font font;
 	private Image backgroundImg;
 
-	public AppointmentApp( int x, int y, int sizeX, int sizeY){
+	// Days:
+	// Y is minutes y = 0 gives 00:00 in the morning
+	// X is Day. Mon: 48 to 181, Tue: 181 to 314, Wed: 314 to 447, Thu: 447 to 580,
+	// Fri: 580 to 713, Sat: 713 to 846, Sun: 856 to 977
+	public AppointmentApp( int xDay, int yMinStart, int sizeX, int sizeYDur){
 		setOpaque(false);
 		this.sizeX = sizeX;
-		this.sizeY = sizeY;
-		this.x = x;
-		this.y = y;
+		this.sizeY = sizeYDur;
+		this.x = xDay;
+		this.y = yMinStart;
 		
 		
 		setBorder(BorderFactory.createLineBorder(Color.BLACK));
-		setSize(sizeX, sizeY);
+		setSize(sizeX, sizeYDur);
 //		setBackground(new Color(59,89,182));
 		backgroundImg = new ImageIcon(this.getClass().getResource("/backgrounds/appointmentAppBackground.png")).getImage();
 	}

@@ -1,5 +1,6 @@
 package gui;
 
+import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -13,6 +14,8 @@ import java.awt.Image;
 import java.awt.Insets;
 import java.awt.Point;
 import java.awt.RenderingHints;
+import java.awt.Stroke;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -71,6 +74,7 @@ public class CalendarView extends JPanel {
 		calendarPanel.setScrollPane(calendarScrollPane);
 		add(calendarScrollPane,cLabel0);
 	}
+
 	
 	// Overriding the paintComponent to get Background and Week Days
     @Override
@@ -85,16 +89,45 @@ public class CalendarView extends JPanel {
         g2d.drawImage(calendarImg, 0, 0, this);
         
         
-        //Paint the Days
-		font = new Font("Tahoma", Font.PLAIN, 12);
-		g2d.setFont(font);
-		g2d.setColor(Color.BLACK);
+        
+ 
 //TODO: Draw propper day/month for all days
-		g2d.drawString("6/3", 118, 20);
+		paintDays(g2d);
 
     }
     
-	/** ADDING APPOINTMENTS TO PROGRAM **/
+    public void paintDays(Graphics2D g2d){
+    	// Draw a req on the day that is today
+//    	if(dagen i dag er i den uken som vises, så sjekk hvilken dag det er og tegn)/
+//    	Mon: (51, 3, 128, 26). Tue: (183, 3, 129, 26). Wed: (316, 3, 129, 26). Thu: (449, 3, 129, 26) Fri: (582, 3, 129, 26)
+//    	Sat: (715, 3, 129, 26). Sun(848, 3, 129, 26);
+    	g2d.setColor(Color.DARK_GRAY);
+    	Stroke oldStroke = g2d.getStroke();
+    	g2d.setStroke(new BasicStroke(3));
+    	g2d.drawRect(848, 3, 129, 26);
+    	g2d.setStroke(oldStroke);
+    	
+        //Paint the Days
+ 		font = new Font("Tahoma", Font.PLAIN, 12);
+ 		g2d.setFont(font);
+ 		g2d.setColor(Color.BLACK);
+    	//mon
+    	g2d.drawString("6/3", 118, 20);
+    	//tue
+    	g2d.drawString("7/3", 251, 20);
+    	//wed
+    	g2d.drawString("8/3", 384, 20);
+    	//Thu
+    	g2d.drawString("8/3", 517, 20);
+    	//Fri
+    	g2d.drawString("9/3", 650, 20);
+    	//Sat
+    	g2d.drawString("10/3", 783, 20);
+    	//Sun
+    	g2d.drawString("11/3", 916, 20);
+    }
+    
+	/** ADDING APPOINTMENTS TO CALENDAR **/
 	public void createOtherAppointments(){
 		//TODO: ADD THE CLIENT CALL FOR APPOINTMENTS
 		otherAppointments = new ArrayList<Appointment>(); // REMOVE
@@ -113,22 +146,7 @@ public class CalendarView extends JPanel {
 	public void createInvitedAppointments(){
 		//TODO: ADD THE CLIENT CALL FOR APPOINTMENTS
 		invitedAppointments = new ArrayList<Appointment>(); // REMOVE
-//		
-//		Appointment app = new Appointment(new Employee("Fredrik"));
-//		app.addInvitation(MainWindow.getUser());
-//		app.getInvitation(MainWindow.getUser()).setStatus(InvitationStatus.ACCEPTED);
-//		app.setTitle("Et Møte");
-//		app.setDescription("Vi skal ha et langt møte om masse tull");
-//		invitedAppointments.add(app);
-//		Appointment app2 = new Appointment(new Employee("Frode"));
-//		app2.addInvitation(MainWindow.getUser());
-//		app2.getInvitation(MainWindow.getUser()).setStatus(InvitationStatus.PENDING);
-//		app2.setTitle("Et kjedelig  møte");
-//		app2.setDescription("Dette blir kjedelig gutter!, Nå skal det kode testes! En veldig lang description som hadde gått utenfor første linje");
-//		invitedAppointments.add(app2);
-//		for (int i = 0; i < MainWindow.getEmployeeList().size(); i++) {
-//			invitedAppointments.add(new Appointment(MainWindow.getEmployeeList().get(i)));			
-//		}
+
 	}
 	
 	public ArrayList<Appointment> getYourAppointments(){

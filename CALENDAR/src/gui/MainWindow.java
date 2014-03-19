@@ -125,16 +125,16 @@ public class MainWindow extends JFrame{
 //		layoutView.add(calendarViewScrollPane,JLayeredPane.PALETTE_LAYER,3); //adding the calendarView ScrollPane 
 //		calendarViewScrollPane.getViewport().add(calendarView); // adding the calendarView to the ScrollPane
 		
+		//adding network listener
+		networkClient = new Client(serverIP, serverPort);
+		requestHandler = new RequestHandler(networkClient);
+		
 		//adding stuff
 		mainWindow.setContentPane(mainScrollPane);
 		mainScrollPane.getViewport().add(loginWindow);
 		mainWindow.setVisible(true);
 		mainWindow.createEmployeeList();
 
-		//adding network listener
-		//TODO: ENABLE
-		networkClient = new Client(serverIP, serverPort);
-		requestHandler = new RequestHandler(networkClient);
 	}
 	public static MainWindow getMainWindow(){
 		return mainWindow;
@@ -250,21 +250,8 @@ public class MainWindow extends JFrame{
 	
 	// WARNING CONNECT WITH DATABASE
 	public void createEmployeeList(){
-		//TEST
-		Employee anders = new Employee("Anders");
-		Employee silje = new Employee("Silje");
-		Employee katrine = new Employee("Katrine");
-		Employee are = new Employee("Are");
-		Employee birger = new Employee("Birger");
-		Employee stian = new Employee("Stian");
-
-		allEmployees = new ArrayList<Employee>();
-		allEmployees.add(anders);
-		allEmployees.add(silje);
-		allEmployees.add(katrine);
-		allEmployees.add(are);
-		allEmployees.add(birger);
-		allEmployees.add(stian);
+		System.out.println("dette er null" + getRequestHandler());
+		allEmployees = getRequestHandler().getAllEmployees();
 	}
 	public static ArrayList<Employee> getEmployeeList(){
 		return allEmployees;

@@ -1303,7 +1303,6 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 	// Property changed for appointments
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
-		// TODO Auto-generated method stub
 		if(evt.getPropertyName().equals("add")){
 			participantsPanelList.addParticipantPanel(((Invitation)evt.getNewValue()).getParticipantsView());
 		}

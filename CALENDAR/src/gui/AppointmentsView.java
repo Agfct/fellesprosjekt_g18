@@ -567,15 +567,15 @@ public class AppointmentsView extends JPanel implements ListSelectionListener , 
 	@Override
 	public void valueChanged(ListSelectionEvent e) { //TODO: LOOPS REMOVE Add and Update appointmetns from this method
 		if (appointmentsList.getSelectedValue() != null) {
-			int appID = appointmentsList.getSelectedValue().getAppointmentID();
-			
-			addAppointments();
-			uppdateAppointments();
-			for (int i = 0; i < appointmentsList.getModel().getSize(); i++) {
-				if(appointmentsListModel.getElementAt(i).getAppointmentID() == appID){
-					appointmentsList.setSelectedIndex(i);
-				}
-			}
+//			int appID = appointmentsList.getSelectedValue().getAppointmentID();
+//			
+//			addAppointments();
+//			uppdateAppointments();
+//			for (int i = 0; i < appointmentsList.getModel().getSize(); i++) {
+//				if(appointmentsListModel.getElementAt(i).getAppointmentID() == appID){
+//					appointmentsList.setSelectedIndex(i);
+//				}
+//			}
 			
 			statusBtnGroup.clearSelection();
 			//Setting the invitation Model
@@ -589,12 +589,10 @@ public class AppointmentsView extends JPanel implements ListSelectionListener , 
 	//Focus Listener for Description Field
 	@Override
 	public void focusGained(FocusEvent arg0) {
-		// TODO Auto-generated method stub
 		
 	}
 	@Override
 	public void focusLost(FocusEvent arg0) {
-		// TODO Auto-generated method stub
 		
 	}
 	
@@ -625,28 +623,25 @@ public class AppointmentsView extends JPanel implements ListSelectionListener , 
 			System.out.println("Pressed Save, Changed appointment Info");
 			if(acceptRadioBtn.isSelected() && acceptRadioBtn.isEnabled()){
 				invitationModel.setStatus(InvitationStatus.ACCEPTED);
-				uppdateAppointments(); //TODO: UANSETT HVA DU GJØR SKAL DU KJØRE UPPDATE SÅ IKKE HA EN I HVER ENESTE IF ??
 				
 			}else if(declineRadioBtn.isSelected() && declineRadioBtn.isEnabled()){
 				invitationModel.setStatus(InvitationStatus.DECLINED);
-				uppdateAppointments();
 			}
 			// Hide
 			if(hideBox.isSelected() && hideBox.isEnabled()){
 				invitationModel.setHidden(true);
-				uppdateAppointments();
 			}else if (!hideBox.isSelected() && hideBox.isEnabled()){
 				invitationModel.setHidden(false);
 			}
 			
-//			if(MainWindow.getRequestHandler().editInvitation(invitationModel)){
-				addAppointments();
+			if(MainWindow.getRequestHandler().editInvitation(invitationModel)){
+//				Gets new Uppdated appointments from database
+				addAppointments(); 
+				// Filters the new appointments
 				uppdateAppointments();
-//			}else{
-//				addAppointments();
-//				uppdateAppointments();
+			}else{
 //				JOptionPane.showMessageDialog(MainWindow.getMainWindow(),"Could not Save Appointment. Cloud not Available");
-//			}
+			}
 			appointmentsList.repaint();
 		}
 		// If cancelAppointmentBtn is pressed

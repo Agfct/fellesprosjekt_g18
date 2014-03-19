@@ -10,10 +10,13 @@ import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+
+import model.Appointment;
 
 // The calendar Body
 public class CalendarPanel extends JPanel {
@@ -21,6 +24,7 @@ public class CalendarPanel extends JPanel {
 	private Image calendarImg;
 	private Image backgroundImg;
 	private Font font;
+	private ArrayList<Appointment> appointments;
 	
 	
 	public CalendarPanel(){
@@ -31,22 +35,32 @@ public class CalendarPanel extends JPanel {
 		backgroundImg = MainWindow.getBackgroundImage();
 		
 		setPreferredSize(new Dimension(979, 1440));
-		drawAllAppointments(); //TEST
 	}
 
 	public void drawAllAppointments(){
-//		for (int i = 0; i < appointments.size(); i++) { //Running trou all appointments
-//			if(!appointments.get(i).getIsHidden()){ // if its not hidden
-//				add(appointments.get(i).getAppointmentsApp());//put it in the pane
+		removeAll();
+		appointments = MainWindow.getRequestHandler().getAllApointments(MainWindow.getUser()); // Your appointments (Invited and created)
+		// Get the appointments you have told the calendar that you want
+		//TODO: GET IT Oo
+		
+		for (int i = 0; i < appointments.size(); i++) { //Running trou all appointments that are yours
+			if(!appointments.get(i).getInvitation(MainWindow.getUser()).isHidden()){ // if its not hidden
+//				add(appointments.get(i).getAppointmentApp());//put it in the pane
+				// Figure out the day
+				appointments.get(i).getDate(); //ha den ?
+				//TODO
+				/// Sun,Mon,Tue,Wed,Thu,Fri,Sat
+				/// 1 , 2 , 3 , 4,  5,  6, 7
+//				if(day == 1){
+					
+//				}
+//				AppointmentApp app = new AppointmentApp(xDay, yMinStart, default 133, sizeYDur)
+//				AppointmentApp app = new AppointmentApp(xDay, yMinStart, sizeX, sizeYDur)
 				AppointmentApp app1 = new AppointmentApp(48,0,133,120);
 				add(app1);
 				app1.setLocation(app1.getX(), app1.getY());
-				AppointmentApp app2 = new AppointmentApp(181,0,133,60);
-				add(app2);
-				app2.setLocation(app2.getX(), app2.getY());
-				//TODO: Create actuall appointments list and add, maby keep in array ?
-//			}
-//		}
+			}
+		}
 	}
 	
 	// Overriding the paintComponent to get Background
