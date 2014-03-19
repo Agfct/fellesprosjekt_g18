@@ -294,11 +294,12 @@ public class EmailPanel extends JPanel implements ActionListener, FocusListener 
 		if(e.getSource() == sendEmailButton){
 			if(email!=null){
 				sendEmail(email, message);
+				MainWindow.removeEmailPanel();
 			}
 		}
 		if (e.getSource() == cancelButton){
 			System.out.println("Closing the emailView");
-				MainWindow.removeEmailPanel();
+			MainWindow.removeEmailPanel();
 
 
 		}
