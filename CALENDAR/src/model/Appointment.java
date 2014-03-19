@@ -1,8 +1,6 @@
 package model;
 
 import gui.AppointmentApp;
-import gui.MainWindow;
-import gui.NewAppointmentView;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -11,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+@SuppressWarnings("serial")
 public class Appointment  implements Serializable{
 	private int appointmentID;
 	private Creator creator;
@@ -44,17 +43,8 @@ public class Appointment  implements Serializable{
 		this.internal = internal;
 		this.description = description;
 		this.invitations = invitations;
-		
-		
 	}
 
-	public void save(){
-		for (int i = 0; i < invitations.size(); i++) {
-			invitations.get(i).setEdited(true);
-		}
-		//TODO: Lagre i database
-	}
-	
 	//Invitations
 	public void addInvitation(Employee employee){
 		Invitation temp = new Invitation(employee, this);
@@ -131,9 +121,6 @@ public class Appointment  implements Serializable{
 	private void fireTimeSlotChanged(TimeSlot timeSlot){
 		pcs.firePropertyChange(TIMESLOT_PROPERTY_NAME, timeSlot, getTimeSlot());
 	}
-	//Listeners
-	
-	//---------
 	
 	//Setters
 	public void setTitle(String title) 				{this.title = title;}
@@ -206,6 +193,12 @@ public class Appointment  implements Serializable{
 		String hour = Integer.toString(start.get(Calendar.HOUR_OF_DAY));
 		String minute = Integer.toString(start.get(Calendar.MINUTE));
 		return (hour.length() == 2 ? hour : "0" + hour) + ":" + (minute.length() == 2 ? minute : "0" + minute);
+	}
+	
+	public int getDayOfWeek(){
+		Calendar c = Calendar.getInstance();
+		c.setTimeInMillis(timeSlot.getStart());
+		return c.get(Calendar.DAY_OF_WEEK);
 	}
 	//-------
 }

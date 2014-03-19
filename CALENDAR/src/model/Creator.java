@@ -2,6 +2,7 @@ package model;
 
 import java.io.Serializable;
 
+@SuppressWarnings("serial")
 public class Creator implements Serializable{
 	private final Employee employee;
 	private boolean statusChanged;

@@ -6,6 +6,7 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 
+@SuppressWarnings("serial")
 public class Invitation implements Serializable{
 	private int invitationID;
 	private Appointment appointment;

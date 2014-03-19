@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 
+@SuppressWarnings("serial")
 public class TimeSlot implements Serializable{
 	private long start;
 	private long end;

@@ -5,6 +5,7 @@ import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+@SuppressWarnings("serial")
 public class Employee implements Serializable{
 	private int participantID;
 	private int employeeID;
