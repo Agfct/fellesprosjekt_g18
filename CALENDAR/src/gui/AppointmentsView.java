@@ -495,10 +495,6 @@ public class AppointmentsView extends JPanel implements ListSelectionListener , 
 		appointmentsListModel.removeAllElements();
     	for (int i = 0; i < appointments.size(); i++) {
     		// check if hidden and if hidden box is checked
-//    		System.out.println("1:"+appointments.get(i).getInvitation(MainWindow.getUser()).isHidden());
-    		System.out.println("Hvilken er det: "+appointments.get(i).getDescription() + " i " +i);
-    		System.out.println("1:"+appointments.get(i).getInvitation(MainWindow.getUser()) + "i " +i);
-    		System.out.println("1:"+appointments.get(i).getInvitation(MainWindow.getUser()).isHidden());
     		if(!appointments.get(i).getInvitation(MainWindow.getUser()).isHidden() || showHiddenBox.isSelected()){
     			
     			// If none of the pending or accepted only is selected

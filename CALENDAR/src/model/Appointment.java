@@ -186,10 +186,7 @@ public class Appointment  implements Serializable{
 	public AppointmentApp getAppointmentApp() {return appointmentApp;}
 	
 	public Invitation getInvitation(Employee employee){
-		System.out.println("HVA SKJER "+ employee.getName());
-		System.out.println("INVITATIONS LISTA I APPOINTMENT" + invitations);
 		for (Invitation invite : invitations) {
-			System.out.println("FOR FOR " + invite);
 			if(invite.getEmployee().equals(employee)){
 				System.out.println("YAY");
 				return invite;

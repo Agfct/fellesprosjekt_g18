@@ -42,22 +42,15 @@ public class CalendarPanel extends JPanel {
 	public void addAllAppointments(){
 		removeAll();
 		appointments = MainWindow.getRequestHandler().getAllApointments(MainWindow.getUser()); // Your appointments (Invited and created)
-		System.out.println("User employee id: " +MainWindow.getUser().getEmployeeID());
-		System.out.println("user"+ MainWindow.getUser());
-		System.out.println("appointment nr 1"+ appointments.get(0));
-		System.out.println("1 før is hidden: " +appointments.get(0).getInvitation(MainWindow.getUser()));
-		System.out.println("ARE TEST: "+appointments.get(0).getInvitation(MainWindow.getUser()).isHidden());
-		System.out.println("2 før is hidden: " +appointments.get(0).getInvitation(MainWindow.getUser()).isHidden());
 		// Get the appointments you have told the calendar that you want from other employees
 		ArrayList<Employee> otherSelectedEmployees = MainWindow.getLeftView().getSelectedEmployees();
 		//TODO: FILTERE ETTER HVILKEN DAG / UKE DU ER I IKKE TA ALLE PÅ EN GANG !!
 		
 		// Adding your appointments
 		for (int i = 0; i < appointments.size(); i++) { //Running trough all appointments that are yours
-			System.out.println("før is hidden " +appointments.get(i).getInvitation(MainWindow.getUser()));
-			System.out.println("nr1"+ appointments.get(i).getInvitation(MainWindow.getUser()).isHidden());
-			if(!appointments.get(i).getInvitation(MainWindow.getUser()).isHidden() || MainWindow.getLeftView().getShowHidden()){ // if its not hidden
-
+			// if (you made it. Or you didnt make it and its not hidden)
+			if(appointments.get(i).getCreator().getEmployee().equals(MainWindow.getUser()) || ((!appointments.get(i).getCreator().getEmployee().equals(MainWindow.getUser())) && 
+					(!appointments.get(i).getInvitation(MainWindow.getUser()).isHidden() || MainWindow.getLeftView().getShowHidden()))){ // if its not hidden
 				AppointmentApp app = new AppointmentApp(appointments.get(i));
 				add(app);
 				app.setLocation(app.getX(), app.getY());
