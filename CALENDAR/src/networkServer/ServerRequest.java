@@ -16,9 +16,12 @@ import networkDiv.Packet;
 public class ServerRequest {
 	
 	private final DBAccess db;
+	private final EmailHandler emailHandler;
 	
 	public ServerRequest () {
 		db = new DBAccess();
+		emailHandler = new EmailHandler();
+		
 	}
 	
 	public Packet getRespose (Packet packet) {
@@ -54,6 +57,8 @@ public class ServerRequest {
 			case "SET_APPOINTMENT_AS_DELETED": return setDeletedAppointmentByID((int) packet.getObject(0));
 //			Remove
 			case "REMOVE_ADDOINTMENT": return removeAppointmentByID((int) packet.getObject(0));
+//			Email
+			case "SEND_EMAIL": return sendEmail((String) packet.getObject(0), (String) packet.getObject(1));
 
 			
 			default: return noResponse();
@@ -67,7 +72,8 @@ public class ServerRequest {
 	
 	
 
-//	Login
+
+	//	Login
 	private Packet userValidation (String username, String password) {
 		try {
 			boolean checkPassword = db.checkPassword(username, password);
@@ -289,6 +295,15 @@ public class ServerRequest {
 			e.printStackTrace();
 			return new Packet("ERROR", "ServerRequest: removeAppointmentByID failed!", e);
 		}
+	}
+//	Email
+	private Packet sendEmail(String mail, String msg) {
+		if (emailHandler.sendEmail(mail, msg)){
+			System.out.println("ServerRequest: Email sent!");
+			return new Packet("EMAIL_SENT");
+		}
+		System.out.println("ServerRequest: Failed to send email!");
+		return new Packet("ERROR", "ServerRequest: sendEmail failed!");
 	}
 	
 	

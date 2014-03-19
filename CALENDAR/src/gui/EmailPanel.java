@@ -293,12 +293,13 @@ public class EmailPanel extends JPanel implements ActionListener, FocusListener 
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == sendEmailButton){
 			if(email!=null){
-				sendEmail(name, email, message);
+				sendEmail(email, message);
+				MainWindow.removeEmailPanel();
 			}
 		}
 		if (e.getSource() == cancelButton){
 			System.out.println("Closing the emailView");
-				MainWindow.removeEmailPanel();
+			MainWindow.removeEmailPanel();
 
 
 		}
@@ -323,39 +324,8 @@ public class EmailPanel extends JPanel implements ActionListener, FocusListener 
 
 
 	}
-	public void sendEmail(String name, String mail, String msg){
-		final String username = "fellesprosjektgruppe18@gmail.com";
-		final String password = "rosaelefant";
- 
-		Properties props = new Properties();
-		props.put("mail.smtp.auth", "true");
-		props.put("mail.smtp.starttls.enable", "true");
-		props.put("mail.smtp.host", "smtp.gmail.com");
-		props.put("mail.smtp.port", "587");
- 
-		Session session = Session.getInstance(props,
-		  new javax.mail.Authenticator() {
-			protected PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication(username, password);
-			}
-		  });
- 
-		try {
-			Message message = new MimeMessage(session);
-			message.setFrom(new InternetAddress(username));
-			//message.setFrom(new InternetAddress("from-email@gmail.com"));
-			message.setRecipients(Message.RecipientType.TO,
-				InternetAddress.parse(mail));
-			message.setSubject("You have been invited to a meeting");
-			message.setText(msg);
- 
-			Transport.send(message);
- 
-			System.out.println("Done");
- 
-		} catch (MessagingException e) {
-			throw new RuntimeException(e);
-		}	     
+	public void sendEmail(String mail, String msg){
+		MainWindow.getRequestHandler().sendEmail(mail, msg);
 	}
 
 
