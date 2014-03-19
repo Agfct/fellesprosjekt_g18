@@ -49,18 +49,17 @@ public class RequestHandler {
 		}return false;
 	}
 //	Get
-	public ArrayList<Appointment> getAllEmployees (){
+	public ArrayList<Employee> getAllEmployees (){
 		Packet response = client.request("GET_ALL_EMPLOYEES");
-		return ((ArrayList<Appointment>) response.getObject(0));
+		return ((ArrayList<Employee>) response.getObject(0));
 	}
-	
 	public ArrayList<Appointment> getAllApointments (Employee employee){
 		Packet response = client.request("GET_ALL_APPOINTMENTS", employee.getParticipantID());
 		return ((ArrayList<Appointment>) response.getObject(0));
 	}
-	public ArrayList<Appointment> getAllInvitations (Appointment appointment){
+	public ArrayList<Invitation> getAllInvitations (Appointment appointment){
 		Packet response = client.request("GET_ALL_INVITATIONS", appointment.getAppointmentID());
-		return ((ArrayList<Appointment>) response.getObject(0));
+		return ((ArrayList<Invitation>) response.getObject(0));
 	}
 	public ArrayList<Appointment> getAllMeetingRooms (){
 		Packet response = client.request("GET_ALL_MEETING_ROOMS");
@@ -82,9 +81,9 @@ public class RequestHandler {
 		Packet response = client.request("GET_EMPLOYEE_BY_USERNAME", username);
 		return ((Employee) response.getObject(0));
 	}
-	public ArrayList<Appointment> getGroupMembers (String groupname){
+	public ArrayList<Employee> getGroupMembers (String groupname){
 		Packet response = client.request("GET_GROUP_MEMBERS", groupname);
-		return ((ArrayList<Appointment>) response.getObject(0));
+		return ((ArrayList<Employee>) response.getObject(0));
 	}
 	public Invitation getInvitationByID (int invitationID){
 		Packet response = client.request("GET_INVITATION_BY_ID", invitationID);

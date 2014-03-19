@@ -135,7 +135,7 @@ public class ServerRequest {
 		try {
 			ArrayList<Appointment> allAppointments = db.getAllAppointments(participantID);
 			return new Packet("ALL_APPOINTMENTS", allAppointments);
-		} 
+		}
 		catch (Exception e) {
 			System.out.println("ServerRequest: GetAllAppointments failed!");
 			e.printStackTrace();
@@ -155,9 +155,8 @@ public class ServerRequest {
 	}
 	private Packet getAllMeetingRooms () {
 		try {
-//			ArrayList<MeetingRoom> allMeetingRooms = db.getAllMeetingRooms();
-//			return new Packet("ALL_MEETING_ROOMS", allMeetingRooms);
-			return new Packet("ALL_MEETING_ROOMS");
+			ArrayList<MeetingRoom> allMeetingRooms = db.getAllMeetingRooms();
+			return new Packet("ALL_MEETING_ROOMS", allMeetingRooms);
 		} 
 		catch (Exception e) {
 			System.out.println("ServerRequest: getAllMeetingRooms failed!");

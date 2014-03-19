@@ -1,6 +1,8 @@
 package model;
 
-public class Notification{
+import java.io.Serializable;
+
+public class Notification implements Serializable{
 	private final Appointment appointment;
 	private final String msg;
 	//TODO: Legge til type. Trengs det egentlig?
