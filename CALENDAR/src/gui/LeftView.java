@@ -13,6 +13,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.geom.Ellipse2D;
@@ -72,6 +74,8 @@ public class LeftView extends JPanel implements ListSelectionListener, ActionLis
 	private JLabel showHiddenLabel;
 	private JCheckBox showHiddenBox;
 	private Image redCircleImg;
+	
+	private boolean statusFlagChangeingWeekModel;
 
 	public LeftView(){
 		
@@ -81,6 +85,8 @@ public class LeftView extends JPanel implements ListSelectionListener, ActionLis
 		// Using a GridBagLayout for the Grid
 		setLayout(new GridBagLayout());
 		setOpaque(false);
+		
+		statusFlagChangeingWeekModel = false;
 		
 		/** CREATING BUTTONS, LABELS AND TEXT FIELDS **/
 		
@@ -117,6 +123,7 @@ public class LeftView extends JPanel implements ListSelectionListener, ActionLis
 		weekBox = new JComboBox<Integer>(model);
 		weekBox.setName("weekBox");
 		weekBox.addActionListener(this);
+//		weekBox.addItemListener(this);
 		//DESIGN for the Label text
 //		weekBox.setBackground(MainWindow.getBckColor());
 //		weekBox.setForeground(MainWindow.getTxtColor());
@@ -367,6 +374,7 @@ public class LeftView extends JPanel implements ListSelectionListener, ActionLis
 	public void setLeftViewWeek(){
 		Calendar c = Calendar.getInstance();
 		c.setTime(MainWindow.getDate());
+		statusFlagChangeingWeekModel = true;
 		weekBox.getModel().setSelectedItem(c.get(Calendar.WEEK_OF_YEAR));
 	}
 	// Painting the numbers
@@ -440,12 +448,15 @@ public class LeftView extends JPanel implements ListSelectionListener, ActionLis
 			MainWindow.editAppointmentsView();
 		}
 		// If weekBox is modified
-		else if (e.getSource() == weekBox){
-			System.out.println("Changeing week");
-			Calendar c = Calendar.getInstance();
-			c.setTime(MainWindow.getDate());
-			c.set(Calendar.WEEK_OF_YEAR, (int) weekBox.getSelectedItem());
-			MainWindow.setDate(c.getTime());
+		if (e.getSource() == weekBox){
+			if(!statusFlagChangeingWeekModel){ // If your not changeing model
+				System.out.println("Changeing week");
+				Calendar c = Calendar.getInstance();
+				c.setTime(MainWindow.getDate());
+				c.set(Calendar.WEEK_OF_YEAR, (int) weekBox.getSelectedItem());
+				MainWindow.setDate(c.getTime());
+			}
+			statusFlagChangeingWeekModel = false;
 		}
 		// If showhiddenBox
 		else if (e.getSource() == showHiddenBox){
