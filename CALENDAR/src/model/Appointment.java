@@ -20,8 +20,8 @@ public class Appointment  implements Serializable{
 	private boolean internal;
 	private String description;
 	private ArrayList<Invitation> invitations;
-	private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
-	private AppointmentApp appointmentApp;
+	private transient PropertyChangeSupport pcs = new PropertyChangeSupport(this);
+	private transient AppointmentApp appointmentApp;
 
 	//PropertyNames
 	public final static String INVITATIONS_PROPERTY_NAME = "invitations";
