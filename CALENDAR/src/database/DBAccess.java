@@ -572,6 +572,7 @@ public class DBAccess{
 
 	private Employee writeEmployeeResultSet(ResultSet rs) throws SQLException {
 		Employee employee = new Employee(rs.getString("name"), rs.getString("email"));
+		employee.setEmployeeID(rs.getInt("employeeID"));
 		employee.setParticipantID(rs.getInt("participantID"));
 		employee.setUsername(rs.getString("username"));
 		return employee;

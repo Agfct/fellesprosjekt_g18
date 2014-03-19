@@ -18,6 +18,7 @@ public class DBQueries {
 		DBAccess dba = new DBAccess();
 		Employee siv = dba.getEmployeeByParticipantID(11);
 		Employee anders = dba.getEmployeeByParticipantID(18);
+		System.out.println(anders.getEmployeeID());
 		
 		ArrayList<Appointment> appointments = dba.getInvitedAppointments(18);
 		System.out.println(appointments.get(0).getInvitations());
@@ -39,7 +40,7 @@ public class DBQueries {
 //		Invitation invitation = new Invitation(siv, appointment);
 //		invitation.setInvitationID(1);
 //		invitation.setHidden(true);
-//		invitation.setEdited(true);
+//		invitation.set(true);
 //		invitation.setAlarmTime(5);
 //		System.out.println(invitation.getInvitationID());
 //		System.out.println(invitation.getAlarmTime());
