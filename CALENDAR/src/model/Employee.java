@@ -76,6 +76,10 @@ public class Employee implements Serializable{
 	}
 	//---------
 
+	public void setEmployeeID(int employeeID) {
+		this.employeeID = employeeID;
+	}
+
 	//Getters/setters
 	public String getName() 						{return name;}
 	public String getEmail() 						{return email;}
