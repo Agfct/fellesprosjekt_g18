@@ -60,7 +60,7 @@ public class AppointmentCellRenderer implements ListCellRenderer<Appointment>{
 	    						"<th class='long' width='20'px>"+status.getStatus()+"</div>"+
 	    					"</tr>"+
 	    					"<tr>"+
-	    						"<th width='40'px>"+"dd.mm.year"+"</th>"+
+	    						"<th width='40'px>"+value.getDateString()+"</th>"+
 	    						"<th width='40'px>"+"Room nr 5"+"</th>"+
 	    						"<th class='long' width='20'px>"+hide+"</div>"+
 	    					"</tr>"+

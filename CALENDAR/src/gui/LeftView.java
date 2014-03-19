@@ -464,7 +464,8 @@ public class LeftView extends JPanel implements ListSelectionListener, ActionLis
 	// List selection Listener for the internPersonList
 	@Override
 	public void valueChanged(ListSelectionEvent selected) {
-		
+		//TODO: WARNING SPAM ? 
+		MainWindow.getCalendarPanel().addAllAppointments();
 		
 	}
 	public ArrayList<Employee> getSelectedEmployees(){

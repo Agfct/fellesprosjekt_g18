@@ -157,36 +157,36 @@ public class CalendarView extends JPanel {
     }
     
 	/** ADDING APPOINTMENTS TO CALENDAR **/
-	public void createOtherAppointments(){
+//	public void createOtherAppointments(){
+//		//TODO: ADD THE CLIENT CALL FOR APPOINTMENTS
+//		otherAppointments = new ArrayList<Appointment>(); // REMOVE
+//		for (int i = 0; i < MainWindow.getEmployeeList().size(); i++) {
+//			otherAppointments.add(new Appointment(MainWindow.getEmployeeList().get(i)));			
+//		}
+//	}
+//	public void createYourAppointments(){
 		//TODO: ADD THE CLIENT CALL FOR APPOINTMENTS
-		otherAppointments = new ArrayList<Appointment>(); // REMOVE
-		for (int i = 0; i < MainWindow.getEmployeeList().size(); i++) {
-			otherAppointments.add(new Appointment(MainWindow.getEmployeeList().get(i)));			
-		}
-	}
-	public void createYourAppointments(){
-		//TODO: ADD THE CLIENT CALL FOR APPOINTMENTS
-		yourAppointments = new ArrayList<Appointment>();
+//		yourAppointments = new ArrayList<Appointment>();
 //		yourAppointments = new ArrayList<Appointment>(); // REMOVE
 //		for (int i = 0; i < MainWindow.getEmployeeList().size(); i++) {
 //			yourAppointments.add(new Appointment(MainWindow.getEmployeeList().get(i)));			
 //		}
-	}
-	public void createInvitedAppointments(){
-		//TODO: ADD THE CLIENT CALL FOR APPOINTMENTS
-		invitedAppointments = new ArrayList<Appointment>(); // REMOVE
-
-	}
-	
-	public ArrayList<Appointment> getYourAppointments(){
-		return yourAppointments;
-	}
-	public ArrayList<Appointment> getInvitedAppointments(){
-		return invitedAppointments;
-	}
-	public ArrayList<Appointment> getOtherAppointments(){
-		return otherAppointments;
-	}
+//	}
+//	public void createInvitedAppointments(){
+//		//TODO: ADD THE CLIENT CALL FOR APPOINTMENTS
+//		invitedAppointments = new ArrayList<Appointment>(); // REMOVE
+//
+//	}
+//	
+//	public ArrayList<Appointment> getYourAppointments(){
+//		return yourAppointments;
+//	}
+//	public ArrayList<Appointment> getInvitedAppointments(){
+//		return invitedAppointments;
+//	}
+//	public ArrayList<Appointment> getOtherAppointments(){
+//		return otherAppointments;
+//	}
 	
     public void refreshBackgroundImg(){
     	backgroundImg = MainWindow.getBackgroundImage();

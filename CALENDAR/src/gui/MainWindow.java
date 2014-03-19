@@ -143,7 +143,8 @@ public class MainWindow extends JFrame{
 		mainWindow.setVisible(true);
 		TimeZone tz = TimeZone.getTimeZone("Europe/Oslo");
 		TimeZone.setDefault(tz);
-		setDate(new Date());
+		date = new Date();
+		
 
 	}
 	public static MainWindow getMainWindow(){
@@ -155,14 +156,12 @@ public class MainWindow extends JFrame{
 	}
 	// This changes from the LoginView to the 3 main views (Top,Left and Calendar)
 	protected static void setCalendarMode(){
-		calendarView.createInvitedAppointments(); // appointments after Employee
-		calendarView.createOtherAppointments(); // appointments after Employee
-		calendarView.createYourAppointments(); // appointments after Employee
-		
 		mainScrollPane.getViewport().remove(loginWindow);
 		mainWindow.setSize(1216, 838); // Resize the window
 		mainWindow.setLocationRelativeTo(null); // Putting the rezised window back into the middle
 		mainScrollPane.getViewport().add(layoutView); // adding the LayoutView
+		changeDate();
+		
 		
 	}
 
@@ -348,6 +347,7 @@ public class MainWindow extends JFrame{
 		topView.setTopViewDate();
 		leftView.setLeftViewWeek();
 		calendarView.repaint();
+		calendarPanel.addAllAppointments();
 	}
 
 	// TEST FOR TIME ALTERNATIVES

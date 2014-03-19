@@ -77,6 +77,7 @@ public class Appointment  implements Serializable{
 	//-----------
 	//Listeners
 	public void addPropertyChangedListener(PropertyChangeListener listener){
+		//TODO: FIX THESE WITH IF NULL LIKE WE DID ON INVITATION
 		pcs.addPropertyChangeListener(listener);
 	}
 	

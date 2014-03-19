@@ -148,11 +148,7 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 //	private TableColumn acceptedCol;
 //	private EmployeeTable employeeTable;
 	
-
-
-
-
-	
+//TODO: CHECKLIST NOT WORKING PROPERLY FIX!!	
 	public NewAppointmentView(Appointment newAppointmentModel, boolean isNewAppointmentView, String from){
 		// Using a GridBagLayout for the Grid
 		setLayout(new GridBagLayout());

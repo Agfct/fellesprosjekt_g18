@@ -42,12 +42,14 @@ public class CalendarPanel extends JPanel {
 	public void addAllAppointments(){
 		removeAll();
 		appointments = MainWindow.getRequestHandler().getAllApointments(MainWindow.getUser()); // Your appointments (Invited and created)
-		// Get the appointments you have told the calendar that you want
+		// Get the appointments you have told the calendar that you want from other employees
 		ArrayList<Employee> otherSelectedEmployees = MainWindow.getLeftView().getSelectedEmployees();
+		//TODO: FILTERE ETTER HVILKEN DAG / UKE DU ER I IKKE TA ALLE PÅ EN GANG !!
 		
-		
-		
+		// Adding your appointments
 		for (int i = 0; i < appointments.size(); i++) { //Running trough all appointments that are yours
+			System.out.println("før is hidden" +appointments.get(i).getInvitation(MainWindow.getUser()));
+			System.out.println("nr1"+ appointments.get(i).getInvitation(MainWindow.getUser()).isHidden());
 			if(!appointments.get(i).getInvitation(MainWindow.getUser()).isHidden() || MainWindow.getLeftView().getShowHidden()){ // if its not hidden
 
 				AppointmentApp app = new AppointmentApp(appointments.get(i));
@@ -55,6 +57,19 @@ public class CalendarPanel extends JPanel {
 				app.setLocation(app.getX(), app.getY());
 			}
 		}
+		// Adding others appointments
+		for (Employee employee : otherSelectedEmployees) {
+			// Other Employees appointments (Invited and created)
+			ArrayList<Appointment> otherAppointments = MainWindow.getRequestHandler().getAllApointments(employee); 
+			for (int i = 0; i < otherAppointments.size(); i++) {
+				if(!appointments.contains(otherAppointments.get(i))){
+					AppointmentApp app = new AppointmentApp(otherAppointments.get(i));
+					add(app);
+					app.setLocation(app.getX(), app.getY());
+				}
+			}
+		}
+		
 	}
 	
 	// Overriding the paintComponent to get Background
