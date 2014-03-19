@@ -13,6 +13,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Calendar;
+import java.util.Date;
 
 import javax.swing.Box;
 import javax.swing.JButton;
@@ -99,7 +101,7 @@ public class TopView extends JPanel implements ActionListener{
 		cLabel3.gridx = 7;
 		cLabel3.gridy = 0;
 //		cLabel0.gridwidth = 2;
-		weekLabel = new JLabel("Feb 23 - Mar 1, 2014 "); //replace with actual name
+		weekLabel = new JLabel("Feb 23 - Mar 1, 2014 ");
 		weekLabel.setName("weekLabel");
 		//DESIGN for the Label text
 		weekLabel.setForeground(MainWindow.getTxtColor());
@@ -170,6 +172,24 @@ public class TopView extends JPanel implements ActionListener{
 
 	}
 	
+	public void setTopViewDate(){
+//		"Feb 23 - Mar 1, 2014 "
+		Date thisDate = MainWindow.getDate();
+		Calendar c = Calendar.getInstance();
+		c.setTime(thisDate);
+		int weekOfYear  = c.get(Calendar.WEEK_OF_YEAR);
+		int year = c.get(Calendar.YEAR);
+		c.clear();
+		c.set(Calendar.WEEK_OF_YEAR, weekOfYear);
+		c.set(Calendar.YEAR, year);
+		String weekText = c.getTime().toString().substring(4, 10) + " - "; //Month: MMM
+		c.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+		weekText += c.getTime().toString().substring(4,10);
+		weekText += ", " + c.get(Calendar.YEAR);
+		weekLabel.setText(weekText);
+		
+	}
+	
     /** LISTENERS FOR THE ENTIRE JPANEL **/
     /** WHEN FIELDS ARE MODIFIED CHANGES ARE REGISTERED HERE **/
 	//What happens when the different buttons are pressed.
@@ -189,16 +209,23 @@ public class TopView extends JPanel implements ActionListener{
 		// If the "Today button is pressed
 		else if(e.getSource() == todayBtn){
 			System.out.println("Going to Todays week");
+			MainWindow.setDate(new Date());
 		}
 		// If the "<--" Previous week button is pressed
 		else if(e.getSource() == previousWeekBtn){
 			System.out.println("Going to the Previous Week");
-			// 
+			Calendar c = Calendar.getInstance();
+			c.setTime(MainWindow.getDate());
+			c.add(Calendar.DAY_OF_YEAR, -7);
+			MainWindow.setDate(c.getTime());
 		}
 		// If the "-->" Next week button is pressed
 		else if(e.getSource() == nextWeekBtn){
 			System.out.println("Going to the Next Week");
-			// 
+			Calendar c = Calendar.getInstance();
+			c.setTime(MainWindow.getDate());
+			c.add(Calendar.DAY_OF_YEAR, 7);
+			MainWindow.setDate(c.getTime());
 		}
 	}
 	

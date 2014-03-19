@@ -8,6 +8,8 @@ import java.awt.Image;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.TimeZone;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -55,6 +57,7 @@ public class MainWindow extends JFrame{
 	private static ArrayList<Employee> allEmployees;
 	private static Client networkClient;
 	private static RequestHandler requestHandler;
+	private static Date date;
 	
 	/** The Main user "you", of the program **/
 	private static Employee user;
@@ -134,6 +137,9 @@ public class MainWindow extends JFrame{
 		mainScrollPane.getViewport().add(loginWindow);
 		mainWindow.setVisible(true);
 		mainWindow.createEmployeeList();
+		TimeZone tz = TimeZone.getTimeZone("Europe/Oslo");
+		TimeZone.setDefault(tz);
+		setDate(new Date());
 
 	}
 	public static MainWindow getMainWindow(){
@@ -321,6 +327,19 @@ public class MainWindow extends JFrame{
 			System.out.println("MainWindow: can not log inn");
 			setLoginMode();
 		}
+	}
+	
+	public static void setDate(Date newDate){
+		date = newDate;
+		changeDate();
+	}
+	public static Date getDate(){
+		return date;
+	}
+	
+	public static void changeDate(){
+		topView.setTopViewDate();
+		
 	}
 
 	// TEST FOR TIME ALTERNATIVES
