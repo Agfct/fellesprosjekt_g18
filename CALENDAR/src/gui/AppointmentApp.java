@@ -57,8 +57,11 @@ public class AppointmentApp extends JPanel {
 		else if(c.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {x = 856;}
 		
 		this.sizeX = 133; // Default subject to change
+		//TODO: Rette Y verdier ??
 		this.sizeY = appointment.getDuration();
+		System.out.println("SizeY " + appointment.getDuration());
 		this.y = appointment.getStartTimeAsInt();
+		System.out.println("bare y " + appointment.getStartTimeAsInt());
 		
 		setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		setSize(sizeX, sizeY);
