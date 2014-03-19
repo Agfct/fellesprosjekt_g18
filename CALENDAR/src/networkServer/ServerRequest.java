@@ -36,6 +36,7 @@ public class ServerRequest {
 			case "ADD_APPOINTMENT": return createAppointment((Appointment) packet.getObject(0));
 //			Edit
 			case "EDIT_APPOINTMENT": return editAppointment((Appointment) packet.getObject(0));
+			case "EDIT_INVITATION": return editInvitation((Invitation) packet.getObject(0));
 //			Get
 			case "GET_ALL_EMPLOYEES": return getAllEmployees();
 			case "GET_ALL_APPOINTMENTS": return getAllApointments((int) packet.getObject(0));
@@ -111,6 +112,17 @@ public class ServerRequest {
 		try {
 			db.editAppointment(appointment);
 			return new Packet("APPOINTMENT_EDITED");
+		}
+		catch (Exception e) {
+			System.out.println("ServerRequest: editAppointment failed!");
+			e.printStackTrace();
+			return new Packet("ERROR", "ServerRequest: editAppointment failed!", e);
+		}
+	}
+	private Packet editInvitation (Invitation invitation) {
+		try {
+			db.editInvitation(invitation);
+			return new Packet("INVITATION_EDITED");
 		}
 		catch (Exception e) {
 			System.out.println("ServerRequest: editAppointment failed!");

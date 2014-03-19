@@ -48,6 +48,12 @@ public class RequestHandler {
 			return true;			
 		}return false;
 	}
+	public Boolean editInvitation (Invitation invitation){
+		Packet response = client.request("EDIT_INVITATION", invitation);
+		if(response.getName().equals("INVITATION_EDITED")){
+			return true;			
+		}return false;
+	}
 //	Get
 	public ArrayList<Employee> getAllEmployees (){
 		Packet response = client.request("GET_ALL_EMPLOYEES");
