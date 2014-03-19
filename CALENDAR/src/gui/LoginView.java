@@ -147,8 +147,6 @@ public class LoginView extends JPanel implements ActionListener , KeyListener{
 		cLabel9.gridy = 1;
 		add(new JLabel("               "),cLabel9);
 		
-		
-		
 	}
 	
 	// Overriding the paintComponent to get GraidientPaint

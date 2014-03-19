@@ -17,6 +17,8 @@ import java.awt.RenderingHints;
 import java.awt.Stroke;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -97,34 +99,61 @@ public class CalendarView extends JPanel {
     }
     
     public void paintDays(Graphics2D g2d){
-    	// Draw a req on the day that is today
-//    	if(dagen i dag er i den uken som vises, så sjekk hvilken dag det er og tegn)/
-//    	Mon: (51, 3, 128, 26). Tue: (183, 3, 129, 26). Wed: (316, 3, 129, 26). Thu: (449, 3, 129, 26) Fri: (582, 3, 129, 26)
-//    	Sat: (715, 3, 129, 26). Sun(848, 3, 129, 26);
-    	g2d.setColor(Color.DARK_GRAY);
-    	Stroke oldStroke = g2d.getStroke();
-    	g2d.setStroke(new BasicStroke(3));
-    	g2d.drawRect(848, 3, 129, 26);
-    	g2d.setStroke(oldStroke);
-    	
         //Paint the Days
  		font = new Font("Tahoma", Font.PLAIN, 12);
  		g2d.setFont(font);
  		g2d.setColor(Color.BLACK);
+ 		Calendar c = Calendar.getInstance();
+ 		c.setTime(MainWindow.getDate());
+ 		boolean containsToday = false;
+ 		Calendar today = Calendar.getInstance();
     	//mon
-    	g2d.drawString("6/3", 118, 20);
+ 		c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+    	g2d.drawString(c.get(Calendar.DAY_OF_MONTH) + "/" + (c.get(Calendar.MONTH)+1), 118, 20);
+    	if (c.get(Calendar.DAY_OF_YEAR) == today.get(Calendar.DAY_OF_YEAR) && c.get(Calendar.YEAR) == today.get(Calendar.YEAR)){containsToday = true;}
     	//tue
-    	g2d.drawString("7/3", 251, 20);
+    	c.set(Calendar.DAY_OF_WEEK, Calendar.TUESDAY);
+    	g2d.drawString(c.get(Calendar.DAY_OF_MONTH) + "/" + (c.get(Calendar.MONTH)+1), 251, 20);
+    	if (c.get(Calendar.DAY_OF_YEAR) == today.get(Calendar.DAY_OF_YEAR) && c.get(Calendar.YEAR) == today.get(Calendar.YEAR)){containsToday = true;}
     	//wed
-    	g2d.drawString("8/3", 384, 20);
+    	c.set(Calendar.DAY_OF_WEEK, Calendar.WEDNESDAY);
+    	g2d.drawString(c.get(Calendar.DAY_OF_MONTH) + "/" + (c.get(Calendar.MONTH)+1), 384, 20);
+    	if (c.get(Calendar.DAY_OF_YEAR) == today.get(Calendar.DAY_OF_YEAR) && c.get(Calendar.YEAR) == today.get(Calendar.YEAR)){containsToday = true;}
     	//Thu
-    	g2d.drawString("8/3", 517, 20);
+    	c.set(Calendar.DAY_OF_WEEK, Calendar.THURSDAY);
+    	g2d.drawString(c.get(Calendar.DAY_OF_MONTH) + "/" + (c.get(Calendar.MONTH)+1), 517, 20);
+    	if (c.get(Calendar.DAY_OF_YEAR) == today.get(Calendar.DAY_OF_YEAR) && c.get(Calendar.YEAR) == today.get(Calendar.YEAR)){containsToday = true;}
     	//Fri
-    	g2d.drawString("9/3", 650, 20);
+    	c.set(Calendar.DAY_OF_WEEK, Calendar.FRIDAY);
+    	g2d.drawString(c.get(Calendar.DAY_OF_MONTH) + "/" + (c.get(Calendar.MONTH)+1), 650, 20);
+    	if (c.get(Calendar.DAY_OF_YEAR) == today.get(Calendar.DAY_OF_YEAR) && c.get(Calendar.YEAR) == today.get(Calendar.YEAR)){containsToday = true;}
     	//Sat
-    	g2d.drawString("10/3", 783, 20);
+    	c.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);
+    	g2d.drawString(c.get(Calendar.DAY_OF_MONTH) + "/" + (c.get(Calendar.MONTH)+1), 783, 20);
+    	if (c.get(Calendar.DAY_OF_YEAR) == today.get(Calendar.DAY_OF_YEAR) && c.get(Calendar.YEAR) == today.get(Calendar.YEAR)){containsToday = true;}
     	//Sun
-    	g2d.drawString("11/3", 916, 20);
+    	c.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+    	g2d.drawString(c.get(Calendar.DAY_OF_MONTH) + "/" + (c.get(Calendar.MONTH)+1), 916, 20);
+    	if (c.get(Calendar.DAY_OF_YEAR) == today.get(Calendar.DAY_OF_YEAR) && c.get(Calendar.YEAR) == today.get(Calendar.YEAR)){containsToday = true;}
+    	
+    	// Draw a req on the day that is today
+//    	if(dagen i dag er i den uken som vises, så sjekk hvilken dag det er og tegn)/
+//    	Mon: (51, 3, 128, 26). Tue: (183, 3, 129, 26). Wed: (316, 3, 129, 26). Thu: (449, 3, 129, 26) Fri: (582, 3, 129, 26)
+//    	Sat: (715, 3, 129, 26). Sun(848, 3, 129, 26);
+    	if (containsToday){
+    		g2d.setColor(Color.DARK_GRAY);
+    		Stroke oldStroke = g2d.getStroke();
+    		g2d.setStroke(new BasicStroke(3));
+    		if (today.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY){g2d.drawRect(51, 3, 128, 26);}
+    		else if (today.get(Calendar.DAY_OF_WEEK) == Calendar.TUESDAY){g2d.drawRect(183, 3, 129, 26);}
+    		else if (today.get(Calendar.DAY_OF_WEEK) == Calendar.WEDNESDAY){g2d.drawRect(316, 3, 129, 26);}
+    		else if (today.get(Calendar.DAY_OF_WEEK) == Calendar.THURSDAY){g2d.drawRect(449, 3, 129, 26);}
+    		else if (today.get(Calendar.DAY_OF_WEEK) == Calendar.FRIDAY){g2d.drawRect(582, 3, 129, 26);}
+    		else if (today.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY){g2d.drawRect(715, 3, 129, 26);}
+    		else if (today.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY){g2d.drawRect(848, 3, 129, 26);}
+    		
+    		g2d.setStroke(oldStroke);
+    	}
     }
     
 	/** ADDING APPOINTMENTS TO CALENDAR **/

@@ -11,12 +11,14 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import model.Appointment;
+import model.Employee;
 
 // The calendar Body
 public class CalendarPanel extends JPanel {
@@ -37,28 +39,20 @@ public class CalendarPanel extends JPanel {
 		setPreferredSize(new Dimension(979, 1440));
 	}
 
-	public void drawAllAppointments(){
+	public void addAllAppointments(){
 		removeAll();
 		appointments = MainWindow.getRequestHandler().getAllApointments(MainWindow.getUser()); // Your appointments (Invited and created)
 		// Get the appointments you have told the calendar that you want
-		//TODO: GET IT Oo
+		ArrayList<Employee> otherSelectedEmployees = MainWindow.getLeftView().getSelectedEmployees();
 		
-		for (int i = 0; i < appointments.size(); i++) { //Running trou all appointments that are yours
-			if(!appointments.get(i).getInvitation(MainWindow.getUser()).isHidden()){ // if its not hidden
-//				add(appointments.get(i).getAppointmentApp());//put it in the pane
-				// Figure out the day
-				appointments.get(i).getDate(); //ha den ?
-				//TODO
-				/// Sun,Mon,Tue,Wed,Thu,Fri,Sat
-				/// 1 , 2 , 3 , 4,  5,  6, 7
-//				if(day == 1){
-					
-//				}
-//				AppointmentApp app = new AppointmentApp(xDay, yMinStart, default 133, sizeYDur)
-//				AppointmentApp app = new AppointmentApp(xDay, yMinStart, sizeX, sizeYDur)
-				AppointmentApp app1 = new AppointmentApp(48,0,133,120);
-				add(app1);
-				app1.setLocation(app1.getX(), app1.getY());
+		
+		
+		for (int i = 0; i < appointments.size(); i++) { //Running trough all appointments that are yours
+			if(!appointments.get(i).getInvitation(MainWindow.getUser()).isHidden() || MainWindow.getLeftView().getShowHidden()){ // if its not hidden
+
+				AppointmentApp app = new AppointmentApp(appointments.get(i));
+				add(app);
+				app.setLocation(app.getX(), app.getY());
 			}
 		}
 	}

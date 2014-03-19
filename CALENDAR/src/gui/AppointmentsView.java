@@ -422,6 +422,7 @@ public class AppointmentsView extends JPanel implements ListSelectionListener , 
 		saveBtn = new JButton("Save");
 		saveBtn.setName("saveBtn");
 		saveBtn.addActionListener(this);
+		saveBtn.setEnabled(false);
 		// DESIGN FOR Field:
 		saveBtn.setBackground(MainWindow.getBckColor());
 		saveBtn.setForeground(MainWindow.getTxtColor());
@@ -532,6 +533,7 @@ public class AppointmentsView extends JPanel implements ListSelectionListener , 
     }
     
     public void setNotSelectedMode(){
+    	saveBtn.setEnabled(false);
     	statusBtnGroup.clearSelection();
     	acceptRadioBtn.setEnabled(false);
       	declineRadioBtn.setEnabled(false);
@@ -547,6 +549,7 @@ public class AppointmentsView extends JPanel implements ListSelectionListener , 
     	invitationModel = invitation;
     }
     public void loadInvitationValues(){
+    	saveBtn.setEnabled(true);
     	acceptRadioBtn.setEnabled(true);
     	declineRadioBtn.setEnabled(true);
     	alarmBox.setEnabled(true);
@@ -642,6 +645,9 @@ public class AppointmentsView extends JPanel implements ListSelectionListener , 
 			}else{
 //				JOptionPane.showMessageDialog(MainWindow.getMainWindow(),"Could not Save Appointment. Cloud not Available");
 			}
+			setNotSelectedMode();
+			appointmentsList.invalidate();
+			appointmentsList.revalidate();
 			appointmentsList.repaint();
 		}
 		// If cancelAppointmentBtn is pressed

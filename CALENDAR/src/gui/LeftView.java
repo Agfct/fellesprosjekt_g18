@@ -18,12 +18,14 @@ import java.awt.event.KeyListener;
 import java.awt.geom.Ellipse2D;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Properties;
 
 import javax.swing.Action;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
+import javax.swing.DefaultListSelectionModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -37,6 +39,7 @@ import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.text.html.HTMLDocument.HTMLReader.HiddenAction;
 
 import model.Appointment;
 import model.Creator;
@@ -63,9 +66,9 @@ public class LeftView extends JPanel implements ListSelectionListener, ActionLis
 	private JButton editAppointmentBtn;
 	private JButton appointmentsBtn;
 	private JTextField searchField;
-	private JList <Employee> internPersonList;
-	private DefaultListModel<Employee> listModel = new DefaultListModel<Employee>();
-	private JScrollPane internPersonlistScrollPane;
+	private JList <Employee> internalEmployeesList;
+	private DefaultListModel<Employee> internallistModel = new DefaultListModel<Employee>();
+	private JScrollPane internalEmployeeslistScrollPane;
 	private JLabel showHiddenLabel;
 	private JCheckBox showHiddenBox;
 	private Image redCircleImg;
@@ -78,6 +81,7 @@ public class LeftView extends JPanel implements ListSelectionListener, ActionLis
 		// Using a GridBagLayout for the Grid
 		setLayout(new GridBagLayout());
 		setOpaque(false);
+		
 		/** CREATING BUTTONS, LABELS AND TEXT FIELDS **/
 		
 		//weekLabel
@@ -102,16 +106,14 @@ public class LeftView extends JPanel implements ListSelectionListener, ActionLis
 		cLabel1.gridy = 0;
 		
 		//TEST WEEKS:
-		ArrayList<Integer> weeks = new ArrayList<Integer>();
-		for (int i = 0; i < 53; i++) {
-			weeks.add(i);
-		}
+//		ArrayList<Integer> weeks = new ArrayList<Integer>();
 		DefaultComboBoxModel<Integer>  model = new DefaultComboBoxModel<Integer>();
-		for (int i = 0; i < weeks.size(); i++) {
+		for (int i = 1; i < 53; i++) {
+//			weeks.add(i);
 			model.addElement(i);
 		}
-		//TEST WEEKSs
-		
+//		for (int i = 0; i < weeks.size(); i++) {
+//		}
 		weekBox = new JComboBox<Integer>(model);
 		weekBox.setName("weekBox");
 		weekBox.addActionListener(this);
@@ -229,31 +231,26 @@ public class LeftView extends JPanel implements ListSelectionListener, ActionLis
 //		loginBtn.setPreferredSize(new Dimension(200, 400));
 		add(searchField,cLabel9);
 		
-		
-		//List<Employee> DETAILS MISSING, TEST ONLY
-		
-		//TEST
-		Employee anders = new Employee("Anders");
-		Employee silje = new Employee("Silje");
-		Employee katrine = new Employee("Katrine");
-		Employee are = new Employee("Are");
-		Employee birger = new Employee("Birger");
-		Employee stian = new Employee("Stian");
-		listModel.addElement(anders);
-		listModel.addElement(silje);
-		listModel.addElement(katrine);
-		listModel.addElement(are);
-		listModel.addElement(birger);
-		listModel.addElement(stian);
-		//TEST
-		internPersonList = new JList<Employee>(listModel);
-		internPersonList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		internPersonList.setVisibleRowCount(5);
-		internPersonList.setName("internPersonList");
-		internPersonList.addListSelectionListener(this);
+		// selectedEmployees
+		internalEmployeesList = new JList<Employee>(internallistModel);
+		internalEmployeesList.setSelectionModel(new DefaultListSelectionModel() {
+		    @Override
+		    public void setSelectionInterval(int index0, int index1) {
+		        if(super.isSelectedIndex(index0)) {
+		            super.removeSelectionInterval(index0, index1);
+		        }
+		        else {
+		            super.addSelectionInterval(index0, index1);
+		        }
+		    }
+		});
+		internalEmployeesList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		internalEmployeesList.setVisibleRowCount(5);
+		internalEmployeesList.setName("selectedPersonList");
+		internalEmployeesList.addListSelectionListener(this);
 //		internPersonList.setCellRenderer(renderer);
 		
-		internPersonlistScrollPane = new JScrollPane(internPersonList);
+		internalEmployeeslistScrollPane = new JScrollPane(internalEmployeesList);
 		
 		GridBagConstraints cLabel10 = new GridBagConstraints();
 		cLabel10.fill = GridBagConstraints.HORIZONTAL;
@@ -270,14 +267,14 @@ public class LeftView extends JPanel implements ListSelectionListener, ActionLis
 //		listScrollPane.setPreferredSize(getPreferredSize());
 	
 //		this.add(listScrollPane, BorderLayout.CENTER);
-		add(internPersonlistScrollPane, cLabel10);
+		add(internalEmployeeslistScrollPane, cLabel10);
 		
 	
 		//showHiddenLabel
 		GridBagConstraints cLabel11 = new GridBagConstraints();
 		cLabel11.insets = new Insets(0,0,0,0);
 		cLabel11.gridx = 0;
-		cLabel11.gridy = 26;
+		cLabel11.gridy =26;
 //		cLabel11.weighty = 1;
 		cLabel11.gridwidth = GridBagConstraints.RELATIVE;
 		cLabel11.anchor = GridBagConstraints.LINE_START;
@@ -299,6 +296,7 @@ public class LeftView extends JPanel implements ListSelectionListener, ActionLis
 		showHiddenBox = new JCheckBox();
 		showHiddenBox.setName("showHiddenBox");
 		showHiddenBox.setOpaque(false);
+		showHiddenBox.addActionListener(this);
 		//DESIGN for the Label text
 		showHiddenBox.setForeground(Color.BLACK);
 		showHiddenBox.setFont(new Font(MainWindow.getMFont(),Font.BOLD,12));
@@ -361,7 +359,15 @@ public class LeftView extends JPanel implements ListSelectionListener, ActionLis
 		cLabel21.gridx = 0;
 		cLabel21.gridy = 25;
 		add(new JLabel("                 "),cLabel21);
+		
+		addEmployees();
 
+	}
+	
+	public void setLeftViewWeek(){
+		Calendar c = Calendar.getInstance();
+		c.setTime(MainWindow.getDate());
+		weekBox.getModel().setSelectedItem(c.get(Calendar.WEEK_OF_YEAR));
 	}
 	// Painting the numbers
 	   @Override
@@ -406,8 +412,13 @@ public class LeftView extends JPanel implements ListSelectionListener, ActionLis
 			
 	    }
 	   
+	   public boolean getShowHidden(){
+		   return showHiddenBox.isSelected();
+	   }
+	   
     /** LISTENERS FOR THE ENTIRE JPANEL **/
     /** WHEN FIELDS ARE MODIFIED CHANGES ARE REGISTERED HERE **/
+	   // action listner for checkbox and buttons
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		System.out.println("("+this.getClass()+"):"+ "Pressing a button");
@@ -418,7 +429,7 @@ public class LeftView extends JPanel implements ListSelectionListener, ActionLis
 			Appointment app = new Appointment(MainWindow.getUser());
 			MainWindow.newAppointmentView(app,true,""); 	
 		}
-		// If New Appointment is pressed
+		// If Appointment is pressed
 		else if (e.getSource() == appointmentsBtn){
 			System.out.println("Opening Appointments Window");
 			MainWindow.appointmentsView();
@@ -428,12 +439,36 @@ public class LeftView extends JPanel implements ListSelectionListener, ActionLis
 			System.out.println("Opening EditAppointments Window");
 			MainWindow.editAppointmentsView();
 		}
+		// If weekBox is modified
+		else if (e.getSource() == weekBox){
+			System.out.println("Changeing week");
+			Calendar c = Calendar.getInstance();
+			c.setTime(MainWindow.getDate());
+			c.set(Calendar.WEEK_OF_YEAR, (int) weekBox.getSelectedItem());
+			MainWindow.setDate(c.getTime());
+		}
+		// If showhiddenBox
+		else if (e.getSource() == showHiddenBox){
+			System.out.println("Showing hidden");
+			MainWindow.getCalendarPanel().addAllAppointments();
+		}
 		
+	}
+	public void addEmployees(){
+		internallistModel.clear();
+		for (Employee employer : MainWindow.getEmployeeList()) {
+			internallistModel.addElement(employer);
+		}
 	}
 	
 	// List selection Listener for the internPersonList
 	@Override
-	public void valueChanged(ListSelectionEvent arg0) {
+	public void valueChanged(ListSelectionEvent selected) {
+		
+		
+	}
+	public ArrayList<Employee> getSelectedEmployees(){
+		return new ArrayList<Employee>(internalEmployeesList.getSelectedValuesList());
 	}
 	
 	// Key listener for textField Search

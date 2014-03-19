@@ -15,7 +15,7 @@ public class Invitation implements Serializable{
 	private boolean edited;
 	private boolean hidden;
 	private long alarmTime;
-	private transient ParticipantsPanel participantsView;
+	private transient ParticipantsPanel participantsPanel;
 	private transient PropertyChangeSupport pcs;
 	
 	//PropertyNames
@@ -31,8 +31,8 @@ public class Invitation implements Serializable{
 		edited = false;
 		hidden = false;
 		pcs = new PropertyChangeSupport(this);
-		participantsView = new ParticipantsPanel(person);
-		participantsView.setInvitation(this);
+		participantsPanel = new ParticipantsPanel(person);
+		participantsPanel.setInvitation(this);
 	}
 	
 	@Override
@@ -46,10 +46,12 @@ public class Invitation implements Serializable{
 	
 	//Listeners
 	public void addPropertyChangedListener(PropertyChangeListener listener){
+		if(pcs == null){ createPcs();}
 		pcs.addPropertyChangeListener(listener);
 	}
 	
 	public void removePropertyChangedListener(PropertyChangeListener listener){
+		if(pcs == null){ createPcs();}
 		pcs.removePropertyChangeListener(listener);
 	}
 	//---------
@@ -68,18 +70,27 @@ public class Invitation implements Serializable{
 	//Setters
 	public void setStatus(InvitationStatus is) {
 		this.status = is;
-		participantsView.changeStatusField(status);
+		if(participantsPanel == null){
+			participantsPanel = new ParticipantsPanel(employee);
+			participantsPanel.setInvitation(this);
+		}
+		participantsPanel.changeStatusField(status);
 	}
 	public void setEdited(boolean edited) {
 		boolean old = this.edited;
 		this.edited = edited;
+		if(pcs == null){ createPcs();}
 		pcs.firePropertyChange(EDITED_PROPERTY_NAME, old, this.edited);
 	}
 
 	public void setHidden(boolean hidden) {
 		boolean old = this.hidden;
 		this.hidden = hidden;
+		if(pcs == null){ createPcs();}
 		pcs.firePropertyChange(HIDDEN_PROPERTY_NAME, old, this.hidden);
+	}
+	public void createPcs(){
+		pcs = new PropertyChangeSupport(this);
 	}
 
 	public void setInvitationID(int invitationID) {
@@ -87,10 +98,10 @@ public class Invitation implements Serializable{
 	}
 	//-------
 	public void setParticipantsView(ParticipantsPanel newParticipantsView){
-		participantsView = newParticipantsView;
+		participantsPanel = newParticipantsView;
 	}
 	public ParticipantsPanel getParticipantsView(){
-		return participantsView;
+		return participantsPanel;
 	}
 	public void setAppointment(Appointment appointment) {
 		this.appointment = appointment;

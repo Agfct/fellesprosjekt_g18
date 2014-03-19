@@ -101,7 +101,7 @@ public class TopView extends JPanel implements ActionListener{
 		cLabel3.gridx = 7;
 		cLabel3.gridy = 0;
 //		cLabel0.gridwidth = 2;
-		weekLabel = new JLabel("Feb 23 - Mar 1, 2014 ");
+		weekLabel = new JLabel("");
 		weekLabel.setName("weekLabel");
 		//DESIGN for the Label text
 		weekLabel.setForeground(MainWindow.getTxtColor());
@@ -173,15 +173,17 @@ public class TopView extends JPanel implements ActionListener{
 	}
 	
 	public void setTopViewDate(){
-//		"Feb 23 - Mar 1, 2014 "
-		Date thisDate = MainWindow.getDate();
+		// Makes a String of first and last day of week + year
+		
 		Calendar c = Calendar.getInstance();
-		c.setTime(thisDate);
-		int weekOfYear  = c.get(Calendar.WEEK_OF_YEAR);
-		int year = c.get(Calendar.YEAR);
-		c.clear();
-		c.set(Calendar.WEEK_OF_YEAR, weekOfYear);
-		c.set(Calendar.YEAR, year);
+		c.setTime(MainWindow.getDate());
+//		int weekOfYear  = c.get(Calendar.WEEK_OF_YEAR);
+//		int year = c.get(Calendar.YEAR);
+//		c.clear();
+//		// Gets the first day
+//		c.set(Calendar.WEEK_OF_YEAR, weekOfYear);
+//		c.set(Calendar.YEAR, year);
+		c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
 		String weekText = c.getTime().toString().substring(4, 10) + " - "; //Month: MMM
 		c.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
 		weekText += c.getTime().toString().substring(4,10);

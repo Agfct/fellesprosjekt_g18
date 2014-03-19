@@ -101,6 +101,13 @@ public class MainWindow extends JFrame{
 		};
 		backgroundPanel.setBounds(0,0,2000,2000);
 		
+		//adding network listener
+		networkClient = new Client(serverIP, serverPort);
+		requestHandler = new RequestHandler(networkClient);
+		
+		//Getting employees from database
+		mainWindow.createEmployeeList();
+		
 		// JPanels
 		calendarPanel = new CalendarPanel(); //Panel must be created before the CalendarView
 		loginWindow = new LoginView();
@@ -128,15 +135,12 @@ public class MainWindow extends JFrame{
 //		layoutView.add(calendarViewScrollPane,JLayeredPane.PALETTE_LAYER,3); //adding the calendarView ScrollPane 
 //		calendarViewScrollPane.getViewport().add(calendarView); // adding the calendarView to the ScrollPane
 		
-		//adding network listener
-		networkClient = new Client(serverIP, serverPort);
-		requestHandler = new RequestHandler(networkClient);
+
 		
 		//adding stuff
 		mainWindow.setContentPane(mainScrollPane);
 		mainScrollPane.getViewport().add(loginWindow);
 		mainWindow.setVisible(true);
-		mainWindow.createEmployeeList();
 		TimeZone tz = TimeZone.getTimeZone("Europe/Oslo");
 		TimeZone.setDefault(tz);
 		setDate(new Date());
@@ -188,6 +192,9 @@ public class MainWindow extends JFrame{
 	}
 	public static TopView getTopView(){
 		return topView;
+	}
+	public static LeftView getLeftView(){
+		return leftView;
 	}
 	public static CalendarPanel getCalendarPanel(){
 		return calendarPanel;
@@ -339,7 +346,8 @@ public class MainWindow extends JFrame{
 	
 	public static void changeDate(){
 		topView.setTopViewDate();
-		
+		leftView.setLeftViewWeek();
+		calendarView.repaint();
 	}
 
 	// TEST FOR TIME ALTERNATIVES

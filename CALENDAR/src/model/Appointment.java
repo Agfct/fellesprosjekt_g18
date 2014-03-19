@@ -166,8 +166,14 @@ public class Appointment  implements Serializable{
 	public boolean isInternal() 	{return internal;}
 	public String getDescription() 	{return description;}
 	public int getAppointmentID()	{return appointmentID;}
-	public long getDuration() 		{return getTimeSlot().getDuration()/60000;}
+	public int getDuration() 		{return (int) (getTimeSlot().getDuration()/60000);}
 	public String getStartTime()	{return hourMinString(timeSlot.getStart());}
+	public int getStartTimeAsInt()  {
+		Calendar c = Calendar.getInstance();
+		c.setTimeInMillis(timeSlot.getStart());
+		int minutes = c.get(Calendar.HOUR_OF_DAY)*60;
+		return minutes + c.get(Calendar.MINUTE);
+		}
 	public String getEndTime()		{return hourMinString(timeSlot.getEnd());}
 	public Date getDate()			{return getTimeSlot().getDate();}
 	
