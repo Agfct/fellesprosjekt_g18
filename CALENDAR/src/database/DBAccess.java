@@ -29,10 +29,10 @@ public class DBAccess{
 	
 	public void editInvitation(Invitation invitation) throws Exception {
 		try {
-			stmt.executeUpdate(String.format("update invitation set alarmTime = %d, invitationStatus = \"%s\", statusChanged = %b, statusHidden = %b where invitationID = %d", invitation.getAlarmTime(), invitation.getStatus().name(), invitation.isEdited(), invitation.isHidden(), invitation.getInvitationID()));	
+			stmt.executeUpdate(String.format("update invitation set alarmTime = %d, invitationStatus = \"%s\", isNew = false, isHidden = %b where invitationID = %d", invitation.getAlarmTime(), invitation.getStatus().name(), invitation.isHidden(), invitation.getInvitationID()));	
 		} catch ( NullPointerException e) {
+			System.err.println("A field in the edit request is null");
 			throw e;
-			//System.err.println("A field in the edit request is null");
 		} finally {
 			flush();
 		}
@@ -224,7 +224,7 @@ public class DBAccess{
 
 	public void createInvitation(Invitation invitation) throws Exception {
 		try {
-			stmt.executeUpdate(String.format("insert into invitation values(null, %d, %d, %d, \"%s\", %b, %b)",invitation.getAppointment().getAppointmentID(), invitation.getEmployee().getParticipantID(), invitation.getAlarmTime(), invitation.getStatus().name(), invitation.isEdited(), invitation.isHidden() ));
+			stmt.executeUpdate(String.format("insert into invitation values(null, %d, %d, %d, \"%s\", true, %b)",invitation.getAppointment().getAppointmentID(), invitation.getEmployee().getParticipantID(), invitation.getAlarmTime(), invitation.getStatus().name(), invitation.isHidden() ));
 
 
 		} catch ( NullPointerException e) {
@@ -240,7 +240,7 @@ public class DBAccess{
 	public void editAppointment(Appointment app) throws Exception {
 		try {
 			stmt.executeUpdate(String.format("update appointment set startTime = %d, endTime = %d, location = \"%s\", description = \"%s\", username = \"%s\" where appointmentID = %d", app.getTimeSlot(), app.getLocation(), app.getDescription(), app.getCreator(), app.getAppointmentID()));
-			stmt.executeUpdate(String.format("update invitation set isEdited = true, invitationStatus = \"PENDING\" where appointmentID = %d", app.getAppointmentID()));
+			stmt.executeUpdate(String.format("update invitation set invitationStatus = \"PENDING\" where appointmentID = %d", app.getAppointmentID()));
 		} catch ( NullPointerException e) {
 			System.err.println("A field in the edit request is null");
 		}finally {
@@ -622,8 +622,8 @@ public class DBAccess{
 		Appointment appointment = prepareAppointmentByID(rs.getInt("appointmentID"));
 		Invitation invitation = new Invitation(employee, appointment);
 		int invitationID = rs.getInt("invitationID");
-		boolean statusChanged = rs.getBoolean("statusChanged");
-		boolean statusHidden = rs.getBoolean("statusHidden");
+		boolean isNew = rs.getBoolean("isNew");
+		boolean isHidden = rs.getBoolean("isHidden");
 		String invitationStatus = rs.getString("invitationStatus");
 		long alarmTime = rs.getLong("alarmTime");
 		//for testing
@@ -631,7 +631,7 @@ public class DBAccess{
 //		System.out.println(appointmentID);
 //		System.out.println(participantID);
 //		System.out.println(alarmID);
-//		System.out.println(statusHidden);
+//		System.out.println(isHidden);
 		//end test code
 		try {
 			InvitationStatus is = InvitationStatus.valueOf(invitationStatus);			
@@ -640,8 +640,8 @@ public class DBAccess{
 			System.err.println("writeInvitation: No invitationStatus set");
 		}
 		invitation.setAlarmTime(alarmTime);
-		invitation.setEdited(statusChanged);
-		invitation.setHidden(statusHidden);
+		invitation.setEdited(isNew);
+		invitation.setHidden(isHidden);
 		invitation.setInvitationID(invitationID);
 		return invitation;
 	}
