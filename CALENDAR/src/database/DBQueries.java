@@ -3,6 +3,7 @@ package database;
 
 import database.DBAccess;
 import model.*;
+
 import java.util.ArrayList;
 
 
@@ -24,6 +25,7 @@ public class DBQueries {
 			System.out.println(inv.getEmployee());
 		}
 		System.out.println(appointments.get(0).getInvitation(anders).isHidden());
+		
 
 		//dba.createEmployee(siv);
 		//System.out.println("createEmployee: Duplicate Siv if correct");

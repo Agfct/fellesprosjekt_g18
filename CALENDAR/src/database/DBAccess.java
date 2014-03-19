@@ -15,12 +15,17 @@ public class DBAccess{
 	private Statement stmt;
 	private ResultSet rs;
 	
-	public DBAccess() throws Exception {
+	public DBAccess() {
+		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			DriverManager.registerDriver(new com.mysql.jdbc.Driver());
 			con = DriverManager.getConnection(conURL, "areeh", "Legend100");
 			stmt = con.createStatement();
-	}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+			
+		}
 	
 	public void editInvitation(Invitation invitation) throws Exception {
 		try {
@@ -29,7 +34,7 @@ public class DBAccess{
 			throw e;
 			//System.err.println("A field in the edit request is null");
 		} finally {
-			close();
+			flush();
 		}
 	}
 	
@@ -40,7 +45,7 @@ public class DBAccess{
 			System.err.println("Possible invalid ID");
 			throw e;
 		} finally {
-			close();
+			flush();
 		}		
 	}
 	
@@ -53,7 +58,7 @@ public class DBAccess{
 //			System.err.println("Possible invalid ID");
 //			throw e;
 //		} finally {
-//			close();
+//			flush();
 //		}
 //	}
 	
@@ -64,7 +69,7 @@ public class DBAccess{
 			System.err.println("Possible invalid ID");
 			throw e;
 		} finally {
-			close();
+			flush();
 		}
 	}
 	
@@ -75,7 +80,7 @@ public class DBAccess{
 			System.err.println("Possible invalid ID");
 			throw e;
 		} finally {
-			close();
+			flush();
 		}
 	}
 
@@ -88,7 +93,7 @@ public class DBAccess{
 			System.err.println("Possible invalid ID");
 			throw e;
 		} finally {
-			close();
+			flush();
 		}
 	}
 	
@@ -100,7 +105,7 @@ public class DBAccess{
 //		} catch (Exception e) {
 //			throw e;
 //		} finally {
-//			close();
+//			flush();
 //		}
 //
 //
@@ -116,7 +121,7 @@ public class DBAccess{
 		} catch (Exception e) {
 			throw e;
 		} finally {
-			close();
+			flush();
 		}
 	}
 
@@ -130,7 +135,7 @@ public class DBAccess{
 		} catch (Exception e) {
 			throw e;
 		} finally {
-			close();
+			flush();
 		}
 	}
 
@@ -151,13 +156,14 @@ public class DBAccess{
 		} catch (Exception e) {
 			throw e;
 		} finally {
-			close();
+			flush();
 		}
 	}
 
 
 	public Employee getEmployeeByParticipantID(int participantID) throws Exception {
 		try {
+			stmt = con.createStatement();
 			rs = stmt.executeQuery(String.format("select * from employee where participantID = %d", participantID));
 			if (rs.next()) {
 				return writeEmployeeResultSet(rs);	
@@ -168,7 +174,7 @@ public class DBAccess{
 		} catch (Exception e) {
 			throw e;
 		} finally {
-			close();
+			flush();
 		}
 	}
 
@@ -185,7 +191,7 @@ public class DBAccess{
 //		} catch (Exception e) {
 //			throw e;
 //		} finally {
-//			close();
+//			flush();
 //		}
 //	}
 
@@ -209,7 +215,7 @@ public class DBAccess{
 		} catch ( NullPointerException e) {
 			System.err.println("A field in the edit is null");
 		}finally {
-			close();
+			flush();
 		}
 
 
@@ -224,7 +230,7 @@ public class DBAccess{
 		} catch ( NullPointerException e) {
 			System.err.println("A field in the created object is null");
 		}finally {
-			close();
+			flush();
 		}
 
 
@@ -233,21 +239,23 @@ public class DBAccess{
 
 	public void editAppointment(Appointment app) throws Exception {
 		try {
-			stmt.executeUpdate(String.format("update appointment set startTime = %d, endTime = %d, location = \"%s\", description = \"%s\", username = \"%s\" where appointmentID = %d", app.getTimeSlot(), app.getLocation(), app.getDescription(), app.getCreator(), app.getAppointmentID()));	
+			stmt.executeUpdate(String.format("update appointment set startTime = %d, endTime = %d, location = \"%s\", description = \"%s\", username = \"%s\" where appointmentID = %d", app.getTimeSlot(), app.getLocation(), app.getDescription(), app.getCreator(), app.getAppointmentID()));
+			stmt.executeUpdate(String.format("update invitation set isEdited = true, invitationStatus = \"PENDING\" where appointmentID = %d", app.getAppointmentID()));
 		} catch ( NullPointerException e) {
 			System.err.println("A field in the edit request is null");
 		}finally {
-			close();
+			flush();
 		}
 	}
 	
 	public void createAppointment(Appointment app) throws Exception {
 		try {
+			
 			stmt.executeUpdate(String.format("insert into appointment values(null, %d, %d, \"%s\", \"%s\", %d, 0)", app.getTimeSlot().getStart(), app.getTimeSlot().getEnd(), app.getLocation(), app.getDescription(), app.getCreator().getEmployee().getParticipantID()));	
 		} catch ( NullPointerException e) {
 			System.err.println("A field in the add request is null");
 		} finally {
-			close();
+			flush();
 		}
 	}
 
@@ -259,7 +267,7 @@ public class DBAccess{
 		} catch (Exception e) {
 			throw e;
 		} finally {
-			close();
+			flush();
 		}
 	}
 	
@@ -275,7 +283,7 @@ public class DBAccess{
 		} catch (Exception e) {
 			throw e;
 		} finally {
-			close();
+			flush();
 		}
 		
 	}
@@ -296,7 +304,7 @@ public class DBAccess{
 		} catch (Exception e) {
 			throw e;
 		} finally {
-			close();
+			flush();
 		}	
 	}
 
@@ -308,7 +316,7 @@ public class DBAccess{
 		} catch (Exception e) {
 			throw e;
 		} finally {
-			close();
+			flush();
 		}	
 	}
 
@@ -320,7 +328,7 @@ public class DBAccess{
 		} catch (Exception e) {
 			throw e;
 		} finally {
-			close();
+			flush();
 		}	
 	}
 
@@ -332,7 +340,7 @@ public class DBAccess{
 		} catch (Exception e) {
 			throw e;
 		} finally {
-			close();
+			flush();
 		}	
 	}
 
@@ -354,7 +362,7 @@ public class DBAccess{
 		} catch (Exception e) {
 			throw e;
 		} finally {
-			close();
+			flush();
 		}	
 	}
 
@@ -372,7 +380,7 @@ public class DBAccess{
 		} catch (Exception e) {
 			throw e;
 		} finally {
-			close();
+			flush();
 		}
 	}
 	
@@ -383,7 +391,7 @@ public class DBAccess{
 			} catch (Exception e) {
 				throw e;
 			} finally {
-				close();
+				flush();
 			}	
 	}
 
@@ -405,7 +413,7 @@ public class DBAccess{
 		} catch (Exception e) {
 			throw e;
 		} finally {
-			close();
+			flush();
 		}
 		
 	}
@@ -424,7 +432,7 @@ public class DBAccess{
 		} catch (Exception e) {
 			throw e;
 		} finally {
-			close();
+			flush();
 		}
 	}
 
@@ -649,7 +657,7 @@ public class DBAccess{
 		} catch (Exception e) {
 			throw e;
 		} finally {
-			close();
+			flush();
 		}
 	}
 
@@ -666,25 +674,25 @@ public class DBAccess{
 		} catch (Exception e) {
 			throw e;
 		} finally {
-			close();
+			flush();
 		}
 	}
 
 
-	private void close() {
+	private void flush() {
 		try {
 			if (rs != null) {
-				rs.close();
+				
 			}
 
 
 			if (stmt != null) {
-				stmt.close();
+				
 			}
 
 
 			if (con != null) {
-				con.close();
+				
 			}
 		} catch (Exception e) {
 
