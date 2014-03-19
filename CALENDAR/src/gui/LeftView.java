@@ -38,9 +38,6 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import net.sourceforge.jdatepicker.DateModel;
-import net.sourceforge.jdatepicker.JDatePicker;
-
 import model.Appointment;
 import model.Creator;
 import model.Employee;
@@ -58,7 +55,6 @@ import model.TimeSlot;
 @SuppressWarnings("serial")
 public class LeftView extends JPanel implements ListSelectionListener, ActionListener, KeyListener{
 	private JLabel weekLabel;
-	private JLabel datePickerLabel;
 	private JLabel addExAppointmentsLabel;
 	private JLabel searchLabel;
 	private JComboBox<Integer> weekBox;
