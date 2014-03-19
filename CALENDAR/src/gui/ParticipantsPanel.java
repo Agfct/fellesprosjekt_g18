@@ -42,6 +42,7 @@ public class ParticipantsPanel extends JPanel implements ActionListener {
 	private Employee employee;
 	GridBagLayout layout;
 	
+	//TODO: DENNE ER DET SOM GJØR AT LOGIN ER TREIG
 	public ParticipantsPanel(Employee newEmployee){ 
 		
 		employee = newEmployee;
@@ -184,6 +185,7 @@ public class ParticipantsPanel extends JPanel implements ActionListener {
 		
 		// If cancelAppointmentBtn is pressed
 		if (e.getSource() == removeBtn){
+			System.out.println("remove button is pressed");
 			//Removing the check
 			employee.setSelected(! employee.isSelected());
 			participantsPanelList.getNewAppointmentView().getEmployeeList().repaint();

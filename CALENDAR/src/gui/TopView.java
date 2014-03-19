@@ -211,6 +211,7 @@ public class TopView extends JPanel implements ActionListener{
 		// If the "Today button is pressed
 		else if(e.getSource() == todayBtn){
 			System.out.println("Going to Todays week");
+			MainWindow.getCalendarPanel().addAllAppointments();
 			MainWindow.setDate(new Date());
 		}
 		// If the "<--" Previous week button is pressed

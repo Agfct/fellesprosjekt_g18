@@ -324,6 +324,8 @@ public class MainWindow extends JFrame{
 
 		if (response.getName().equals("LOGIN_ACCEPTED")){
 			Employee newUser = (Employee) response.getObject(0);
+			System.out.println("EMPLOYEE ID: "+ newUser.getEmployeeID());
+			System.out.println("PARTICIPANTS ID: "+ newUser.getParticipantID());
 			setUser(newUser);
 			getTopView().setUserName(newUser.getName());
 			setCalendarMode();
@@ -347,7 +349,6 @@ public class MainWindow extends JFrame{
 		topView.setTopViewDate();
 		leftView.setLeftViewWeek();
 		calendarView.repaint();
-		calendarPanel.addAllAppointments();
 	}
 
 	// TEST FOR TIME ALTERNATIVES
