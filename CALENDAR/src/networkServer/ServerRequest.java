@@ -59,6 +59,7 @@ public class ServerRequest {
 			case "SET_APPOINTMENT_AS_DELETED": return setDeletedAppointmentByID((int) packet.getObject(0));
 //			Remove
 			case "REMOVE_APPOINTMENT": return removeAppointmentByID((int) packet.getObject(0));
+			case "REMOVE_INVITATION": return removeInvitationByID((int) packet.getObject(0));
 //			Email
 			case "SEND_EMAIL": return sendEmail((String) packet.getObject(0), (String) packet.getObject(1));
 
@@ -297,6 +298,17 @@ public class ServerRequest {
 			System.out.println("ServerRequest: removeAppointmentByID failed!");
 			e.printStackTrace();
 			return new Packet("ERROR", "ServerRequest: removeAppointmentByID failed!", e);
+		}
+	}
+	private Packet removeInvitationByID(int invitationID) {
+		try {
+			db.removeInvitationByID(invitationID);
+			return new Packet("INVITATION_REMOVED");
+		} 
+		catch (Exception e) {
+			System.out.println("ServerRequest: removeInvitationByID failed!");
+			e.printStackTrace();
+			return new Packet("ERROR", "ServerRequest: removeInvitationByID failed!", e);
 		}
 	}
 //	Email
