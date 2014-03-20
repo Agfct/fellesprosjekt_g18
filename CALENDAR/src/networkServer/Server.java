@@ -3,6 +3,7 @@ package networkServer;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -45,11 +46,11 @@ public class Server implements Runnable {
 			Socket clientSocket;
 
 			try {
+				db.getCon().close();
 				clientSocket = serverSocket.accept();
 			}
-			catch (IOException e) {
+			catch (IOException | SQLException e) {
 				if (isRunning()) {
-					db.getCon().close();
 					System.out.println("Server: Server stopped!");
 					return;
 				}
@@ -88,7 +89,7 @@ public class Server implements Runnable {
 			System.out.println("Server: Server closed!");
 			
 		}
-		catch (IOException e){
+		catch (IOException | SQLException e){
 			throw new RuntimeException("Server: Error while closing connections!", e);
 		}
 	}
