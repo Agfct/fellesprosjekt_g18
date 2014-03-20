@@ -45,6 +45,7 @@ public class ServerRequest {
 //			Get
 			case "GET_ALL_EMPLOYEES": return getAllEmployees();
 			case "GET_ALL_APPOINTMENTS": return getAllApointments((int) packet.getObject(0));
+			case "GET_ALL_APPOINTMENTS_BY_WEEK": return getAllApointmentsByWeek((String) packet.getObject(0), (String) packet.getObject(1), (Employee) packet.getObject(2));
 			case "GET_ALL_INVITATIONS": return getAllInvitations((int) packet.getObject(0));
 			case "GET_ALL_MEETING_ROOMS": return getAllMeetingRooms();
 			case "GET_APPOINTMENT_BY_ID": return getAppointmentByID((int) packet.getObject(0));
@@ -153,7 +154,6 @@ public class ServerRequest {
 			return new Packet("ERROR", "ServerRequest: getAllEmployees failed!", e);
 		}
 	}
-	
 	private Packet getAllApointments (int participantID) {
 		try {
 			ArrayList<Appointment> allAppointments = db.getAllAppointments(participantID);
@@ -163,6 +163,17 @@ public class ServerRequest {
 			System.out.println("ServerRequest: GetAllAppointments failed!");
 			e.printStackTrace();
 			return new Packet("ERROR", "ServerRequest: GetAllAppointments failed!", e);
+		}
+	}
+	private Packet getAllApointmentsByWeek (String start, String end, Employee employee) {
+		try {
+			ArrayList<Appointment> allAppointments = db.getAllAppointmentsByWeek(employee, start, end);
+			return new Packet("ALL_APPOINTMENTS_BY_WEEK", allAppointments);
+		}
+		catch (Exception e) {
+			System.out.println("ServerRequest: GetAllAppointmentsByWeek failed!");
+			e.printStackTrace();
+			return new Packet("ERROR", "ServerRequest: GetAllAppointmentsByWeek failed!", e);
 		}
 	}
 	private Packet getAllInvitations (int appointmentID) {

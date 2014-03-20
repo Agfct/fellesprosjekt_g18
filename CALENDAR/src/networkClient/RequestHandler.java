@@ -64,6 +64,10 @@ public class RequestHandler {
 		Packet response = client.request("GET_ALL_APPOINTMENTS", employee.getParticipantID());
 		return ((ArrayList<Appointment>) response.getObject(0));
 	}
+	public ArrayList<Appointment> getAllApointmentsByWeek (Long start, Long end, Employee employee){
+		Packet response = client.request("GET_ALL_APPOINTMENTS_BY_WEEK", start, end, employee);
+		return ((ArrayList<Appointment>) response.getObject(0));
+	}
 	public ArrayList<Invitation> getAllInvitations (Appointment appointment){
 		Packet response = client.request("GET_ALL_INVITATIONS", appointment.getAppointmentID());
 		return ((ArrayList<Invitation>) response.getObject(0));
