@@ -96,6 +96,9 @@ public class AppointmentApp extends JPanel {
         	g2d.drawString(appointment.getTitle(), 16, 16);
         	g2d.drawString("Invited", 16, 32);
         	g2d.drawString("Status "+appointment.getInvitation(MainWindow.getUser()).getStatus().getStatusOnlyText(), 16, 48);
+        	if(appointment.getInvitation(MainWindow.getUser()).isDeleted()){
+        		g2d.drawString("UNINVITED", 16, 64);
+        	}
         	
         }else{ // other appointments
         	//background Image
