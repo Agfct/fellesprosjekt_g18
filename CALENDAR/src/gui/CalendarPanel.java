@@ -28,7 +28,6 @@ public class CalendarPanel extends JPanel {
 	private Image backgroundImg;
 	private Font font;
 	private ArrayList<Appointment> appointments;
-	private AppointmentAppWindow appointmentAppWindow;
 	private boolean isHit;
 	
 	
@@ -89,22 +88,7 @@ public class CalendarPanel extends JPanel {
 		}
 		
 	}
-	// adding appointmentApp Window
-	public void setAppointmentAppWindow(Appointment appointment, int x ,int  y){
-		//adding an AppointmentsAppwindow to the layerPane
-		removeAppointmentAppWindow();
-		appointmentAppWindow = new AppointmentAppWindow(appointment, x, y);
-//		setComponentZOrder(appointmentAppWindow, 0);//TODO: FIX
-//		setComponentZOrder(appointmentAppWindow, getComponentCount()-1);
-//		add(appointmentAppWindow,-1);
-		appointmentAppWindow.setLocation(x, y);
-	}
-	public void removeAppointmentAppWindow(){
-		if (appointmentAppWindow != null ){
-			remove(appointmentAppWindow);
-		}
-		repaint();
-	}
+
 	
 	// Overriding the paintComponent to get Background
     @Override
@@ -138,7 +122,7 @@ public class CalendarPanel extends JPanel {
     public void checkIfHit(){
     	// If you didnt press any apps
     	if(!isHit){
-    		removeAppointmentAppWindow();
+    		MainWindow.removeAppointmentAppWindow();
     	}
     	isHit = false;
     }

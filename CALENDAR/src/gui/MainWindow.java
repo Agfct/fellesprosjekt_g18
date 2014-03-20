@@ -48,6 +48,7 @@ public class MainWindow extends JFrame{
 	private static NewAppointmentView newAppointmentView;
 	private static EmailPanel emailPanel;
 	private static EditAppointmentsView editAppointmentsView;
+	private static AppointmentAppWindow appointmentAppWindow;
 	private static AppointmentsView appointmentsView;
 	private static JPanel backgroundPanel; //TEST 
 	private static Image backgroundImg; //TEST
@@ -234,6 +235,22 @@ public class MainWindow extends JFrame{
 	}
 	protected static void removeEmailPanel(){
 		layoutView.remove(emailPanel);
+		layoutView.repaint();
+	}
+	// adding appointmentApp Window
+	public static void setAppointmentAppWindow(Appointment appointment, int x ,int  y){
+		//adding an AppointmentsAppwindow to the layerPane
+		if(appointmentAppWindow != null ){
+			layoutView.remove(appointmentAppWindow);
+		}
+		appointmentAppWindow = new AppointmentAppWindow(appointment, x, y);
+		appointmentAppWindow.setBounds(400, 400, 400, 400);
+		layoutView.add(appointmentAppWindow,JLayeredPane.DRAG_LAYER,5);
+	}
+	public static void removeAppointmentAppWindow(){
+		if(appointmentAppWindow != null ){
+			layoutView.remove(appointmentAppWindow);
+		}
 		layoutView.repaint();
 	}
 	

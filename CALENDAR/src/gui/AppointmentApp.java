@@ -36,7 +36,7 @@ public class AppointmentApp extends JPanel {
 	// Default size = 133
 	// Y is minutes y = 0 gives 00:00 in the morning
 	// X is Day. Mon: 48 to 181, Tue: 181 to 314, Wed: 314 to 447, Thu: 447 to 580,
-	// Fri: 580 to 713, Sat: 713 to 846, Sun: 856 to 977
+	// Fri: 580 to 713, Sat: 713 to 846, Sun: 846 to 977
 	public AppointmentApp( Appointment appointment){
 		setOpaque(false);
 		this.appointment = appointment;
@@ -58,7 +58,7 @@ public class AppointmentApp extends JPanel {
 		else if(c.get(Calendar.DAY_OF_WEEK) == Calendar.THURSDAY) {x = 447;}
 		else if(c.get(Calendar.DAY_OF_WEEK) == Calendar.FRIDAY) {x = 580;}
 		else if(c.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) {x = 713;}
-		else if(c.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {x = 856;}
+		else if(c.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {x = 846;}
 		
 		this.sizeX = 133; // Default subject to change
 		//TODO: Rette Y verdier ??
@@ -121,7 +121,7 @@ public class AppointmentApp extends JPanel {
 			System.out.println("Appointment Panel Clicked");
 			// Open edit window (appointment, x pos, y pos)
 			//TODO: Create edit Window
-			MainWindow.getCalendarPanel().setAppointmentAppWindow(appointment, eventX , eventY);
+			MainWindow.setAppointmentAppWindow(appointment, eventX , eventY);
 			MainWindow.getCalendarPanel().gotHit();
 		}else{
 			// telling calendarview it wasnt hit
