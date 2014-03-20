@@ -122,7 +122,7 @@ public class RequestHandler {
 		}return false;
 	}
 	public Boolean removeInvitationByID (Invitation invitation){
-		Packet response = client.request("REMOVE_INVITATION", invitation);
+		Packet response = client.request("REMOVE_INVITATION", invitation.getInvitationID());
 		if(response.getName().equals("INVITATION_REMOVED")){
 			return true;			
 		}return false;
