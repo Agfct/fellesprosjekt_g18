@@ -14,6 +14,11 @@ public class MeetingRoom implements Comparable<MeetingRoom>, Serializable {
 		this.schedule = schedule;
 	}
 	
+	public MeetingRoom(String name, Short capacity) {
+		this.name = name;
+		this.capacity = capacity;
+	}
+
 	//TimeSlots
 	public boolean isAvailable(TimeSlot timeSlot){
 		//Gir true om timeSlotet ikke vil overlappe

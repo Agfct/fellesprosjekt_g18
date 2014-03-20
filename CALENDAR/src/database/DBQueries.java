@@ -16,16 +16,31 @@ public class DBQueries {
 
 	public static void fullDBTest() throws Exception {
 		DBAccess dba = new DBAccess();
+//		ArrayList<Appointment> a = dba.getAllAppointments(11);
+//		for (Appointment b : a) {
+//			System.out.println(b);
+//		}
+		ArrayList<MeetingRoom> meetingrooms = dba.getAllMeetingRooms();
+		MeetingRoom mr1 = meetingrooms.get(0);
 		Employee siv = dba.getEmployeeByParticipantID(11);
 		Employee anders = dba.getEmployeeByParticipantID(18);
-		System.out.println(anders.getEmployeeID());
+//		System.out.println(anders.getEmployeeID());
+		ArrayList<Invitation> invitations = new ArrayList<Invitation>();
+		TimeSlot timeslot = new TimeSlot(100, 101);
+		Creator creator = new Creator(anders);
+		Appointment app = new Appointment(creator, "adf", timeslot, "test", mr1 , false, "adf", invitations);
+		Invitation invitation = new Invitation(siv, app);
+		System.out.println("IDen:" + invitation.getAppointment().getAppointmentID());
+		invitations.add(invitation);
+		app.setInvitations(invitations);
+		dba.createAppointment(app);
 		
-		ArrayList<Appointment> appointments = dba.getInvitedAppointments(18);
-		System.out.println(appointments.get(0).getInvitations());
-		for (Invitation inv : appointments.get(0).getInvitations()) {
-			System.out.println(inv.getEmployee());
-		}
-		System.out.println(appointments.get(0).getInvitation(anders).isHidden());
+//		ArrayList<Appointment> appointments = dba.getInvitedAppointments(18);
+//		System.out.println(appointments.get(0).getInvitations());
+//		for (Invitation inv : appointments.get(0).getInvitations()) {
+//			System.out.println(inv.getEmployee());
+//		}
+//		System.out.println(appointments.get(0).getInvitation(anders).isHidden());
 		
 
 		//dba.createEmployee(siv);
@@ -74,11 +89,6 @@ public class DBQueries {
 //			System.out.println(k);
 //		}
 //
-//	System.out.println("getAllAppointments:");
-//	ArrayList<Appointment> a = dba.getAllAppointments(11);
-//	for (Appointment b : a) {
-//		System.out.println(b);
-//	}
 //
 //		System.out.println("getGroupMembers:");
 //		dba.getGroupMembers("test");
