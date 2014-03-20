@@ -115,6 +115,12 @@ public class RequestHandler {
 			return true;			
 		}return false;
 	}
+	public Boolean setInvitationAsDeleted (Invitation invitation){
+		Packet response = client.request("SET_INVITATION_AS_DELETED", invitation.getInvitationID());
+		if(response.getName().equals("INVITATION_SET_AS_DELETED")){
+			return true;			
+		}return false;
+	}
 //	Remove
 	public Boolean removeAppointmentByID (Appointment appointment){
 		Packet response = client.request("REMOVE_APPOINTMENT", appointment.getAppointmentID());

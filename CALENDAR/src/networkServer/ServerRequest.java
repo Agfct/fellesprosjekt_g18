@@ -57,6 +57,7 @@ public class ServerRequest {
 			case "GET_SCHEDULE": return getSchedule((String) packet.getObject(0));
 //			Delete
 			case "SET_APPOINTMENT_AS_DELETED": return setDeletedAppointmentByID((int) packet.getObject(0));
+			case "SET_INVITATION_AS_DELETED": return setDeletedInvitationByID((int) packet.getObject(0));
 //			Remove
 			case "REMOVE_APPOINTMENT": return removeAppointmentByID((int) packet.getObject(0));
 			case "REMOVE_INVITATION": return removeInvitationByID((int) packet.getObject(0));
@@ -286,6 +287,17 @@ public class ServerRequest {
 			System.out.println("ServerRequest: setDeletedAppointmentByID failed!");
 			e.printStackTrace();
 			return new Packet("ERROR", "ServerRequest: setDeletedAppointmentByID failed!", e);
+		}		
+	}
+	private Packet setDeletedInvitationByID(int invitationID) {
+		try {
+			db.setDeletedInvitationByID(invitationID);
+			return new Packet("INVITATION_SET_AS_DELETED");
+		} 
+		catch (Exception e) {
+			System.out.println("ServerRequest: setDeletedInvitationByID failed!");
+			e.printStackTrace();
+			return new Packet("ERROR", "ServerRequest: setDeletedInvitationByID failed!", e);
 		}		
 	}
 //	Remove
