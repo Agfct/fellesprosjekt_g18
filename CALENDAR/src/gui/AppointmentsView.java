@@ -649,6 +649,11 @@ public class AppointmentsView extends JPanel implements ListSelectionListener , 
 		// If cancelAppointmentBtn is pressed
 		else if (e.getSource() == closeBtn){
 			System.out.println("Closing AppointmentsView");
+			for (Appointment appointment : appointments) {
+				if(appointment.isDeleted()){
+//					MainWindow.getRequestHandler().removeInvitation(MainWindow.getUser(),appointment);/TODO:
+				}
+			}
 			MainWindow.removeAppointmentsView();
 		}
 		else if (e.getSource() == acceptedBox){

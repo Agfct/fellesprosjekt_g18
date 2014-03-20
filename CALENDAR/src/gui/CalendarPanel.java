@@ -47,9 +47,16 @@ public class CalendarPanel extends JPanel {
 		removeAll();
 		Calendar c = Calendar.getInstance();
 		c.setTime(MainWindow.getDate());
+		int year = c.get(Calendar.YEAR);
+		int week = c.get(Calendar.WEEK_OF_YEAR);
+		c.clear();
+		c.set(Calendar.YEAR, year);
+		c.set(Calendar.WEEK_OF_YEAR, week);
 		c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
 		long start = c.getTimeInMillis();
 		c.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+		c.set(Calendar.HOUR_OF_DAY, 23);
+		c.set(Calendar.MINUTE, 59);
 		long end = c.getTimeInMillis();
 		appointments = MainWindow.getRequestHandler().getAllApointmentsByWeek(start, end, MainWindow.getUser()); // Your appointments by week (Invited and created)
 		// Get the appointments you have told the calendar that you want from other employees

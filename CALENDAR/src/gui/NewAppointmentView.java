@@ -891,6 +891,7 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
     			if(allEmployees.get(i).equals(invitation.getEmployee())){
     				
         			ParticipantsPanel participantsPanel = new ParticipantsPanel(allEmployees.get(i));
+        			participantsPanel.changeStatusField(invitation.getStatus());
         			participantsPanel.setInvitation(invitation);
         			invitation.setParticipantsPanel(participantsPanel);
         			participantsPanelList.addParticipantPanel(invitation.getParticipantsPanel());

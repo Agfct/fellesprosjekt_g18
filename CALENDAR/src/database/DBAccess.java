@@ -310,6 +310,17 @@ public class DBAccess{
 		}
 	}
 	
+	public void removeInvitation(Employee employee, Appointment appointment) throws SQLException {
+		try {
+			stmt.executeUpdate(String.format("delete from invitation where participantID = %d and appointmentID = %d", employee.getParticipantID(), appointment.getAppointmentID()));
+		} catch (Exception e) {
+			System.err.println("Possible invalid ID");
+			throw e;
+		} finally {
+			flush();
+		}
+		
+	}
 //	public void editAppointmentWithMeetingRoom(Appointment app) throws Exception {
 //		try {
 //			stmt.executeUpdate(String.format("update appointment set startTime = %d, endTime = %d, location = \"%s\", description = \"%s\", creator = %d, title = \"%s\" where appointmentID = %d", app.getTimeSlot().getStart(), app.getTimeSlot().getEnd(), app.getLocation(), app.getDescription(), app.getCreator().getEmployee().getParticipantID(), app.getTitle(), app.getAppointmentID()));

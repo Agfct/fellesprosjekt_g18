@@ -202,7 +202,9 @@ public class ParticipantsPanel extends JPanel implements ActionListener {
 			MainWindow.newEmailPanel(invitation);
 		}
 		else if(e.getSource() == statusField){
-			invitation.setStatus((InvitationStatus)statusField.getSelectedItem());
+			if(invitation != null){
+				invitation.setStatus((InvitationStatus)statusField.getSelectedItem());
+			}
 		}
 	}
 	public void removeThisView(){
