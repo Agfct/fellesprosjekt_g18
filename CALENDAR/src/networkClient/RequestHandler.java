@@ -6,6 +6,7 @@ import networkDiv.Packet;
 import model.Appointment;
 import model.Employee;
 import model.Invitation;
+import model.MeetingRoom;
 import model.Notification;
 import model.TimeSlot;
 
@@ -67,9 +68,9 @@ public class RequestHandler {
 		Packet response = client.request("GET_ALL_INVITATIONS", appointment.getAppointmentID());
 		return ((ArrayList<Invitation>) response.getObject(0));
 	}
-	public ArrayList<Appointment> getAllMeetingRooms (){
+	public ArrayList<MeetingRoom> getAllMeetingRooms (){
 		Packet response = client.request("GET_ALL_MEETING_ROOMS");
-		return ((ArrayList<Appointment>) response.getObject(0));
+		return ((ArrayList<MeetingRoom>) response.getObject(0));
 	}
 	public Appointment getAppointmentByID (int appointmentID){
 		Packet response = client.request("GET_APPOINTMENT_BY_ID", appointmentID);

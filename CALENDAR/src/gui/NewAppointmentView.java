@@ -743,28 +743,30 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 		//List<MeetingRoom> DETAILS MISSING, TEST ONLY
 		
 		//TEST
-		MeetingRoom H3 = new MeetingRoom("H3",(short)2,new ArrayList<TimeSlot>());
-		MeetingRoom R7 = new MeetingRoom("R7",(short)5,new ArrayList<TimeSlot>());
-		MeetingRoom H1 = new MeetingRoom("H1",(short)6,new ArrayList<TimeSlot>());
-		MeetingRoom K2 = new MeetingRoom("K2",(short)8,new ArrayList<TimeSlot>());
-		MeetingRoom R77 = new MeetingRoom("R77",(short)15,new ArrayList<TimeSlot>());
-		MeetingRoom S2 = new MeetingRoom("S2",(short)5,new ArrayList<TimeSlot>());
-		roomListModel.addElement(H3);
-		roomListModel.addElement(R7);
-		roomListModel.addElement(H1);
-		roomListModel.addElement(K2);
-		roomListModel.addElement(R77);
-		roomListModel.addElement(S2);
-		ArrayList<MeetingRoom> roomBookerTest = new ArrayList<MeetingRoom>();
-		roomBookerTest.add(H3);
-		roomBookerTest.add(R7);
-		roomBookerTest.add(H1);
-		roomBookerTest.add(K2);
-		roomBookerTest.add(R77);
-		roomBookerTest.add(S2);
-		roomBooker = new RoomBooker(roomBookerTest);
+//		MeetingRoom H3 = new MeetingRoom("H3",(short)2,new ArrayList<TimeSlot>());
+//		MeetingRoom R7 = new MeetingRoom("R7",(short)5,new ArrayList<TimeSlot>());
+//		MeetingRoom H1 = new MeetingRoom("H1",(short)6,new ArrayList<TimeSlot>());
+//		MeetingRoom K2 = new MeetingRoom("K2",(short)8,new ArrayList<TimeSlot>());
+//		MeetingRoom R77 = new MeetingRoom("R77",(short)15,new ArrayList<TimeSlot>());
+//		MeetingRoom S2 = new MeetingRoom("S2",(short)5,new ArrayList<TimeSlot>());
+//		roomListModel.addElement(H3);
+//		roomListModel.addElement(R7);
+//		roomListModel.addElement(H1);
+//		roomListModel.addElement(K2);
+//		roomListModel.addElement(R77);
+//		roomListModel.addElement(S2);
+//		ArrayList<MeetingRoom> roomBookerTest = new ArrayList<MeetingRoom>();
+//		roomBookerTest.add(H3);
+//		roomBookerTest.add(R7);
+//		roomBookerTest.add(H1);
+//		roomBookerTest.add(K2);
+//		roomBookerTest.add(R77);
+//		roomBookerTest.add(S2);
+		roomBooker = new RoomBooker(MainWindow.getRequestHandler().getAllMeetingRooms());
+		for (MeetingRoom room : roomBooker.getAvailableRooms(appointmentModel.getTimeSlot(), (short) 0)) {
+			roomListModel.addElement(room);
+		}
 		
-		//TEST
 		roomList = new JList<MeetingRoom>(roomListModel);
 		roomList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		roomList.setVisibleRowCount(11);
@@ -927,12 +929,28 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
     			}
     		}
     	}
+    	
+    	
+    	
 		employeeList.repaint();  
     	// Description
     	descriptionField.setText(appointmentModel.getDescription());
-    	// Location
-    	locationField.setText(appointmentModel.getLocation());
-    	// Booked Room
+    	// Location or Room
+    	if (appointmentModel.isInternal()){
+    		internalRadioButton.setSelected(true);
+    		if (appointmentModel.getRoom() != null){
+    			for (MeetingRoom room : roomBooker.getAllRooms()) {
+    				if (room.getName().equals(appointmentModel.getRoom().getName())){
+    					room.removeTimeSlot(appointmentModel.getTimeSlot());
+    					roomList.setSelectedValue(room, true);
+    					break;
+    				}
+    			}
+    		}
+    	}else {
+    		externalRadioButton.setSelected(true);
+    		locationField.setText(appointmentModel.getLocation());
+    	}
     }
     
 	public Boolean isLeapYear(int year){
@@ -990,26 +1008,18 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		if(e.getSource() instanceof JTextField){
-			JTextField source = (JTextField) e.getSource();
-			if(source == nrParticipantsField){
-				String text = source.getText();
-				System.out.println(text);
-				ArrayList<MeetingRoom> availableRooms = roomBooker.availableRooms(text);
-				System.out.println(availableRooms);
-				roomListModel.clear();
-				for(int i = 0; i<availableRooms.size(); i++){
-					roomListModel.addElement(availableRooms.get(i));
-				}
+		if(e.getSource() == nrParticipantsField){
+			//Gets all available rooms and adds it to the list
+			ArrayList<MeetingRoom> availableRooms = roomBooker.getAvailableRooms(appointmentModel.getTimeSlot(), !nrParticipantsField.getText().equals("") ? Short.parseShort(nrParticipantsField.getText()) : (short) participantsPanelList.getComponentCount());
+			roomListModel.clear();
+			for(MeetingRoom room : availableRooms){
+				roomListModel.addElement(room);
 			}
-			if(source == searchField){
-				String searchName = searchField.getText();
-				System.out.println("You just searched for: " + searchName);
-				showCorrectNames(searchName);
-				//ArrayList<Employee> employeeListCopy = new ArrayList<Employee>();
-				
-				
-			}
+		}
+		if(e.getSource() == searchField){
+			String searchName = searchField.getText();
+			showCorrectNames(searchName);
+			//ArrayList<Employee> employeeListCopy = new ArrayList<Employee>();
 		}
 	}
 
@@ -1070,6 +1080,9 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 		// If bookBtn is pressed
 		else if (e.getSource() == bookBtn){
 			System.out.println("Auto Booking a Room");
+			//Finds the capasity, and books a room
+			short capasity = nrParticipantsField.getText().equals("") ? (short) (participantsPanelList.getComponentCount()-1) : Short.parseShort(nrParticipantsField.getText());
+			roomList.setSelectedValue(roomBooker.autoBook(appointmentModel.getTimeSlot(), capasity), true);
 		}
 		// If saveAppointmentBtn is pressed
 		else if (e.getSource() == saveAppointmentBtn){
@@ -1182,9 +1195,11 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 		System.out.println("("+this.getClass()+"):"+ "Pressing a Radiobutton");
 		if(e.getSource() == internalRadioButton){
 			setBookingGreyedOut(false);
+			appointmentModel.setInternal(true);
 		}
 		else if(e.getSource() == externalRadioButton){
 			setBookingGreyedOut(true);
+			appointmentModel.setInternal(false);
 		}
 	}
 	
@@ -1209,7 +1224,11 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 	// LisListSelectionListener for the JLists: employeeList, roomList and participantsList
 	@Override
 	public void valueChanged(ListSelectionEvent e) {
-
+		if (e.getSource() == roomList){
+			if (roomList.getSelectedValue() != null){
+				appointmentModel.setRoom(roomList.getSelectedValue());
+			}
+		}
 	}
 	
 	//Mouse Listner TEST for Lists

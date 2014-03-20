@@ -13,14 +13,17 @@ public class RoomBooker {
 		return meetingRooms;
 	}
 	
-	public ArrayList<MeetingRoom> getAvailableRooms(TimeSlot timeSlot) {
+	public ArrayList<MeetingRoom> getAvailableRooms(TimeSlot timeSlot, short capasity) {
 		ArrayList<MeetingRoom> availableRooms = new ArrayList<MeetingRoom>();
 		
 		//Itererer gjennom lista over møterom, og legger ledige rom i en egen liste
-		for (int i = 0; i < meetingRooms.size(); i++) {
-			if (meetingRooms.get(i).isAvailable(timeSlot)){
-				availableRooms.add(meetingRooms.get(i));
+		for (MeetingRoom room : meetingRooms) {
+			if (room.getCapacity() >= capasity && room.isAvailable(timeSlot)){
+				availableRooms.add(room);
 			}
+		}
+		if (availableRooms.size() == 0){
+			availableRooms.add(new MeetingRoom("No available rooms.", Short.MAX_VALUE));
 		}
 		return availableRooms;
 	}
@@ -31,40 +34,12 @@ public class RoomBooker {
 		
 		/* Itererer gjennom lista over møterom, og beholder rommet
 		 * som både er ledig og har nok og minst kapasitet*/
-		for (int i = 0; i < meetingRooms.size(); i++) {
-			MeetingRoom temp = meetingRooms.get(i);
-			
-			if (temp.isAvailable(timeSlot) && temp.getCapacity() > capasity && temp.getCapacity() < minCapasity  ){
+		for (MeetingRoom temp : meetingRooms) {
+			if (temp.isAvailable(timeSlot) && temp.getCapacity() >= capasity && temp.getCapacity() < minCapasity  ){
 				meetingRoom = temp;
 				minCapasity = temp.getCapacity();
 			}
 		}
 		return meetingRoom;
-	}
-	//Returns all the rooms with capacity equal or bigger than the required capacity
-	public ArrayList<MeetingRoom> RoomsWithCapacity(short capacity){
-		ArrayList<MeetingRoom> okCapacity = new ArrayList<MeetingRoom>();
-		for (int i = 0; i < meetingRooms.size(); i++){
-			if(meetingRooms.get(i).getCapacity() >= capacity){
-				okCapacity.add(meetingRooms.get(i));
-			}
-		}
-		return okCapacity;
-	}
-	
-	public ArrayList<MeetingRoom> availableRooms(String string){
-		ArrayList<MeetingRoom> availableRooms = new ArrayList<MeetingRoom>();
-		try{
-			int capacity = Integer.parseInt(string);
-			for(int i = 0; i<meetingRooms.size(); i++){
-				if(meetingRooms.get(i).getCapacity() >= capacity){
-					availableRooms.add(meetingRooms.get(i));
-				}
-			}
-		}
-		catch(NumberFormatException e){
-			
-		}
-		return availableRooms;
 	}
 }
