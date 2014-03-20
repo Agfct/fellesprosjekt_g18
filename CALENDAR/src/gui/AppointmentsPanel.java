@@ -203,10 +203,10 @@ public class AppointmentsPanel extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		System.out.println("("+this.getClass()+"):"+ "Pressing a button Or Modyfing a comboBox");
 		
-		// If cancelAppointmentBtn is pressed
+		// If removeBtn is pressed
 		if (e.getSource() == removeBtn){
 			if(appointment.getInvitations().isEmpty()){
-				if(MainWindow.getRequestHandler().removeAppointment(appointment)){
+				if(MainWindow.getRequestHandler().removeAppointmentByID(appointment)){
 					appointmentsPanelList.updateView();
 				}else{
 					JOptionPane.showMessageDialog(MainWindow.getMainWindow(),"Could not delete Appointment. Cloud not Available");

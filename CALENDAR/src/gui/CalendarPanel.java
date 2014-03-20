@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 import javax.swing.ImageIcon;
+import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
@@ -27,6 +28,7 @@ public class CalendarPanel extends JPanel {
 	private Image backgroundImg;
 	private Font font;
 	private ArrayList<Appointment> appointments;
+	private AppointmentAppWindow appointmentAppWindow;
 	
 	
 	public CalendarPanel(){
@@ -69,6 +71,16 @@ public class CalendarPanel extends JPanel {
 			}
 		}
 		
+	}
+	// adding appointmentApp Window
+	public void setAppointmentAppWindow(Appointment appointment, int x ,int  y){
+		//adding an AppointmentsAppwindow to the layerPane
+		appointmentAppWindow = new AppointmentAppWindow(appointment);
+		appointmentAppWindow.setLocation(x, y);
+	}
+	public void removeAppointmentAppWindow(){
+		remove(appointmentAppWindow);
+		repaint();
 	}
 	
 	// Overriding the paintComponent to get Background

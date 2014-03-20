@@ -1029,10 +1029,11 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 		else if (e.getSource() == deleteAppointmentBtn){
 			System.out.println("Deleting Appointment");
 			if(appointmentModel.getInvitations().isEmpty()){
-				if(MainWindow.getRequestHandler().removeAppointment(appointmentModel)){
+				if(MainWindow.getRequestHandler().removeAppointmentByID(appointmentModel)){
 					MainWindow.removeNewAppointmentView();
 					MainWindow.editAppointmentsView();
 				}else{
+					System.out.println("DETTE ER ID TIL APPOINTMENT: " + appointmentModel.getAppointmentID());
 					JOptionPane.showMessageDialog(MainWindow.getMainWindow(),"Could not delete Appointment. Cloud not Available");
 				}
 			}else{

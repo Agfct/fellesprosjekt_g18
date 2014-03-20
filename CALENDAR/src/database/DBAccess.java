@@ -258,7 +258,7 @@ public class DBAccess{
 
 	public void editAppointment(Appointment app) throws Exception {
 		try {
-			stmt.executeUpdate(String.format("update appointment set startTime = %d, endTime = %d, location = \"%s\", description = \"%s\", username = \"%s\" where appointmentID = %d", app.getTimeSlot(), app.getLocation(), app.getDescription(), app.getCreator(), app.getAppointmentID()));
+			stmt.executeUpdate(String.format("update appointment set startTime = %d, endTime = %d, location = \"%s\", description = \"%s\", username = \"%s\", title = \"%s\" where appointmentID = %d", app.getTimeSlot(), app.getLocation(), app.getDescription(), app.getCreator(), app.getAppointmentID(), app.getTitle()));
 			stmt.executeUpdate(String.format("update invitation set invitationStatus = \"PENDING\" where appointmentID = %d", app.getAppointmentID()));
 			for (Invitation inv : app.getInvitations()) {
 				createInvitationOnStored(inv);
@@ -292,7 +292,7 @@ public class DBAccess{
 
 	public void createAppointment(Appointment app) throws Exception {
 		try {
-			stmt.executeUpdate(String.format("insert into appointment values(null, %d, %d, \"%s\", \"%s\", %d, 0)", app.getTimeSlot().getStart(), app.getTimeSlot().getEnd(), app.getLocation(), app.getDescription(), app.getCreator().getEmployee().getParticipantID()));
+			stmt.executeUpdate(String.format("insert into appointment values(null, %d, %d, \"%s\", \"%s\", %d, 0, \"%s\")", app.getTimeSlot().getStart(), app.getTimeSlot().getEnd(), app.getLocation(), app.getDescription(), app.getCreator().getEmployee().getParticipantID(), app.getTitle()));
 			int id = getLastInsertID();
 			System.out.println(id);
 			for (Invitation inv : app.getInvitations()) {
@@ -643,6 +643,8 @@ public class DBAccess{
 		long end = rs.getLong("endTime");
 		String location = rs.getString("location");
 		String description = rs.getString("description");
+		String title = rs.getString("title");
+		appointment.setTitle(title);
 		//for testing
 //		System.out.println("StartTime: " + start);
 //		System.out.println("EndTime: " + end);

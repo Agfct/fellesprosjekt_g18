@@ -113,8 +113,9 @@ public class AppointmentApp extends JPanel {
 		if (eventX > getX() && eventX < (getX() + getSizeX()) && 
 				eventY > getY() && eventY < (getY() + getSizeY())){
 			System.out.println("Appointment Panel Clicked");
-			// Open edit window
+			// Open edit window (appointment, x pos, y pos)
 			//TODO: Create edit Window
+			MainWindow.getCalendarPanel().setAppointmentAppWindow(appointment, eventX , eventY);
 		}
 
 	}
