@@ -29,7 +29,7 @@ public class Appointment  implements Serializable{
 	
 	//Lager en tom avtale
 	public Appointment(Employee person){
-		this(new Creator(person), "", new TimeSlot(0, 0), "", null, false, "", new ArrayList<Invitation>());
+		this(new Creator(person), "", new TimeSlot(), "", null, false, "", new ArrayList<Invitation>());
 	}
 	
 	public Appointment(Creator creator, String title, TimeSlot timeSlot,
@@ -49,6 +49,7 @@ public class Appointment  implements Serializable{
 	public void addInvitation(Employee employee){
 		Invitation temp = new Invitation(employee, this);
 		invitations.add(temp);
+		if(pcs == null){ createPcs();}
 		pcs.firePropertyChange("add", null, temp);
 	}
 	
@@ -56,11 +57,15 @@ public class Appointment  implements Serializable{
 		for (Invitation removedInvite : invitations) {
 			if(removedInvite.getEmployee().equals(employee)){
 //				MainWindow.getNewAppoitnmentsView().appointmentChanged("remove", removedInvite);
+				if(pcs == null){ createPcs();}
 				pcs.firePropertyChange("remove", null, removedInvite);
 				invitations.remove(removedInvite);
 				break;
 			}
 		}
+	}
+	public void createPcs(){
+		pcs = new PropertyChangeSupport(this);
 	}
 	
 	public void setCreator(Creator creator) {
@@ -78,10 +83,12 @@ public class Appointment  implements Serializable{
 	//Listeners
 	public void addPropertyChangedListener(PropertyChangeListener listener){
 		//TODO: FIX THESE WITH IF NULL LIKE WE DID ON INVITATION
+		if(pcs == null){ createPcs();}
 		pcs.addPropertyChangeListener(listener);
 	}
 	
 	public void removePropertyChangedListener(PropertyChangeListener listener){
+		if(pcs == null){ createPcs();}
 		pcs.removePropertyChangeListener(listener);
 	}
 	//Get replies
@@ -120,6 +127,7 @@ public class Appointment  implements Serializable{
 	//-------
 	
 	private void fireTimeSlotChanged(TimeSlot timeSlot){
+		if(pcs == null){ createPcs();}
 		pcs.firePropertyChange(TIMESLOT_PROPERTY_NAME, timeSlot, getTimeSlot());
 	}
 	

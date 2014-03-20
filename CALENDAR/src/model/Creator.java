@@ -23,5 +23,4 @@ public class Creator implements Serializable{
 	public Employee getEmployee(){
 		return employee;
 	}
-	
 }

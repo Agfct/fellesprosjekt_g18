@@ -11,7 +11,11 @@ public class TimeSlot implements Serializable{
 	private long duration;
 	
 	//New TimeSlot
-	public TimeSlot(){}
+	public TimeSlot(){
+		Date date = new Date();
+		start = date.getTime();
+		end = date.getTime();
+	}
 	
 	//TimeSlot fra database
 	public TimeSlot(long start, long end) {

@@ -41,7 +41,6 @@ public class Invitation implements Serializable{
 	}
 	
 	private void sendNotification(){
-		//TODO: Send a notification to the creator
 	}
 	
 	//Listeners
