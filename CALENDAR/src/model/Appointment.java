@@ -133,7 +133,7 @@ public class Appointment  implements Serializable{
 	
 	//Setters
 	public void setTitle(String title) 				{this.title = title;}
-	public void setRoom(MeetingRoom room) 			{this.room = room;}
+	public void setRoom(MeetingRoom room) 			{System.out.println("Room changed");this.room = room;}
 	public void setTimeSlot(TimeSlot timeSlot) 		{this.timeSlot = timeSlot;}
 	public void setLocation(String location) 		{this.location = location;}
 	public void setInternal(boolean internal) 		{this.internal = internal;}
