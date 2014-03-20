@@ -212,10 +212,12 @@ public class AppointmentsPanel extends JPanel implements ActionListener {
 					JOptionPane.showMessageDialog(MainWindow.getMainWindow(),"Could not delete Appointment. Cloud not Available");
 				}
 			}else{
-				if(MainWindow.getRequestHandler().setAppointmentAsDeleted(appointment)){
+				appointment.setDeleted(true);
+				if(MainWindow.getRequestHandler().editAppointment(appointment)){
 					appointmentsPanelList.updateView();
 				}else{
 					JOptionPane.showMessageDialog(MainWindow.getMainWindow(),"Could not delete Appointment. Cloud not Available");
+					appointment.setDeleted(false);
 				}
 			}
 		}	

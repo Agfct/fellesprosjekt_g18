@@ -46,33 +46,32 @@ public class CalendarPanel extends JPanel {
 	public void addAllAppointments(){
 		removeAll();
 		Calendar c = Calendar.getInstance();
+		c.setTime(MainWindow.getDate());
 		c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
 		long start = c.getTimeInMillis();
-		String weekText = c.getTime().toString().substring(4, 10) + " - "; //Month: MMM
 		c.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
 		long end = c.getTimeInMillis();
-		weekText += c.getTime().toString().substring(4,10);
-		weekText += ", " + c.get(Calendar.YEAR);
 		appointments = MainWindow.getRequestHandler().getAllApointmentsByWeek(start, end, MainWindow.getUser()); // Your appointments by week (Invited and created)
 		// Get the appointments you have told the calendar that you want from other employees
 		ArrayList<Employee> otherSelectedEmployees = MainWindow.getLeftView().getSelectedEmployees();
 		
-		//TODO: FILTERE ETTER HVILKEN DAG / UKE DU ER I IKKE TA ALLE PÅ EN GANG !!
-		
 		// Adding your appointments
-		for (int i = 0; i < appointments.size(); i++) { //Running trough all appointments that are yours
+		//Running trough all appointments that are yours
+		for (Appointment appointment : appointments) {
 			// if (you made it. Or you didnt make it and its not hidden)
-			if(appointments.get(i).getCreator().getEmployee().equals(MainWindow.getUser()) || ((!appointments.get(i).getCreator().getEmployee().equals(MainWindow.getUser())) && 
-					(!appointments.get(i).getInvitation(MainWindow.getUser()).isHidden() || MainWindow.getLeftView().getShowHidden()))){ // if its not hidden
-				AppointmentApp app = new AppointmentApp(appointments.get(i));
-				add(app);
-				app.setLocation(app.getX(), app.getY());
+			if(appointment.getCreator().getEmployee().equals(MainWindow.getUser()) || ((!appointment.getCreator().getEmployee().equals(MainWindow.getUser())) && 
+					(!appointment.getInvitation(MainWindow.getUser()).isHidden() || MainWindow.getLeftView().getShowHidden()))){ // if its not hidden
+				if(!(appointment.getCreator().getEmployee().equals(MainWindow.getUser()) && appointment.isDeleted())){
+					AppointmentApp app = new AppointmentApp(appointment);
+					add(app);
+					app.setLocation(app.getX(), app.getY());
+				}
 			}
 		}
 		// Adding others appointments
 		for (Employee employee : otherSelectedEmployees) {
 			// Other Employees appointments (Invited and created)
-			ArrayList<Appointment> otherAppointments = MainWindow.getRequestHandler().getAllApointments(employee); 
+			ArrayList<Appointment> otherAppointments = MainWindow.getRequestHandler().getAllApointmentsByWeek(start, end, employee);
 			for (int i = 0; i < otherAppointments.size(); i++) {
 				if(!appointments.contains(otherAppointments.get(i))){
 					AppointmentApp app = new AppointmentApp(otherAppointments.get(i));
@@ -88,8 +87,9 @@ public class CalendarPanel extends JPanel {
 		//adding an AppointmentsAppwindow to the layerPane
 		removeAppointmentAppWindow();
 		appointmentAppWindow = new AppointmentAppWindow(appointment, x, y);
-		setComponentZOrder(appointmentAppWindow, 0);//TODO: FIX
-		add(appointmentAppWindow);
+//		setComponentZOrder(appointmentAppWindow, 0);//TODO: FIX
+//		setComponentZOrder(appointmentAppWindow, getComponentCount()-1);
+//		add(appointmentAppWindow,-1);
 		appointmentAppWindow.setLocation(x, y);
 	}
 	public void removeAppointmentAppWindow(){

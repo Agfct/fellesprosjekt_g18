@@ -1042,10 +1042,12 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 					JOptionPane.showMessageDialog(MainWindow.getMainWindow(),"Could not delete Appointment. Cloud not Available");
 				}
 			}else{
-				if(MainWindow.getRequestHandler().setAppointmentAsDeleted(appointmentModel)){
+				appointmentModel.setDeleted(true);
+				if(MainWindow.getRequestHandler().editAppointment(appointmentModel)){
 					MainWindow.removeNewAppointmentView();
 					MainWindow.editAppointmentsView();
 				}else{
+					appointmentModel.setDeleted(false);
 					JOptionPane.showMessageDialog(MainWindow.getMainWindow(),"Could not delete Appointment. Cloud not Available");
 				}
 			}

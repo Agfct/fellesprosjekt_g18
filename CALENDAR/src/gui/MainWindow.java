@@ -185,6 +185,7 @@ public class MainWindow extends JFrame{
 	protected static void removeNewAppointmentView(){
 		layoutView.remove(newAppointmentView);
 		layoutView.repaint();
+		calendarPanel.addAllAppointments();
 	}
 	public static NewAppointmentView getNewAppoitnmentsView(){
 		return newAppointmentView;
@@ -209,6 +210,7 @@ public class MainWindow extends JFrame{
 	protected static void removeAppointmentsView(){
 		layoutView.remove(appointmentsView);
 		layoutView.repaint();
+		calendarPanel.addAllAppointments();
 	}
 	
 	//adding an editAppointmentsView
@@ -221,6 +223,7 @@ public class MainWindow extends JFrame{
 	protected static void removeEditAppointmentsView(){
 		layoutView.remove(editAppointmentsView);
 		layoutView.repaint();
+		calendarPanel.addAllAppointments();
 	}
 	// adding emailPanels
 	protected static void newEmailPanel(Invitation invitation){
@@ -349,6 +352,7 @@ public class MainWindow extends JFrame{
 		topView.setTopViewDate();
 		leftView.setLeftViewWeek();
 		calendarView.repaint();
+		calendarPanel.addAllAppointments();
 	}
 
 	// TEST FOR TIME ALTERNATIVES

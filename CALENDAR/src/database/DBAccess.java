@@ -243,7 +243,7 @@ public class DBAccess{
 	
 	public void createAppointmentMeetingroom(MeetingRoom mr, int id){
 		try {
-			stmt.executeUpdate(String.format("insert into appointmentmeetingroom values(\"%s\", id)", mr.getName()));
+			stmt.executeUpdate(String.format("insert into appointmentmeetingroom values(\"%s\", %d)", mr.getName(), id));
 
 		} catch ( NullPointerException e) {
 			System.err.println("A field in the created object is null");
@@ -261,7 +261,7 @@ public class DBAccess{
 	public void createInvitationOnFresh(Invitation invitation, int id){
 		try {
 			System.out.println(invitation.getAppointment().getAppointmentID());
-			stmt.executeUpdate(String.format("insert into invitation values(null, %d, %d, %d, \"%s\", true, %b)", id, invitation.getEmployee().getParticipantID(), invitation.getAlarmTime(), invitation.getStatus().name(), invitation.isHidden() ));
+			stmt.executeUpdate(String.format("insert ignore into invitation values(null, %d, %d, %d, \"%s\", true, %b, %b)", id, invitation.getEmployee().getParticipantID(), invitation.getAlarmTime(), invitation.getStatus().name(), invitation.isHidden(), invitation.isDeleted() ));
 
 		} catch ( NullPointerException e) {
 			System.err.println("A field in the created object is null");
@@ -275,7 +275,7 @@ public class DBAccess{
 	public void createInvitationOnStored(Invitation invitation){
 		try {
 			System.out.println(invitation.getAppointment().getAppointmentID());
-			stmt.executeUpdate(String.format("insert into invitation values(null, %d, %d, %d, \"%s\", true, %b)",invitation.getAppointment().getAppointmentID(), invitation.getEmployee().getParticipantID(), invitation.getAlarmTime(), invitation.getStatus().name(), invitation.isHidden() ));
+			stmt.executeUpdate(String.format("insert ignore into invitation values(null, %d, %d, %d, \"%s\", true, %b, %b)",invitation.getAppointment().getAppointmentID(), invitation.getEmployee().getParticipantID(), invitation.getAlarmTime(), invitation.getStatus().name(), invitation.isHidden(), invitation.isDeleted() ));
 
 		} catch ( NullPointerException e) {
 			System.err.println("A field in the created object is null");
@@ -295,6 +295,9 @@ public class DBAccess{
 			stmt.executeUpdate(String.format("update invitation set invitationStatus = \"PENDING\" where appointmentID = %d", app.getAppointmentID()));
 			for (Invitation inv : app.getInvitations()) {
 				createInvitationOnStored(inv);
+				if(app.isDeleted()){
+					setInvitationAsDeleted(inv);
+				}
 			}
 			if (app.isInternal()) {
 				int id = app.getAppointmentID();
