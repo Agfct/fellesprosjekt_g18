@@ -29,6 +29,7 @@ public class CalendarPanel extends JPanel {
 	private Font font;
 	private ArrayList<Appointment> appointments;
 	private AppointmentAppWindow appointmentAppWindow;
+	private boolean isHit;
 	
 	
 	public CalendarPanel(){
@@ -38,6 +39,7 @@ public class CalendarPanel extends JPanel {
 		calendarImg = new ImageIcon(this.getClass().getResource("/backgrounds/calendarBody.png")).getImage();
 		backgroundImg = MainWindow.getBackgroundImage();
 		
+		isHit = false;
 		setPreferredSize(new Dimension(979, 1440));
 	}
 
@@ -75,11 +77,15 @@ public class CalendarPanel extends JPanel {
 	// adding appointmentApp Window
 	public void setAppointmentAppWindow(Appointment appointment, int x ,int  y){
 		//adding an AppointmentsAppwindow to the layerPane
-		appointmentAppWindow = new AppointmentAppWindow(appointment);
+		removeAppointmentAppWindow();
+		appointmentAppWindow = new AppointmentAppWindow(appointment, x, y);
+		add(appointmentAppWindow);
 		appointmentAppWindow.setLocation(x, y);
 	}
 	public void removeAppointmentAppWindow(){
-		remove(appointmentAppWindow);
+		if (appointmentAppWindow != null ){
+			remove(appointmentAppWindow);
+		}
 		repaint();
 	}
 	
@@ -108,7 +114,19 @@ public class CalendarPanel extends JPanel {
     	backgroundImg = MainWindow.getBackgroundImage();
     	repaint();
     }
-
+    // if an appointment got hit
+    public void gotHit(){
+    	isHit = true;
+    }
+    public void checkIfHit(){
+    	// If you didnt press any apps
+    	System.out.println("IS NOT HIT");
+    	System.out.println("Is hit" + isHit);
+    	if(!isHit){
+    		removeAppointmentAppWindow();
+    	}
+    	isHit = false;
+    }
     // Sending click to all JPanels in this panel
 	private class MAdapter extends MouseAdapter {
 		private CalendarPanel panel;
@@ -119,8 +137,11 @@ public class CalendarPanel extends JPanel {
 		
 		public void mousePressed(MouseEvent event){
 			for (int i = 0; i < panel.getComponentCount(); i++) {
-				((AppointmentApp) panel.getComponent(i)).mouseClicked(event);
+				if( panel.getComponent(i) instanceof AppointmentApp){
+					((AppointmentApp) panel.getComponent(i)).mouseClicked(event);
+				}
 			}
+			checkIfHit();
 		}
 		public void mouseReleased(MouseEvent event){
 

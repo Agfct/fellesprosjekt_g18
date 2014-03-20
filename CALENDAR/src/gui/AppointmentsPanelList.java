@@ -91,6 +91,27 @@ public class AppointmentsPanelList extends JPanel {
 			scrollPane.validate();
 		}
 	}
+	public void addSpecial(){
+		//http://www.java-forums.org/awt-swing/34534-gridbaglayout-anchor-wanna-move-all-components-top-left.html
+		GridBagConstraints c = new GridBagConstraints();
+        c.gridx = 0;
+        c.gridy = 1000;
+        c.gridwidth = 1;
+        c.gridheight = 1;
+        c.fill = GridBagConstraints.NONE;
+        c.anchor = GridBagConstraints.NORTH;//upwards
+        c.weightx = 0;
+        c.weighty = 1000;
+        c.ipadx = 0;
+        c.ipady = 0;
+        //Insets(top, left, bottom, right);
+        c.insets = new Insets( 0,0,0,0 );
+
+        Label bottomEmptyLabel = new Label( "" );
+//        bottomEmptyLabel.setBackground(( Color.pink ) );
+        setCompSize(bottomEmptyLabel, 3, 3 );
+        this.add( bottomEmptyLabel , c);
+	}
 	
 	public void setScrollPane(JScrollPane newScrollPane){
 		scrollPane = newScrollPane;
@@ -105,6 +126,10 @@ public class AppointmentsPanelList extends JPanel {
 		rows = 0;
 	}
 	public void updateView(){
+		removeAll();
+		addSpecial();
+		revalidate();
+		repaint();
 		editAppointmentsView.addAllAppointments();
 	}
 	

@@ -389,6 +389,17 @@ public class DBAccess{
 			flush();
 		}	
 	}
+	
+	public ArrayList<Appointment> getOtherInvitedAppointments(int participantID, long weekStart, long weekEnd) throws Exception {
+		try {
+			ResultSet rs = stmt.executeQuery(String.format("select * from appointment natural join invitation where participantID = %d and isDeleted = 0 and startTime between %d and %d;", participantID, weekStart, weekEnd));
+			return writeAllAppointmentsResultSet(rs);
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			flush();
+		}	
+	}
 
 
 	//perhaps better to use the separate lists to skip sorting back into created/invited for gui
@@ -398,7 +409,18 @@ public class DBAccess{
 		appointments.addAll(getInvitedAppointments(participantID));
 		return appointments;
 	}
-
+	
+	public ArrayList<Appointment> getOtherCreatedAppointments(int participantID, long weekStart, long weekEnd) throws Exception {
+		Employee creator = getEmployeeByParticipantID(participantID);
+		try {
+			ResultSet rs = stmt.executeQuery(String.format("select * from appointment where creator = %d and isDeleted = 0 and startTime between %d and %d;", creator.getParticipantID(), weekStart, weekEnd));
+			return writeAllAppointmentsResultSet(rs);
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			flush();
+		}	
+	}
 
 	public ArrayList<Appointment> getCreatedAppointments(int participantID) throws Exception {
 		Employee creator = getEmployeeByParticipantID(participantID);

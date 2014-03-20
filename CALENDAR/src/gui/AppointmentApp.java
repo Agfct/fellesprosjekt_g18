@@ -116,6 +116,9 @@ public class AppointmentApp extends JPanel {
 			// Open edit window (appointment, x pos, y pos)
 			//TODO: Create edit Window
 			MainWindow.getCalendarPanel().setAppointmentAppWindow(appointment, eventX , eventY);
+			MainWindow.getCalendarPanel().gotHit();
+		}else{
+			// telling calendarview it wasnt hit
 		}
 
 	}

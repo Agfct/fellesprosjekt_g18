@@ -116,7 +116,7 @@ public class RequestHandler {
 	}
 //	Remove
 	public Boolean removeAppointmentByID (Appointment appointment){
-		Packet response = client.request("REMOVE_APPOINTMENT", appointment);
+		Packet response = client.request("REMOVE_APPOINTMENT", appointment.getAppointmentID());
 		if(response.getName().equals("APPOINTMENT_REMOVED")){
 			return true;			
 		}return false;
