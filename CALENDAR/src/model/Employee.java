@@ -14,7 +14,7 @@ public class Employee implements Serializable{
 	private String email;
 	private String password; // TEST PASSWORD ??
 	private ArrayList<Notification> notifications;
-	private Boolean isSelected = false; //TEST
+	private Boolean isSelected;
 	private PropertyChangeSupport pcs;
 
 	//PropertyNames
@@ -23,10 +23,12 @@ public class Employee implements Serializable{
 	//Constructor for a viewable person
 	public Employee(String name){
 		this.name = name;
+		this.isSelected = false;
 	}
 
 	//Constructor for a user
 	public Employee(String name, String email){
+		this.isSelected = false;
 		this.name = name;
 		this.email = email;
 		notifications = new ArrayList<Notification>();

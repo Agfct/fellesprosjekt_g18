@@ -140,6 +140,7 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 	private Appointment appointmentModel;
 	private RoomBooker roomBooker;
 	private ArrayList<Employee> allEmployees;
+	private ArrayList<Invitation> deletedInvitations;
 	
 	private String from;
 	
@@ -159,6 +160,8 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 		this.isNewAppointmentView = isNewAppointmentView;
 		
 		this.from = from;
+		
+		deletedInvitations = new ArrayList<Invitation>();
 
 		/** ADDING EMPLOYEE LIST **/
 		allEmployees = MainWindow.getEmployeeList();
@@ -896,14 +899,30 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
     	// Date
     	setDateFields(appointmentModel.getDate());
     	// ParticipantsList
-		for (Invitation invitation : appointmentModel.getInvitations()) {
-			participantsPanelList.addParticipantPanel(invitation.getParticipantsView());
-		}
+//		for (Invitation invitation : appointmentModel.getInvitations()) {
+//			System.out.println("Invitasjonen " + invitation );
+//			// lager participant panel på nytt TODO
+//			ParticipantsPanel participantsPanel = new ParticipantsPanel(invitation.getEmployee());
+//			participantsPanel.setInvitation(invitation);
+//			invitation.setParticipantsPanel(participantsPanel);
+//			participantsPanelList.addParticipantPanel(invitation.getParticipantsPanel());
+//		}
 		
     	for (int i = 0; i < allEmployees.size(); i++) {
     		for (Invitation invitation : appointmentModel.getInvitations()) {
+    			
+
+    			
     			if(allEmployees.get(i).equals(invitation.getEmployee())){
+    				
+        			ParticipantsPanel participantsPanel = new ParticipantsPanel(allEmployees.get(i));
+        			participantsPanel.setInvitation(invitation);
+        			invitation.setParticipantsPanel(participantsPanel);
+        			participantsPanelList.addParticipantPanel(invitation.getParticipantsPanel());
+        			
     				allEmployees.get(i).setSelected(true);
+    				
+    				System.out.println("1 Employee "+ allEmployees.get(i) + " is selected " +allEmployees.get(i).isSelected());
     				System.out.println("Employee " + invitation.getEmployee() + " selectedPerson " + invitation.getEmployee().isSelected());
     			}
     		}
@@ -1030,6 +1049,9 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 			System.out.println("Deleting Appointment");
 			if(appointmentModel.getInvitations().isEmpty()){
 				if(MainWindow.getRequestHandler().removeAppointmentByID(appointmentModel)){
+					for (Invitation inv : deletedInvitations) {
+//						MainWindow.getRequestHandler().setInvitationAsDeleted(inv); //TODO create
+					}
 					MainWindow.removeNewAppointmentView();
 					MainWindow.editAppointmentsView();
 				}else{
@@ -1053,6 +1075,9 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 		else if (e.getSource() == saveAppointmentBtn){
 			if(from.equals("editApp")){
 				if(MainWindow.getRequestHandler().editAppointment(appointmentModel)){
+					for (Invitation inv : deletedInvitations) {
+						MainWindow.getRequestHandler().removeInvitationByID(inv);
+					}
 					MainWindow.removeNewAppointmentView();
 					MainWindow.editAppointmentsView();
 				}else{
@@ -1199,11 +1224,17 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 			employeeList.repaint(rect);  
 			if (selectedPerson.isSelected()){  
 				//ADDING PERSON TO THE PARTICIPANTS LIST
+				if(from.equals("editApp")){
+					deletedInvitations.remove(new Invitation(selectedPerson, appointmentModel));
+				}
 				appointmentModel.addInvitation(selectedPerson);
 //				emailList.addElement(selectedPerson.toString());  
 			}  
 			if (!selectedPerson.isSelected()){  
 				// REMOVING PERSON FROM THE PARTICIPANTS LIST
+				if(from.equals("editApp")){
+					participantsPanelList.getNewAppointmentView().addDeletedInvitation(selectedPerson); 
+				}
 				appointmentModel.removeInvitation(selectedPerson);
 //				emailList.removeElement(selectedPerson.toString());  
 			}  
@@ -1288,7 +1319,16 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 			}
 		}
 	}
-
+	// list to keep the invitations that are going to be removed from database invitation list
+	public void addDeletedInvitation(Employee employee){
+		if(from.equals("editApp")){
+			deletedInvitations.add(appointmentModel.getInvitation(employee));
+			System.out.println("NÅ KJØRER DELETED INVITATION ADD ");
+			for (int i = 0; i < deletedInvitations.size(); i++) {
+				System.out.println("DEL: "+deletedInvitations.get(i));
+			}
+		}
+	}
 	// Property change for Appointment Model
 //	public void appointmentChanged(String change, Invitation newInvitation) {
 //		System.out.println("("+this.getClass()+"):"+ "Property changed on Appointment Model");
@@ -1304,10 +1344,10 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		if(evt.getPropertyName().equals("add")){
-			participantsPanelList.addParticipantPanel(((Invitation)evt.getNewValue()).getParticipantsView());
+			participantsPanelList.addParticipantPanel(((Invitation)evt.getNewValue()).getParticipantsPanel());
 		}
 		else if(evt.getPropertyName().equals("remove")){
-			((Invitation)evt.getNewValue()).getParticipantsView().removeThisView();
+			((Invitation)evt.getNewValue()).getParticipantsPanel().removeThisView();
 		}
 		else if(evt.getPropertyName().equals(Appointment.TIMESLOT_PROPERTY_NAME)){
 			TimeSlot timeSlot = (TimeSlot) evt.getNewValue();

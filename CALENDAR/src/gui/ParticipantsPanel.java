@@ -187,8 +187,12 @@ public class ParticipantsPanel extends JPanel implements ActionListener {
 		if (e.getSource() == removeBtn){
 			System.out.println("remove button is pressed");
 			//Removing the check
-			employee.setSelected(! employee.isSelected());
+			System.out.println("Employee is selected BEFORE: " + employee.isSelected());
+			employee.setSelected(!employee.isSelected());
+			System.out.println("Employee is selected AFTER: " + employee.isSelected());
 			participantsPanelList.getNewAppointmentView().getEmployeeList().repaint();
+			// adding the removed invitation to a list so it can be removed from database
+			participantsPanelList.getNewAppointmentView().addDeletedInvitation(employee); 
 			// running the appointment remove invitation
 			participantsPanelList.getNewAppointmentView().getAppointmentModel().removeInvitation(employee);
 			

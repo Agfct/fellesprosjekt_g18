@@ -37,7 +37,7 @@ public class Invitation implements Serializable{
 	
 	@Override
 	public boolean equals(Object obj){
-		return ((Invitation) obj).getEmployee() == this.getEmployee();
+		return ((Invitation) obj).getEmployee().getEmployeeID() == this.getEmployee().getEmployeeID();
 	}
 	
 	private void sendNotification(){
@@ -96,10 +96,10 @@ public class Invitation implements Serializable{
 		this.invitationID = invitationID;
 	}
 	//-------
-	public void setParticipantsView(ParticipantsPanel newParticipantsView){
+	public void setParticipantsPanel(ParticipantsPanel newParticipantsView){
 		participantsPanel = newParticipantsView;
 	}
-	public ParticipantsPanel getParticipantsView(){
+	public ParticipantsPanel getParticipantsPanel(){
 		return participantsPanel;
 	}
 	public void setAppointment(Appointment appointment) {

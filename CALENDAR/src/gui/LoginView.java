@@ -149,7 +149,7 @@ public class LoginView extends JPanel implements ActionListener , KeyListener{
 		
 	}
 	
-	// Overriding the paintComponent to get GraidientPaint
+	// Overriding the paintComponent to get BackgroundImg
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);

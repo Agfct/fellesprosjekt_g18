@@ -109,7 +109,7 @@ public class RequestHandler {
 	}
 //	Delete
 	public Boolean setAppointmentAsDeleted (Appointment appointment){
-		Packet response = client.request("SET_APPOINTMENT_AS_DELETED", appointment);
+		Packet response = client.request("SET_APPOINTMENT_AS_DELETED", appointment.getAppointmentID());
 		if(response.getName().equals("APPOINTMENT_SET_AS_DELETED")){
 			return true;			
 		}return false;

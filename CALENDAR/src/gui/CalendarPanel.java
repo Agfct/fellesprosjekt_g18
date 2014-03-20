@@ -79,6 +79,7 @@ public class CalendarPanel extends JPanel {
 		//adding an AppointmentsAppwindow to the layerPane
 		removeAppointmentAppWindow();
 		appointmentAppWindow = new AppointmentAppWindow(appointment, x, y);
+		setComponentZOrder(appointmentAppWindow, 1);//TODO: FIX
 		add(appointmentAppWindow);
 		appointmentAppWindow.setLocation(x, y);
 	}
@@ -120,8 +121,6 @@ public class CalendarPanel extends JPanel {
     }
     public void checkIfHit(){
     	// If you didnt press any apps
-    	System.out.println("IS NOT HIT");
-    	System.out.println("Is hit" + isHit);
     	if(!isHit){
     		removeAppointmentAppWindow();
     	}
