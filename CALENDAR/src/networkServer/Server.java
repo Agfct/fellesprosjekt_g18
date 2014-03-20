@@ -46,11 +46,15 @@ public class Server implements Runnable {
 			Socket clientSocket;
 
 			try {
-				db.getCon().close();
 				clientSocket = serverSocket.accept();
 			}
-			catch (IOException | SQLException e) {
+			catch (IOException e) {
 				if (isRunning()) {
+					try {
+						db.getCon().close();
+					} catch (SQLException e1) {
+						System.out.println("Server: Closing database connection failed!");
+					}
 					System.out.println("Server: Server stopped!");
 					return;
 				}
