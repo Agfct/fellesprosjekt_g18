@@ -14,7 +14,11 @@ public class TimeSlot implements Serializable{
 	public TimeSlot(){
 		Date date = new Date();
 		start = date.getTime();
-		end = date.getTime();
+		Calendar c = Calendar.getInstance();
+		c.setTime(date);
+		c.add(Calendar.HOUR_OF_DAY, 1);
+		end = c.getTimeInMillis();
+		duration = end - start;
 	}
 	
 	//TimeSlot fra database

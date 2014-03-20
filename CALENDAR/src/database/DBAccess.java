@@ -220,6 +220,20 @@ public class DBAccess{
 
 	}
 	
+	public void createAppointmentMeetingroom(MeetingRoom mr, int id){
+		try {
+			stmt.executeUpdate(String.format("insert into appointmentmeetingroom values(\"%s\", id)", mr.getName()));
+
+		} catch ( NullPointerException e) {
+			System.err.println("A field in the created object is null");
+		}catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			flush();
+		}
+	}
+		
+	
 	
 
 
@@ -235,8 +249,6 @@ public class DBAccess{
 		}finally {
 			flush();
 		}
-
-
 	}
 	
 	public void createInvitationOnStored(Invitation invitation){
@@ -256,12 +268,16 @@ public class DBAccess{
 	}
 
 
-	public void editAppointment(Appointment app) throws Exception {
+	public void editAppointment(Appointment app, boolean internal) throws Exception {
 		try {
-			stmt.executeUpdate(String.format("update appointment set startTime = %d, endTime = %d, location = \"%s\", description = \"%s\", username = \"%s\", title = \"%s\" where appointmentID = %d", app.getTimeSlot(), app.getLocation(), app.getDescription(), app.getCreator(), app.getAppointmentID(), app.getTitle()));
+			stmt.executeUpdate(String.format("update appointment set startTime = %d, endTime = %d, location = \"%s\", description = \"%s\", creator = %d, title = \"%s\" where appointmentID = %d", app.getTimeSlot().getStart(), app.getTimeSlot().getEnd(), app.getLocation(), app.getDescription(), app.getCreator().getEmployee().getParticipantID(), app.getTitle(), app.getAppointmentID()));
 			stmt.executeUpdate(String.format("update invitation set invitationStatus = \"PENDING\" where appointmentID = %d", app.getAppointmentID()));
 			for (Invitation inv : app.getInvitations()) {
 				createInvitationOnStored(inv);
+			}
+			if (app.isInternal()) {
+				int id = app.getAppointmentID();
+				createAppointmentMeetingroom(app.getRoom(), id);
 			}
 		} catch ( NullPointerException e) {
 			System.err.println("A field in the edit request is null");
@@ -269,6 +285,22 @@ public class DBAccess{
 			flush();
 		}
 	}
+	
+//	public void editAppointmentWithMeetingRoom(Appointment app) throws Exception {
+//		try {
+//			stmt.executeUpdate(String.format("update appointment set startTime = %d, endTime = %d, location = \"%s\", description = \"%s\", creator = %d, title = \"%s\" where appointmentID = %d", app.getTimeSlot().getStart(), app.getTimeSlot().getEnd(), app.getLocation(), app.getDescription(), app.getCreator().getEmployee().getParticipantID(), app.getTitle(), app.getAppointmentID()));
+//			stmt.executeUpdate(String.format("update invitation set invitationStatus = \"PENDING\" where appointmentID = %d", app.getAppointmentID()));
+//			int id = app.getAppointmentID();
+//			createAppointmentMeetingroom(app.getRoom(), id);
+//			for (Invitation inv : app.getInvitations()) {
+//				createInvitationOnStored(inv);
+//			}
+//		} catch ( NullPointerException e) {
+//			System.err.println("A field in the edit request is null");
+//		}finally {
+//			flush();
+//		}
+//	}
 	
 	public int getLastInsertID() throws Exception {
 		try {
@@ -298,12 +330,32 @@ public class DBAccess{
 			for (Invitation inv : app.getInvitations()) {
 				createInvitationOnFresh(inv, id);
 			}
+			if (app.isInternal()) {
+				createAppointmentMeetingroom(app.getRoom(), id);
+				
+			}
 		} catch ( NullPointerException e) {
 			System.err.println("A field in the add request is null");
 		} finally {
 			flush();
 		}
 	}
+	
+//	public void createAppointmentWithMeetingRoom(Appointment app) throws Exception {
+//		try {
+//			stmt.executeUpdate(String.format("insert into appointment values(null, %d, %d, \"%s\", \"%s\", %d, 0, \"%s\")", app.getTimeSlot().getStart(), app.getTimeSlot().getEnd(), app.getLocation(), app.getDescription(), app.getCreator().getEmployee().getParticipantID(), app.getTitle()));
+//			int id = getLastInsertID();
+//			createAppointmentMeetingroom(app.getRoom(), id);
+//			System.out.println(id);
+//			for (Invitation inv : app.getInvitations()) {
+//				createInvitationOnFresh(inv, id);
+//			}
+//		} catch ( NullPointerException e) {
+//			System.err.println("A field in the add request is null");
+//		} finally {
+//			flush();
+//		}
+//	}
 
 
 	public ArrayList<Employee> getGroupMembers(String groupname) throws Exception {
@@ -389,6 +441,7 @@ public class DBAccess{
 			flush();
 		}	
 	}
+	
 	
 	public ArrayList<Appointment> getOtherInvitedAppointments(int participantID, long weekStart, long weekEnd) throws Exception {
 		try {
