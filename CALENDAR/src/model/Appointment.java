@@ -18,6 +18,7 @@ public class Appointment  implements Serializable{
 	private String location;
 	private MeetingRoom room;
 	private boolean internal;
+	private boolean isDeleted;
 	private String description;
 	private ArrayList<Invitation> invitations;
 	private transient PropertyChangeSupport pcs = new PropertyChangeSupport(this);
@@ -216,4 +217,12 @@ public class Appointment  implements Serializable{
 		return c.get(Calendar.DAY_OF_WEEK);
 	}
 	//-------
+
+	public boolean isDeleted() {
+		return isDeleted;
+	}
+
+	public void setDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
+	}
 }

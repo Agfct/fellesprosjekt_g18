@@ -32,6 +32,11 @@ public class AppointmentCellRenderer implements ListCellRenderer<Appointment>{
 //		String time = Long.toString(value.getStartTime())+'-'+ value.getEndTime();
 		String time = "12:00"+"-"+"18:30";
 		String title = value.getTitle();
+		if(value.isDeleted()){ //if the appointment is deleted
+			title = "<font color=\"RED\">DELETED</font>";
+		}else if(value.getInvitation(MainWindow.getUser()).isDeleted()){ // if you where removed
+			title = "<font color=\"RED\">UNINVITED</font>";
+		}
 		Invitation invitation = value.getInvitation(MainWindow.getUser()); // get that persons invitation+
 		InvitationStatus status;
 		if(invitation != null){

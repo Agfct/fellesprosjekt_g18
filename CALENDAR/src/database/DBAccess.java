@@ -37,6 +37,17 @@ public class DBAccess{
 		}
 	}
 	
+	public void setInvitationAsDeleted(Invitation inv) throws SQLException{
+		try {
+			stmt.executeUpdate(String.format("update invitation set isDeleted = 1 where invitationID = %d", inv.getInvitationID()));	
+		} catch ( NullPointerException e) {
+			System.err.println("A field in the edit request is null");
+			throw e;
+		} finally {
+			flush();
+		}
+	}
+	
 	public void removeAppointmentMeetingRoom(String roomname, int appID) throws Exception{
 		try {
 			stmt.executeUpdate(String.format("delete from appointmentmeetingroom where appID = %d and roomname = \"%s\"", appID, roomname));
@@ -82,12 +93,22 @@ public class DBAccess{
 			flush();
 		}
 	}
-
+	
+	public void setDeletedInvitationByID(int invID) throws Exception {
+		try {
+			stmt.executeUpdate(String.format("update invitation set isDeleted = 1 where invitationID = %d", invID));
+		} catch (Exception e) {
+			System.err.println("Possible invalid ID");
+			throw e;
+		} finally {
+			flush();
+		}
+	}
 	
 	
 	public void setDeletedAppointmentByID(int appID) throws Exception {
 		try {
-			stmt.executeUpdate(String.format("update table appointment set isDeleted = 1 where appointmentID = %d", appID));
+			stmt.executeUpdate(String.format("update appointment set isDeleted = 1 where appointmentID = %d", appID));
 		} catch (Exception e) {
 			System.err.println("Possible invalid ID");
 			throw e;
@@ -270,7 +291,7 @@ public class DBAccess{
 
 	public void editAppointment(Appointment app) throws Exception {
 		try {
-			stmt.executeUpdate(String.format("update appointment set startTime = %d, endTime = %d, location = \"%s\", description = \"%s\", creator = %d, title = \"%s\" where appointmentID = %d", app.getTimeSlot().getStart(), app.getTimeSlot().getEnd(), app.getLocation(), app.getDescription(), app.getCreator().getEmployee().getParticipantID(), app.getTitle(), app.getAppointmentID()));
+			stmt.executeUpdate(String.format("update appointment set startTime = %d, endTime = %d, location = \"%s\", description = \"%s\", creator = %d, title = \"%s\", internal = %b, isDeleted = %b where appointmentID = %d", app.getTimeSlot().getStart(), app.getTimeSlot().getEnd(), app.getLocation(), app.getDescription(), app.getCreator().getEmployee().getParticipantID(), app.getTitle(), app.isInternal(), app.isDeleted(), app.getAppointmentID()));
 			stmt.executeUpdate(String.format("update invitation set invitationStatus = \"PENDING\" where appointmentID = %d", app.getAppointmentID()));
 			for (Invitation inv : app.getInvitations()) {
 				createInvitationOnStored(inv);
@@ -324,7 +345,7 @@ public class DBAccess{
 
 	public void createAppointment(Appointment app) throws Exception {
 		try {
-			stmt.executeUpdate(String.format("insert into appointment values(null, %d, %d, \"%s\", \"%s\", %d, 0, \"%s\")", app.getTimeSlot().getStart(), app.getTimeSlot().getEnd(), app.getLocation(), app.getDescription(), app.getCreator().getEmployee().getParticipantID(), app.getTitle()));
+			stmt.executeUpdate(String.format("insert into appointment values(null, %d, %d, \"%s\", \"%s\", %d, 0, %b, \"%s\")", app.getTimeSlot().getStart(), app.getTimeSlot().getEnd(), app.getLocation(), app.getDescription(), app.getCreator().getEmployee().getParticipantID(), app.isInternal(), app.getTitle()));
 			int id = getLastInsertID();
 			System.out.println(id);
 			for (Invitation inv : app.getInvitations()) {
@@ -429,11 +450,13 @@ public class DBAccess{
 			flush();
 		}	
 	}
+	
+	
 
 
 	public ArrayList<Appointment> getInvitedAppointments(int participantID) throws Exception {
 		try {
-			ResultSet rs = stmt.executeQuery(String.format("select * from appointment natural join invitation where participantID = %d and isDeleted = 0;", participantID));
+			ResultSet rs = stmt.executeQuery(String.format("select * from appointment natural join invitation where participantID = %d;", participantID));
 			return writeAllAppointmentsResultSet(rs);
 		} catch (Exception e) {
 			throw e;
@@ -445,13 +468,21 @@ public class DBAccess{
 	
 	public ArrayList<Appointment> getOtherInvitedAppointments(int participantID, long weekStart, long weekEnd) throws Exception {
 		try {
-			ResultSet rs = stmt.executeQuery(String.format("select * from appointment natural join invitation where participantID = %d and isDeleted = 0 and startTime between %d and %d;", participantID, weekStart, weekEnd));
+			ResultSet rs = stmt.executeQuery(String.format("select * from appointment natural join invitation where participantID = %d and startTime between %d and %d;", participantID, weekStart, weekEnd));
 			return writeAllAppointmentsResultSet(rs);
 		} catch (Exception e) {
 			throw e;
 		} finally {
 			flush();
 		}	
+	}
+	
+	public ArrayList<Appointment> getAllAppointmentsByWeek(Employee employee, long start, long end) throws Exception {
+		int partID = employee.getParticipantID();
+		ArrayList<Appointment> appointments = new ArrayList<Appointment>();
+		appointments.addAll(getOtherCreatedAppointments(partID, start, end));
+		appointments.addAll(getOtherInvitedAppointments(partID, start, end));
+		return appointments;
 	}
 
 
@@ -466,7 +497,7 @@ public class DBAccess{
 	public ArrayList<Appointment> getOtherCreatedAppointments(int participantID, long weekStart, long weekEnd) throws Exception {
 		Employee creator = getEmployeeByParticipantID(participantID);
 		try {
-			ResultSet rs = stmt.executeQuery(String.format("select * from appointment where creator = %d and isDeleted = 0 and startTime between %d and %d;", creator.getParticipantID(), weekStart, weekEnd));
+			ResultSet rs = stmt.executeQuery(String.format("select * from appointment where creator = %d and startTime between %d and %d;", creator.getParticipantID(), weekStart, weekEnd));
 			return writeAllAppointmentsResultSet(rs);
 		} catch (Exception e) {
 			throw e;
@@ -474,11 +505,13 @@ public class DBAccess{
 			flush();
 		}	
 	}
+	
+	
 
 	public ArrayList<Appointment> getCreatedAppointments(int participantID) throws Exception {
 		Employee creator = getEmployeeByParticipantID(participantID);
 		try {
-			ResultSet rs = stmt.executeQuery(String.format("select * from appointment where creator = %d and isDeleted = 0;", creator.getParticipantID()));
+			ResultSet rs = stmt.executeQuery(String.format("select * from appointment where creator = %d;", creator.getParticipantID()));
 			return writeAllAppointmentsResultSet(rs);
 		} catch (Exception e) {
 			throw e;
@@ -522,9 +555,10 @@ public class DBAccess{
 		app.setInvitations(getAllInvitationsByAppointmentID(appointmentID));
 		return app;
 	}
+	
 	public Appointment prepareAppointmentByID(int appointmentID) throws Exception {
 		try {
-			ResultSet rs = stmt.executeQuery(String.format("select * from appointment where appointmentID = %d and isDeleted = 0", appointmentID));
+			ResultSet rs = stmt.executeQuery(String.format("select * from appointment where appointmentID = %d", appointmentID));
 			if (rs.next()) {
 				return writeAppointmentResultSet(rs);
 			} else {
@@ -717,6 +751,7 @@ public class DBAccess{
 		String description = rs.getString("description");
 		String title = rs.getString("title");
 		appointment.setTitle(title);
+		boolean isDeleted = rs.getBoolean("isDeleted");
 		//for testing
 //		System.out.println("StartTime: " + start);
 //		System.out.println("EndTime: " + end);
@@ -730,6 +765,7 @@ public class DBAccess{
 		appointment.setAppointmentID(appointmentID);
 		appointment.setLocation(location);
 		appointment.setDescription(description);
+		appointment.setDeleted(isDeleted);
 		return appointment;
 	}
 
@@ -744,6 +780,7 @@ public class DBAccess{
 		boolean isHidden = rs.getBoolean("isHidden");
 		String invitationStatus = rs.getString("invitationStatus");
 		long alarmTime = rs.getLong("alarmTime");
+		boolean isDeleted = rs.getBoolean("isDeleted");
 		//for testing
 //		System.out.println(invitationID);
 //		System.out.println(appointmentID);
@@ -761,6 +798,7 @@ public class DBAccess{
 		invitation.setEdited(isNew);
 		invitation.setHidden(isHidden);
 		invitation.setInvitationID(invitationID);
+		invitation.setDeleted(isDeleted);
 		return invitation;
 	}
 

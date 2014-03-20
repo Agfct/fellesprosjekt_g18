@@ -12,6 +12,7 @@ public class Invitation implements Serializable{
 	private Appointment appointment;
 	private Employee employee;
 	private InvitationStatus status;
+	private boolean isDeleted;
 	private boolean edited;
 	private boolean hidden;
 	private long alarmTime;
@@ -114,4 +115,12 @@ public class Invitation implements Serializable{
 	public InvitationStatus getStatus() {return status;}
 	public int getInvitationID()		{return invitationID;}
 	//-------
+
+	public boolean isDeleted() {
+		return isDeleted;
+	}
+
+	public void setDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
+	}
 }

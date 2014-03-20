@@ -116,7 +116,7 @@ public class AppointmentsPanel extends JPanel implements ActionListener {
 		cLabel3.gridx = 2;
 		cLabel3.gridy = 1;
 //		room = new JLabel(appointment.getRoom().toString());
-		room = new JLabel("Room nr 5"); //TODO: REMOVE, ADD REAL NAME
+		room = new JLabel("Room nr 5");
 		room.setName("room");
 		room.setPreferredSize(new Dimension(80,20));
 		//DESIGN for the Label text

@@ -144,12 +144,7 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 	
 	private String from;
 	
-//	private JTable employeeListTable;
-//	private JTable participantsListTable;
-//	private TableColumn acceptedCol;
-//	private EmployeeTable employeeTable;
 	
-//TODO: CHECKLIST NOT WORKING PROPERLY FIX!!	
 	public NewAppointmentView(Appointment newAppointmentModel, boolean isNewAppointmentView, String from){
 		// Using a GridBagLayout for the Grid
 		setLayout(new GridBagLayout());
@@ -740,28 +735,7 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 		roomLabel.setFont(new Font(MainWindow.getMFont(),Font.BOLD,18));
 		add(roomLabel,cLabel31);
 		
-		//List<MeetingRoom> DETAILS MISSING, TEST ONLY
-		
-		//TEST
-//		MeetingRoom H3 = new MeetingRoom("H3",(short)2,new ArrayList<TimeSlot>());
-//		MeetingRoom R7 = new MeetingRoom("R7",(short)5,new ArrayList<TimeSlot>());
-//		MeetingRoom H1 = new MeetingRoom("H1",(short)6,new ArrayList<TimeSlot>());
-//		MeetingRoom K2 = new MeetingRoom("K2",(short)8,new ArrayList<TimeSlot>());
-//		MeetingRoom R77 = new MeetingRoom("R77",(short)15,new ArrayList<TimeSlot>());
-//		MeetingRoom S2 = new MeetingRoom("S2",(short)5,new ArrayList<TimeSlot>());
-//		roomListModel.addElement(H3);
-//		roomListModel.addElement(R7);
-//		roomListModel.addElement(H1);
-//		roomListModel.addElement(K2);
-//		roomListModel.addElement(R77);
-//		roomListModel.addElement(S2);
-//		ArrayList<MeetingRoom> roomBookerTest = new ArrayList<MeetingRoom>();
-//		roomBookerTest.add(H3);
-//		roomBookerTest.add(R7);
-//		roomBookerTest.add(H1);
-//		roomBookerTest.add(K2);
-//		roomBookerTest.add(R77);
-//		roomBookerTest.add(S2);
+		//List<MeetingRoom>
 		roomBooker = new RoomBooker(MainWindow.getRequestHandler().getAllMeetingRooms());
 		for (MeetingRoom room : roomBooker.getAvailableRooms(appointmentModel.getTimeSlot(), (short) 0)) {
 			roomListModel.addElement(room);
@@ -903,7 +877,6 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
     	// ParticipantsList
 //		for (Invitation invitation : appointmentModel.getInvitations()) {
 //			System.out.println("Invitasjonen " + invitation );
-//			// lager participant panel på nytt TODO
 //			ParticipantsPanel participantsPanel = new ParticipantsPanel(invitation.getEmployee());
 //			participantsPanel.setInvitation(invitation);
 //			invitation.setParticipantsPanel(participantsPanel);
@@ -1060,7 +1033,8 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 			if(appointmentModel.getInvitations().isEmpty()){
 				if(MainWindow.getRequestHandler().removeAppointmentByID(appointmentModel)){
 					for (Invitation inv : deletedInvitations) {
-//						MainWindow.getRequestHandler().setInvitationAsDeleted(inv); //TODO create
+						MainWindow.getRequestHandler().setInvitationAsDeleted(inv);
+						//TODO:
 					}
 					MainWindow.removeNewAppointmentView();
 					MainWindow.editAppointmentsView();

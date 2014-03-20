@@ -45,9 +45,18 @@ public class CalendarPanel extends JPanel {
 
 	public void addAllAppointments(){
 		removeAll();
-		appointments = MainWindow.getRequestHandler().getAllApointments(MainWindow.getUser()); // Your appointments (Invited and created)
+		Calendar c = Calendar.getInstance();
+		c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+		long start = c.getTimeInMillis();
+		String weekText = c.getTime().toString().substring(4, 10) + " - "; //Month: MMM
+		c.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+		long end = c.getTimeInMillis();
+		weekText += c.getTime().toString().substring(4,10);
+		weekText += ", " + c.get(Calendar.YEAR);
+		appointments = MainWindow.getRequestHandler().getAllApointmentsByWeek(start, end, MainWindow.getUser()); // Your appointments by week (Invited and created)
 		// Get the appointments you have told the calendar that you want from other employees
 		ArrayList<Employee> otherSelectedEmployees = MainWindow.getLeftView().getSelectedEmployees();
+		
 		//TODO: FILTERE ETTER HVILKEN DAG / UKE DU ER I IKKE TA ALLE PÅ EN GANG !!
 		
 		// Adding your appointments
@@ -79,7 +88,7 @@ public class CalendarPanel extends JPanel {
 		//adding an AppointmentsAppwindow to the layerPane
 		removeAppointmentAppWindow();
 		appointmentAppWindow = new AppointmentAppWindow(appointment, x, y);
-		setComponentZOrder(appointmentAppWindow, 1);//TODO: FIX
+		setComponentZOrder(appointmentAppWindow, 0);//TODO: FIX
 		add(appointmentAppWindow);
 		appointmentAppWindow.setLocation(x, y);
 	}

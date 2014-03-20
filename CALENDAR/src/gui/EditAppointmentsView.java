@@ -131,7 +131,9 @@ public class EditAppointmentsView extends JPanel implements ActionListener{
     	
     	appointments = MainWindow.getRequestHandler().getCreatedAppointments(MainWindow.getUser());
     	for (int i = 0; i < appointments.size(); i++) {
+    		if(!appointments.get(i).isDeleted()){
     			appointmentsPanelList.addAppointmentsPanel(new AppointmentsPanel(appointments.get(i)));
+    		}
 		}
     }
     
