@@ -571,12 +571,9 @@ public class DBAccess{
 
 	}
 
-
-
-
-
-
-
+	public Connection getCon() {
+		return con;
+	}
 
 	private void writeMetaData(ResultSet rs) throws SQLException {
 		//unused atm
