@@ -1,6 +1,5 @@
 package networkServer;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -13,7 +12,6 @@ import model.Invitation;
 
 public class AlarmHandler {
 	
-	private Timer timer;
 	HashMap<Invitation, Timer> timers;
 	private EmailHandler emailHandler;
 
@@ -26,7 +24,7 @@ public class AlarmHandler {
 	public void setAlarm (Invitation invitation){
 		cancelOldTimer(invitation);
 		
-		timer = new Timer();
+		Timer timer = new Timer();
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTimeInMillis(invitation.getAlarmTime());
 		Date alarmTime = calendar.getTime();
@@ -40,6 +38,7 @@ public class AlarmHandler {
 	private void cancelOldTimer(Invitation invitation) {
 		if (timers.containsKey(invitation)){
 			timers.get(invitation).cancel();
+			timers.get(invitation).purge();
 			timers.remove(invitation);
 			System.out.println("AlarmHandler: Old alarm removed!");
 		}
@@ -55,14 +54,12 @@ public class AlarmHandler {
 		}
 		
 		public void executeAlarm() {
-			String msg = String.format("Reminder for %s. The meeting starts at %d", appointment.getDescription(), appointment.getStartTime());
+			String msg = String.format("Reminder for %s. The meeting starts at %s", appointment.getTitle(), appointment.getStartTime());
 			emailHandler.sendEmail(employee.getEmail(), msg);
 		}
 		public void run () {
 			executeAlarm();
 			cancel();
 		}
-		
-		
 	}
 }
