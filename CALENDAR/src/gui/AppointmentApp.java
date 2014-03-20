@@ -28,7 +28,9 @@ public class AppointmentApp extends JPanel {
 	private int x;
 	private int y;
 	private Font font;
-	private Image backgroundImg;
+	private Image backgroundImgCreator;
+	private Image backgroundImgInvited;
+	private Image backgroundImgOther;
 
 	// Days:
 	// Default size = 133
@@ -41,7 +43,9 @@ public class AppointmentApp extends JPanel {
 		setDateAndTime();
 
 //		setBackground(new Color(59,89,182));
-		backgroundImg = new ImageIcon(this.getClass().getResource("/backgrounds/appointmentAppBackground.png")).getImage();
+		backgroundImgCreator = new ImageIcon(this.getClass().getResource("/backgrounds/appointmentAppBackground.png")).getImage();
+		backgroundImgInvited = new ImageIcon(this.getClass().getResource("/backgrounds/appointmentAppBackground2.png")).getImage();
+		backgroundImgOther = new ImageIcon(this.getClass().getResource("/backgrounds/appointmentAppBackground3.png")).getImage();
 	}
 	
 	public void setDateAndTime(){
@@ -70,20 +74,36 @@ public class AppointmentApp extends JPanel {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
         
-        //background Image
-        g2d.drawImage(backgroundImg, 0, 0, this);
-        
-        
         //The Calendar Image
 //        g2d.drawImage(calendarImg, 0, 0, this);
         
-
-		font = new Font("Tahoma", Font.BOLD, 12);
-		g2d.setFont(font);
-		g2d.setColor(Color.WHITE);
-//		g2d.drawString(appointment.getTitle(), 177, 290);
-		g2d.drawString("Meeting", 16, 16);
-		
+        font = new Font("Tahoma", Font.BOLD, 12);
+        g2d.setFont(font);
+        g2d.setColor(Color.WHITE);
+        
+        // if your created the appointment
+        if(appointment.getCreator().getEmployee().equals(MainWindow.getUser())){
+        	//background Image
+        	g2d.drawImage(backgroundImgCreator, 0, 0, this);
+        	g2d.drawString(appointment.getTitle(), 16, 16);
+        	g2d.drawString("Creator", 16, 32);
+        
+        	// if you are invited to the appointment
+        }else if(appointment.getInvitation(MainWindow.getUser()) != null){
+        	//background Image
+        	g2d.drawImage(backgroundImgInvited, 0, 0, this);
+        	//text for invited
+        	g2d.drawString(appointment.getTitle(), 16, 16);
+        	g2d.drawString("Invited", 16, 32);
+        	g2d.drawString("Status "+appointment.getInvitation(MainWindow.getUser()).getStatus().getStatusOnlyText(), 16, 48);
+        	
+        }else{ // other appointments
+        	//background Image
+        	g2d.drawImage(backgroundImgOther, 0, 0, this);
+        	//text for invited
+        	g2d.drawString(appointment.getTitle(), 16, 16);
+        	g2d.drawString("Other", 16, 32);
+        }
     }
     
     // Mouse Listner for the JPanel, so when people press the appointment they get the detail screen

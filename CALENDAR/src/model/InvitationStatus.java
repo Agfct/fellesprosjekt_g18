@@ -16,4 +16,15 @@ public enum InvitationStatus {
 	public String toString(){
 		return "<html>"+status+"</html>";
 	}
+	public String getStatusOnlyText(){
+		if(status.equals(ACCEPTED)){
+			return "Accepted";
+		}
+		else if(status.equals(DECLINED)){
+			return "Declined";
+		}
+		else{
+			return "Pending";
+		}
+	}
 }
