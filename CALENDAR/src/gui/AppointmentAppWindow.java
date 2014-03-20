@@ -28,7 +28,7 @@ public class AppointmentAppWindow extends JPanel{
 		this.sizeY = 400;
 
 //		setBackground(new Color(59,89,182));
-		backgroundImg = new ImageIcon(this.getClass().getResource("/backgrounds/appointmentAppBackground.png")).getImage();
+		backgroundImg = new ImageIcon(this.getClass().getResource("/backgrounds/appointmentAppViewBackground.png")).getImage();
 		
 		setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		setSize(sizeX, sizeY);

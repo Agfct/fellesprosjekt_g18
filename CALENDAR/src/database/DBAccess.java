@@ -268,7 +268,7 @@ public class DBAccess{
 	}
 
 
-	public void editAppointment(Appointment app, boolean internal) throws Exception {
+	public void editAppointment(Appointment app) throws Exception {
 		try {
 			stmt.executeUpdate(String.format("update appointment set startTime = %d, endTime = %d, location = \"%s\", description = \"%s\", creator = %d, title = \"%s\" where appointmentID = %d", app.getTimeSlot().getStart(), app.getTimeSlot().getEnd(), app.getLocation(), app.getDescription(), app.getCreator().getEmployee().getParticipantID(), app.getTitle(), app.getAppointmentID()));
 			stmt.executeUpdate(String.format("update invitation set invitationStatus = \"PENDING\" where appointmentID = %d", app.getAppointmentID()));
