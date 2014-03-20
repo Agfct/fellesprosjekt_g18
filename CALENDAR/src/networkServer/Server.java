@@ -32,10 +32,12 @@ public class Server implements Runnable {
 			activeThread = Thread.currentThread();
 		}
 		
-		ArrayList<Invitation> alarmedInvitations = db.getAlarmedInvitations();
-		for (Invitation invitation : alarmedInvitations) {
-			alarmHandler.setAlarm(invitation);
-		}
+		
+//		TODO
+//		ArrayList<Invitation> alarmedInvitations = db.getAlarmedInvitations();
+//		for (Invitation invitation : alarmedInvitations) {
+//			alarmHandler.setAlarm(invitation);
+//		}
 		
 		openServerSocket();
 		

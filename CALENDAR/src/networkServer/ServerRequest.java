@@ -130,7 +130,7 @@ public class ServerRequest {
 	private Packet editInvitation (Invitation invitation) {
 		try {
 			db.editInvitation(invitation);
-			invitation.getAlarmTime()
+			alarmHandler.setAlarm(invitation);
 			return new Packet("INVITATION_EDITED");
 		}
 		catch (Exception e) {
