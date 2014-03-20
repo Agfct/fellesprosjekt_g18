@@ -6,6 +6,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.SocketException;
 
+import database.DBAccess;
 import networkDiv.Packet;
 
 public class RequestThread extends Thread{
@@ -16,11 +17,11 @@ public class RequestThread extends Thread{
 	ObjectOutputStream outputStream;
 	
 	
-	public RequestThread (Socket clientSocket) {
+	public RequestThread (Socket clientSocket, DBAccess db, AlarmHandler alarmHandler) {
 		System.out.println("RequestThread: Creating request thread...");
 		try{
 			this.clientSocket = clientSocket;
-			serverRequest = new ServerRequest();
+			serverRequest = new ServerRequest(db, alarmHandler);
 			
 			outputStream = new ObjectOutputStream(clientSocket.getOutputStream());
 			outputStream.flush();
