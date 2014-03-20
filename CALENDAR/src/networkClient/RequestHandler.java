@@ -121,6 +121,12 @@ public class RequestHandler {
 			return true;			
 		}return false;
 	}
+	public Boolean removeInvitationByID (Invitation invitation){
+		Packet response = client.request("REMOVE_INVITATION", invitation);
+		if(response.getName().equals("INVITATION_REMOVED")){
+			return true;			
+		}return false;
+	}
 //	Email
 	public Boolean sendEmail (String emailAdress, String message){
 		Packet response = client.request("SEND_EMAIL", emailAdress, message);

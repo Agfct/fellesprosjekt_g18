@@ -40,15 +40,16 @@ public class Server implements Runnable {
 //		}
 		
 		openServerSocket();
-		
+
 		while (!isRunning()) {
 			Socket clientSocket;
-			
+
 			try {
 				clientSocket = serverSocket.accept();
 			}
 			catch (IOException e) {
 				if (isRunning()) {
+					db.getCon().close();
 					System.out.println("Server: Server stopped!");
 					return;
 				}
@@ -56,6 +57,7 @@ public class Server implements Runnable {
 			}
 			new Thread(new RequestThread(clientSocket, db, alarmHandler)).start();
 		}
+		stop();
 	}
 	
 	private void openServerSocket() {
@@ -80,10 +82,14 @@ public class Server implements Runnable {
 		running = true;
 		
 		try {
+			System.out.println("Server: Closing server...");
+			db.getCon().close();
 			serverSocket.close();
+			System.out.println("Server: Server closed!");
+			
 		}
 		catch (IOException e){
-			throw new RuntimeException("Server: Error while closing socket!", e);
+			throw new RuntimeException("Server: Error while closing connections!", e);
 		}
 	}
 	
@@ -92,5 +98,14 @@ public class Server implements Runnable {
 		Server server = new Server(testPort);
 		System.out.println("Server: Starting server...");
 		new Thread(server).start();
+		while (true){
+			try{
+				if (System.console().readLine().equals("stop")){
+					server.stop();
+				}
+			}
+			catch (Exception e) {
+			}
+		}
 	}
 }
