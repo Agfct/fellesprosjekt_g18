@@ -147,7 +147,8 @@ public class MainWindow extends JFrame{
 		TimeZone tz = TimeZone.getTimeZone("Europe/Oslo");
 		TimeZone.setDefault(tz);
 		date = new Date();
-		
+		NotificationUpdater nu = new NotificationUpdater();
+		new Thread(nu).start();
 
 	}
 	public static MainWindow getMainWindow(){

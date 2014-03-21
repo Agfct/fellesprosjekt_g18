@@ -432,12 +432,12 @@ public class LeftView extends JPanel implements ListSelectionListener, ActionLis
 	   }
 	   
 	   // Number of notifications, new and edited
-	   public static void setNrOfNewAppointmentsNotification(
+	   public void setNrOfNewAppointmentsNotification(
 			   Integer newNrOfNewAppointmentsNotification) {
 		   nrOfNewAppointmentsNotification = newNrOfNewAppointmentsNotification;
 	   }
 
-	   public static void setNrOfeditAppointmentNotification(
+	   public void setNrOfeditAppointmentNotification(
 			   Integer newNrOfeditAppointmentNotification) {
 		   nrOfeditAppointmentNotification = newNrOfeditAppointmentNotification;
 	   }

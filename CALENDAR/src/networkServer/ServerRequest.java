@@ -55,6 +55,7 @@ public class ServerRequest {
 			case "GET_GROUP_MEMBERS": return getGroupMembers((String) packet.getObject(0));
 			case "GET_INVITATION_BY_ID": return getInvitationByID((int) packet.getObject(0));
 			case "GET_INVITED_APPOINTMENTS": return getInvitedAppointments((int) packet.getObject(0));
+			case "GET_NOTIFICATIONS_BY_PARTICIPANT_ID": return getNotificationsByID((int) packet.getObject(0));
 			case "GET_SCHEDULE": return getSchedule((String) packet.getObject(0));
 //			Delete
 			case "SET_APPOINTMENT_AS_DELETED": return setDeletedAppointmentByID((int) packet.getObject(0));
@@ -280,6 +281,17 @@ public class ServerRequest {
 			System.out.println("ServerRequest: getInvitedAppointments failed!");
 			e.printStackTrace();
 			return new Packet("ERROR", "ServerRequest: getInvitedAppointments failed!", e);
+		}
+	}
+	private Packet getNotificationsByID (int participantID) {
+		try {
+			int[] notifications = db.getNotificationsByID(participantID);
+			return new Packet("NOTIFICATIONS", notifications);
+		} 
+		catch (Exception e) {
+			System.out.println("ServerRequest: getNotificationsByID failed!");
+			e.printStackTrace();
+			return new Packet("ERROR", "ServerRequest: getNotificationsByID failed!", e);
 		}
 	}
 	

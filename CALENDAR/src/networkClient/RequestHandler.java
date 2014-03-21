@@ -104,9 +104,9 @@ public class RequestHandler {
 		Packet response = client.request("GET_INVITED_APPOINTMENTS", employee.getParticipantID());
 		return ((ArrayList<Appointment>) response.getObject(0));
 	}
-	public ArrayList<Notification> getNotifications (Employee employee){
+	public int[] getNotifications (Employee employee){
 		Packet response = client.request("GET_NOTIFICATIONS_BY_PARTICIPANT_ID", employee.getParticipantID());
-		return ((ArrayList<Notification>) response.getObject(0));
+		return ((int[]) response.getObject(0));
 	}
 	public Boolean getSchedule (String meetingRoom){
 		Packet response = client.request("GET_SCHEDULE", meetingRoom);
