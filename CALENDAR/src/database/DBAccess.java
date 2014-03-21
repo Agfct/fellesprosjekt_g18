@@ -769,7 +769,7 @@ public class DBAccess{
 	   	 try {
 	   		 ResultSet rs = stmt.executeQuery(String.format("select (SELECT COUNT(isEdited) as total_edits from invitation where isEdited=1 and participantID = 22) + (select count(isNew) as total_new from invitation where isNew=1 and participantID = %d) as notifs", participantID));
 	   		 int inviteNotifs = writeInviteNotifications(rs);
-	   		 ResultSet rs2 = stmt.executeQuery(String.format("select count(total_declined) from(select appointmentID, count(invitationStatus) as total_declined from invitation natural join appointment where invitationStatus = \"DECLINED\" and participantID=%d  group by appointmentID) as total_declined", participantID));
+	   		 ResultSet rs2 = stmt.executeQuery(String.format("select count(total_declined) from(select appointmentID, count(invitationStatus) as total_declined from invitation natural join appointment where invitationStatus = \"DECLINED\" and creator=%d  group by appointmentID) as total_declined", participantID));
 	   		 int declineNotifs = writeDeclineNotifications(rs2);
 	   		 JohnnyboyTheDog[0] = inviteNotifs;
 	   		 JohnnyboyTheDog[1] = declineNotifs;

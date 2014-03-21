@@ -237,6 +237,7 @@ public class AppointmentsPanel extends JPanel implements ActionListener {
 		else if (e.getSource() == editBtn){
 			// Open newAppointmentView for editing
 			MainWindow.newAppointmentView(appointment, false,"editApp");
+			//TODO: sette den inn
 			MainWindow.removeEditAppointmentsView();
 		}
 	}
