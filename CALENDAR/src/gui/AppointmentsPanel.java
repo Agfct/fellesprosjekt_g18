@@ -1,14 +1,18 @@
 package gui;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Insets;
 import java.awt.Label;
+import java.awt.Stroke;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -236,13 +240,32 @@ public class AppointmentsPanel extends JPanel implements ActionListener {
 		}	
 		else if (e.getSource() == editBtn){
 			// Open newAppointmentView for editing
+			if(appointment.isDeclined()){
+				appointment.setDeclined(false);
+				MainWindow.getRequestHandler().editAppointment(appointment);
+			}
 			MainWindow.newAppointmentView(appointment, false,"editApp");
-			//TODO: sette den inn
 			MainWindow.removeEditAppointmentsView();
 		}
 	}
 	public void removeThisPanel(){
 		appointmentsPanelList.removeAppointmentsPanel(this);
 	}
+	// Painting the numbers
+		@Override
+		protected void paintComponent(Graphics g) {
+			super.paintComponent(g);
+			Graphics2D g2d = (Graphics2D) g;
+
+			if(appointment.isDeclined()){
+				//editAppointments Notification Symbol
+				//Drawing the red circle
+	    		g2d.setColor(Color.RED);
+	    		Stroke oldStroke = g2d.getStroke();
+	    		g2d.setStroke(new BasicStroke(3));
+	    		g2d.drawRect(51, 3, 128, 26);
+	    		g2d.setStroke(oldStroke);
+			}
+		}
 	
 }

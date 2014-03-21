@@ -338,45 +338,45 @@ public class LeftView extends JPanel implements ListSelectionListener, ActionLis
 		weekBox.getModel().setSelectedItem(c.get(Calendar.WEEK_OF_YEAR));
 	}
 	// Painting the numbers
-	   @Override
-	    protected void paintComponent(Graphics g) {
-	        super.paintComponent(g);
-	        Graphics2D g2d = (Graphics2D) g;
-	        
-			if(nrOfeditAppointmentNotification > 0){
-				//editAppointments Notification Symbol
-				//Drawing the red circle
-		        g2d.drawImage(redCircleImg, 173, 247, this);
-		        
-				//Drawing the number of new notifications
-				//setting Font and color
-		        Font font = new Font("Tahoma", Font.BOLD, 14);
-				g2d.setFont(font);
-				g2d.setColor(Color.WHITE);
-				
-				if (nrOfeditAppointmentNotification > 9){
-					g2d.drawString(nrOfeditAppointmentNotification.toString(), 177, 265);}
-				else{ g2d.drawString(nrOfeditAppointmentNotification.toString(), 182, 265);}
-			}
-			
-			
-			if(nrOfNewAppointmentsNotification > 0){
-			    // Appointments Notification Symbol:
-				//Drawing the red circle
-		        g2d.drawImage(redCircleImg, 173, 287, this);
-		        
-				//Drawing the number of new notifications
-				//setting Font and color
-				Font font = new Font("Tahoma", Font.BOLD, 14);
-				g2d.setFont(font);
-				g2d.setColor(Color.WHITE);
-				
-				if (nrOfNewAppointmentsNotification > 9){
-					g2d.drawString(nrOfNewAppointmentsNotification.toString(), 177, 305);}
-				else{ g2d.drawString(nrOfNewAppointmentsNotification.toString(), 182, 305);}
-			}
-			
-	    }
+	@Override
+	protected void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		Graphics2D g2d = (Graphics2D) g;
+
+		if(nrOfeditAppointmentNotification > 0){
+			//editAppointments Notification Symbol
+			//Drawing the red circle
+			g2d.drawImage(redCircleImg, 173, 247, this);
+
+			//Drawing the number of new notifications
+			//setting Font and color
+			Font font = new Font("Tahoma", Font.BOLD, 14);
+			g2d.setFont(font);
+			g2d.setColor(Color.WHITE);
+
+			if (nrOfeditAppointmentNotification > 9){
+				g2d.drawString(nrOfeditAppointmentNotification.toString(), 177, 265);}
+			else{ g2d.drawString(nrOfeditAppointmentNotification.toString(), 182, 265);}
+		}
+
+
+		if(nrOfNewAppointmentsNotification > 0){
+			// Appointments Notification Symbol:
+			//Drawing the red circle
+			g2d.drawImage(redCircleImg, 173, 287, this);
+
+			//Drawing the number of new notifications
+			//setting Font and color
+			Font font = new Font("Tahoma", Font.BOLD, 14);
+			g2d.setFont(font);
+			g2d.setColor(Color.WHITE);
+
+			if (nrOfNewAppointmentsNotification > 9){
+				g2d.drawString(nrOfNewAppointmentsNotification.toString(), 177, 305);}
+			else{ g2d.drawString(nrOfNewAppointmentsNotification.toString(), 182, 305);}
+		}
+
+	}
 	   
 	   public boolean getShowHidden(){
 		   return showHiddenBox.isSelected();

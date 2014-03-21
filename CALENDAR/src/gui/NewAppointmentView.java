@@ -1016,7 +1016,6 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 				if(MainWindow.getRequestHandler().removeAppointmentByID(appointmentModel)){
 					for (Invitation inv : deletedInvitations) {
 						MainWindow.getRequestHandler().setInvitationAsDeleted(inv);
-						//TODO:
 					}
 					MainWindow.removeNewAppointmentView();
 					MainWindow.editAppointmentsView();
@@ -1181,6 +1180,7 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 		if (e.getSource() == roomList){
 			if (roomList.getSelectedValue() != null){
 				appointmentModel.setRoom(roomList.getSelectedValue());
+				appointmentModel.setLocation(appointmentModel.getRoom().getName());
 			}
 		}
 	}
