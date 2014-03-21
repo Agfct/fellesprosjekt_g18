@@ -53,7 +53,7 @@ public class EmailHandler {
  
 			Transport.send(message);
  
-			System.out.println("EmailHandler: Done");
+			System.out.println("EmailHandler: Email sent to: " + mail);
 			return true;
  
 		} catch (MessagingException e) {
