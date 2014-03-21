@@ -386,6 +386,7 @@ public class MainWindow extends JFrame{
 		calendarView.repaint();
 		removeAppointmentAppWindow();
 		calendarPanel.addAllAppointments();
+		
 	}
 
 	// TEST FOR TIME ALTERNATIVES

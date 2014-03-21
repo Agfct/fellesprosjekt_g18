@@ -28,7 +28,7 @@ public class DBAccess{
 	
 	public void editInvitation(Invitation invitation) throws Exception {
 		try {
-			stmt.executeUpdate(String.format("update invitation set alarmTime = %d, invitationStatus = \"%s\", isNew = false, isHidden = %b where invitationID = %d", invitation.getAlarmTime(), invitation.getStatus().name(), invitation.isHidden(), invitation.getInvitationID()));	
+			stmt.executeUpdate(String.format("update invitation set alarmTime = %d, invitationStatus = \"%s\", isNew = false, isHidden = %b, isEdited = %b where invitationID = %d", invitation.getAlarmTime(), invitation.getStatus().name(), invitation.isHidden(), invitation.isEdited(), invitation.getInvitationID()));	
 		} catch ( NullPointerException e) {
 			System.err.println("A field in the edit request is null");
 			throw e;
@@ -261,7 +261,7 @@ public class DBAccess{
 	public void createInvitationOnFresh(Invitation invitation, int id){
 		try {
 			System.out.println(invitation.getAppointment().getAppointmentID());
-			stmt.executeUpdate(String.format("replace into invitation values(null, %d, %d, %d, \"%s\", true, %b, %b)", id, invitation.getEmployee().getParticipantID(), invitation.getAlarmTime(), invitation.getStatus().name(), invitation.isHidden(), invitation.isDeleted() ));
+			stmt.executeUpdate(String.format("replace into invitation values(null, %d, %d, %d, \"%s\", true, %b, %b, 0)", id, invitation.getEmployee().getParticipantID(), invitation.getAlarmTime(), invitation.getStatus().name(), invitation.isHidden(), invitation.isDeleted() ));
 
 		} catch ( NullPointerException e) {
 			System.err.println("A field in the created object is null");
@@ -275,7 +275,7 @@ public class DBAccess{
 	public void createInvitationOnStored(Invitation invitation){
 		try {
 			System.out.println(invitation.getAppointment().getAppointmentID());
-			stmt.executeUpdate(String.format("replace into invitation values(null, %d, %d, %d, \"%s\", true, %b, %b)",invitation.getAppointment().getAppointmentID(), invitation.getEmployee().getParticipantID(), invitation.getAlarmTime(), invitation.getStatus().name(), invitation.isHidden(), invitation.isDeleted() ));
+			stmt.executeUpdate(String.format("replace into invitation values(null, %d, %d, %d, \"%s\", true, %b, %b, 0)",invitation.getAppointment().getAppointmentID(), invitation.getEmployee().getParticipantID(), invitation.getAlarmTime(), invitation.getStatus().name(), invitation.isHidden(), invitation.isDeleted() ));
 
 		} catch ( NullPointerException e) {
 			System.err.println("A field in the created object is null");
@@ -292,7 +292,7 @@ public class DBAccess{
 	public void editAppointment(Appointment app) throws Exception {
 		try {
 			stmt.executeUpdate(String.format("update appointment set startTime = %d, endTime = %d, location = \"%s\", description = \"%s\", creator = %d, title = \"%s\", internal = %b, isDeleted = %b where appointmentID = %d", app.getTimeSlot().getStart(), app.getTimeSlot().getEnd(), app.getLocation(), app.getDescription(), app.getCreator().getEmployee().getParticipantID(), app.getTitle(), app.isInternal(), app.isDeleted(), app.getAppointmentID()));
-			stmt.executeUpdate(String.format("update invitation set invitationStatus = \"PENDING\" where appointmentID = %d", app.getAppointmentID()));
+			stmt.executeUpdate(String.format("update invitation set isEdited = 1 where appointmentID = %d", app.getAppointmentID()));
 			for (Invitation inv : app.getInvitations()) {
 				createInvitationOnStored(inv);
 				if(app.isDeleted()){
@@ -820,6 +820,7 @@ public class DBAccess{
 		String invitationStatus = rs.getString("invitationStatus");
 		int alarmTime = rs.getInt("alarmTime");
 		boolean isDeleted = rs.getBoolean("invDeleted");
+		boolean isEdited = rs.getBoolean("isEdited");
 		//for testing
 //		System.out.println(invitationID);
 //		System.out.println(appointmentID);
@@ -835,7 +836,8 @@ public class DBAccess{
 			System.err.println("writeInvitation: No invitationStatus set");
 		}
 		invitation.setAlarmTime(alarmTime);
-		invitation.setEdited(isNew);
+		invitation.setEdited(isEdited);
+		invitation.setNew(isNew);
 		invitation.setHidden(isHidden);
 		invitation.setInvitationID(invitationID);
 		invitation.setDeleted(isDeleted);

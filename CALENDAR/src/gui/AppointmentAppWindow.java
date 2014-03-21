@@ -143,8 +143,11 @@ public class AppointmentAppWindow extends JComponent{
         String time = "Time: "+appointment.getStartTime()+"-"+appointment.getEndTime();
         String date = appointment.getDateString();
 		String room;
-		if(appointment.isInternal()){
+		if(appointment.getRoom() != null && appointment.isInternal()){
 			 room = appointment.getRoom().toString();
+		}
+		else if(appointment.isInternal()){
+			 room = "TBA";
 		}
 		else{
 			 room = appointment.getLocation();
