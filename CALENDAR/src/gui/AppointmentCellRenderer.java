@@ -30,8 +30,11 @@ public class AppointmentCellRenderer implements ListCellRenderer<Appointment>{
 		// Time     | Title  | Pending
 		// Date     | Room   | hidden ?
 		String room;
-		if(value.isInternal()){
+		if(value.getRoom() != null && value.isInternal()){
 			 room = value.getRoom().toString();
+		}
+		else if(value.isInternal()){
+			 room = "TBA";
 		}
 		else{
 			 room = value.getLocation();
@@ -76,7 +79,11 @@ public class AppointmentCellRenderer implements ListCellRenderer<Appointment>{
 	    				"</table>"+
 	    				"</html>");
 	    
-	    if(value.getInvitation(MainWindow.getUser()).isEdited()){ // NOT ISSELECTED BUT IF THE APPOINTMENT IS NEW!!!
+	    if(value.getInvitation(MainWindow.getUser()).isEdited() == true && isSelected){
+	    	value.getInvitation(MainWindow.getUser()).setEdited(false);
+	    	MainWindow.getRequestHandler().editInvitation(value.getInvitation(MainWindow.getUser()));
+	    }
+	    if(value.getInvitation(MainWindow.getUser()).isEdited()){
 	    	renderer.setBorder(BorderFactory.createLineBorder(Color.RED));	    	
 	    }
 	    else{

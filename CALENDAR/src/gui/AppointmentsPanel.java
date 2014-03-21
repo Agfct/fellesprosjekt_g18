@@ -121,11 +121,14 @@ public class AppointmentsPanel extends JPanel implements ActionListener {
 		cLabel3.gridy = 1;
 //		room = new JLabel(appointment.getRoom().toString());
 		String roomTxt;
-		if(appointment.isInternal()){
+		if(appointment.getRoom() != null && appointment.isInternal()){
 			 roomTxt = appointment.getRoom().toString();
 		}
+		else if(appointment.isInternal()){
+			 roomTxt = "TBA";
+		}
 		else{
-			 roomTxt = appointment.getLocation();
+			roomTxt = appointment.getLocation();
 		}
 		room = new JLabel(roomTxt);
 		room.setName("room");

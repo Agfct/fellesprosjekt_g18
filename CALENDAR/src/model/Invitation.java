@@ -13,6 +13,7 @@ public class Invitation implements Serializable{
 	private boolean isDeleted;
 	private boolean edited;
 	private boolean hidden;
+	private boolean isNew;
 	private long alarmTime;
 	private transient PropertyChangeSupport pcs;
 	
@@ -98,5 +99,13 @@ public class Invitation implements Serializable{
 
 	public void setDeleted(boolean isDeleted) {
 		this.isDeleted = isDeleted;
+	}
+
+	public boolean isNew() {
+		return isNew;
+	}
+
+	public void setNew(boolean isNew) {
+		this.isNew = isNew;
 	}
 }
