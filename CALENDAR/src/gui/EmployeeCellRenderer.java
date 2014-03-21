@@ -16,27 +16,15 @@ public class EmployeeCellRenderer extends JCheckBox implements ListCellRenderer<
 
 	@Override
 	public Component getListCellRendererComponent(
-			JList<? extends Employee> list, Employee value, int index,
-			boolean isSelected, boolean cellHasFocus) {
-		
-		
+		JList<? extends Employee> list, Employee value, int index,
+		boolean isSelected, boolean cellHasFocus) {
+
 		setOpaque(false);
-//		if(isSelected){
-//			setForeground(list.getSelectionForeground());
-//			setBackground(list.getSelectionBackground());			
-//			setBorder(new LineBorder(Color.BLUE));
-//		}
-//		else{
-//			setForeground(list.getForeground());
-//			setBackground(list.getBackground());	
-//		}
-//		
 		setEnabled(list.isEnabled());
 		setSelected(((Employee)value).isSelected());
 		setFont(list.getFont());
 		setText(value.toString());
-		
-		
+
 		return this;
 	}
 

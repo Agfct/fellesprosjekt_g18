@@ -45,7 +45,6 @@ import model.Invitation;
 public class EmailPanel extends JPanel implements ActionListener, FocusListener {
 	private JLabel headerLabel;
 
-
 	private JButton cancelButton;
 	private JButton saveButton;
 	private JButton sendEmailButton;
@@ -79,35 +78,12 @@ public class EmailPanel extends JPanel implements ActionListener, FocusListener 
 		String location = invite.getAppointment().getLocation();
 
 		this.addMouseListener(new MAdapter());
-		System.out.println(name);
-		System.out.println(endTime);
-		System.out.println(startTime);
-
-
 		setLayout(new GridBagLayout());
-		//				backgroundImg = new ImageIcon(this.getClass().getResource("/backgrounds/background1.png")).getImage();
 		backgroundImg = MainWindow.getBackgroundImage();
 		setOpaque(false);
 
 
 		/** CREATING BUTTONS, LABELS AND TEXT FIELDS **/
-
-
-		//Header Text
-//		GridBagConstraints cLabel0 = new GridBagConstraints();
-//		cLabel0.insets = new Insets(0,0,0,0);
-//		cLabel0.gridx = 2;
-//		cLabel0.gridy = 0;
-//		cLabel0.gridwidth = 2;
-//		cLabel0.anchor = GridBagConstraints.LINE_START;
-//		headerLabel = new JLabel("Email");
-//		headerLabel.setName("headerLabel");
-//		//DESIGN for the Label text
-//		headerLabel.setForeground(MainWindow.getTxtColor());
-//		headerLabel.setFont(new Font(MainWindow.getMFont(),Font.BOLD,28));
-//		//				loginBtn.setPreferredSize(new Dimension(200, 400));
-//		add(headerLabel,cLabel0);
-
 
 		//name Label & TextField
 		GridBagConstraints cLabel1 = new GridBagConstraints();
@@ -189,24 +165,6 @@ public class EmailPanel extends JPanel implements ActionListener, FocusListener 
 		//descriptionScrollPane = new JScrollPane(descriptionField); //NOT WORKING
 		add(editMessageField,cLabel12);
 
-
-		//save Button
-//		GridBagConstraints cLabel5 = new GridBagConstraints();
-//		cLabel5.insets = new Insets(20,50,0,0);
-//		cLabel5.gridx = 1;
-//		cLabel5.gridy = 10;
-//		saveButton = new JButton("Save");
-//		saveButton.setName("saveButton");
-//		saveButton.addActionListener(this);
-//		// DESIGN FOR BUTTON:
-//		saveButton.setBackground(MainWindow.getBckColor());
-//		saveButton.setForeground(MainWindow.getTxtColor());
-//		saveButton.setFocusPainted(false);
-//		saveButton.setFont(new Font(MainWindow.getMFont(),Font.BOLD, 12));
-//		//				loginBtn.setPreferredSize(new Dimension(200, 400));
-//		add(saveButton,cLabel5);
-
-
 		//Send Email Button
 		GridBagConstraints cLabel6 = new GridBagConstraints();
 		cLabel6.insets = new Insets(20,50,0,0);
@@ -220,7 +178,7 @@ public class EmailPanel extends JPanel implements ActionListener, FocusListener 
 		sendEmailButton.setForeground(MainWindow.getTxtColor());
 		sendEmailButton.setFocusPainted(false);
 		sendEmailButton.setFont(new Font(MainWindow.getMFont(),Font.BOLD, 12));
-		//				loginBtn.setPreferredSize(new Dimension(200, 400));
+		//loginBtn.setPreferredSize(new Dimension(200, 400));
 		add(sendEmailButton,cLabel6);
 
 		//Cancel Button
@@ -269,13 +227,6 @@ public class EmailPanel extends JPanel implements ActionListener, FocusListener 
 		cLabe14.gridy = 10;
 		add(new JLabel("                              "),cLabe14);
 
-
-		//				GridBagConstraints cLabe14 = new GridBagConstraints();
-		//				cLabe14.gridx = 1;
-		//				cLabe14.gridy = 7;
-		//				add(new JLabel("               "),cLabe14);
-
-
 	}
 
 
@@ -304,32 +255,18 @@ public class EmailPanel extends JPanel implements ActionListener, FocusListener 
 			}
 		}
 		if (e.getSource() == cancelButton){
-			System.out.println("Closing the emailView");
 			MainWindow.removeEmailPanel();
-
-
 		}
-
-
 	}
-
-
-
 
 	@Override
 	public void focusGained(FocusEvent arg0) {
-		// TODO Auto-generated method stub
-
-
 	}
-
 
 	@Override
 	public void focusLost(FocusEvent arg0) {
-		// TODO Auto-generated method stub
-
-
 	}
+	
 	public void sendEmail(String mail, String subject, String msg){
 		MainWindow.getRequestHandler().sendEmail(mail, subject, msg);
 	}

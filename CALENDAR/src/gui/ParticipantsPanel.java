@@ -44,7 +44,6 @@ public class ParticipantsPanel extends JPanel implements ActionListener, Propert
 	private Employee employee;
 	GridBagLayout layout;
 	
-	//TODO: DENNE ER DET SOM GJØR AT LOGIN ER TREIG
 	public ParticipantsPanel(Employee newEmployee){ 
 		
 		employee = newEmployee;
@@ -112,9 +111,6 @@ public class ParticipantsPanel extends JPanel implements ActionListener, Propert
 		statusFieldModel.addElement(InvitationStatus.PENDING);
 		statusFieldModel.addElement(InvitationStatus.DECLINED);
 		statusFieldModel.addElement(InvitationStatus.ACCEPTED);
-//		statusFieldModel.addElement("<html><font color=\"BLACK\">Pending</font></html>");	
-//		statusFieldModel.addElement("<html><font color=\"GREEN\">Accepted</font></html>");			
-//		statusFieldModel.addElement("<html><font color=\"RED\">Declined</font></html>");		
 		
 		statusField.setName("statusField");
 		// DESIGN FOR ComboBox:
@@ -189,15 +185,10 @@ public class ParticipantsPanel extends JPanel implements ActionListener, Propert
 	// Action Listener for Buttons
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		System.out.println("("+this.getClass()+"):"+ "Pressing a button Or Modyfing a comboBox");
-		
 		// If cancelAppointmentBtn is pressed
 		if (e.getSource() == removeBtn){
-			System.out.println("remove button is pressed");
 			//Removing the check
-			System.out.println("Employee is selected BEFORE: " + employee.isSelected());
 			employee.setSelected(!employee.isSelected());
-			System.out.println("Employee is selected AFTER: " + employee.isSelected());
 			participantsPanelList.getNewAppointmentView().getEmployeeList().repaint();
 			// adding the removed invitation to a list so it can be removed from database
 			participantsPanelList.getNewAppointmentView().addDeletedInvitation(employee); 
@@ -206,7 +197,6 @@ public class ParticipantsPanel extends JPanel implements ActionListener, Propert
 			
 		}	
 		else if (e.getSource() == emailBtn){
-			System.out.println("Pressing eMail Btn");
 			MainWindow.newEmailPanel(invitation);
 		}
 		else if(e.getSource() == statusField){

@@ -876,19 +876,9 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
     	setDurationField(appointmentModel.getDuration());
     	// Date
     	setDateFields(appointmentModel.getDate());
-    	// ParticipantsList
-//		for (Invitation invitation : appointmentModel.getInvitations()) {
-//			System.out.println("Invitasjonen " + invitation );
-//			ParticipantsPanel participantsPanel = new ParticipantsPanel(invitation.getEmployee());
-//			participantsPanel.setInvitation(invitation);
-//			invitation.setParticipantsPanel(participantsPanel);
-//			participantsPanelList.addParticipantPanel(invitation.getParticipantsPanel());
-//		}
 		
     	for (int i = 0; i < allEmployees.size(); i++) {
     		for (Invitation invitation : appointmentModel.getInvitations()) {
-    			
-
     			
     			if(!invitation.isDeleted() && allEmployees.get(i).equals(invitation.getEmployee() )){
     				
@@ -898,14 +888,9 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
         			participantsPanelList.addParticipantPanel(participantsPanel);
         			
     				allEmployees.get(i).setSelected(true);
-    				
-    				System.out.println("1 Employee "+ allEmployees.get(i) + " is selected " +allEmployees.get(i).isSelected());
-    				System.out.println("Employee " + invitation.getEmployee() + " selectedPerson " + invitation.getEmployee().isSelected());
     			}
     		}
     	}
-    	
-    	
     	
 		employeeList.repaint();  
     	// Description
@@ -935,7 +920,6 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 		return false;
 	}
 	public void isValidDate(int date, int month, int year){
-		System.out.println(date + " " + month + " " + year);
 		if(isLeapYear(year) && month == 2 && date>29){
 			dateDayField.setSelectedItem(29);			
 		}
@@ -1000,7 +984,6 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 
 	@Override
 	public void keyTyped(KeyEvent arg0) {
-		System.out.println("("+this.getClass()+"):"+ "Pressing a button: KeyTyped");
 	}
 	
 	// ActionListener for Buttons and ComboBoxes: 
@@ -1008,11 +991,9 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 	// ComboBoxes: startTime, EndTime, date(day, month, year)
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		System.out.println("("+this.getClass()+"):"+ "Pressing a button Or Modyfing a comboBox");
 		
 		// If cancelAppointmentBtn is pressed
 		if (e.getSource() == cancelAppointmentBtn){
-			System.out.println("Canceled the newAppointment");
 			if(from.equals("editApp")){
 				MainWindow.removeNewAppointmentView();
 				MainWindow.editAppointmentsView();
@@ -1023,7 +1004,6 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 		}
 		// If addExParticipantsBtn is pressed
 		else if (e.getSource() == addExParticipantsBtn){
-			System.out.println("Adding external Participant");
 			if (!exParticipantsField.getText().equals("")){
 				createExternalEmployee();
 			}
@@ -1031,7 +1011,6 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 		}
 		// If addExParticipantsBtn is pressed
 		else if (e.getSource() == deleteAppointmentBtn){
-			System.out.println("Deleting Appointment");
 			if(appointmentModel.getInvitations().isEmpty()){
 				if(MainWindow.getRequestHandler().removeAppointmentByID(appointmentModel)){
 					for (Invitation inv : deletedInvitations) {
@@ -1057,7 +1036,6 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 		}
 		// If bookBtn is pressed
 		else if (e.getSource() == bookBtn){
-			System.out.println("Auto Booking a Room");
 			//Finds the capasity, and books a room
 			short capasity = nrParticipantsField.getText().equals("") ? (short) (participantsPanelList.getComponentCount()-1) : Short.parseShort(nrParticipantsField.getText());
 			roomList.setSelectedValue(roomBooker.autoBook(appointmentModel.getTimeSlot(), capasity), true);
@@ -1076,7 +1054,6 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 				}
 			}
 			else{
-				System.out.println("Saving the newAppointment");
 				if(MainWindow.getRequestHandler().addAppointment(appointmentModel)){
 					MainWindow.removeNewAppointmentView();	
 				}else{
@@ -1169,7 +1146,6 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 	// ItemListener for the RadioButtons
 	@Override
 	public void itemStateChanged(ItemEvent e) {
-		System.out.println("("+this.getClass()+"):"+ "Pressing a Radiobutton");
 		if(e.getSource() == internalRadioButton){
 			setBookingGreyedOut(false);
 			appointmentModel.setInternal(true);
@@ -1211,7 +1187,6 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 	//Mouse Listner TEST for Lists
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		System.out.println("("+this.getClass()+"):"+ "Clicking a List Model");
 		if( employeeList.isEnabled()){
 			int index = employeeList.locationToIndex(e.getPoint());  
 			Employee selectedPerson = (Employee)employeeList.getModel().getElementAt(index);  
@@ -1260,7 +1235,6 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 	}
 	@Override
 	public void focusLost(FocusEvent f) {
-		System.out.println("("+this.getClass()+"):"+ "Focus lost TextField");
 		// Updates Model
 		if(f.getSource() == titleField){
 			appointmentModel.setTitle(titleField.getText());
@@ -1277,23 +1251,8 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 		else if(f.getSource() == locationField){
 			appointmentModel.setLocation(locationField.getText());
 		}
-		
-		
-		
-		// TEST
 	}
-	//TableModelListener
-//	@Override
-//	public void tableChanged(TableModelEvent e) {
-//		int row = e.getFirstRow();
-//		int col = e.getColumn();
-//		TableModel model = (TableModel)e.getSource();
-//		String columnName = model.getColumnName(col);
-//		Object data = model.getValueAt(row, col);
-//		System.out.println("data: "+data);
-//		System.out.println("colname: "+columnName);
-//		System.out.println("personName: "+model.getValueAt(row, 0));
-//	}
+	
 	public void showCorrectNames(String name){
 		if(name.equals("")){
 			//Initialize the list, and is supposed to show all names when you remove all text from searchField
@@ -1319,23 +1278,9 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 	public void addDeletedInvitation(Employee employee){
 		if(from.equals("editApp")){
 			deletedInvitations.add(appointmentModel.getInvitation(employee));
-			System.out.println("NÅ KJØRER DELETED INVITATION ADD ");
-			for (int i = 0; i < deletedInvitations.size(); i++) {
-				System.out.println("DEL: "+deletedInvitations.get(i));
-			}
 		}
 	}
-	// Property change for Appointment Model
-//	public void appointmentChanged(String change, Invitation newInvitation) {
-//		System.out.println("("+this.getClass()+"):"+ "Property changed on Appointment Model");
-//		if (change.equals("add")){
-//			participantsPanelList.addParticipantView(newInvitation.getParticipantsView());
-//		}
-//		else if (change.equals("remove")){
-//			newInvitation.getParticipantsView().removeThisView();
-//
-//		}
-//	}
+	
 	// Property changed for appointments
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
@@ -1390,8 +1335,8 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 		if ((int) dateYearField.getSelectedItem() != c.get(Calendar.YEAR)){
 			dateYearField.setSelectedItem(c.get(Calendar.YEAR));
 		}
-		System.out.println("Date changed");
 	}
+	
     // Sending click to all JPanels in this panel
 	private class MAdapter extends MouseAdapter {
 		

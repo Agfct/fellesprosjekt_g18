@@ -49,7 +49,6 @@ public class CalendarView extends JPanel {
 	private  ArrayList<Appointment> otherAppointments;
 	
 	public CalendarView(){
-//		backgroundImg = new ImageIcon(this.getClass().getResource("/backgrounds/calendarBackground.png")).getImage();
 		backgroundImg = MainWindow.getBackgroundImage();
 		calendarImg = new ImageIcon(this.getClass().getResource("/backgrounds/calendarHeader.png")).getImage();
 		
@@ -57,7 +56,6 @@ public class CalendarView extends JPanel {
 		setOpaque(false);
 		//Setting Size
 		
-
 		/** Setting CalendarPanel **/
 		calendarPanel = MainWindow.getCalendarPanel();
 		
@@ -77,7 +75,6 @@ public class CalendarView extends JPanel {
 		add(calendarScrollPane,cLabel0);
 	}
 
-	
 	// Overriding the paintComponent to get Background and Week Days
     @Override
     protected void paintComponent(Graphics g) {
@@ -89,11 +86,7 @@ public class CalendarView extends JPanel {
         
         //The Calendar Image
         g2d.drawImage(calendarImg, 0, 0, this);
-        
-        
-        
  
-//TODO: Draw propper day/month for all days
 		paintDays(g2d);
 
     }
@@ -135,11 +128,11 @@ public class CalendarView extends JPanel {
     	c.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
     	g2d.drawString(c.get(Calendar.DAY_OF_MONTH) + "/" + (c.get(Calendar.MONTH)+1), 916, 20);
     	if (c.get(Calendar.DAY_OF_YEAR) == today.get(Calendar.DAY_OF_YEAR) && c.get(Calendar.YEAR) == today.get(Calendar.YEAR)){containsToday = true;}
-    	
+
     	// Draw a req on the day that is today
-//    	if(dagen i dag er i den uken som vises, så sjekk hvilken dag det er og tegn)/
-//    	Mon: (51, 3, 128, 26). Tue: (183, 3, 129, 26). Wed: (316, 3, 129, 26). Thu: (449, 3, 129, 26) Fri: (582, 3, 129, 26)
-//    	Sat: (715, 3, 129, 26). Sun(848, 3, 129, 26);
+    	//    	if(dagen i dag er i den uken som vises, så sjekk hvilken dag det er og tegn)/
+    	//    	Mon: (51, 3, 128, 26). Tue: (183, 3, 129, 26). Wed: (316, 3, 129, 26). Thu: (449, 3, 129, 26) Fri: (582, 3, 129, 26)
+    	//    	Sat: (715, 3, 129, 26). Sun(848, 3, 129, 26);
     	if (containsToday){
     		g2d.setColor(Color.DARK_GRAY);
     		Stroke oldStroke = g2d.getStroke();
@@ -151,7 +144,7 @@ public class CalendarView extends JPanel {
     		else if (today.get(Calendar.DAY_OF_WEEK) == Calendar.FRIDAY){g2d.drawRect(582, 3, 129, 26);}
     		else if (today.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY){g2d.drawRect(715, 3, 129, 26);}
     		else if (today.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY){g2d.drawRect(848, 3, 129, 26);}
-    		
+
     		g2d.setStroke(oldStroke);
     	}
     }

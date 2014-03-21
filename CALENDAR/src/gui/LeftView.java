@@ -135,20 +135,6 @@ public class LeftView extends JPanel implements ListSelectionListener, ActionLis
 //		loginBtn.setPreferredSize(new Dimension(200, 400));
 		add(weekBox,cLabel1);
 
-		
-		//JCalendar
-//		GridBagConstraints cLabel2 = new GridBagConstraints();
-//		cLabel2.insets = new Insets(0,50,0,0);
-//		cLabel2.gridx = 0;
-//		cLabel2.gridy = 4;
-//		cLabel2.gridwidth = 2;
-//		datePickerLabel = new JLabel("Select a date"); //replace with actual name
-//		datePickerLabel.setName("monthCal");
-//		//DESIGN for the Label text
-//		datePickerLabel.setForeground(Color.RED);
-//		datePickerLabel.setFont(new Font(MainWindow.getMFont(),Font.BOLD,18));
-//		add(datePickerLabel,cLabel0);
-		
 		//newAppointmentBtn
 		GridBagConstraints cLabel3 = new GridBagConstraints();
 //		cLabel1.insets = new Insets(20,50,0,0);
@@ -211,36 +197,6 @@ public class LeftView extends JPanel implements ListSelectionListener, ActionLis
 //		loginBtn.setPreferredSize(new Dimension(200, 400));
 		add(addExAppointmentsLabel,cLabel6);
 		
-		//searchLabel
-//		GridBagConstraints cLabel8 = new GridBagConstraints();
-////		cLabel8.insets = new Insets(0,50,0,0);
-//		cLabel8.gridx = 0;
-//		cLabel8.gridy = 18;
-//		cLabel8.gridwidth = GridBagConstraints.RELATIVE;
-//		cLabel8.anchor = GridBagConstraints.LINE_START;
-//		searchLabel = new JLabel("Search: "); 
-//		searchLabel.setName("searchLabel");
-//		//DESIGN for the Label text
-//		searchLabel.setForeground(Color.BLACK);
-//		searchLabel.setFont(new Font(MainWindow.getMFont(),Font.BOLD,12));
-////		loginBtn.setPreferredSize(new Dimension(200, 400));
-//		add(searchLabel,cLabel8);
-		
-		//searchField
-//		GridBagConstraints cLabel9 = new GridBagConstraints();
-//		cLabel9.insets = new Insets(0,50,0,0);
-//		cLabel9.gridx = 0;
-//		cLabel9.gridy = 18;
-//		cLabel9.gridwidth = GridBagConstraints.REMAINDER;
-//		cLabel9.fill = GridBagConstraints.HORIZONTAL;
-//		searchField = new JTextField(20);
-//		searchField.setName("searchField");
-//		searchField.addKeyListener(this);
-////		//DESIGN for the Label text
-////		searchField.setForeground(Color.BLACK);
-////		searchField.setFont(new Font(MainWindow.getMFont(),Font.BOLD,12));
-////		loginBtn.setPreferredSize(new Dimension(200, 400));
-//		add(searchField,cLabel9);
 		
 		// selectedEmployees
 		internalEmployeesList = new JList<Employee>(internallistModel);
@@ -387,8 +343,6 @@ public class LeftView extends JPanel implements ListSelectionListener, ActionLis
 	        super.paintComponent(g);
 	        Graphics2D g2d = (Graphics2D) g;
 	        
-	        
-			
 			if(nrOfeditAppointmentNotification > 0){
 				//editAppointments Notification Symbol
 				//Drawing the red circle
@@ -422,9 +376,6 @@ public class LeftView extends JPanel implements ListSelectionListener, ActionLis
 				else{ g2d.drawString(nrOfNewAppointmentsNotification.toString(), 182, 305);}
 			}
 			
-	
-
-			
 	    }
 	   
 	   public boolean getShowHidden(){
@@ -447,31 +398,26 @@ public class LeftView extends JPanel implements ListSelectionListener, ActionLis
 	   // action listner for checkbox and buttons
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		System.out.println("("+this.getClass()+"):"+ "Pressing a button");
 		
 		// If New Appointment is pressed
 		if (e.getSource() == newAppointmentBtn){
-			System.out.println("Opening newAppointment Window");
 			Appointment app = new Appointment(MainWindow.getUser());
 			MainWindow.removeAppointmentAppWindow(); // Removing the AppWindow if its up
 			MainWindow.newAppointmentView(app,true,""); 	
 		}
 		// If Appointment is pressed
 		else if (e.getSource() == appointmentsBtn){
-			System.out.println("Opening Appointments Window");
 			MainWindow.removeAppointmentAppWindow(); // Removing the AppWindow if its up
 			MainWindow.appointmentsView();
 		}
 		// If Edit Appointments is pressed
 		else if (e.getSource() == editAppointmentBtn){
-			System.out.println("Opening EditAppointments Window");
 			MainWindow.removeAppointmentAppWindow(); // Removing the AppWindow if its up
 			MainWindow.editAppointmentsView();
 		}
 		// If weekBox is modified
 		if (e.getSource() == weekBox){
 			if(!statusFlagChangeingWeekModel){ // If your not changeing model
-				System.out.println("Changeing week");
 				Calendar c = Calendar.getInstance();
 				c.setTime(MainWindow.getDate());
 				c.set(Calendar.WEEK_OF_YEAR, (int) weekBox.getSelectedItem());
@@ -481,7 +427,6 @@ public class LeftView extends JPanel implements ListSelectionListener, ActionLis
 		}
 		// If showhiddenBox
 		else if (e.getSource() == showHiddenBox){
-			System.out.println("Showing hidden");
 			MainWindow.getCalendarPanel().addAllAppointments();
 		}
 		

@@ -177,12 +177,6 @@ public class TopView extends JPanel implements ActionListener{
 		
 		Calendar c = Calendar.getInstance();
 		c.setTime(MainWindow.getDate());
-//		int weekOfYear  = c.get(Calendar.WEEK_OF_YEAR);
-//		int year = c.get(Calendar.YEAR);
-//		c.clear();
-//		// Gets the first day
-//		c.set(Calendar.WEEK_OF_YEAR, weekOfYear);
-//		c.set(Calendar.YEAR, year);
 		c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
 		String weekText = c.getTime().toString().substring(4, 10) + " - "; //Month: MMM
 		c.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
@@ -197,8 +191,6 @@ public class TopView extends JPanel implements ActionListener{
 	//What happens when the different buttons are pressed.
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		System.out.println("("+this.getClass()+"):"+ "Pressing a button");
-		
 		// If Logout Button is pressed
 		if(e.getSource() == logOutBtn){
 			System.out.println("Logging Out");
@@ -211,12 +203,10 @@ public class TopView extends JPanel implements ActionListener{
 		}
 		// If the "Today button is pressed
 		else if(e.getSource() == todayBtn){
-			System.out.println("Going to Todays week");
 			MainWindow.setDate(new Date());
 		}
 		// If the "<--" Previous week button is pressed
 		else if(e.getSource() == previousWeekBtn){
-			System.out.println("Going to the Previous Week");
 			Calendar c = Calendar.getInstance();
 			c.setTime(MainWindow.getDate());
 			c.add(Calendar.DAY_OF_YEAR, -7);
@@ -224,7 +214,6 @@ public class TopView extends JPanel implements ActionListener{
 		}
 		// If the "-->" Next week button is pressed
 		else if(e.getSource() == nextWeekBtn){
-			System.out.println("Going to the Next Week");
 			Calendar c = Calendar.getInstance();
 			c.setTime(MainWindow.getDate());
 			c.add(Calendar.DAY_OF_YEAR, 7);
@@ -267,18 +256,4 @@ public class TopView extends JPanel implements ActionListener{
 		userNameLabel.setText(userName);
 	}
 	
-	// Overriding the paintComponent to get GraidientPaint
-//    @Override
-//    protected void paintComponent(Graphics g) {
-//        super.paintComponent(g);
-//        Graphics2D g2d = (Graphics2D) g;
-//        g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
-//        int w = getWidth();
-//        int h = getHeight();
-//        Color color1 = Color.BLUE;
-//        Color color2 = Color.WHITE;
-//        GradientPaint gp = new GradientPaint(0, 0, color1, 0, h, color2);
-//        g2d.setPaint(gp);
-//        g2d.fillRect(0, 0, w, h);
-//    }
 }

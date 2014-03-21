@@ -53,7 +53,6 @@ public class AppointmentsPanelList extends JPanel {
 	
 	//adding a new View to the Panel
 	public void addAppointmentsPanel(AppointmentsPanel newPanel){
-//		layout.setRows(rows+1);
 		GridBagConstraints cLabel = new GridBagConstraints();
 		cLabel.gridy = rows;
 //		cLabel.weightx = 1d;
@@ -61,7 +60,6 @@ public class AppointmentsPanelList extends JPanel {
 		cLabel.anchor = GridBagConstraints.PAGE_START;
 		newPanel.setAppointmentPanelList(this);
 		this.add(newPanel,cLabel);
-//		System.out.println("rowsadd "+ rows);
 		rows += 1; // WARNING ROWS WILL ALWAYS INCREASE, REMEMBER TO SORT LIST WHEN SAVING.
 		repaint();
 		invalidate();
@@ -77,11 +75,6 @@ public class AppointmentsPanelList extends JPanel {
 	//Methods to respond to the presses in the Views in the ListPanel
 	public void removeAppointmentsPanel(AppointmentsPanel oldPanel){
 		this.remove(oldPanel);
-//		if (rows != 0){
-//			System.out.println("Blir kjørt");
-//			rows -= 1;
-//		}
-//		System.out.println("Rows " + rows);
 		repaint();
 		invalidate();
 		validate();

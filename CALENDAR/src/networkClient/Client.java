@@ -60,9 +60,4 @@ public class Client {
 		}
 	}
 	
-	public static void main (String[] args) {
-		Client client = new Client(testIP, testPort);
-		Packet packet = client.request("Huhei");
-		System.out.println(packet.getName());
-	}
 }

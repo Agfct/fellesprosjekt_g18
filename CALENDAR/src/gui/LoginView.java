@@ -166,13 +166,10 @@ public class LoginView extends JPanel implements ActionListener , KeyListener{
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		System.out.println("("+this.getClass()+"):"+ "Pressing a button");
 		if(e.getSource() == loginBtn){
-			System.out.println("Logging inn");
 			MainWindow.requestLogin(userNameField.getText(), passwordField.getText());
 		}
 		else if(e.getSource() == cancelBtn){
-			System.out.println("EXITING APPLICATION");
 			System.exit(0);
 		}
 	}
@@ -180,7 +177,6 @@ public class LoginView extends JPanel implements ActionListener , KeyListener{
 	@Override
 	public void keyPressed(KeyEvent e) {
 		if (e.getKeyCode() == KeyEvent.VK_ENTER){
-			System.out.println("Logging inn");
 			MainWindow.requestLogin(userNameField.getText(), passwordField.getText());
 		}
 	}

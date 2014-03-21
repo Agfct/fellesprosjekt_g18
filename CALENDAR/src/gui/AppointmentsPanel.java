@@ -215,7 +215,6 @@ public class AppointmentsPanel extends JPanel implements ActionListener {
 	// Action Listener for Buttons
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		System.out.println("("+this.getClass()+"):"+ "Pressing a button Or Modyfing a comboBox");
 		
 		// If removeBtn is pressed
 		if (e.getSource() == removeBtn){
@@ -236,7 +235,6 @@ public class AppointmentsPanel extends JPanel implements ActionListener {
 			}
 		}	
 		else if (e.getSource() == editBtn){
-			System.out.println("Pressing edit Btn");
 			// Open newAppointmentView for editing
 			MainWindow.newAppointmentView(appointment, false,"editApp");
 			MainWindow.removeEditAppointmentsView();

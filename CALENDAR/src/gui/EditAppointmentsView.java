@@ -139,7 +139,6 @@ public class EditAppointmentsView extends JPanel implements ActionListener{
 		
 		// If cancelAppointmentBtn is pressed
 		if (e.getSource() == closeBtn){
-			System.out.println("Closing AppointmentsView");
 			MainWindow.removeEditAppointmentsView();
 		}
 	}

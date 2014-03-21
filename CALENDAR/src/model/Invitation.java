@@ -70,6 +70,7 @@ public class Invitation implements Serializable{
 	public void setStatus(InvitationStatus newStatus) {
 		InvitationStatus oldStatus = status;
 		status = newStatus;
+		if(pcs == null){ createPcs();}
 		pcs.firePropertyChange(Invitation.STATUS_PROPERTY_NAME, oldStatus, status);
 	}
 	public void setEdited(boolean edited) {

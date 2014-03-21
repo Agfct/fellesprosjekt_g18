@@ -32,7 +32,6 @@ public class AlarmHandler {
 		
 		timers.put(invitation, timer);
 		
-		System.out.println("AlarmHandler: Alarm set!");
 	}
 	
 	private void cancelOldTimer(Invitation invitation) {
@@ -40,7 +39,6 @@ public class AlarmHandler {
 			timers.get(invitation).cancel();
 			timers.get(invitation).purge();
 			timers.remove(invitation);
-			System.out.println("AlarmHandler: Old alarm removed!");
 		}
 	}
 

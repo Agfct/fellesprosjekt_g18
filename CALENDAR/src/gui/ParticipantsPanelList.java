@@ -70,7 +70,6 @@ public class ParticipantsPanelList extends JPanel {
 		newView.setParticipantsPanelList(this);
 		participantsPanels.add(newView);
 		this.add(newView,cLabel);
-//		System.out.println("rowsadd "+ rows);
 		rows += 1; // WARNING ROWS WILL ALWAYS INCREASE, REMEMBER TO SORT LIST WHEN SAVING.
 		repaint();
 		invalidate();
@@ -113,7 +112,6 @@ public class ParticipantsPanelList extends JPanel {
 	public void resetRows(){
 		rows = 0;
 	}
-	
 	
 	//test
 	public static void setCompSize(Component comp , int width, int height)

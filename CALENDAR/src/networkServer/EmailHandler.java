@@ -45,7 +45,6 @@ public class EmailHandler {
 		try {
 			Message message = new MimeMessage(session);
 			message.setFrom(new InternetAddress(username));
-			//message.setFrom(new InternetAddress("from-email@gmail.com"));
 			message.setRecipients(Message.RecipientType.TO,
 				InternetAddress.parse(mail));
 			message.setSubject(subject);
@@ -53,7 +52,6 @@ public class EmailHandler {
  
 			Transport.send(message);
  
-			System.out.println("EmailHandler: Email sent to: " + mail);
 			return true;
  
 		} catch (MessagingException e) {

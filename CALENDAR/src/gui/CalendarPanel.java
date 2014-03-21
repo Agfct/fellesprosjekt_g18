@@ -87,54 +87,47 @@ public class CalendarPanel extends JPanel {
 				}
 			}
 		}
-		
 	}
 
-	
 	// Overriding the paintComponent to get Background
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        Graphics2D g2d = (Graphics2D) g;
-        
-        //background Image
-//        g2d.drawImage(backgroundImg, -200, -100, this);
-        
-        
-        //The Calendar Image
-        g2d.drawImage(calendarImg, 0, 0, this);
-        
+	@Override
+	protected void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		Graphics2D g2d = (Graphics2D) g;
 
-    }
-    
+		//The Calendar Image
+		g2d.drawImage(calendarImg, 0, 0, this);
+
+	}
+
 	public void setScrollPane(JScrollPane newCalendarScrollPane){
 		calendarScrollPane = newCalendarScrollPane;
-		
+
 	}
-	
-    public void refreshBackgroundImg(){
-    	backgroundImg = MainWindow.getBackgroundImage();
-    	repaint();
-    }
-    // if an appointment got hit
-    public void gotHit(){
-    	isHit = true;
-    }
-    public void checkIfHit(){
-    	// If you didnt press any apps
-    	if(!isHit){
-    		MainWindow.removeAppointmentAppWindow();
-    	}
-    	isHit = false;
-    }
-    // Sending click to all JPanels in this panel
+
+	public void refreshBackgroundImg(){
+		backgroundImg = MainWindow.getBackgroundImage();
+		repaint();
+	}
+	// if an appointment got hit
+	public void gotHit(){
+		isHit = true;
+	}
+	public void checkIfHit(){
+		// If you didnt press any apps
+		if(!isHit){
+			MainWindow.removeAppointmentAppWindow();
+		}
+		isHit = false;
+	}
+	// Sending click to all JPanels in this panel
 	private class MAdapter extends MouseAdapter {
 		private CalendarPanel panel;
-		
+
 		public MAdapter(CalendarPanel panel){
 			this.panel = panel;
 		}
-		
+
 		public void mousePressed(MouseEvent event){
 			for (int i = 0; i < panel.getComponentCount(); i++) {
 				if( panel.getComponent(i) instanceof AppointmentApp){

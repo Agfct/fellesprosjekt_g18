@@ -569,16 +569,6 @@ public class AppointmentsView extends JPanel implements ListSelectionListener , 
 	@Override
 	public void valueChanged(ListSelectionEvent e) { //TODO: LOOPS REMOVE Add and Update appointmetns from this method
 		if (appointmentsList.getSelectedValue() != null) {
-//			int appID = appointmentsList.getSelectedValue().getAppointmentID();
-//			
-//			addAppointments();
-//			uppdateAppointments();
-//			for (int i = 0; i < appointmentsList.getModel().getSize(); i++) {
-//				if(appointmentsListModel.getElementAt(i).getAppointmentID() == appID){
-//					appointmentsList.setSelectedIndex(i);
-//				}
-//			}
-			
 			statusBtnGroup.clearSelection();
 			//Setting the invitation Model
 			setInvitationModel(appointmentsList.getSelectedValue().getInvitation(MainWindow.getUser()));
@@ -601,7 +591,6 @@ public class AppointmentsView extends JPanel implements ListSelectionListener , 
 	//Item Listener for Radio Buttons
 	@Override
 	public void itemStateChanged(ItemEvent e) {
-		System.out.println("("+this.getClass()+"):"+ "Pressing a Radio Button");
 		if (e.getSource() == acceptRadioBtn){
 			// ONLY FOR REALTIME CHANGES DISCARD IF USING SAVE
 //			invitationModel.setStatus(InvitationStatus.ACCEPTED);
@@ -618,11 +607,9 @@ public class AppointmentsView extends JPanel implements ListSelectionListener , 
 	// Action Listener for Buttons (OkBtn and CloseBtn)
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		System.out.println("("+this.getClass()+"):"+ "Pressing a button Or Modyfing a comboBox");
 		
 		// If cancelAppointmentBtn is pressed
 		if (e.getSource() == saveBtn){
-			System.out.println("Pressed Save, Changed appointment Info");
 			if(acceptRadioBtn.isSelected() && acceptRadioBtn.isEnabled()){
 				invitationModel.setStatus(InvitationStatus.ACCEPTED);
 				
@@ -652,7 +639,6 @@ public class AppointmentsView extends JPanel implements ListSelectionListener , 
 		}
 		// If cancelAppointmentBtn is pressed
 		else if (e.getSource() == closeBtn){
-			System.out.println("Closing AppointmentsView");
 			for (Appointment appointment : appointments) {
 				if(appointment.isDeleted()){
 					MainWindow.getRequestHandler().removeInvitation(appointment,MainWindow.getUser());
@@ -664,11 +650,9 @@ public class AppointmentsView extends JPanel implements ListSelectionListener , 
 			MainWindow.removeAppointmentsView();
 		}
 		else if (e.getSource() == acceptedBox){
-			System.out.println("acceptedBox");
 			uppdateAppointments();
 		}
 		else if (e.getSource() == pendingBox){
-			System.out.println("pendingBox");
 			if(appointmentsList.getSelectedValue() != null){
 				if (appointmentsList.getSelectedValue().getInvitation(MainWindow.getUser()).getStatus().equals(InvitationStatus.PENDING)){
 					setNotSelectedMode(); // if you have a pending notification selected
@@ -677,7 +661,6 @@ public class AppointmentsView extends JPanel implements ListSelectionListener , 
 			uppdateAppointments();
 		}
 		else if (e.getSource() == showHiddenBox){
-			System.out.println("showHidenBox");
 			uppdateAppointments();
 		}
 		

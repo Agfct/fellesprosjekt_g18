@@ -39,7 +39,6 @@ public class MainWindow extends JFrame{
 	private static MainWindow mainWindow;
 	private static JLayeredPane layoutView;
 	private static JScrollPane mainScrollPane;
-//	private static JScrollPane calendarViewScrollPane;
 	private static LoginView loginWindow;
 	private static TopView topView;
 	private static LeftView leftView;
@@ -124,21 +123,12 @@ public class MainWindow extends JFrame{
 		// Panes
 		mainScrollPane = new JScrollPane();
 		mainScrollPane.setName("mainScrollPane");
-//		calendarViewScrollPane = new JScrollPane();
-//		calendarViewScrollPane.setName("calendarViewScrollPane");
-//		calendarViewScrollPane.setBounds(200, 100, 1000, 700);
-//		calendarViewScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-//		calendarViewScrollPane.setBorder(BorderFactory.createEmptyBorder());
 		layoutView =  new JLayeredPane();
 		layoutView.setPreferredSize(new Dimension(1181, 754)); //Size so that Scroll Bars reacts
 		layoutView.add(backgroundPanel,JLayeredPane.DEFAULT_LAYER,0); //Background TEST	
 		layoutView.add(topView,JLayeredPane.PALETTE_LAYER,1); //adding the topView to the DEFAULT (bottom) layer of the layoutPane
 		layoutView.add(leftView,JLayeredPane.PALETTE_LAYER,2); //adding the topView to the DEFAULT (bottom) layer of the layoutPane
 		layoutView.add(calendarView,JLayeredPane.PALETTE_LAYER,3); //adding the calendarView ScrollPane 
-//		layoutView.add(calendarViewScrollPane,JLayeredPane.PALETTE_LAYER,3); //adding the calendarView ScrollPane 
-//		calendarViewScrollPane.getViewport().add(calendarView); // adding the calendarView to the ScrollPane
-		
-
 		
 		//adding stuff
 		mainWindow.setContentPane(mainScrollPane);
@@ -293,7 +283,6 @@ public class MainWindow extends JFrame{
 	
 	// WARNING CONNECT WITH DATABASE
 	public void createEmployeeList(){
-		System.out.println("dette er null" + getRequestHandler());
 		allEmployees = getRequestHandler().getAllEmployees();
 		allEmployees.remove(getUser());
 		
@@ -301,8 +290,8 @@ public class MainWindow extends JFrame{
 	public static ArrayList<Employee> getEmployeeList(){
 		return allEmployees;
 		
-		
 	}
+	
 	//Setting color and theme for CALENDAR
 	public static void setFontAndColor(int nr){
 		if(nr == 1){
@@ -357,8 +346,6 @@ public class MainWindow extends JFrame{
 
 		if (response.getName().equals("LOGIN_ACCEPTED")){
 			Employee newUser = requestHandler.getEmployeeByParticipantID(((Employee) response.getObject(0)).getParticipantID());
-			System.out.println("EMPLOYEE ID: "+ newUser.getEmployeeID());
-			System.out.println("PARTICIPANTS ID: "+ newUser.getParticipantID());
 			setUser(newUser);
 			getTopView().setUserName(newUser.getName());
 			mainWindow.createEmployeeList();
@@ -386,7 +373,6 @@ public class MainWindow extends JFrame{
 		calendarView.repaint();
 		removeAppointmentAppWindow();
 		calendarPanel.addAllAppointments();
-		
 	}
 
 	// TEST FOR TIME ALTERNATIVES
@@ -417,5 +403,4 @@ public class MainWindow extends JFrame{
 		}
 		return timeArray;
 	}
-
 }

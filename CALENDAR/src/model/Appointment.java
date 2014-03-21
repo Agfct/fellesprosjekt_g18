@@ -57,7 +57,6 @@ public class Appointment  implements Serializable{
 	public void removeInvitation(Employee employee){
 		for (Invitation removedInvite : invitations) {
 			if(removedInvite.getEmployee().equals(employee)){
-//				MainWindow.getNewAppoitnmentsView().appointmentChanged("remove", removedInvite);
 				if(pcs == null){ createPcs();}
 				pcs.firePropertyChange("remove", null, removedInvite);
 				invitations.remove(removedInvite);
@@ -83,7 +82,6 @@ public class Appointment  implements Serializable{
 	//-----------
 	//Listeners
 	public void addPropertyChangedListener(PropertyChangeListener listener){
-		//TODO: FIX THESE WITH IF NULL LIKE WE DID ON INVITATION
 		if(pcs == null){ createPcs();}
 		pcs.addPropertyChangeListener(listener);
 	}
@@ -134,7 +132,7 @@ public class Appointment  implements Serializable{
 	
 	//Setters
 	public void setTitle(String title) 				{this.title = title;}
-	public void setRoom(MeetingRoom room) 			{System.out.println("Room changed");this.room = room;}
+	public void setRoom(MeetingRoom room) 			{this.room = room;}
 	public void setTimeSlot(TimeSlot timeSlot) 		{this.timeSlot = timeSlot;}
 	public void setLocation(String location) 		{this.location = location;}
 	public void setInternal(boolean internal) 		{this.internal = internal;}
