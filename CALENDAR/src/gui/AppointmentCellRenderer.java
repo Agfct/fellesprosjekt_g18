@@ -85,9 +85,13 @@ public class AppointmentCellRenderer implements ListCellRenderer<Appointment>{
 	    	value.getInvitation(MainWindow.getUser()).setEdited(false);
 	    	MainWindow.getRequestHandler().editInvitation(value.getInvitation(MainWindow.getUser()));
 	    }
-	    if(value.getInvitation(MainWindow.getUser()).isEdited()){
+	    if(value.getInvitation(MainWindow.getUser()).isNew() == true && isSelected){
+	    	value.getInvitation(MainWindow.getUser()).setNew(false);
+	    	MainWindow.getRequestHandler().editInvitation(value.getInvitation(MainWindow.getUser()));
+	    }
+	    if(value.getInvitation(MainWindow.getUser()).isEdited() || value.getInvitation(MainWindow.getUser()).isNew()){
 //	    	renderer.setBorder(BorderFactory.createLineBorder(Color.RED));
-	    	renderer.setBorder(BorderFactory.createMatteBorder(-1, -1, -1, -1, Color.RED));
+	    	renderer.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.RED));
 	    	
 	    }
 	    else{
