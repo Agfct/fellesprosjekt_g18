@@ -19,6 +19,9 @@ public class Appointment  implements Serializable{
 	private MeetingRoom room;
 	private boolean internal;
 	private boolean isDeleted;
+	private boolean isDeclined;
+	
+
 	private String description;
 	private ArrayList<Invitation> invitations;
 	private transient PropertyChangeSupport pcs = new PropertyChangeSupport(this);
@@ -128,6 +131,14 @@ public class Appointment  implements Serializable{
 	private void fireTimeSlotChanged(TimeSlot timeSlot){
 		if(pcs == null){ createPcs();}
 		pcs.firePropertyChange(TIMESLOT_PROPERTY_NAME, timeSlot, getTimeSlot());
+	}
+	
+	public boolean isDeclined() {
+		return isDeclined;
+	}
+
+	public void setDeclined(boolean isDeclinde) {
+		this.isDeclined = isDeclinde;
 	}
 	
 	//Setters

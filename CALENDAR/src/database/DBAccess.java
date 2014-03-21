@@ -229,7 +229,7 @@ public class DBAccess{
 	
 	public void editAppointment(Appointment app) throws Exception {
 		try {
-			stmt.executeUpdate(String.format("update appointment set startTime = %d, endTime = %d, location = \"%s\", description = \"%s\", creator = %d, title = \"%s\", internal = %b, isDeleted = %b where appointmentID = %d", app.getTimeSlot().getStart(), app.getTimeSlot().getEnd(), app.getLocation(), app.getDescription(), app.getCreator().getEmployee().getParticipantID(), app.getTitle(), app.isInternal(), app.isDeleted(), app.getAppointmentID()));
+			stmt.executeUpdate(String.format("update appointment set isDeclined = %b, startTime = %d, endTime = %d, location = \"%s\", description = \"%s\", creator = %d, title = \"%s\", internal = %b, isDeleted = %b where appointmentID = %d", app.isDeclined(), app.getTimeSlot().getStart(), app.getTimeSlot().getEnd(), app.getLocation(), app.getDescription(), app.getCreator().getEmployee().getParticipantID(), app.getTitle(), app.isInternal(), app.isDeleted(), app.getAppointmentID()));
 			stmt.executeUpdate(String.format("update invitation set isEdited = 1 where appointmentID = %d", app.getAppointmentID()));
 			for (Invitation inv : app.getInvitations()) {
 				createInvitationOnStored(inv);
@@ -689,7 +689,9 @@ public class DBAccess{
 		appointment.setTitle(title);
 		boolean isDeleted = rs.getBoolean("isDeleted");
 		boolean internal = rs.getBoolean("internal");
+		boolean isDeclined = rs.getBoolean("isDeclined");
 		if (internal && !location.equals("")) {
+			System.out.println("Ser etter rom med dette navnet: " + location);
 			MeetingRoom room = getMeetingRoom(location);			
 			appointment.setRoom(room);
 		}
@@ -701,6 +703,7 @@ public class DBAccess{
 		appointment.setLocation(location);
 		appointment.setDescription(description);
 		appointment.setDeleted(isDeleted);
+		appointment.setDeclined(isDeclined);
 		return appointment;
 		}
 
