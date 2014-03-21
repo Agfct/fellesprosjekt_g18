@@ -226,8 +226,7 @@ public class DBAccess{
 
 
 	}
-
-
+	
 	public void editAppointment(Appointment app) throws Exception {
 		try {
 			stmt.executeUpdate(String.format("update appointment set startTime = %d, endTime = %d, location = \"%s\", description = \"%s\", creator = %d, title = \"%s\", internal = %b, isDeleted = %b where appointmentID = %d", app.getTimeSlot().getStart(), app.getTimeSlot().getEnd(), app.getLocation(), app.getDescription(), app.getCreator().getEmployee().getParticipantID(), app.getTitle(), app.isInternal(), app.isDeleted(), app.getAppointmentID()));
@@ -764,6 +763,39 @@ public class DBAccess{
 			flush();
 		}
 	}
+	
+	public int[] getNotificationsByID(int participantID) {
+	   	 int[] JohnnyboyTheDog = new int[2];
+	   	 try {
+	   		 ResultSet rs = stmt.executeQuery(String.format("select (SELECT COUNT(isEdited) as total_edits from invitation where isEdited=1 and participantID = 22) + (select count(isNew) as total_new from invitation where isNew=1 and participantID = %d) as notifs", participantID));
+	   		 int inviteNotifs = writeInviteNotifications(rs);
+	   		 ResultSet rs2 = stmt.executeQuery(String.format("select count(total_declined) from(select appointmentID, count(invitationStatus) as total_declined from invitation natural join appointment where invitationStatus = \"DECLINED\" and participantID=%d  group by appointmentID) as total_declined", participantID));
+	   		 int declineNotifs = writeDeclineNotifications(rs2);
+	   		 JohnnyboyTheDog[0] = inviteNotifs;
+	   		 JohnnyboyTheDog[1] = declineNotifs;
+	   	 }catch (Exception e) {
+	   	 e.printStackTrace();
+	    }
+	   	 return JohnnyboyTheDog;
+	    }
+
+	    private int writeDeclineNotifications(ResultSet rs) throws SQLException {
+	   	 if (rs.next()) {
+	   		 return rs.getInt(1);
+	   	 } else {
+	   		 System.out.println("Nonotifs");
+	   		 return 0;
+	   	 }
+	    }
+
+	    private int writeInviteNotifications(ResultSet rs) throws SQLException {
+	   	 if (rs.next()) {
+	   		 return rs.getInt(1);
+	   	 } else {
+	   		 System.out.println("Nonotifs");
+	   		 return 0;
+	   	 }
+	    }
 
 
 	private void flush() {

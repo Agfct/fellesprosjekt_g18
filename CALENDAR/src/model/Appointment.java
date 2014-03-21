@@ -106,7 +106,7 @@ public class Appointment  implements Serializable{
 		ArrayList<Invitation> declined = new ArrayList<Invitation>();
 		
 		for (int i = 0; i < invitations.size(); i++) {
-			if (invitations.get(i).getStatus() == InvitationStatus.ACCEPTED){
+			if (invitations.get(i).getStatus() == InvitationStatus.DECLINED){
 				declined.add(invitations.get(i));
 			}
 		}
@@ -117,7 +117,7 @@ public class Appointment  implements Serializable{
 		ArrayList<Invitation> accepted = new ArrayList<Invitation>();
 		
 		for (int i = 0; i < invitations.size(); i++) {
-			if (invitations.get(i).getStatus() == InvitationStatus.DECLINED){
+			if (invitations.get(i).getStatus() == InvitationStatus.ACCEPTED){
 				accepted.add(invitations.get(i));
 			}
 		}
