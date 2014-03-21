@@ -27,7 +27,7 @@ public class EmailHandler {
 		smtpPort = "587";
 	}
 	
-	public boolean sendEmail(String mail, String msg){
+	public boolean sendEmail(String mail, String subject, String msg){
  
 		Properties props = new Properties();
 		props.put("mail.smtp.auth", "true");
@@ -48,7 +48,7 @@ public class EmailHandler {
 			//message.setFrom(new InternetAddress("from-email@gmail.com"));
 			message.setRecipients(Message.RecipientType.TO,
 				InternetAddress.parse(mail));
-			message.setSubject("You have been invited to a meeting");
+			message.setSubject(subject);
 			message.setText(msg);
  
 			Transport.send(message);

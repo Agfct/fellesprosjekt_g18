@@ -145,8 +145,8 @@ public class RequestHandler {
 			}return false;
 		}
 //	Email
-	public Boolean sendEmail (String emailAdress, String message){
-		Packet response = client.request("SEND_EMAIL", emailAdress, message);
+	public Boolean sendEmail (String emailAdress, String subject, String message){
+		Packet response = client.request("SEND_EMAIL", emailAdress, subject, message);
 		if(response.getName().equals("EMAIL_SENT")){
 			return true;			
 		}return false;

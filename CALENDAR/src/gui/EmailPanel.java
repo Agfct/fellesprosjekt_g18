@@ -36,6 +36,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 
+
 import model.Appointment;
 import model.Employee;
 import model.Invitation;
@@ -58,6 +59,7 @@ public class EmailPanel extends JPanel implements ActionListener, FocusListener 
 
 	private String name;
 	private String email;
+	private String subject;
 	private String message;
 
 
@@ -69,6 +71,7 @@ public class EmailPanel extends JPanel implements ActionListener, FocusListener 
 
 		//Information for the message
 		name = invite.getEmployee().getName();
+		subject = "You have been invited to a meeting.";
 		String desc = invite.getAppointment().getDescription();
 		email = invite.getEmployee().getEmail();
 		String startTime = invite.getAppointment().getStartTime();
@@ -296,7 +299,7 @@ public class EmailPanel extends JPanel implements ActionListener, FocusListener 
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == sendEmailButton){
 			if(email!=null){
-				sendEmail(email, message);
+				sendEmail(email, subject, message);
 				MainWindow.removeEmailPanel();
 			}
 		}
@@ -327,8 +330,8 @@ public class EmailPanel extends JPanel implements ActionListener, FocusListener 
 
 
 	}
-	public void sendEmail(String mail, String msg){
-		MainWindow.getRequestHandler().sendEmail(mail, msg);
+	public void sendEmail(String mail, String subject, String msg){
+		MainWindow.getRequestHandler().sendEmail(mail, subject, msg);
 	}
 
 
