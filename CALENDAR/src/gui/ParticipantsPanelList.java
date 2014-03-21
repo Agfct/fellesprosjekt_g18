@@ -7,9 +7,12 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.Label;
+import java.util.ArrayList;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+
+import model.Invitation;
 
 // Used to create a List of ParticipantsViews
 public class ParticipantsPanelList extends JPanel {
@@ -17,6 +20,7 @@ public class ParticipantsPanelList extends JPanel {
 	Integer rows;
 	JScrollPane scrollPane;
 	NewAppointmentView newAppointmentView;
+	ArrayList<ParticipantsPanel> participantsPanels;
 	
 	public ParticipantsPanelList(){
 		
@@ -47,10 +51,14 @@ public class ParticipantsPanelList extends JPanel {
 //            bottomEmptyLabel.setBackground(( Color.pink ) );
             setCompSize(bottomEmptyLabel, 3, 3 );
             this.add( bottomEmptyLabel , c);
-            //Test
-
+            participantsPanels = new ArrayList<ParticipantsPanel>();
 	}
 	
+	public void addParticipantPanelByInvitation(Invitation invite){
+		ParticipantsPanel newView = new ParticipantsPanel(invite.getEmployee());
+		newView.setInvitation(invite);
+		addParticipantPanel(newView);
+	}
 	//adding a new View to the Panel
 	public void addParticipantPanel(ParticipantsPanel newView){
 //		layout.setRows(rows+1);
@@ -60,6 +68,7 @@ public class ParticipantsPanelList extends JPanel {
 		cLabel.weighty = 1d;
 		cLabel.anchor = GridBagConstraints.PAGE_START;
 		newView.setParticipantsPanelList(this);
+		participantsPanels.add(newView);
 		this.add(newView,cLabel);
 //		System.out.println("rowsadd "+ rows);
 		rows += 1; // WARNING ROWS WILL ALWAYS INCREASE, REMEMBER TO SORT LIST WHEN SAVING.
@@ -75,13 +84,13 @@ public class ParticipantsPanelList extends JPanel {
 	}
 	
 	//Methods to respond to the presses in the Views in the ListPanel
-	public void removeParticipantPanel(ParticipantsPanel oldView){
-		this.remove(oldView);
-//		if (rows != 0){
-//			System.out.println("Blir kjørt");
-//			rows -= 1;
-//		}
-//		System.out.println("Rows " + rows);
+	public void removeParticipantPanel(Invitation invite){
+		
+		for (ParticipantsPanel panel : participantsPanels) {
+			if (panel.getInvite().equals(invite)){
+				this.remove(panel);
+			}
+		}
 		repaint();
 		invalidate();
 		validate();
