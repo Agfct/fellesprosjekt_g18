@@ -137,8 +137,6 @@ public class MainWindow extends JFrame{
 		TimeZone tz = TimeZone.getTimeZone("Europe/Oslo");
 		TimeZone.setDefault(tz);
 		date = new Date();
-		NotificationUpdater nu = new NotificationUpdater();
-		new Thread(nu).start();
 
 	}
 	public static MainWindow getMainWindow(){
@@ -374,6 +372,7 @@ public class MainWindow extends JFrame{
 		calendarView.repaint();
 		removeAppointmentAppWindow();
 		calendarPanel.addAllAppointments();
+		mainWindow.updateNotifications();
 	}
 
 	// TEST FOR TIME ALTERNATIVES
@@ -404,4 +403,15 @@ public class MainWindow extends JFrame{
 		}
 		return timeArray;
 	}
+	public static void updateNotifications() {
+		int[] notifications = new int[2];
+		if (MainWindow.getUser() != null){
+			notifications = MainWindow.getRequestHandler().getNotifications(MainWindow.getUser());
+			if (MainWindow.getLeftView() != null){
+				MainWindow.getLeftView().setNrOfNewAppointmentsNotification(notifications[0]);
+				MainWindow.getLeftView().setNrOfeditAppointmentNotification(notifications[1]);
+			}
+		}
+	}
 }
+

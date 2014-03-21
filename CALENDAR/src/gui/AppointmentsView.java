@@ -647,6 +647,7 @@ public class AppointmentsView extends JPanel implements ListSelectionListener , 
 					MainWindow.getRequestHandler().removeInvitation(appointment,MainWindow.getUser());
 				}
 			}
+			MainWindow.updateNotifications();
 			MainWindow.removeAppointmentsView();
 		}
 		else if (e.getSource() == acceptedBox){

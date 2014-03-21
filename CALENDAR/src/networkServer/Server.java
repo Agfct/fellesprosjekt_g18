@@ -21,7 +21,6 @@ public class Server implements Runnable {
 	private AlarmHandler alarmHandler;
 	private Thread activeThread;
 	
-	
 	public Server (int port) {
 		this.port = port;
 		db = new DBAccess();

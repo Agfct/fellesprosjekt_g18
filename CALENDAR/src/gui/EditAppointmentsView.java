@@ -52,6 +52,7 @@ public class EditAppointmentsView extends JPanel implements ActionListener{
 		appointmentsScrollPane = new JScrollPane(appointmentsPanelList);
 		appointmentsScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		appointmentsScrollPane.setPreferredSize(new Dimension(80,300));
+		appointmentsScrollPane.getVerticalScrollBar().setUnitIncrement(16);
 		appointmentsPanelList.setScrollPane(appointmentsScrollPane);
 		appointmentsPanelList.setEditAppointmentsView(this);
 		
@@ -139,6 +140,7 @@ public class EditAppointmentsView extends JPanel implements ActionListener{
 		
 		// If cancelAppointmentBtn is pressed
 		if (e.getSource() == closeBtn){
+			MainWindow.updateNotifications();
 			MainWindow.removeEditAppointmentsView();
 		}
 	}

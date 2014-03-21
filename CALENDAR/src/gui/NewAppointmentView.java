@@ -999,6 +999,7 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 				MainWindow.editAppointmentsView();
 			}
 			else{
+				MainWindow.updateNotifications();
 				MainWindow.removeNewAppointmentView();	
 			}
 		}
