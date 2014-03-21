@@ -1,7 +1,9 @@
 package gui;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Stroke;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListCellRenderer;
@@ -84,7 +86,9 @@ public class AppointmentCellRenderer implements ListCellRenderer<Appointment>{
 	    	MainWindow.getRequestHandler().editInvitation(value.getInvitation(MainWindow.getUser()));
 	    }
 	    if(value.getInvitation(MainWindow.getUser()).isEdited()){
-	    	renderer.setBorder(BorderFactory.createLineBorder(Color.RED));	    	
+//	    	renderer.setBorder(BorderFactory.createLineBorder(Color.RED));
+	    	renderer.setBorder(BorderFactory.createMatteBorder(-1, -1, -1, -1, Color.RED));
+	    	
 	    }
 	    else{
 	    	renderer.setBorder(BorderFactory.createLineBorder(Color.BLACK));	    	

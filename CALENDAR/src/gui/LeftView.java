@@ -74,8 +74,8 @@ public class LeftView extends JPanel implements ListSelectionListener, ActionLis
 	private JLabel showHiddenLabel;
 	private JCheckBox showHiddenBox;
 	private Image redCircleImg;
-	private Integer nrOfNewAppointmentsNotification;
-	private Integer nrOfeditAppointmentNotification;
+	private static Integer nrOfNewAppointmentsNotification;
+	private static Integer nrOfeditAppointmentNotification;
 	
 	private boolean statusFlagChangeingWeekModel;
 
@@ -388,7 +388,6 @@ public class LeftView extends JPanel implements ListSelectionListener, ActionLis
 	        Graphics2D g2d = (Graphics2D) g;
 	        
 	        
-			nrOfeditAppointmentNotification = 5; //TODO: TEST
 			
 			if(nrOfeditAppointmentNotification > 0){
 				//editAppointments Notification Symbol
@@ -407,7 +406,6 @@ public class LeftView extends JPanel implements ListSelectionListener, ActionLis
 			}
 			
 			
-			nrOfNewAppointmentsNotification = 28; //TODO: TEST
 			if(nrOfNewAppointmentsNotification > 0){
 			    // Appointments Notification Symbol:
 				//Drawing the red circle
@@ -433,15 +431,16 @@ public class LeftView extends JPanel implements ListSelectionListener, ActionLis
 		   return showHiddenBox.isSelected();
 	   }
 	   
-    public void setNrOfNewAppointmentsNotification(
-			Integer nrOfNewAppointmentsNotification) {
-		this.nrOfNewAppointmentsNotification = nrOfNewAppointmentsNotification;
-	}
+	   // Number of notifications, new and edited
+	   public static void setNrOfNewAppointmentsNotification(
+			   Integer newNrOfNewAppointmentsNotification) {
+		   nrOfNewAppointmentsNotification = newNrOfNewAppointmentsNotification;
+	   }
 
-	public void setNrOfeditAppointmentNotification(
-			Integer nrOfeditAppointmentNotification) {
-		this.nrOfeditAppointmentNotification = nrOfeditAppointmentNotification;
-	}
+	   public static void setNrOfeditAppointmentNotification(
+			   Integer newNrOfeditAppointmentNotification) {
+		   nrOfeditAppointmentNotification = newNrOfeditAppointmentNotification;
+	   }
 
 	/** LISTENERS FOR THE ENTIRE JPANEL **/
     /** WHEN FIELDS ARE MODIFIED CHANGES ARE REGISTERED HERE **/
