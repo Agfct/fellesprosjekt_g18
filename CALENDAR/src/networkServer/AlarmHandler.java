@@ -26,7 +26,7 @@ public class AlarmHandler {
 		
 		Timer timer = new Timer();
 		Calendar calendar = Calendar.getInstance();
-		calendar.setTimeInMillis(invitation.getAlarmTime());
+		calendar.setTimeInMillis(invitation.getAppointment().getTimeSlot().getStart() - invitation.getAlarmTime().toInt());
 		Date alarmTime = calendar.getTime();
 		timer.schedule(new AlarmTask(invitation.getAppointment(), invitation.getEmployee()), alarmTime);
 		
