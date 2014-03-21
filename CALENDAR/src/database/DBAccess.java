@@ -818,7 +818,7 @@ public class DBAccess{
 		boolean isNew = rs.getBoolean("isNew");
 		boolean isHidden = rs.getBoolean("isHidden");
 		String invitationStatus = rs.getString("invitationStatus");
-		long alarmTime = rs.getLong("alarmTime");
+		int alarmTime = rs.getInt("alarmTime");
 		boolean isDeleted = rs.getBoolean("invDeleted");
 		//for testing
 //		System.out.println(invitationID);
