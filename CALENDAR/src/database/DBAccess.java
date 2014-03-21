@@ -39,7 +39,7 @@ public class DBAccess{
 	
 	public void setInvitationAsDeleted(Invitation inv) throws SQLException{
 		try {
-			stmt.executeUpdate(String.format("update invitation set isDeleted = 1 where invitationID = %d", inv.getInvitationID()));	
+			stmt.executeUpdate(String.format("update invitation set invDeleted = 1 where invitationID = %d", inv.getInvitationID()));	
 		} catch ( NullPointerException e) {
 			System.err.println("A field in the edit request is null");
 			throw e;
@@ -96,7 +96,7 @@ public class DBAccess{
 	
 	public void setDeletedInvitationByID(int invID) throws Exception {
 		try {
-			stmt.executeUpdate(String.format("update invitation set isDeleted = 1 where invitationID = %d", invID));
+			stmt.executeUpdate(String.format("update invitation set invDeleted = 1 where invitationID = %d", invID));
 		} catch (Exception e) {
 			System.err.println("Possible invalid ID");
 			throw e;
@@ -261,7 +261,7 @@ public class DBAccess{
 	public void createInvitationOnFresh(Invitation invitation, int id){
 		try {
 			System.out.println(invitation.getAppointment().getAppointmentID());
-			stmt.executeUpdate(String.format("insert ignore into invitation values(null, %d, %d, %d, \"%s\", true, %b, %b)", id, invitation.getEmployee().getParticipantID(), invitation.getAlarmTime(), invitation.getStatus().name(), invitation.isHidden(), invitation.isDeleted() ));
+			stmt.executeUpdate(String.format("replace into invitation values(null, %d, %d, %d, \"%s\", true, %b, %b)", id, invitation.getEmployee().getParticipantID(), invitation.getAlarmTime(), invitation.getStatus().name(), invitation.isHidden(), invitation.isDeleted() ));
 
 		} catch ( NullPointerException e) {
 			System.err.println("A field in the created object is null");
@@ -275,7 +275,7 @@ public class DBAccess{
 	public void createInvitationOnStored(Invitation invitation){
 		try {
 			System.out.println(invitation.getAppointment().getAppointmentID());
-			stmt.executeUpdate(String.format("insert ignore into invitation values(null, %d, %d, %d, \"%s\", true, %b, %b)",invitation.getAppointment().getAppointmentID(), invitation.getEmployee().getParticipantID(), invitation.getAlarmTime(), invitation.getStatus().name(), invitation.isHidden(), invitation.isDeleted() ));
+			stmt.executeUpdate(String.format("replace into invitation values(null, %d, %d, %d, \"%s\", true, %b, %b)",invitation.getAppointment().getAppointmentID(), invitation.getEmployee().getParticipantID(), invitation.getAlarmTime(), invitation.getStatus().name(), invitation.isHidden(), invitation.isDeleted() ));
 
 		} catch ( NullPointerException e) {
 			System.err.println("A field in the created object is null");

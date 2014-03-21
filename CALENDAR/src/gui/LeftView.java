@@ -74,6 +74,8 @@ public class LeftView extends JPanel implements ListSelectionListener, ActionLis
 	private JLabel showHiddenLabel;
 	private JCheckBox showHiddenBox;
 	private Image redCircleImg;
+	private Integer nrOfNewAppointmentsNotification;
+	private Integer nrOfeditAppointmentNotification;
 	
 	private boolean statusFlagChangeingWeekModel;
 
@@ -87,6 +89,8 @@ public class LeftView extends JPanel implements ListSelectionListener, ActionLis
 		setOpaque(false);
 		
 		statusFlagChangeingWeekModel = false;
+		nrOfNewAppointmentsNotification = 0;
+		nrOfeditAppointmentNotification = 0;
 		
 		/** CREATING BUTTONS, LABELS AND TEXT FIELDS **/
 		
@@ -384,39 +388,44 @@ public class LeftView extends JPanel implements ListSelectionListener, ActionLis
 	        Graphics2D g2d = (Graphics2D) g;
 	        
 	        
-	        // Appointments Notification Symbol:
-			//Drawing the red circle
-	        g2d.drawImage(redCircleImg, 173, 312, this);
-	        
-			//Drawing the number of new notifications
-			//setting Font and color
-			Font font = new Font("Tahoma", Font.BOLD, 14);
-			g2d.setFont(font);
-			g2d.setColor(Color.WHITE);
-			Integer nrOfNewAppointmentsNotification = 28; //TEST
-			
-			if(nrOfNewAppointmentsNotification > 0){
-				if (nrOfNewAppointmentsNotification > 9){
-					g2d.drawString(nrOfNewAppointmentsNotification.toString(), 177, 330);}
-				else{ g2d.drawString(nrOfNewAppointmentsNotification.toString(), 182, 330);}
-			}
-			
-			//editAppointments Notification Symbol
-			//Drawing the red circle
-	        g2d.drawImage(redCircleImg, 173, 272, this);
-	        
-			//Drawing the number of new notifications
-			//setting Font and color
-			font = new Font("Tahoma", Font.BOLD, 14);
-			g2d.setFont(font);
-			g2d.setColor(Color.WHITE);
-			Integer nrOfeditAppointmentNotification = 5; //TEST
+			nrOfeditAppointmentNotification = 5; //TODO: TEST
 			
 			if(nrOfeditAppointmentNotification > 0){
+				//editAppointments Notification Symbol
+				//Drawing the red circle
+		        g2d.drawImage(redCircleImg, 173, 247, this);
+		        
+				//Drawing the number of new notifications
+				//setting Font and color
+		        Font font = new Font("Tahoma", Font.BOLD, 14);
+				g2d.setFont(font);
+				g2d.setColor(Color.WHITE);
+				
 				if (nrOfeditAppointmentNotification > 9){
-					g2d.drawString(nrOfeditAppointmentNotification.toString(), 177, 290);}
-				else{ g2d.drawString(nrOfeditAppointmentNotification.toString(), 182, 290);}
+					g2d.drawString(nrOfeditAppointmentNotification.toString(), 177, 265);}
+				else{ g2d.drawString(nrOfeditAppointmentNotification.toString(), 182, 265);}
 			}
+			
+			
+			nrOfNewAppointmentsNotification = 28; //TODO: TEST
+			if(nrOfNewAppointmentsNotification > 0){
+			    // Appointments Notification Symbol:
+				//Drawing the red circle
+		        g2d.drawImage(redCircleImg, 173, 287, this);
+		        
+				//Drawing the number of new notifications
+				//setting Font and color
+				Font font = new Font("Tahoma", Font.BOLD, 14);
+				g2d.setFont(font);
+				g2d.setColor(Color.WHITE);
+				
+				if (nrOfNewAppointmentsNotification > 9){
+					g2d.drawString(nrOfNewAppointmentsNotification.toString(), 177, 305);}
+				else{ g2d.drawString(nrOfNewAppointmentsNotification.toString(), 182, 305);}
+			}
+			
+	
+
 			
 	    }
 	   
@@ -424,7 +433,17 @@ public class LeftView extends JPanel implements ListSelectionListener, ActionLis
 		   return showHiddenBox.isSelected();
 	   }
 	   
-    /** LISTENERS FOR THE ENTIRE JPANEL **/
+    public void setNrOfNewAppointmentsNotification(
+			Integer nrOfNewAppointmentsNotification) {
+		this.nrOfNewAppointmentsNotification = nrOfNewAppointmentsNotification;
+	}
+
+	public void setNrOfeditAppointmentNotification(
+			Integer nrOfeditAppointmentNotification) {
+		this.nrOfeditAppointmentNotification = nrOfeditAppointmentNotification;
+	}
+
+	/** LISTENERS FOR THE ENTIRE JPANEL **/
     /** WHEN FIELDS ARE MODIFIED CHANGES ARE REGISTERED HERE **/
 	   // action listner for checkbox and buttons
 	@Override

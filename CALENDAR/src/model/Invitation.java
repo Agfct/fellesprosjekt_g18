@@ -68,7 +68,7 @@ public class Invitation implements Serializable{
 	//Setters
 	public void setStatus(InvitationStatus is) {
 		this.status = is;
-		if(participantsPanel != null){
+		if(participantsPanel != null){//TODO: not working
 			participantsPanel.changeStatusField(status);
 		}
 	}
@@ -100,6 +100,7 @@ public class Invitation implements Serializable{
 		if(participantsPanel == null){
 			participantsPanel = new ParticipantsPanel(employee);
 			participantsPanel.setInvitation(this);
+			participantsPanel.changeStatusField(status);
 		}
 		return participantsPanel;
 	}
