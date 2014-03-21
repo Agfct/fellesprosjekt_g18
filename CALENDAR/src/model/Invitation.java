@@ -1,7 +1,5 @@
 package model;
 
-import gui.ParticipantsPanel;
-
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
@@ -16,13 +14,10 @@ public class Invitation implements Serializable{
 	private boolean edited;
 	private boolean hidden;
 	private InvitationAlarmTime alarmTime;
-	private transient ParticipantsPanel participantsPanel;
 	private transient PropertyChangeSupport pcs;
 	
 	//PropertyNames
-	public static String ANSWER_PROPERTY_NAME = "answer";
-	public static String EDITED_PROPERTY_NAME = "edited";
-	public static String HIDDEN_PROPERTY_NAME = "hidden";
+	public static String STATUS_PROPERTY_NAME = "status";
 	
 	
 	public Invitation(Employee person, Appointment appointment) {
@@ -37,9 +32,6 @@ public class Invitation implements Serializable{
 	@Override
 	public boolean equals(Object obj){
 		return ((Invitation) obj).getEmployee().getEmployeeID() == this.getEmployee().getEmployeeID();
-	}
-	
-	private void sendNotification(){
 	}
 	
 	//Listeners
@@ -74,24 +66,17 @@ public class Invitation implements Serializable{
 	}
 
 	//Setters
-	public void setStatus(InvitationStatus is) {
-		this.status = is;
-		if(participantsPanel != null){
-			participantsPanel.changeStatusField(status);
-		}
+	public void setStatus(InvitationStatus newStatus) {
+		InvitationStatus oldStatus = status;
+		status = newStatus;
+		pcs.firePropertyChange(Invitation.STATUS_PROPERTY_NAME, oldStatus, status);
 	}
 	public void setEdited(boolean edited) {
-		boolean old = this.edited;
 		this.edited = edited;
-		if(pcs == null){ createPcs();}
-		pcs.firePropertyChange(EDITED_PROPERTY_NAME, old, this.edited);
 	}
 
 	public void setHidden(boolean hidden) {
-		boolean old = this.hidden;
 		this.hidden = hidden;
-		if(pcs == null){ createPcs();}
-		pcs.firePropertyChange(HIDDEN_PROPERTY_NAME, old, this.hidden);
 	}
 	public void createPcs(){
 		pcs = new PropertyChangeSupport(this);
@@ -100,28 +85,19 @@ public class Invitation implements Serializable{
 	public void setInvitationID(int invitationID) {
 		this.invitationID = invitationID;
 	}
+	
 	//-------
-	public void setParticipantsPanel(ParticipantsPanel newParticipantsView){
-		participantsPanel = newParticipantsView;
-	}
-	public ParticipantsPanel getParticipantsPanel(){
-		if(participantsPanel == null){
-			participantsPanel = new ParticipantsPanel(employee);
-			participantsPanel.setInvitation(this);
-		}
-		return participantsPanel;
-	}
 	public void setAppointment(Appointment appointment) {
 		this.appointment = appointment;
 	}
 
 	//Getters
-	public Appointment getAppointment() 		{return appointment;}
-	public boolean isEdited() 			{return edited;}
-	public boolean isHidden() 			{return hidden;}
-	public Employee getEmployee() 		{return employee;}
-	public InvitationStatus getStatus() {return status;}
-	public int getInvitationID()		{return invitationID;}
+	public Appointment getAppointment() 	{return appointment;}
+	public boolean isEdited() 				{return edited;}
+	public boolean isHidden() 				{return hidden;}
+	public Employee getEmployee() 			{return employee;}
+	public InvitationStatus getStatus() 	{return status;}
+	public int getInvitationID()			{return invitationID;}
 	//-------
 
 	public boolean isDeleted() {

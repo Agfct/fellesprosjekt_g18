@@ -76,7 +76,7 @@ public class AppointmentCellRenderer implements ListCellRenderer<Appointment>{
 	    				"</table>"+
 	    				"</html>");
 	    
-	    if( isSelected){ // NOT ISSELECTED BUT IF THE APPOINTMENT IS NEW!!!
+	    if(value.getInvitation(MainWindow.getUser()).isEdited()){ // NOT ISSELECTED BUT IF THE APPOINTMENT IS NEW!!!
 	    	renderer.setBorder(BorderFactory.createLineBorder(Color.RED));	    	
 	    }
 	    else{

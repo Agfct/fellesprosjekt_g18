@@ -11,6 +11,8 @@ import java.awt.Insets;
 import java.awt.Label;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 
 import javax.net.ssl.SSLEngineResult.Status;
@@ -28,7 +30,7 @@ import model.InvitationStatus;
 
 // Using this because a ListModel was not advanced enough for the application
 // Creates a Panel with buttons and labels for a specific employee object
-public class ParticipantsPanel extends JPanel implements ActionListener {
+public class ParticipantsPanel extends JPanel implements ActionListener, PropertyChangeListener {
 	private JLabel firstNameLabel;
 	private JLabel lastNameLabel;
 	private JButton emailBtn;
@@ -173,6 +175,11 @@ public class ParticipantsPanel extends JPanel implements ActionListener {
 	}
 	public void setInvitation(Invitation invite){
 		invitation = invite;
+		invitation.addPropertyChangedListener(this);
+	}
+	
+	public Invitation getInvite(){
+		return invitation;
 	}
 	
 	public String toString(){
@@ -208,12 +215,14 @@ public class ParticipantsPanel extends JPanel implements ActionListener {
 			}
 		}
 	}
-	public void removeThisView(){
-		participantsPanelList.removeParticipantPanel(this);
-	}
 	
 	public void changeStatusField(InvitationStatus invStatus){
 		statusField.setSelectedItem(invStatus);
+	}
+
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		changeStatusField(invitation.getStatus());
 	}
 
 }

@@ -39,7 +39,7 @@ public class DBAccess{
 	
 	public void setInvitationAsDeleted(Invitation inv) throws SQLException{
 		try {
-			stmt.executeUpdate(String.format("update invitation set isDeleted = 1 where invitationID = %d", inv.getInvitationID()));	
+			stmt.executeUpdate(String.format("update invitation set invDeleted = 1 where invitationID = %d", inv.getInvitationID()));	
 		} catch ( NullPointerException e) {
 			System.err.println("A field in the edit request is null");
 			throw e;
@@ -96,7 +96,7 @@ public class DBAccess{
 	
 	public void setDeletedInvitationByID(int invID) throws Exception {
 		try {
-			stmt.executeUpdate(String.format("update invitation set isDeleted = 1 where invitationID = %d", invID));
+			stmt.executeUpdate(String.format("update invitation set invDeleted = 1 where invitationID = %d", invID));
 		} catch (Exception e) {
 			System.err.println("Possible invalid ID");
 			throw e;
@@ -261,7 +261,7 @@ public class DBAccess{
 	public void createInvitationOnFresh(Invitation invitation, int id){
 		try {
 			System.out.println(invitation.getAppointment().getAppointmentID());
-			stmt.executeUpdate(String.format("insert ignore into invitation values(null, %d, %d, %d, \"%s\", true, %b, %b)", id, invitation.getEmployee().getParticipantID(), invitation.getAlarmTime(), invitation.getStatus().name(), invitation.isHidden(), invitation.isDeleted() ));
+			stmt.executeUpdate(String.format("replace into invitation values(null, %d, %d, %d, \"%s\", true, %b, %b)", id, invitation.getEmployee().getParticipantID(), invitation.getAlarmTime(), invitation.getStatus().name(), invitation.isHidden(), invitation.isDeleted() ));
 
 		} catch ( NullPointerException e) {
 			System.err.println("A field in the created object is null");
@@ -275,7 +275,7 @@ public class DBAccess{
 	public void createInvitationOnStored(Invitation invitation){
 		try {
 			System.out.println(invitation.getAppointment().getAppointmentID());
-			stmt.executeUpdate(String.format("insert ignore into invitation values(null, %d, %d, %d, \"%s\", true, %b, %b)",invitation.getAppointment().getAppointmentID(), invitation.getEmployee().getParticipantID(), invitation.getAlarmTime(), invitation.getStatus().name(), invitation.isHidden(), invitation.isDeleted() ));
+			stmt.executeUpdate(String.format("replace into invitation values(null, %d, %d, %d, \"%s\", true, %b, %b)",invitation.getAppointment().getAppointmentID(), invitation.getEmployee().getParticipantID(), invitation.getAlarmTime(), invitation.getStatus().name(), invitation.isHidden(), invitation.isDeleted() ));
 
 		} catch ( NullPointerException e) {
 			System.err.println("A field in the created object is null");
@@ -411,6 +411,23 @@ public class DBAccess{
 				return writeGroupResultSet(rs);				
 			} else {
 				System.err.println("No such group");
+				return null;
+			}
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			flush();
+		}
+		
+	}
+	public MeetingRoom getMeetingRoom(String name) throws Exception{
+		try {
+			ResultSet rs = stmt.executeQuery(String.format("select * from meetingroom where roomName = \"%s\"", name));
+			if (rs.next()) {	
+				MeetingRoom room = writeMeetingRoomResultSet(rs);
+				return room;
+			} else {
+				System.err.println("No matching room");
 				return null;
 			}
 		} catch (Exception e) {
@@ -766,6 +783,7 @@ public class DBAccess{
 		String title = rs.getString("title");
 		appointment.setTitle(title);
 		boolean isDeleted = rs.getBoolean("isDeleted");
+		boolean internal = rs.getBoolean("internal");
 		//for testing
 //		System.out.println("StartTime: " + start);
 //		System.out.println("EndTime: " + end);
@@ -774,6 +792,13 @@ public class DBAccess{
 //		System.out.println("ID: " + appointmentID);
 //		System.out.println("Creator: " + creatorID);
 		//end test code
+		if (internal && !location.equals("")) {
+			System.out.println("Ser etter rom med dette navnet: " + location);
+			MeetingRoom room = getMeetingRoom(location);			
+			appointment.setRoom(room);
+		}
+		appointment.setInternal(internal);
+
 		TimeSlot timeslot = new TimeSlot(start, end);
 		appointment.setTimeSlot(timeslot);
 		appointment.setAppointmentID(appointmentID);
@@ -781,7 +806,7 @@ public class DBAccess{
 		appointment.setDescription(description);
 		appointment.setDeleted(isDeleted);
 		return appointment;
-	}
+		}
 
 
 	private Invitation writeInvitationResultSet(ResultSet rs) throws Exception {

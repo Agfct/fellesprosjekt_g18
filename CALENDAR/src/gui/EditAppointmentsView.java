@@ -48,13 +48,6 @@ public class EditAppointmentsView extends JPanel implements ActionListener{
 		/** CREATING BUTTONS, LABELS AND TEXT FIELDS **/
 		
 		// appointmentsList
-		//TEST
-		Employee employer = new Employee("Anders");
-		Appointment App1 = new Appointment(employer);
-		App1.setTitle("Seriøst Møte som har sykt lang tittel som ikke går");
-		Appointment App2 = new Appointment(employer);
-		App2.setTitle("Møte");
-		
 		appointmentsPanelList = new AppointmentsPanelList();
 		appointmentsScrollPane = new JScrollPane(appointmentsPanelList);
 		appointmentsScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);

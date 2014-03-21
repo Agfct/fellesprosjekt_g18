@@ -890,13 +890,12 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
     			
 
     			
-    			if(allEmployees.get(i).equals(invitation.getEmployee())){
+    			if(!invitation.isDeleted() && allEmployees.get(i).equals(invitation.getEmployee() )){
     				
         			ParticipantsPanel participantsPanel = new ParticipantsPanel(allEmployees.get(i));
         			participantsPanel.changeStatusField(invitation.getStatus());
         			participantsPanel.setInvitation(invitation);
-        			invitation.setParticipantsPanel(participantsPanel);
-        			participantsPanelList.addParticipantPanel(invitation.getParticipantsPanel());
+        			participantsPanelList.addParticipantPanel(participantsPanel);
         			
     				allEmployees.get(i).setSelected(true);
     				
@@ -1341,10 +1340,10 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		if(evt.getPropertyName().equals("add")){
-			participantsPanelList.addParticipantPanel(((Invitation)evt.getNewValue()).getParticipantsPanel());
+			participantsPanelList.addParticipantPanelByInvitation(((Invitation)evt.getNewValue()));
 		}
 		else if(evt.getPropertyName().equals("remove")){
-			((Invitation)evt.getNewValue()).getParticipantsPanel().removeThisView();
+			participantsPanelList.removeParticipantPanel((Invitation)evt.getNewValue());
 		}
 		else if(evt.getPropertyName().equals(Appointment.TIMESLOT_PROPERTY_NAME)){
 			TimeSlot timeSlot = (TimeSlot) evt.getNewValue();

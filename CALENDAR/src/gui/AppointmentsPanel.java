@@ -84,9 +84,13 @@ public class AppointmentsPanel extends JPanel implements ActionListener {
 //		cLabel1.anchor = GridBagConstraints.CENTER;
 		title = new JLabel(appointment.getTitle());
 		title.setName("title");
-		if(appointment.getTitle().length() < 20){
+		if(appointment.getTitle().length() < 12){
 			title.setPreferredSize(new Dimension(80,20));
 			cLabel1.insets = new Insets(5,63,0,42);
+		}
+		else if(appointment.getTitle().length() < 20 &&  appointment.getTitle().length() >= 12){
+			title.setPreferredSize(new Dimension(120,20));
+			cLabel1.insets = new Insets(5,43,0,22);
 		}
 		else{
 //			cLabel1.insets = new Insets(5,5,0,0);
@@ -116,7 +120,14 @@ public class AppointmentsPanel extends JPanel implements ActionListener {
 		cLabel3.gridx = 2;
 		cLabel3.gridy = 1;
 //		room = new JLabel(appointment.getRoom().toString());
-		room = new JLabel("Room nr 5");
+		String roomTxt;
+		if(appointment.isInternal()){
+			 roomTxt = appointment.getRoom().toString();
+		}
+		else{
+			 roomTxt = appointment.getLocation();
+		}
+		room = new JLabel(roomTxt);
 		room.setName("room");
 		room.setPreferredSize(new Dimension(80,20));
 		//DESIGN for the Label text
