@@ -262,8 +262,8 @@ public class AppointmentsPanel extends JPanel implements ActionListener {
 				//Drawing the red circle
 	    		g2d.setColor(Color.RED);
 	    		Stroke oldStroke = g2d.getStroke();
-	    		g2d.setStroke(new BasicStroke(3));
-	    		g2d.drawRect(51, 3, 128, 26);
+	    		g2d.setStroke(new BasicStroke(2));
+	    		g2d.drawRect(0, 0, 128, 26);
 	    		g2d.setStroke(oldStroke);
 			}
 		}

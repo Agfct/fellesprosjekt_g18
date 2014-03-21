@@ -282,7 +282,7 @@ public class DBAccess{
 
 	public void createAppointment(Appointment app) throws Exception {
 		try {
-			stmt.executeUpdate(String.format("insert into appointment values(null, %d, %d, \"%s\", \"%s\", %d, 0, %b, \"%s\", %b)", app.getTimeSlot().getStart(), app.getTimeSlot().getEnd(), app.getLocation(), app.getDescription(), app.getCreator().getEmployee().getParticipantID(), app.isInternal(), app.getTitle(), app.isDeclined()));
+			stmt.executeUpdate(String.format("insert into appointment values(null, %d, %d, \"%s\", \"%s\", %d, 0, %b, \"%s\", false)", app.getTimeSlot().getStart(), app.getTimeSlot().getEnd(), app.getLocation(), app.getDescription(), app.getCreator().getEmployee().getParticipantID(), app.isInternal(), app.getTitle()));
 			int id = getLastInsertID();
 			for (Invitation inv : app.getInvitations()) {
 				createInvitationOnFresh(inv, id);
