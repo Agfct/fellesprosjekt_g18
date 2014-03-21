@@ -420,6 +420,23 @@ public class DBAccess{
 		}
 		
 	}
+	public MeetingRoom getMeetingRoom(String name) throws Exception{
+		try {
+			ResultSet rs = stmt.executeQuery(String.format("select * from meetingroom where roomName = \"%s\"", name));
+			if (rs.next()) {	
+				MeetingRoom room = writeMeetingRoomResultSet(rs);
+				return room;
+			} else {
+				System.err.println("No matching room");
+				return null;
+			}
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			flush();
+		}
+		
+	}
 
 
 
@@ -766,6 +783,7 @@ public class DBAccess{
 		String title = rs.getString("title");
 		appointment.setTitle(title);
 		boolean isDeleted = rs.getBoolean("isDeleted");
+		boolean internal = rs.getBoolean("internal");
 		//for testing
 //		System.out.println("StartTime: " + start);
 //		System.out.println("EndTime: " + end);
@@ -774,6 +792,13 @@ public class DBAccess{
 //		System.out.println("ID: " + appointmentID);
 //		System.out.println("Creator: " + creatorID);
 		//end test code
+		if (internal && !location.equals("")) {
+			System.out.println("Ser etter rom med dette navnet: " + location);
+			MeetingRoom room = getMeetingRoom(location);			
+			appointment.setRoom(room);
+		}
+		appointment.setInternal(internal);
+
 		TimeSlot timeslot = new TimeSlot(start, end);
 		appointment.setTimeSlot(timeslot);
 		appointment.setAppointmentID(appointmentID);
@@ -781,7 +806,7 @@ public class DBAccess{
 		appointment.setDescription(description);
 		appointment.setDeleted(isDeleted);
 		return appointment;
-	}
+		}
 
 
 	private Invitation writeInvitationResultSet(ResultSet rs) throws Exception {
