@@ -615,6 +615,8 @@ public class AppointmentsView extends JPanel implements ListSelectionListener , 
 				
 			}else if(declineRadioBtn.isSelected() && declineRadioBtn.isEnabled()){
 				invitationModel.setStatus(InvitationStatus.DECLINED);
+				invitationModel.getAppointment().setDeclined(true);
+				MainWindow.getRequestHandler().editAppointment(invitationModel.getAppointment());
 			}
 			invitationModel.setAlarmTime((InvitationAlarmTime) alarmBox.getSelectedItem());
 			// Hide
