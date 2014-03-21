@@ -64,7 +64,7 @@ public class ServerRequest {
 			case "REMOVE_INVITATION_ID": return removeInvitationByID((int) packet.getObject(0));
 			case "REMOVE_INVITATION": return removeInvitation((Appointment) packet.getObject(0), (Employee) packet.getObject(1));
 //			Email
-			case "SEND_EMAIL": return sendEmail((String) packet.getObject(0), (String) packet.getObject(1));
+			case "SEND_EMAIL": return sendEmail((String) packet.getObject(0), (String) packet.getObject(1), (String) packet.getObject(2));
 
 			
 			default: return noResponse();
@@ -123,6 +123,12 @@ public class ServerRequest {
 	private Packet editAppointment (Appointment appointment) {
 		try {
 			db.editAppointment(appointment);
+			for (Invitation invitation : appointment.getInvitations()){
+				String mail = invitation.getEmployee().getEmail();
+				String subject = "A meeting has been changed";
+				String msg = "The meeting " + appointment.getTitle() + " has been changed.";
+				emailHandler.sendEmail(mail, subject, msg);
+			}
 			return new Packet("APPOINTMENT_EDITED");
 		}
 		catch (Exception e) {
@@ -347,8 +353,8 @@ public class ServerRequest {
 		}
 	}
 //	Email
-	private Packet sendEmail(String mail, String msg) {
-		if (emailHandler.sendEmail(mail, msg)){
+	private Packet sendEmail(String mail, String subject, String msg) {
+		if (emailHandler.sendEmail(mail, subject, msg)){
 			System.out.println("ServerRequest: Email sent!");
 			return new Packet("EMAIL_SENT");
 		}

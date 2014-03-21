@@ -54,8 +54,9 @@ public class AlarmHandler {
 		}
 		
 		public void executeAlarm() {
+			String subject = "Meeting reminder!";
 			String msg = String.format("Reminder for %s. The meeting starts at %s", appointment.getTitle(), appointment.getStartTime());
-			emailHandler.sendEmail(employee.getEmail(), msg);
+			emailHandler.sendEmail(employee.getEmail(),subject, msg);
 		}
 		public void run () {
 			executeAlarm();
