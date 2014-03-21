@@ -169,7 +169,7 @@ public class Appointment  implements Serializable{
 	
 	//Getters
 	public Creator getCreator() 	{return creator;}
-	public String getTitle()		{return title!="" ? Character.toUpperCase(title.charAt(0)) + title.substring(1) : "";}
+	public String getTitle()		{return !title.equals("") ? Character.toUpperCase(title.charAt(0)) + title.substring(1) : "";}
 	public TimeSlot getTimeSlot() 	{return timeSlot;}
 	public String getLocation() 	{return location;}
 	public MeetingRoom getRoom() 	{return room;}

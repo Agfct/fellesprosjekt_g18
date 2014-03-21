@@ -794,7 +794,7 @@ public class DBAccess{
 		boolean isHidden = rs.getBoolean("isHidden");
 		String invitationStatus = rs.getString("invitationStatus");
 		long alarmTime = rs.getLong("alarmTime");
-		boolean isDeleted = rs.getBoolean("isDeleted");
+		boolean isDeleted = rs.getBoolean("invDeleted");
 		//for testing
 //		System.out.println(invitationID);
 //		System.out.println(appointmentID);
@@ -806,6 +806,7 @@ public class DBAccess{
 			InvitationStatus is = InvitationStatus.valueOf(invitationStatus);			
 			invitation.setStatus(is);
 		} catch (NullPointerException e) {
+			e.printStackTrace();
 			System.err.println("writeInvitation: No invitationStatus set");
 		}
 		invitation.setAlarmTime(alarmTime);

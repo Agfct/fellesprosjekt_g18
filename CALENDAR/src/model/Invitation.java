@@ -32,8 +32,6 @@ public class Invitation implements Serializable{
 		edited = false;
 		hidden = false;
 		pcs = new PropertyChangeSupport(this);
-		participantsPanel = new ParticipantsPanel(person);
-		participantsPanel.setInvitation(this);
 	}
 	
 	@Override
@@ -70,11 +68,9 @@ public class Invitation implements Serializable{
 	//Setters
 	public void setStatus(InvitationStatus is) {
 		this.status = is;
-		if(participantsPanel == null){
-			participantsPanel = new ParticipantsPanel(employee);
-			participantsPanel.setInvitation(this);
+		if(participantsPanel != null){
+			participantsPanel.changeStatusField(status);
 		}
-		participantsPanel.changeStatusField(status);
 	}
 	public void setEdited(boolean edited) {
 		boolean old = this.edited;
@@ -101,6 +97,10 @@ public class Invitation implements Serializable{
 		participantsPanel = newParticipantsView;
 	}
 	public ParticipantsPanel getParticipantsPanel(){
+		if(participantsPanel == null){
+			participantsPanel = new ParticipantsPanel(employee);
+			participantsPanel.setInvitation(this);
+		}
 		return participantsPanel;
 	}
 	public void setAppointment(Appointment appointment) {
