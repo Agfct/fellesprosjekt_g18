@@ -133,11 +133,17 @@ public class RequestHandler {
 		}return false;
 	}
 	public Boolean removeInvitationByID (Invitation invitation){
-		Packet response = client.request("REMOVE_INVITATION", invitation.getInvitationID());
-		if(response.getName().equals("INVITATION_REMOVED")){
+		Packet response = client.request("REMOVE_INVITATION_ID", invitation.getInvitationID());
+		if(response.getName().equals("INVITATION_ID_REMOVED")){
 			return true;			
 		}return false;
 	}
+	public Boolean removeInvitation (Appointment appointment, Employee employee){
+			Packet response = client.request("REMOVE_INVITATION", appointment, employee);
+			if(response.getName().equals("INVITATION_REMOVED")){
+				return true;			
+			}return false;
+		}
 //	Email
 	public Boolean sendEmail (String emailAdress, String message){
 		Packet response = client.request("SEND_EMAIL", emailAdress, message);

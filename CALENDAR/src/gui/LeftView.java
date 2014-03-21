@@ -199,7 +199,7 @@ public class LeftView extends JPanel implements ListSelectionListener, ActionLis
 		cLabel6.gridx = 0;
 		cLabel6.gridy = 15;
 		cLabel6.gridheight = 2;
-		addExAppointmentsLabel = new JLabel("<html>Add external Appointments</html>");
+		addExAppointmentsLabel = new JLabel("<html>Add other Calendars</html>");
 		addExAppointmentsLabel.setName("addExAppointmentsLabel");
 		//DESIGN for the Label text
 		addExAppointmentsLabel.setForeground(Color.BLACK);
@@ -208,35 +208,35 @@ public class LeftView extends JPanel implements ListSelectionListener, ActionLis
 		add(addExAppointmentsLabel,cLabel6);
 		
 		//searchLabel
-		GridBagConstraints cLabel8 = new GridBagConstraints();
-//		cLabel8.insets = new Insets(0,50,0,0);
-		cLabel8.gridx = 0;
-		cLabel8.gridy = 18;
-		cLabel8.gridwidth = GridBagConstraints.RELATIVE;
-		cLabel8.anchor = GridBagConstraints.LINE_START;
-		searchLabel = new JLabel("Search: "); 
-		searchLabel.setName("searchLabel");
-		//DESIGN for the Label text
-		searchLabel.setForeground(Color.BLACK);
-		searchLabel.setFont(new Font(MainWindow.getMFont(),Font.BOLD,12));
-//		loginBtn.setPreferredSize(new Dimension(200, 400));
-		add(searchLabel,cLabel8);
+//		GridBagConstraints cLabel8 = new GridBagConstraints();
+////		cLabel8.insets = new Insets(0,50,0,0);
+//		cLabel8.gridx = 0;
+//		cLabel8.gridy = 18;
+//		cLabel8.gridwidth = GridBagConstraints.RELATIVE;
+//		cLabel8.anchor = GridBagConstraints.LINE_START;
+//		searchLabel = new JLabel("Search: "); 
+//		searchLabel.setName("searchLabel");
+//		//DESIGN for the Label text
+//		searchLabel.setForeground(Color.BLACK);
+//		searchLabel.setFont(new Font(MainWindow.getMFont(),Font.BOLD,12));
+////		loginBtn.setPreferredSize(new Dimension(200, 400));
+//		add(searchLabel,cLabel8);
 		
 		//searchField
-		GridBagConstraints cLabel9 = new GridBagConstraints();
-		cLabel9.insets = new Insets(0,50,0,0);
-		cLabel9.gridx = 0;
-		cLabel9.gridy = 18;
-		cLabel9.gridwidth = GridBagConstraints.REMAINDER;
-		cLabel9.fill = GridBagConstraints.HORIZONTAL;
-		searchField = new JTextField(20);
-		searchField.setName("searchField");
-		searchField.addKeyListener(this);
-//		//DESIGN for the Label text
-//		searchField.setForeground(Color.BLACK);
-//		searchField.setFont(new Font(MainWindow.getMFont(),Font.BOLD,12));
-//		loginBtn.setPreferredSize(new Dimension(200, 400));
-		add(searchField,cLabel9);
+//		GridBagConstraints cLabel9 = new GridBagConstraints();
+//		cLabel9.insets = new Insets(0,50,0,0);
+//		cLabel9.gridx = 0;
+//		cLabel9.gridy = 18;
+//		cLabel9.gridwidth = GridBagConstraints.REMAINDER;
+//		cLabel9.fill = GridBagConstraints.HORIZONTAL;
+//		searchField = new JTextField(20);
+//		searchField.setName("searchField");
+//		searchField.addKeyListener(this);
+////		//DESIGN for the Label text
+////		searchField.setForeground(Color.BLACK);
+////		searchField.setFont(new Font(MainWindow.getMFont(),Font.BOLD,12));
+////		loginBtn.setPreferredSize(new Dimension(200, 400));
+//		add(searchField,cLabel9);
 		
 		// selectedEmployees
 		internalEmployeesList = new JList<Employee>(internallistModel);

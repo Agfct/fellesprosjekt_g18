@@ -20,6 +20,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.beans.PropertyChangeEvent;
@@ -155,6 +156,7 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 		this.isNewAppointmentView = isNewAppointmentView;
 		
 		this.from = from;
+		this.addMouseListener(new MAdapter());
 		
 		deletedInvitations = new ArrayList<Invitation>();
 
@@ -1066,7 +1068,7 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 			if(from.equals("editApp")){
 				if(MainWindow.getRequestHandler().editAppointment(appointmentModel)){
 					for (Invitation inv : deletedInvitations) {
-						MainWindow.getRequestHandler().removeInvitationByID(inv);
+						MainWindow.getRequestHandler().setInvitationAsDeleted(inv);
 					}
 					MainWindow.removeNewAppointmentView();
 					MainWindow.editAppointmentsView();
@@ -1397,5 +1399,17 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 			dateYearField.setSelectedItem(c.get(Calendar.YEAR));
 		}
 		System.out.println("Date changed");
+	}
+    // Sending click to all JPanels in this panel
+	private class MAdapter extends MouseAdapter {
+		
+		public void mousePressed(MouseEvent event){
+		}
+		public void mouseReleased(MouseEvent event){
+
+		}
+		public void mouseClicked(MouseEvent event){
+
+		}
 	}
 }

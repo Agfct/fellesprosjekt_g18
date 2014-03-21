@@ -1,6 +1,7 @@
 package gui;
 
 
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -14,6 +15,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.Properties;
 
 import javax.mail.Message;
@@ -72,7 +75,7 @@ public class EmailPanel extends JPanel implements ActionListener, FocusListener 
 		String endTime = invite.getAppointment().getEndTime();
 		String location = invite.getAppointment().getLocation();
 
-
+		this.addMouseListener(new MAdapter());
 		System.out.println(name);
 		System.out.println(endTime);
 		System.out.println(startTime);
@@ -146,7 +149,7 @@ public class EmailPanel extends JPanel implements ActionListener, FocusListener 
 			emailField.setText(email);
 		}
 		else if(email == null){
-			emailField.setText("siljechristensen92@gmail.com");
+			emailField.setText("");
 		}
 		this.email = emailField.getText();
 		add(emailField,cLabel4);
@@ -338,6 +341,18 @@ public class EmailPanel extends JPanel implements ActionListener, FocusListener 
 	}
 	public String getMessage(){
 		return message;
+	}
+    // Sending click to all JPanels in this panel
+	private class MAdapter extends MouseAdapter {
+		
+		public void mousePressed(MouseEvent event){
+		}
+		public void mouseReleased(MouseEvent event){
+
+		}
+		public void mouseClicked(MouseEvent event){
+
+		}
 	}
 
 

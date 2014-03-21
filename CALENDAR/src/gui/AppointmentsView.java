@@ -15,6 +15,8 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import javax.swing.ButtonGroup;
@@ -94,6 +96,7 @@ public class AppointmentsView extends JPanel implements ListSelectionListener , 
 //		setOpaque(false);
 //		backgroundImg = new ImageIcon(this.getClass().getResource("/backgrounds/background1.png")).getImage();
 		backgroundImg = MainWindow.getBackgroundImage();
+		this.addMouseListener(new MAdapter());
 		
 		/** CREATING BUTTONS, LABELS AND TEXT FIELDS **/
 		
@@ -651,7 +654,10 @@ public class AppointmentsView extends JPanel implements ListSelectionListener , 
 			System.out.println("Closing AppointmentsView");
 			for (Appointment appointment : appointments) {
 				if(appointment.isDeleted()){
-//					MainWindow.getRequestHandler().removeInvitation(MainWindow.getUser(),appointment);/TODO:
+					MainWindow.getRequestHandler().removeInvitation(appointment,MainWindow.getUser());
+				}
+				if(appointment.getInvitation(MainWindow.getUser()).isDeleted()){
+					MainWindow.getRequestHandler().removeInvitation(appointment,MainWindow.getUser());
 				}
 			}
 			MainWindow.removeAppointmentsView();
@@ -676,5 +682,17 @@ public class AppointmentsView extends JPanel implements ListSelectionListener , 
 		
 		
 		
+	}
+    // Sending click to all JPanels in this panel
+	private class MAdapter extends MouseAdapter {
+		
+		public void mousePressed(MouseEvent event){
+		}
+		public void mouseReleased(MouseEvent event){
+
+		}
+		public void mouseClicked(MouseEvent event){
+
+		}
 	}
 }

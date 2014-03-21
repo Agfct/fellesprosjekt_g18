@@ -310,7 +310,7 @@ public class DBAccess{
 		}
 	}
 	
-	public void removeInvitation(Employee employee, Appointment appointment) throws SQLException {
+	public void removeInvitation(Appointment appointment, Employee employee) throws SQLException {
 		try {
 			stmt.executeUpdate(String.format("delete from invitation where participantID = %d and appointmentID = %d", employee.getParticipantID(), appointment.getAppointmentID()));
 		} catch (Exception e) {

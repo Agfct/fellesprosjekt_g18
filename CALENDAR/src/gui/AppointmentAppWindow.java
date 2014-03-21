@@ -50,7 +50,7 @@ public class AppointmentAppWindow extends JComponent{
 		
 		// descriptionField
 		GridBagConstraints cLabel0 = new GridBagConstraints();
-		cLabel0.insets = new Insets(85,-182,0,0);
+		cLabel0.insets = new Insets(110,-182,0,0);
 		cLabel0.gridx = 11;
 		cLabel0.gridy = 1;
 		cLabel0.gridwidth = 4;
@@ -116,7 +116,7 @@ public class AppointmentAppWindow extends JComponent{
     		}else{
     			hide = "visible";
     		}
-    		g2d.drawString(hide, 100, 128);
+    		g2d.drawString(hide, 100, 144);
     		
         	if(appointment.isDeleted()){
             	font = new Font("Tahoma", Font.BOLD, 14);
@@ -142,16 +142,19 @@ public class AppointmentAppWindow extends JComponent{
         //Time:
         String time = "Time: "+appointment.getStartTime()+"-"+appointment.getEndTime();
         String date = appointment.getDateString();
-        if(appointment.getRoom() != null){ //TODO what is room ?
-        	String room = appointment.getRoom().toString();
-        	g2d.drawString(room, 100, 128);
-        }
-
+		String room;
+		if(appointment.isInternal()){
+			 room = appointment.getRoom().toString();
+		}
+		else{
+			 room = appointment.getLocation();
+		}
+		g2d.drawString(room, 100, 128);
     	font = new Font("Tahoma", Font.BOLD, 12);
     	g2d.setFont(font);
     	g2d.drawString(time, 100, 112);
-    	g2d.drawString(date, 100, 144);
-    	g2d.drawString("Description:", 100, 160);
+    	g2d.drawString(date, 100, 160);
+    	g2d.drawString("Description:", 100, 176);
     	g2d.drawString("Participants: ", 350, 112);
     	
     	
@@ -159,7 +162,9 @@ public class AppointmentAppWindow extends JComponent{
     	if(appointment.getInvitations() != null){
     		int row = 128;
     		for (Invitation invite : appointment.getInvitations()) {
-    			g2d.drawString(invite.getEmployee().getName()+ ", Status: " +invite.getStatus().getStatusOnlyText(), 350, (row));
+    			if(!invite.isDeleted()){
+    				g2d.drawString(invite.getEmployee().getName()+ ", Status: " +invite.getStatus().getStatusOnlyText(), 350, (row));
+    			}
     			row += 16;
 			}
     	}
