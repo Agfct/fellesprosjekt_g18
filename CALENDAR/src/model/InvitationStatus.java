@@ -17,10 +17,10 @@ public enum InvitationStatus {
 		return "<html>"+status+"</html>";
 	}
 	public String getStatusOnlyText(){
-		if(status.equals(ACCEPTED)){
+		if(this.equals(InvitationStatus.ACCEPTED)){
 			return "Accepted";
 		}
-		else if(status.equals(DECLINED)){
+		else if(this.equals(InvitationStatus.DECLINED)){
 			return "Declined";
 		}
 		else{

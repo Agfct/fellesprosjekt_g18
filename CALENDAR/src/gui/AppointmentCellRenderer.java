@@ -30,7 +30,7 @@ public class AppointmentCellRenderer implements ListCellRenderer<Appointment>{
 		// Time     | Title  | Pending
 		// Date     | Room   | hidden ?
 //		String time = Long.toString(value.getStartTime())+'-'+ value.getEndTime();
-		String time = "12:00"+"-"+"18:30";
+		String time = value.getStartTime()+"-"+value.getEndTime();
 		String title = value.getTitle();
 		if(value.isDeleted()){ //if the appointment is deleted
 			title = "<font color=\"RED\">DELETED</font>";
@@ -46,7 +46,7 @@ public class AppointmentCellRenderer implements ListCellRenderer<Appointment>{
 			 status = InvitationStatus.PENDING;
 		}
 //		String date = value.getDate // get date and put it correctly into label
-//		String room = roomNoe 
+//		String room = roomNoe //TOD: get room ??
 		String hide;
 		boolean hidden = invitation.isHidden();
 		if (hidden){
