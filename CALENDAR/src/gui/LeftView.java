@@ -435,16 +435,19 @@ public class LeftView extends JPanel implements ListSelectionListener, ActionLis
 		if (e.getSource() == newAppointmentBtn){
 			System.out.println("Opening newAppointment Window");
 			Appointment app = new Appointment(MainWindow.getUser());
+			MainWindow.removeAppointmentAppWindow(); // Removing the AppWindow if its up
 			MainWindow.newAppointmentView(app,true,""); 	
 		}
 		// If Appointment is pressed
 		else if (e.getSource() == appointmentsBtn){
 			System.out.println("Opening Appointments Window");
+			MainWindow.removeAppointmentAppWindow(); // Removing the AppWindow if its up
 			MainWindow.appointmentsView();
 		}
 		// If Edit Appointments is pressed
 		else if (e.getSource() == editAppointmentBtn){
 			System.out.println("Opening EditAppointments Window");
+			MainWindow.removeAppointmentAppWindow(); // Removing the AppWindow if its up
 			MainWindow.editAppointmentsView();
 		}
 		// If weekBox is modified
@@ -494,7 +497,6 @@ public class LeftView extends JPanel implements ListSelectionListener, ActionLis
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-		System.out.println("("+this.getClass()+"):"+ "Pressing a button: KeyTyped");
 		
 	}
 

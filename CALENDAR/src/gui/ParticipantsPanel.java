@@ -181,7 +181,7 @@ public class ParticipantsPanel extends JPanel implements ActionListener {
 	// Action Listener for Buttons
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		System.out.println("("+this.getClass()+"):"+ "Pressing a button Or Modyfing a comboBox");
+//		System.out.println("("+this.getClass()+"):"+ "Pressing a button Or Modyfing a comboBox");
 		
 		// If cancelAppointmentBtn is pressed
 		if (e.getSource() == removeBtn){

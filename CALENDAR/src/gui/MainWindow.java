@@ -244,7 +244,7 @@ public class MainWindow extends JFrame{
 			layoutView.remove(appointmentAppWindow);
 		}
 		appointmentAppWindow = new AppointmentAppWindow(appointment, x, y);
-		appointmentAppWindow.setBounds(400, 400, 400, 400);
+		appointmentAppWindow.setBounds(400, 200, 600, 400);
 		layoutView.add(appointmentAppWindow,JLayeredPane.DRAG_LAYER,5);
 	}
 	public static void removeAppointmentAppWindow(){
@@ -369,6 +369,7 @@ public class MainWindow extends JFrame{
 		topView.setTopViewDate();
 		leftView.setLeftViewWeek();
 		calendarView.repaint();
+		removeAppointmentAppWindow();
 		calendarPanel.addAllAppointments();
 	}
 

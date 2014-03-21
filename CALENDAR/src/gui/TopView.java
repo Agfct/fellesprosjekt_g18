@@ -202,6 +202,7 @@ public class TopView extends JPanel implements ActionListener{
 		// If Logout Button is pressed
 		if(e.getSource() == logOutBtn){
 			System.out.println("Logging Out");
+			MainWindow.removeAppointmentAppWindow(); // Removing the AppWindow if its up
 			/** FIX HERE OR IN MAIN WINDOW **/
 			// Saving data?
 			// Get prev login info?
