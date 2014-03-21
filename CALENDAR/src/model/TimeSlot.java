@@ -42,12 +42,14 @@ public class TimeSlot implements Serializable{
 	}
 	
 	public void setStart(long newStart){
+		if (newStart > end && start != newStart) end = newStart + duration;
 		start = newStart;
 		if (duration != 0) end = start + duration;
 		else if (end != 0) duration = end - start;
 	}
 	
 	public void setEnd(long newEnd){
+		if (start > newEnd && end != newEnd) start = newEnd;
 		end = newEnd;
 		if (start != 0) duration = end - start;
 	}

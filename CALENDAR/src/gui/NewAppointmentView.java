@@ -1155,13 +1155,12 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 			TimeZone.setDefault(tz);
 			Date date = format.parse(dateText);
 			c.setTime(date);
-			System.out.println(tz.inDaylightTime(date));
 			if (tz.inDaylightTime(date)){
 				c.add(Calendar.HOUR_OF_DAY, -1);
 			}
 			return c.getTimeInMillis();
 		} catch (ParseException e) {
-			System.out.println("Wrong date format");
+			System.err.println("Wrong date format");
 		}
 		return -1;
 	}
@@ -1359,23 +1358,17 @@ public class NewAppointmentView extends JPanel implements MouseListener, KeyList
 			}
 			
 			//Fixing durationFormat
-			if (timeSlot.getDuration() != 0){
-				setDurationField(appointmentModel.getDuration());
-			}
+			setDurationField(appointmentModel.getDuration());
 			setDateFields(appointmentModel.getDate());
 		}
 	}
 	
 	private void setStartField(String startTime){
-		if (startField.getSelectedItem() != startTime){
-			startField.setSelectedItem(startTime);
-		}
+		startField.setSelectedItem(startTime);
 	}
 	
 	private void setEndField(String endTime){
-		if (startField.getSelectedItem() != endTime){
-			endField.setSelectedItem(endTime);
-		}
+		endField.setSelectedItem(endTime);
 	}
 	
 	private void setDurationField(long dur){
