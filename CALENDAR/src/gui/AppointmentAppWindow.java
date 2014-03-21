@@ -50,7 +50,7 @@ public class AppointmentAppWindow extends JComponent{
 		
 		// descriptionField
 		GridBagConstraints cLabel0 = new GridBagConstraints();
-		cLabel0.insets = new Insets(65,-182,0,0);
+		cLabel0.insets = new Insets(85,-182,0,0);
 		cLabel0.gridx = 11;
 		cLabel0.gridy = 1;
 		cLabel0.gridwidth = 4;
@@ -86,8 +86,8 @@ public class AppointmentAppWindow extends JComponent{
         g2d.setColor(Color.WHITE);
         
         
-        // Y: Title: 32, Creator/invited/other: 48,  Status: 64, DELorUNINV: 80
-        // 
+        // Y: Title: 32, Creator 48
+        ///invited/other: 64,  Status: 80, DELorUNINV: 96
         // if your created the appointment
         if(appointment.getCreator().getEmployee().equals(MainWindow.getUser())){
         	g2d.drawString(appointment.getTitle(), 250, 32);
@@ -97,7 +97,7 @@ public class AppointmentAppWindow extends JComponent{
         	if(appointment.isDeleted()){
             	font = new Font("Tahoma", Font.BOLD, 14);
             	g2d.setFont(font);
-        		g2d.drawString("DELETED", 250, 80);
+        		g2d.drawString("DELETED", 250, 96);
         	}
         
         	// if you are invited to the appointment
@@ -106,8 +106,9 @@ public class AppointmentAppWindow extends JComponent{
         	g2d.drawString(appointment.getTitle(), 250, 32);
         	font = new Font("Tahoma", Font.BOLD, 12);
         	g2d.setFont(font);
-        	g2d.drawString("Invited Appointment", 250, 48);
-        	g2d.drawString("Your Status: [ "+appointment.getInvitation(MainWindow.getUser()).getStatus().getStatusOnlyText()+" ]", 250, 64);
+        	g2d.drawString("Creator: "+appointment.getCreator().getEmployee().getName(), 250, 48);
+        	g2d.drawString("Invited Appointment", 250, 64);
+        	g2d.drawString("Your Status: [ "+appointment.getInvitation(MainWindow.getUser()).getStatus().getStatusOnlyText()+" ]", 250, 80);
     		String hide;
     		boolean hidden = appointment.getInvitation(MainWindow.getUser()).isHidden();
     		if (hidden){
@@ -120,12 +121,12 @@ public class AppointmentAppWindow extends JComponent{
         	if(appointment.isDeleted()){
             	font = new Font("Tahoma", Font.BOLD, 14);
             	g2d.setFont(font);
-        		g2d.drawString("DELETED", 250, 80);
+        		g2d.drawString("DELETED", 250, 96);
         	}
         	else if(appointment.getInvitation(MainWindow.getUser()).isDeleted()){
             	font = new Font("Tahoma", Font.BOLD, 14);
             	g2d.setFont(font);
-        		g2d.drawString("UNINVITED", 250, 80);
+        		g2d.drawString("UNINVITED", 250, 96);
         	}
         	
         }else{ // other appointments
@@ -133,8 +134,8 @@ public class AppointmentAppWindow extends JComponent{
         	g2d.drawString(appointment.getTitle(), 250, 32);
         	font = new Font("Tahoma", Font.BOLD, 12);
         	g2d.setFont(font);
-        	g2d.drawString("Other", 250, 48);
-        	g2d.drawString("Creator: " + appointment.getCreator().getEmployee().getName(), 250, 64);
+        	g2d.drawString("Creator: " + appointment.getCreator().getEmployee().getName(), 250, 48);
+        	g2d.drawString("Other", 250, 64);
         }
         
         // Writing Appointment information
@@ -148,15 +149,15 @@ public class AppointmentAppWindow extends JComponent{
 
     	font = new Font("Tahoma", Font.BOLD, 12);
     	g2d.setFont(font);
-    	g2d.drawString(time, 100, 96);
-    	g2d.drawString(date, 100, 112);
-    	g2d.drawString("Description:", 100, 144);
-    	g2d.drawString("Participants: ", 350, 96);
+    	g2d.drawString(time, 100, 112);
+    	g2d.drawString(date, 100, 144);
+    	g2d.drawString("Description:", 100, 160);
+    	g2d.drawString("Participants: ", 350, 112);
     	
     	
     	// All participants for the appointment
     	if(appointment.getInvitations() != null){
-    		int row = 112;
+    		int row = 128;
     		for (Invitation invite : appointment.getInvitations()) {
     			g2d.drawString(invite.getEmployee().getName()+ ", Status: " +invite.getStatus().getStatusOnlyText(), 350, (row));
     			row += 16;

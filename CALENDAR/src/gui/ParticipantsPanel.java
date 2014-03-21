@@ -88,7 +88,6 @@ public class ParticipantsPanel extends JPanel implements ActionListener {
 		cLabel2.gridy = 0;
 		emailBtn = new JButton("eMail");
 		emailBtn.setName("emailBtn");
-		emailBtn.addActionListener(this);
 		emailBtn.setPreferredSize(new Dimension(65,20));
 		emailBtn.setFocusPainted(false);
 		// DESIGN FOR Field:
@@ -116,7 +115,6 @@ public class ParticipantsPanel extends JPanel implements ActionListener {
 //		statusFieldModel.addElement("<html><font color=\"RED\">Declined</font></html>");		
 		
 		statusField.setName("statusField");
-		statusField.addActionListener(this);
 		// DESIGN FOR ComboBox:
 //		statusField.setBackground(MainWindow.getBckColor());
 //		statusField.setForeground(MainWindow.getTxtColor());
@@ -132,7 +130,6 @@ public class ParticipantsPanel extends JPanel implements ActionListener {
 		removeBtn = new JButton();
 		removeBtn.setIcon(removeIcon);
 		removeBtn.setName("removeBtn");
-		removeBtn.addActionListener(this);
 		removeBtn.setPreferredSize(new Dimension(30,20));
 		// DESIGN FOR Field:
 		removeBtn.setBackground(Color.RED);
@@ -140,7 +137,11 @@ public class ParticipantsPanel extends JPanel implements ActionListener {
 		removeBtn.setFocusPainted(false);
 		removeBtn.setFont(new Font(MainWindow.getMFont(),Font.BOLD, 12));
 		add(removeBtn,cLabel4);
-
+		
+		//Setting listeners
+		emailBtn.addActionListener(this);
+		statusField.addActionListener(this);
+		removeBtn.addActionListener(this);
 	}
 	
 	public Employee getEmployee(){
@@ -181,7 +182,7 @@ public class ParticipantsPanel extends JPanel implements ActionListener {
 	// Action Listener for Buttons
 	@Override
 	public void actionPerformed(ActionEvent e) {
-//		System.out.println("("+this.getClass()+"):"+ "Pressing a button Or Modyfing a comboBox");
+		System.out.println("("+this.getClass()+"):"+ "Pressing a button Or Modyfing a comboBox");
 		
 		// If cancelAppointmentBtn is pressed
 		if (e.getSource() == removeBtn){

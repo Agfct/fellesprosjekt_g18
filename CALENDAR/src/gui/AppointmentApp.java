@@ -15,6 +15,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 import model.Appointment;
+import model.Employee;
 
 /** This is the small window appearing in the CalendarPanel
  * 
@@ -31,6 +32,7 @@ public class AppointmentApp extends JPanel {
 	private Image backgroundImgCreator;
 	private Image backgroundImgInvited;
 	private Image backgroundImgOther;
+	private Employee employeeThatYouFetchThisAppointmentFrom;
 
 	// Days:
 	// Default size = 133
@@ -86,7 +88,7 @@ public class AppointmentApp extends JPanel {
         	//background Image
         	g2d.drawImage(backgroundImgCreator, 0, 0, this);
         	g2d.drawString(appointment.getTitle(), 16, 16);
-        	g2d.drawString("Creator", 16, 32);
+        	g2d.drawString(MainWindow.getUser().getName(), 16, 32);
         
         	// if you are invited to the appointment
         }else if(appointment.getInvitation(MainWindow.getUser()) != null){
@@ -108,7 +110,12 @@ public class AppointmentApp extends JPanel {
         	g2d.drawImage(backgroundImgOther, 0, 0, this);
         	//text for invited
         	g2d.drawString(appointment.getTitle(), 16, 16);
-        	g2d.drawString("Other", 16, 32);
+        	if(employeeThatYouFetchThisAppointmentFrom != null){
+        		g2d.drawString(employeeThatYouFetchThisAppointmentFrom.getName(), 16, 32);
+        	}
+        	else{
+        		g2d.drawString("Other", 16, 32);
+        	}
         }
     }
     
@@ -158,6 +165,14 @@ public class AppointmentApp extends JPanel {
 
 	public void setY(int y) {
 		this.y = y;
+	}
+
+	public Employee getFetchedEmployee() {
+		return employeeThatYouFetchThisAppointmentFrom;
+	}
+
+	public void setFetchedEmployee(Employee employeeThatYouFetchThisAppointmentFrom) {
+		this.employeeThatYouFetchThisAppointmentFrom = employeeThatYouFetchThisAppointmentFrom;
 	}
 	
 

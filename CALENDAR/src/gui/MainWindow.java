@@ -59,6 +59,7 @@ public class MainWindow extends JFrame{
 	private static Client networkClient;
 	private static RequestHandler requestHandler;
 	private static Date date;
+	private static boolean aWindowIsUp;
 	
 	/** The Main user "you", of the program **/
 	private static Employee user;
@@ -101,6 +102,7 @@ public class MainWindow extends JFrame{
 			}	
 		};
 		backgroundPanel.setBounds(0,0,2000,2000);
+		aWindowIsUp = false;
 		
 		//adding network listener
 		networkClient = new Client(serverIP, serverPort);
@@ -179,11 +181,13 @@ public class MainWindow extends JFrame{
 	protected static void newAppointmentView(Appointment newAppointment , boolean newOrEdit ,String from){
 		//adding an newAppointmentView to the layerPane
 		// True = newAppointmentViee, False = editAppointmentView
+		aWindowIsUp = true;
 		newAppointmentView = new NewAppointmentView(newAppointment,newOrEdit, from);
 		newAppointmentView.setBounds(0, 0, 1200, 800);
 		layoutView.add(newAppointmentView,JLayeredPane.POPUP_LAYER,4);
 	}
 	protected static void removeNewAppointmentView(){
+		aWindowIsUp = false;
 		layoutView.remove(newAppointmentView);
 		layoutView.repaint();
 		calendarPanel.addAllAppointments();
@@ -204,11 +208,13 @@ public class MainWindow extends JFrame{
 	//adding an appointmentView
 	protected static void appointmentsView(){
 		//adding an AppointmentsView to the layerPane
+		aWindowIsUp = true;
 		appointmentsView = new AppointmentsView();
 		appointmentsView.setBounds(0, 0, 1200, 800);
 		layoutView.add(appointmentsView,JLayeredPane.POPUP_LAYER,4);
 	}
 	protected static void removeAppointmentsView(){
+		aWindowIsUp = false;
 		layoutView.remove(appointmentsView);
 		layoutView.repaint();
 		calendarPanel.addAllAppointments();
@@ -217,11 +223,13 @@ public class MainWindow extends JFrame{
 	//adding an editAppointmentsView
 	protected static void editAppointmentsView(){
 		//adding an AppointmentsView to the layerPane
+		aWindowIsUp = true;
 		editAppointmentsView = new EditAppointmentsView();
 		editAppointmentsView.setBounds(0, 0, 1200, 800);
 		layoutView.add(editAppointmentsView,JLayeredPane.POPUP_LAYER,4);
 	}
 	protected static void removeEditAppointmentsView(){
+		aWindowIsUp = false;
 		layoutView.remove(editAppointmentsView);
 		layoutView.repaint();
 		calendarPanel.addAllAppointments();
@@ -243,9 +251,12 @@ public class MainWindow extends JFrame{
 		if(appointmentAppWindow != null ){
 			layoutView.remove(appointmentAppWindow);
 		}
-		appointmentAppWindow = new AppointmentAppWindow(appointment, x, y);
-		appointmentAppWindow.setBounds(400, 200, 600, 400);
-		layoutView.add(appointmentAppWindow,JLayeredPane.DRAG_LAYER,5);
+		// if no other window is up
+		if(!aWindowIsUp){
+			appointmentAppWindow = new AppointmentAppWindow(appointment, x, y);
+			appointmentAppWindow.setBounds(400, 200, 600, 400);
+			layoutView.add(appointmentAppWindow,JLayeredPane.DRAG_LAYER,5);
+		}
 	}
 	public static void removeAppointmentAppWindow(){
 		if(appointmentAppWindow != null ){
@@ -284,6 +295,8 @@ public class MainWindow extends JFrame{
 	public void createEmployeeList(){
 		System.out.println("dette er null" + getRequestHandler());
 		allEmployees = getRequestHandler().getAllEmployees();
+		allEmployees.remove(getUser());
+		
 	}
 	public static ArrayList<Employee> getEmployeeList(){
 		return allEmployees;
@@ -348,6 +361,8 @@ public class MainWindow extends JFrame{
 			System.out.println("PARTICIPANTS ID: "+ newUser.getParticipantID());
 			setUser(newUser);
 			getTopView().setUserName(newUser.getName());
+			mainWindow.createEmployeeList();
+			getLeftView().addEmployees();
 			setCalendarMode();
 		}
 		else{

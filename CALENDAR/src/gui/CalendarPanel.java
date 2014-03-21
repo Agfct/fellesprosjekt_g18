@@ -81,6 +81,7 @@ public class CalendarPanel extends JPanel {
 			for (int i = 0; i < otherAppointments.size(); i++) {
 				if(!appointments.contains(otherAppointments.get(i))){
 					AppointmentApp app = new AppointmentApp(otherAppointments.get(i));
+					app.setFetchedEmployee(employee);
 					add(app);
 					app.setLocation(app.getX(), app.getY());
 				}
