@@ -258,12 +258,11 @@ public class AppointmentsPanel extends JPanel implements ActionListener {
 			Graphics2D g2d = (Graphics2D) g;
 
 			if(appointment.isDeclined()){
-				//editAppointments Notification Symbol
-				//Drawing the red circle
+				//editAppointments Notification square
 	    		g2d.setColor(Color.RED);
 	    		Stroke oldStroke = g2d.getStroke();
 	    		g2d.setStroke(new BasicStroke(2));
-	    		g2d.drawRect(0, 0, 128, 26);
+	    		g2d.drawRect(-1, 0, getWidth()+2, getHeight());
 	    		g2d.setStroke(oldStroke);
 			}
 		}

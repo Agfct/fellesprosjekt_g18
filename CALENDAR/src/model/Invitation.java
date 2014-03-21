@@ -27,6 +27,8 @@ public class Invitation implements Serializable{
 		status = InvitationStatus.PENDING;
 		edited = false;
 		hidden = false;
+		isDeleted = false;
+		alarmTime = InvitationAlarmTime.NONE;
 		pcs = new PropertyChangeSupport(this);
 	}
 	
