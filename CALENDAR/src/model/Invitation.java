@@ -15,7 +15,7 @@ public class Invitation implements Serializable{
 	private boolean isDeleted;
 	private boolean edited;
 	private boolean hidden;
-	private long alarmTime;
+	private InvitationAlarmTime alarmTime;
 	private transient ParticipantsPanel participantsPanel;
 	private transient PropertyChangeSupport pcs;
 	
@@ -57,12 +57,20 @@ public class Invitation implements Serializable{
 	public String toString(){
 		return "ID: "+invitationID + "Employee Name: "+ employee.getName() + "Status: " + status;
 	}
-	public long getAlarmTime() {
+	public InvitationAlarmTime getAlarmTime() {
 		return alarmTime;
 	}
 
-	public void setAlarmTime(long alarmTime) {
-		this.alarmTime = alarmTime;
+	public void setAlarmTime(InvitationAlarmTime invitationAlarmTime) {
+		this.alarmTime = invitationAlarmTime;
+	}
+	public void setAlarmTime(int alarmTime) {
+		for (InvitationAlarmTime invAlTime : InvitationAlarmTime.values()){
+			if (alarmTime == invAlTime.toInt()){
+				this.alarmTime = invAlTime;
+				break;
+			}
+		}
 	}
 
 	//Setters
@@ -123,4 +131,5 @@ public class Invitation implements Serializable{
 	public void setDeleted(boolean isDeleted) {
 		this.isDeleted = isDeleted;
 	}
+
 }

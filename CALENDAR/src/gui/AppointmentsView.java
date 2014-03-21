@@ -42,6 +42,7 @@ import javax.swing.event.ListSelectionListener;
 import model.Appointment;
 import model.Employee;
 import model.Invitation;
+import model.InvitationAlarmTime;
 import model.InvitationStatus;
 import model.MeetingRoom;
 import model.TimeSlot;
@@ -68,7 +69,7 @@ public class AppointmentsView extends JPanel implements ListSelectionListener , 
 	private JCheckBox pendingBox;
 	private JCheckBox hideBox; // TEST
 	
-	private JComboBox<String> alarmBox; // TEST NEED TO FIX PROPPER ALARM
+	private JComboBox<InvitationAlarmTime> alarmBox; // TEST NEED TO FIX PROPPER ALARM
 	
 	private JRadioButton acceptRadioBtn;
 	private JRadioButton declineRadioBtn;
@@ -372,15 +373,13 @@ public class AppointmentsView extends JPanel implements ListSelectionListener , 
 		cLabel18.gridx = 13;
 		cLabel18.gridy = 8;
 //		cLabel5.gridwidth = 2;
-		//TEST ADDING THE TIMES TO THE COMBO BOX
-		DefaultComboBoxModel<String> alarmFieldModel = new DefaultComboBoxModel<String>();
-		alarmFieldModel.addElement("None");
-		alarmFieldModel.addElement("On Time");
-		alarmFieldModel.addElement("1 min before");	
-		alarmFieldModel.addElement("2 min before");	
-		alarmFieldModel.addElement("5 min before");	
 		
-		alarmBox = new JComboBox<String>(alarmFieldModel);
+		DefaultComboBoxModel<InvitationAlarmTime> alarmFieldModel = new DefaultComboBoxModel<InvitationAlarmTime>();
+		for (InvitationAlarmTime alarmTime : InvitationAlarmTime.values()) {
+			alarmFieldModel.addElement(alarmTime);
+		}
+		
+		alarmBox = new JComboBox<InvitationAlarmTime>(alarmFieldModel);
 		alarmBox.setEditable(false);
 		alarmBox.setEnabled(false);
 //		cLabel17.fill = GridBagConstraints.HORIZONTAL;
@@ -563,6 +562,7 @@ public class AppointmentsView extends JPanel implements ListSelectionListener , 
     	}else{
     		hideBox.setSelected(false);
     	}
+    	alarmBox.setSelectedItem(invitationModel.getAlarmTime());
     	
     }
 	//ListSelection Listener for the List of Appointments
@@ -629,6 +629,7 @@ public class AppointmentsView extends JPanel implements ListSelectionListener , 
 			}else if(declineRadioBtn.isSelected() && declineRadioBtn.isEnabled()){
 				invitationModel.setStatus(InvitationStatus.DECLINED);
 			}
+			invitationModel.setAlarmTime((InvitationAlarmTime) alarmBox.getSelectedItem());
 			// Hide
 			if(hideBox.isSelected() && hideBox.isEnabled()){
 				invitationModel.setHidden(true);
